@@ -1,6 +1,6 @@
 # CloudSkew
 
-## 🎉 CloudSkew has been retired
+## 🙏 CloudSkew has been retired
 
 This repository now serves as a cheerful little archive for the original CloudSkew codebase and the various microservices that powered it.
 
@@ -8,20 +8,21 @@ This repository now serves as a cheerful little archive for the original CloudSk
 
 ## 🗂 Archived repositories
 
-| Component | Repository |
-| --------- | ---------- |
-| 🎨 UI | [cloudskew-ui](https://github.com/mithunshanbhag/cloudskew-ui) |
-| 🔌 APIs | [cloudskew-api](https://github.com/mithunshanbhag/cloudskew-api) |
-| 🖼 Assets | [cloudskew-assets](https://github.com/mithunshanbhag/cloudskew-assets) |
-| 🌐 Landing Page | [cloudskew-landing](https://github.com/mithunshanbhag/cloudskew-landing) |
-| ✍️ Blog | [cloudskew-blog](https://github.com/mithunshanbhag/cloudskew-blog) |
+| Component        | Repository                                                                           |
+| ---------------- | ------------------------------------------------------------------------------------ |
+| 🎨 UI             | [cloudskew-ui](https://github.com/mithunshanbhag/cloudskew-ui)                       |
+| 🔌 APIs           | [cloudskew-api](https://github.com/mithunshanbhag/cloudskew-api)                     |
+| 🖼 Assets         | [cloudskew-assets](https://github.com/mithunshanbhag/cloudskew-assets)               |
+| 🏗 Infrastructure | [cloudskew-infrastructure](https://github.com/mithunshanbhag/cloudskew-provisioning) |
+| 🌐 Landing Page   | [cloudskew-landing](https://github.com/mithunshanbhag/cloudskew-landing)             |
+| ✍️ Blog           | [cloudskew-blog](https://github.com/mithunshanbhag/cloudskew-blog)                   |
 
-## 🕰 Legacy components
+## 🕰 Other legacy components
 
-| Legacy Component | Repository |
-| ---------------- | ---------- |
-| 🗄 SQL DB | [cloudskew-sql](https://github.com/mithunshanbhag/cloudskew-sql) |
-| 🖨 Print Helper | [cloudskew-diagram-helper](https://github.com/mithunshanbhag/cloudskew-diagram-helper) |
+| Legacy Component | Repository                                                                             |
+| ---------------- | -------------------------------------------------------------------------------------- |
+| 🗄 SQL DB         | [cloudskew-sql](https://github.com/mithunshanbhag/cloudskew-sql)                       |
+| 🖨 Print Helper   | [cloudskew-diagram-helper](https://github.com/mithunshanbhag/cloudskew-diagram-helper) |
 
 ## 🚀 What happens next?
 
