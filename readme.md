@@ -1,14 +1,12 @@
 # CloudSkew
 
-## 🙏 CloudSkew has been retired
+## 🙏 CloudSkew has been retired 🙏
 
-This repository now serves as a cheerful little archive for the original CloudSkew codebase and the various microservices that powered it.
-
-> 📦 **Archive notice:** The classic CloudSkew project has officially been retired, and this page is here to preserve the source code history of its services, apps, and supporting components.
+📦 **Archive notice:** The classic CloudSkew app has officially been retired. This repository now serves as an archive for the original CloudSkew codebase and the various microservices that powered it.
 
 ![CloudSkew architecture diagram hero image](https://assets.cloudskew.com/assets/misc/landing-page-hero-3.png)
 
-## 🗂 Archived repositories
+## 🗂 Archived source code
 
 | Component        | Repository                                                                         |
 | ---------------- | ---------------------------------------------------------------------------------- |
@@ -19,7 +17,7 @@ This repository now serves as a cheerful little archive for the original CloudSk
 | 🌐 Landing Page   | [cloudskew-landing](https://github.com/mithunshanbhag/cloudskew-landing)           |
 | ✍️ Blog           | [cloudskew-blog](https://github.com/mithunshanbhag/cloudskew-blog)                 |
 
-## 🕰 Other legacy components
+## 🕰 Other ancient components
 
 | Legacy Component | Repository                                                                             |
 | ---------------- | -------------------------------------------------------------------------------------- |
@@ -52,3 +50,7 @@ Here are a few YouTube videos where I talk about building CloudSkew:
 - [Software Architects Bangalore (Meetup)](https://youtu.be/b0FMTwO0olc?si=Ummm4d9sgxM2uE-C)
 - [Festive Tech Calendar 2020 (Event)](https://youtu.be/62UnF_ITGpY?si=X2dbLJzGPAF1W-f_)
 - [Just Fifteen Minutes (Podcast)](https://youtu.be/knsgvvNw37c?si=OhIT5yr6Bpoly1LO)
+
+## 🙌 Thank you
+
+A huge thank you to everyone who supported CloudSkew over the years — whether by using it, sharing feedback, contributing code, or just cheering from the sidelines. Your support meant the world to me and made this journey unforgettable. 🙏
