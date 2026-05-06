@@ -1,4 +1,4 @@
-using CloudSkew.Landing;
+using CloudSkew.Ui;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
