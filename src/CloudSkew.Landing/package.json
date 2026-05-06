@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:CloudSkew.Landing": "node dist/CloudSkew.Landing/server/server.mjs"
+    "preview": "npx --yes http-server dist/CloudSkew.Landing/browser -p 4000 -c-1"
   },
   "private": true,
   "packageManager": "npm@11.8.0",
@@ -20,7 +20,6 @@
     "@angular/platform-server": "^21.2.0",
     "@angular/router": "^21.2.0",
     "@angular/ssr": "^21.2.9",
-    "express": "^5.1.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },
@@ -28,7 +27,6 @@
     "@angular/build": "^21.2.9",
     "@angular/cli": "^21.2.9",
     "@angular/compiler-cli": "^21.2.0",
-    "@types/express": "^5.0.1",
     "@types/node": "^20.17.19",
     "jsdom": "^28.0.0",
     "prettier": "^3.8.1",
