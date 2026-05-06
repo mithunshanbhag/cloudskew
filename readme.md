@@ -1,8 +1,10 @@
 # CloudSkew
 
-## 🙏 CloudSkew has been retired 🙏
+## 🙏 CloudSkew will be back soon 🙏
 
-📦 **Archive notice:** The classic CloudSkew app has officially been retired. This repository now serves as an archive for the original CloudSkew codebase and the various microservices that powered it.
+📦 The old CloudSkew app has officially been retired. This repository now serves as an archive for the original CloudSkew codebase and the various microservices that powered it.
+
+✨ While this chapter is closing, a **newer version of CloudSkew is already in the works** and will be revealed soon. Please stay tuned for what is coming next. 
 
 ![CloudSkew architecture diagram hero image](https://assets.cloudskew.com/assets/misc/landing-page-hero-3.png)
 
@@ -23,12 +25,6 @@
 | ---------------- | -------------------------------------------------------------------------------------- |
 | 🗄 SQL DB         | [cloudskew-sql](https://github.com/mithunshanbhag/cloudskew-sql)                       |
 | 🖨 Print Helper   | [cloudskew-diagram-helper](https://github.com/mithunshanbhag/cloudskew-diagram-helper) |
-
-## 🚀 What happens next?
-
-While this chapter is closing, a **newer version of CloudSkew is already in the works** and will be revealed soon.
-
-So for now, enjoy the archive — and stay tuned for what is coming next. ✨
 
 ## 💡 Looking back
 
