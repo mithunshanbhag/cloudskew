@@ -1,0 +1,10 @@
+/solutions/draw-alibaba-cloud-architecture-diagrams-online
+/solutions/draw-aws-architecture-diagrams-online
+/solutions/draw-azure-architecture-diagrams-online
+/solutions/draw-cloud-architecture-diagrams-online
+/solutions/draw-gcp-architecture-diagrams-online
+/solutions/draw-google-cloud-architecture-diagrams-online
+/solutions/draw-kubernetes-architecture-diagrams-online
+/solutions/draw-multi-cloud-architecture-diagrams-online
+/solutions/draw-oci-architecture-diagrams-online
+/solutions/draw-oracle-cloud-architecture-diagrams-online

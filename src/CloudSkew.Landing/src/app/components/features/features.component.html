@@ -1,0 +1,23 @@
+<div class="cs-background-grid-primary-dark">
+  <section class="cs-section" id="features">
+    <h2 class="cs-section-title">Why CloudSkew?</h2>
+
+    <div class="features-flexbox">
+      @for (featureItem of featureItems; track featureItem.title) {
+        <div class="features-card">
+          <img
+            class="features-card-artwork"
+            [src]="featureItem.artwork"
+            alt=""
+            aria-hidden="true"
+            height="48"
+            width="48"
+          >
+
+          <div class="features-card-title cs-font-quote">{{ featureItem.title }}</div>
+          <div class="features-card-description cs-font-secondary-content">{{ featureItem.description }}</div>
+        </div>
+      }
+    </div>
+  </section>
+</div>
