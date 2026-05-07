@@ -2,10 +2,9 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService, User } from '@auth0/auth0-angular';
 import { Observable, of, Subject } from 'rxjs';
-import { filter, map, mergeMap, take, takeUntil, tap } from 'rxjs/operators';
-import { AuthenticationConstants } from 'src/app/constants/authentication-constants';
+import { filter, map, mergeMap, takeUntil, tap } from 'rxjs/operators';
+import { AnonymousUserConstants } from 'src/app/constants/anonymous-user-constants';
 import { NewUserConstants } from 'src/app/constants/new-user-constants';
 import { RouteConstants } from 'src/app/constants/route-constants';
 import { SymbolFamilyConstants } from 'src/app/constants/symbol-family-constants';
@@ -13,7 +12,6 @@ import { UIConstants } from 'src/app/constants/ui-constants';
 import { WellKnownIds } from 'src/app/constants/well-knowns-ids';
 import { UserProfileDTO } from 'src/app/models/dto/userProfileDTO';
 import { NotificationService } from 'src/app/services/notification.service';
-import { Md5 } from 'ts-md5';
 import { DiagramDTO } from '../../models/dto/diagramDTO';
 import { APIService } from '../../services/api.service';
 import { SessionService } from '../../services/session.service';
@@ -22,7 +20,6 @@ import { DiagramDeleteConfirmationDialogComponent } from '../diagram-delete-conf
 import { DiagramExportDialogComponent } from '../diagram-export-dialog/diagram-export-dialog.component';
 import { DiagramPrintDialogComponent } from '../diagram-print-dialog/diagram-print-dialog.component';
 import { DiagramSaveTemplateDialogComponent } from '../diagram-save-template-dialog/diagram-save-template-dialog.component';
-import { DiagramShareDialogComponent } from '../diagram-share-dialog/diagram-share-dialog.component';
 import { DiagramService, IDiagramExportRequestArgs, IDiagramPrintRequestArgs } from '../diagram/diagram.service';
 import { DocumentEditorDialogComponent } from '../document-editor-dialog/document-editor-dialog.component';
 import { SidebarService } from '../sidebar/sidebar.service';
@@ -45,7 +42,6 @@ export class DiagramEditorComponent implements OnInit, OnDestroy {
 
   constructor(
     private apiService: APIService,
-    private authService: AuthService,
     private diagramService: DiagramService,
     private diagramControlsService: DiagramControlsService,
     private templateSelectorGridService: TemplateSelectorGridService,
@@ -60,13 +56,7 @@ export class DiagramEditorComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    //#region COMMENT-OUT-DURING-MAINTENANCE-WINDOW
-    this.authService.user$
-      .pipe(
-        take(1),
-        takeUntil(this.onDestroy$))
-      .subscribe((userProfile: User) => this.processUserProfile(userProfile));
-    //#endregion COMMENT-OUT-DURING-MAINTENANCE-WINDOW
+    this.processAnonymousUserProfile();
   }
 
   ngOnDestroy() {
@@ -137,13 +127,6 @@ export class DiagramEditorComponent implements OnInit, OnDestroy {
       .subscribe((result) => this.saveDiagramAsTemplate(diagram, result));
   }
 
-  onDiagramShareButtonClick(diagram: DiagramDTO) {
-    this.dialog.open(DiagramShareDialogComponent, {
-      data: diagram,
-      width: UIConstants.diagramShareOptionsDialogWidth,
-    } as MatDialogConfig<DiagramDTO>);
-  }
-
   onDiagramDocumentEditorButtonClick(diagram: DiagramDTO) {
     this.dialog.open(DocumentEditorDialogComponent, {
       data: diagram,
@@ -190,54 +173,45 @@ export class DiagramEditorComponent implements OnInit, OnDestroy {
   }
 
 
-  private processUserProfile(userProfile: User) {
+  private processAnonymousUserProfile() {
     window.location.hash = ''; // clear the hash fragment from the address bar
 
-    this.sessionService.user = Md5.hashStr(userProfile.email) as string;
+    this.sessionService.user = AnonymousUserConstants.emailMD5;
     this.sessionService.preferences = SymbolFamilyConstants.Default;
 
-    // map logged-in user to known or new user in cloudskew db.
-    // @todo: This must really go into a resolve-guard?
-    const userEmailMD5 = Md5.hashStr(userProfile.email) as string;
-
-    this.apiService.userProfileGetAsync(userEmailMD5)
+    this.apiService.userProfileGetAsync(AnonymousUserConstants.emailMD5)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe(apiResponse => {
-        // user exists in our db.
-        // let's simply update the user profile then.
         if (apiResponse.dto) {
           this.sessionService.preferences = apiResponse.dto.preferences;
           const modifiedUserProfile = new UserProfileDTO(
             apiResponse.dto.subscriptionName,
-            apiResponse.dto.email,
-            apiResponse.dto.emailMD5,
+            AnonymousUserConstants.email,
+            AnonymousUserConstants.emailMD5,
             this.sessionService.preferences,
-            userProfile.email_verified,
-            userProfile.name,
-            userProfile.picture,
-            new Date(userProfile.updated_at),
+            true,
+            AnonymousUserConstants.displayName,
+            '',
+            new Date(),
           );
-          this.apiService.userProfileUpdateAsync(userEmailMD5, modifiedUserProfile)
+          this.apiService.userProfileUpdateAsync(AnonymousUserConstants.emailMD5, modifiedUserProfile)
             .pipe(takeUntil(this.onDestroy$))
             .subscribe(() => this.initialize());
           this.statusbarService.request({
             kind: 'IUserProfileChangedEventArgs',
             userProfile: modifiedUserProfile,
-            user: userProfile,
           } as IUserProfileChangedEventArgs);
         } else {
-          // if 404, then this is a new user (i.e. user does not exist in our db)
-          // let's create a new user profile in db.
           if (apiResponse.error instanceof HttpErrorResponse && apiResponse.error.status === 404) {
             const newUserProfile = new UserProfileDTO(
-              NewUserConstants.subscriptionName, // let's get users started with the free tier.
-              userProfile.email,
-              userEmailMD5,
+              NewUserConstants.subscriptionName,
+              AnonymousUserConstants.email,
+              AnonymousUserConstants.emailMD5,
               this.sessionService.preferences,
-              userProfile.email_verified,
-              userProfile.name,
-              userProfile.picture,
-              new Date(userProfile.updated_at),
+              true,
+              AnonymousUserConstants.displayName,
+              '',
+              new Date(),
             );
             this.apiService.userProfileCreateAsync(newUserProfile)
               .pipe(takeUntil(this.onDestroy$))
@@ -245,21 +219,7 @@ export class DiagramEditorComponent implements OnInit, OnDestroy {
             this.statusbarService.request({
               kind: 'IUserProfileChangedEventArgs',
               userProfile: newUserProfile,
-              user: userProfile,
             } as IUserProfileChangedEventArgs);
-
-            // if non-404 error
-          } else {
-            setTimeout(() => {
-              // the logout steps
-              this.sessionService.clear();
-              this.authService.logout({
-                clientId: AuthenticationConstants.auth0ClientId,
-                logoutParams: {
-                  returnTo: AuthenticationConstants.auth0LogoutUrl,
-                },
-              });
-            }, 1500);
           }
         }
       });

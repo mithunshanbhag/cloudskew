@@ -47,24 +47,3 @@
     font-size: 11px;
     line-height: 16px;
 }
-
-
-.status-bar-content mat-icon { /* logout button */
-    transform: scale(0.6); /* reduce to about 15px */
-}
-.status-bar-content .mat-mdc-icon-button { /* logout button */
-    /* container for horizontal flexbox items */
-    /* required to center the child icon */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    /* required for correct sizing */
-    height: 16px;
-    width: 16px;
-    font-size: 16px;
-    line-height: 16px;
-
-    /* margin, padding etc */
-    padding-left: 20px;
-}

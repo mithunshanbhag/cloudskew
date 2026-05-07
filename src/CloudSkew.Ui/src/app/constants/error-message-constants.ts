@@ -3,9 +3,6 @@ export class ErrorMessageConstants {
     public static readonly diagramCreateError = 'unable to create diagram.';
     public static readonly diagramDeleteError = 'unable to delete diagram.';
     public static readonly diagramGetError = 'unable to fetch diagram.';
-    public static readonly diagramSharingRefreshError = 'unable to refresh diagram sharing options';
-    public static readonly diagramSharingStartError = 'unable to share diagram';
-    public static readonly diagramSharingStopError = 'unable to unshare diagram';
     public static readonly diagramsListError = 'unable to fetch diagrams.';
     public static readonly diagramUpdateError = 'unable to save update to diagram';
     public static readonly generateImageError = 'unable to generate image.';

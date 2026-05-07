@@ -1,6 +1,5 @@
-@if (this.provider && this.userProfile) {
-  <div class="status-bar-content">
-    <!-- subscription plan and upgrade button -->
+<div class="status-bar-content">
+  @if (this.userProfile) {
     <div class="subscription-details">
       @switch (userProfile.subscriptionName.toLowerCase()) {
         @case ('free') {
@@ -17,23 +16,15 @@
         }
       }
     </div>
-    <!-- login details -->
     <div class="user-profile-details">
-      <!-- provider & email -->
-      <span class="user-profile-text">{{this.provider|lowercase}}: {{userProfile.email|lowercase}}
+      <span class="user-profile-text">{{userProfile.email|lowercase}}
       </span>
-      <!-- logout button -->
-      <button mat-icon-button disableRipple=true matTooltip="logout" (click)="this.onLogoutButtonClick()">
-        <mat-icon fontSet="material-icons-outlined">logout</mat-icon>
-      </button>
     </div>
-    <!-- mode/tool -->
-    @if (this.tool) {
-      <div>mode: {{this.tool}}</div>
-    }
-    <!-- zoom percentage -->
-    @if (this.zoomPercentage) {
-      <div class="zoom-details">zoom: {{this.zoomPercentage|percent}}</div>
-    }
-  </div>
-}
+  }
+  @if (this.tool) {
+    <div>mode: {{this.tool}}</div>
+  }
+  @if (this.zoomPercentage) {
+    <div class="zoom-details">zoom: {{this.zoomPercentage|percent}}</div>
+  }
+</div>

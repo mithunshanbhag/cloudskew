@@ -10,7 +10,6 @@ export class DiagramDTO {
         public thumbnailUrl?: string,
         public lastUpdatedUTC?: Date,
         public emailMD5?: string,
-        public shareId?: string,
     ) {
     }
 }

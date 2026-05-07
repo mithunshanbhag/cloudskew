@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { User } from '@auth0/auth0-angular';
 import { ReplaySubject } from 'rxjs';
 import { UserProfileDTO } from 'src/app/models/dto/userProfileDTO';
 
@@ -21,7 +20,6 @@ export interface IDiagramToolChangedEventArgs {
 
 export interface IUserProfileChangedEventArgs {
   kind: 'IUserProfileChangedEventArgs';
-  user: User;
   userProfile: UserProfileDTO;
 }
 

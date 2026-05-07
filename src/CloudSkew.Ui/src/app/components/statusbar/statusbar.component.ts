@@ -9,7 +9,6 @@ import { UserProfileDTO } from 'src/app/models/dto/userProfileDTO';
 import { APIService } from 'src/app/services/api.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { SessionService } from 'src/app/services/session.service';
-import { LogoutConfirmationDialogComponent } from '../logout-confirmation-dialog/logout-confirmation-dialog.component';
 import { PricingDialogComponent } from '../pricing-dialog/pricing-dialog.component';
 import { StatusbarEventArgs, StatusbarService } from './statusbar.service';
 
@@ -27,7 +26,6 @@ export class StatusbarComponent implements OnInit, OnDestroy {
   //
   zoomPercentage?: number;
   tool?: string;
-  provider?: string;
   userProfile?: UserProfileDTO;
 
   constructor(
@@ -45,10 +43,6 @@ export class StatusbarComponent implements OnInit, OnDestroy {
         switch (args.kind) {
           case 'IUserProfileChangedEventArgs':
             this.userProfile = args.userProfile;
-            const endIndex = args.user.sub.indexOf('|');
-            if (endIndex !== 1) {
-              this.provider = args.user.sub.substr(0, endIndex).toLowerCase();
-            }
             break;
           case 'IDiagramZoomChangedEventArgs':
             this.zoomPercentage = args.value;
@@ -94,7 +88,4 @@ export class StatusbarComponent implements OnInit, OnDestroy {
       .subscribe((sessionUrl: string) => window.location.href = sessionUrl);
   }
 
-  onLogoutButtonClick() {
-    this.dialog.open(LogoutConfirmationDialogComponent);
-  }
 }

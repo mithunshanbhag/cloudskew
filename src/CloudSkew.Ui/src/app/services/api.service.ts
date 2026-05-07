@@ -240,56 +240,7 @@ export class APIService {
     );
   }
 
-  diagramSharingStartAsync(user: string, diagramId: string)
-    : Observable<APIResponse<DiagramCompactDTO>> {
-    return this.httpClient.post<DiagramCompactDTO>(
-      `${UrlConstants.webAPIUrl}/users/${user}/diagrams/${diagramId}/startSharing`,
-      null, this.httpOptions
-    ).pipe(
-      map(dto => this.handleSuccess<DiagramCompactDTO>(dto)),
-      catchError((err, source) => this.handleError<DiagramCompactDTO>(err, ErrorMessageConstants.diagramSharingStartError))
-    );
-  }
-
-  diagramSharingRefreshAsync(user: string, diagramId: string)
-    : Observable<APIResponse<DiagramCompactDTO>> {
-    return this.httpClient.post<DiagramCompactDTO>(
-      `${UrlConstants.webAPIUrl}/users/${user}/diagrams/${diagramId}/refreshSharing`,
-      null, this.httpOptions
-    ).pipe(
-      map(dto => this.handleSuccess<DiagramCompactDTO>(dto)),
-      catchError((err, source) => this.handleError<DiagramCompactDTO>(err, ErrorMessageConstants.diagramSharingRefreshError))
-    );
-  }
-
-  diagramSharingStopAsync(user: string, diagramId: string)
-    : Observable<APIResponse<DiagramCompactDTO>> {
-    return this.httpClient.post<DiagramCompactDTO>(
-      `${UrlConstants.webAPIUrl}/users/${user}/diagrams/${diagramId}/stopSharing`,
-      null, this.httpOptions
-    ).pipe(
-      map(dto => this.handleSuccess<DiagramCompactDTO>(dto)),
-      catchError((err, source) => this.handleError<DiagramCompactDTO>(err, ErrorMessageConstants.diagramSharingStopError))
-    );
-  }
-
   //#endregion diagrams
-
-  //#region shared diagrams
-
-  // get specific shared diagram by id.
-  sharedDiagramGetAsync(sharedDiagramId: string)
-    : Observable<APIResponse<DiagramDTO>> {
-    return this.httpClient.get<DiagramDTO>(
-      `${UrlConstants.webAPIPublicUrl}/sharedDiagrams/${sharedDiagramId}`,
-      { headers: { 'Content-Type': 'application/json' } }
-    ).pipe(
-      map(dto => this.handleSuccess<DiagramDTO>(dto)),
-      catchError((err, source) => this.handleError<DiagramDTO>(err, ErrorMessageConstants.diagramGetError))
-    );
-  }
-
-  //#endregion shared diagrams
 
   //#region diagram templates
 
