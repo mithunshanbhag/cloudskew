@@ -9,11 +9,6 @@ export const environment = {
   customImagesUrlPrefix: 'https://cloudskewcustomimagestest.azureedge.net',
   diagramHelperWebAPIUrl: 'https://localhost:6001/api',
   docsUrl: 'http://localhost:4203',
-  professionalPriceId: 'price_1HtWGaKGaI8j1MzviNzbVlQR',
-  stripeAPIPublishableKey: 'pk_test_51HsQNnKGaI8j1Mzv7S771QodfMDqx7GWcMekH0U4Hz3prTaIIwCVbKuPVCA3ufyKfJjDLh9xhd7GopGzpqqr60X000RM9w8hH0',
-  stripeCheckoutSessionCancelUrl: 'http://localhost:4200',
-  stripeCheckoutSessionSuccessUrl: 'http://localhost:4200/checkoutsessioncallback/{CHECKOUT_SESSION_ID}',
-  stripeCustomerPortalReturnUrl: 'http://localhost:4200',
   webAPIPublicUrl: 'https://localhost:5001/api',
   webAPIUrl: 'https://localhost:5001/api',
 };

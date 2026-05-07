@@ -44,9 +44,6 @@ export class UIConstants {
     // image upload options dialog
     public static readonly imageUploadOptionsDialogWidth = '600px';
 
-    // pricing dialog
-    public static readonly pricingDialogWidth = '550px';
-
     // resource documentation dialog
     public static readonly resourceDocumentationDialogWidth = '350px';
 

@@ -5,11 +5,6 @@ export const environment = {
   customImagesUrlPrefix: 'https://customimages.cloudskew.com',
   diagramHelperWebAPIUrl: 'https://cloudskewprod.azure-api.net/cloudskewfunctionsprod',
   docsUrl: 'https://docs.cloudskew.com',
-  professionalPriceId: 'price_1Hz1K2KGaI8j1Mzv73Od0sqs',
-  stripeAPIPublishableKey: 'pk_live_51HsQNnKGaI8j1MzvgQ6Ouvq89xxixPyeIy5dswB1RQvlN05r8wlWHGimIJhGznUCl6FJR3nLkieNIKh8meGS0DyV00E5cKrkha',
-  stripeCheckoutSessionCancelUrl: 'https://app.cloudskew.com',
-  stripeCheckoutSessionSuccessUrl: 'https://app.cloudskew.com/checkoutsessioncallback/{CHECKOUT_SESSION_ID}',
-  stripeCustomerPortalReturnUrl: 'https://app.cloudskew.com',
   webAPIPublicUrl: 'https://cloudskewprod.azure-api.net/cloudskewfunctionsprod-public',
   webAPIUrl: 'https://cloudskewprod.azure-api.net/cloudskewfunctionsprod',
 };

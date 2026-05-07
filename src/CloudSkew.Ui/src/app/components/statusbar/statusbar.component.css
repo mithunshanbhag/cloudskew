@@ -14,21 +14,6 @@
     justify-content: space-between;
     align-items: center;
 }
-.status-bar-content .subscription-details {
-    /* container for horizontal flexbox items */
-    /* required to center the child button */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    /* required styling */
-    background-color: #00BBB0;
-    height: 25px;
-    width: 240px;
-
-    /* padding, margin etc */
-    padding: 0 5px;
-}
 .status-bar-content .user-profile-details {
     /* container for horizontal flexbox items */
     display: flex;
@@ -38,12 +23,4 @@
 .status-bar-content .zoom-details {
     /* padding, margin etc */
     padding-right: 10px;
-}
-
-
-.status-bar-content .mat-mdc-button { /* subscription details */
-    /* required for correct sizing */
-    height: 16px;
-    font-size: 11px;
-    line-height: 16px;
 }

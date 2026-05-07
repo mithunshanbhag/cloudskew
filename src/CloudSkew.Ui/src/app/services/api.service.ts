@@ -1,22 +1,16 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
-import { PricingDialogComponent } from '../components/pricing-dialog/pricing-dialog.component';
 import { ErrorMessageConstants } from '../constants/error-message-constants';
-import { UIConstants } from '../constants/ui-constants';
 import { UrlConstants } from '../constants/url-constants';
 import { APIResponse } from '../interfaces/api-response';
-import { CheckoutSessionRequestDTO } from '../models/dto/checkoutSessionRequestDTO';
-import { CustomerPortalRequestDTO } from '../models/dto/customerPortalRequestDTO';
 import { DiagramCompactDTO } from '../models/dto/diagramCompactDTO';
 import { DiagramDTO } from '../models/dto/diagramDTO';
 import { TemplateCompactDTO } from '../models/dto/templateCompactDTO';
 import { TemplateDTO } from '../models/dto/templateDTO';
 import { ImageGenerationRequestDTO } from '../models/dto/imageGenerationRequestDTO';
-import { UpgradeSubscriptionRequestDTO } from '../models/dto/upgradeSubscriptionRequestDTO';
 import { UserProfileDTO } from '../models/dto/userProfileDTO';
 import { NotificationService } from './notification.service';
 
@@ -35,7 +29,6 @@ export class APIService {
   }
 
   constructor(
-    private dialog: MatDialog,
     private httpClient: HttpClient,
     private notificationService: NotificationService,
   ) {
@@ -101,41 +94,6 @@ export class APIService {
     ).pipe(
       map(dto => this.handleSuccess<null>(dto)),
       catchError((err, source) => this.handleError<null>(err, ErrorMessageConstants.userProfileUpdateError))
-    );
-  }
-
-  // create stripe customer portal session for user
-  userProfileCreateCustomerPortalSessionAsync(user: string, customerPortalRequest: CustomerPortalRequestDTO)
-    : Observable<APIResponse<string>> {
-    return this.httpClient.post<string>(
-      `${UrlConstants.webAPIUrl}/users/${user}/createCustomerPortalSession`,
-      customerPortalRequest, this.httpOptions
-    ).pipe(
-      map(dto => this.handleSuccess<string>(dto)),
-      catchError((err, source) => this.handleError<string>(err, ErrorMessageConstants.userProfileUpdateError))
-    );
-  }
-
-  // create stripe checkout session for user
-  userProfileCreateCheckoutSessionAsync(user: string, checkoutSessionRequest: CheckoutSessionRequestDTO)
-    : Observable<APIResponse<string>> {
-    return this.httpClient.post<string>(
-      `${UrlConstants.webAPIUrl}/users/${user}/createCheckoutSession`,
-      checkoutSessionRequest, this.httpOptions
-    ).pipe(
-      map(dto => this.handleSuccess<string>(dto)),
-      catchError((err, source) => this.handleError<string>(err, ErrorMessageConstants.stripeCheckoutSessionCreateError))
-    );
-  }
-
-  userProfileUpgradeSubscription(user: string, upgradeSubscriptionRequest: UpgradeSubscriptionRequestDTO)
-    : Observable<APIResponse<UserProfileDTO>> {
-    return this.httpClient.post<UserProfileDTO>(
-      `${UrlConstants.webAPIUrl}/users/${user}/upgradeSubscription`,
-      upgradeSubscriptionRequest, this.httpOptions
-    ).pipe(
-      map(dto => this.handleSuccess<UserProfileDTO>(dto)),
-      catchError((err, source) => this.handleError<UserProfileDTO>(err, ErrorMessageConstants.userProfileUpdateError))
     );
   }
 
@@ -359,23 +317,16 @@ export class APIService {
 
   private handleError<T>(err: any, message?: string): Observable<APIResponse<T>> {
 
-    if (err instanceof HttpErrorResponse && err.status === 402) {
-      this.dialog.open(PricingDialogComponent, {
-        width: UIConstants.pricingDialogWidth,
-        position: { bottom: '', right: '', top: '', left: '' }, // center of screen
-      } as MatDialogConfig);
-    } else {
-      if (message) {
-        this.notificationService.request({
-          kind: 'IDiagramNotificationRequestArgs',
-          type: 'error',
-          title: 'Error',
-          content: message ? message : '',
-        });
-      }
-      if (!environment.production) {
-        console.error(err);
-      }
+    if (message) {
+      this.notificationService.request({
+        kind: 'IDiagramNotificationRequestArgs',
+        type: 'error',
+        title: 'Error',
+        content: message ? message : '',
+      });
+    }
+    if (!environment.production) {
+      console.error(err);
     }
 
     return of({ error: err });

@@ -27,7 +27,6 @@ import { HtmlEditorService, LinkService, QuickToolbarService, RichTextEditorModu
 import { AppComponent } from './app.component';
 import { ActivitybarComponent } from './components/activitybar/activitybar.component';
 import { BasicShapePropertiesEditorComponent } from './components/basic-shape-properties-editor/basic-shape-properties-editor.component';
-import { CheckoutSessionCallbackComponent } from './components/checkout-session-callback/checkout-session-callback.component';
 import { ConnectorPropertiesEditorComponent } from './components/connector-properties-editor/connector-properties-editor.component';
 import { DiagramControlsComponent } from './components/diagram-controls/diagram-controls.component';
 import { DiagramDeleteConfirmationDialogComponent } from './components/diagram-delete-confirmation-dialog/diagram-delete-confirmation-dialog.component';
@@ -53,7 +52,6 @@ import { MultiSelectionPropertiesEditorComponent } from './components/multi-sele
 import { NativePropertiesEditorComponent } from './components/native-properties-editor/native-properties-editor.component';
 import { PaletteGridComponent } from './components/palette-grid/palette-grid.component';
 import { PreferenceGridComponent } from './components/preference-grid/preference-grid.component';
-import { PricingDialogComponent } from './components/pricing-dialog/pricing-dialog.component';
 import { PropertiesbarComponent } from './components/propertiesbar/propertiesbar.component';
 import { ResourceDocumentationDialogComponent } from './components/resource-documentation-dialog/resource-documentation-dialog.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
@@ -73,7 +71,6 @@ import { NotificationService } from './services/notification.service';
 
 const appRoutes: Routes = [
   // routes should be ordered from most specific to least specific.
-  { path: 'checkoutsessioncallback/:id', component: CheckoutSessionCallbackComponent },
   { path: 'editor/:id', component: DiagramEditorComponent, canDeactivate: [DiagramEditorDeactivateGuard], },
   { path: '', component: DiagramEditorComponent }, // default route
   { path: '**', redirectTo: '/', }, // wildcard route
@@ -117,8 +114,6 @@ const appRoutes: Routes = [
         ResourceDocumentationDialogComponent,
         DiagramImportDialogComponent,
         DiagramPreviewComponent,
-        CheckoutSessionCallbackComponent,
-        PricingDialogComponent,
         MultiSelectionPropertiesEditorComponent,
         DiagramSelectorConfirmationDialogComponent,
         TemplatePreviewComponent,

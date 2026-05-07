@@ -8,7 +8,6 @@ export class ErrorMessageConstants {
     public static readonly generateImageError = 'unable to generate image.';
     public static readonly getFileAsStringError = 'unable to fetch file.';
     public static readonly invalidJsonFile = 'unable to parse the json file.';
-    public static readonly stripeCheckoutSessionCreateError = 'unable to create stripe checkout session';
     public static readonly templateCreateError = 'unable to create diagram template.';
     public static readonly templateDeleteError = 'unable to delete diagram template.';
     public static readonly templateGetError = 'unable to fetch diagram template.';

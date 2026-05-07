@@ -1,21 +1,5 @@
 <div class="status-bar-content">
   @if (this.userProfile) {
-    <div class="subscription-details">
-      @switch (userProfile.subscriptionName.toLowerCase()) {
-        @case ('free') {
-          <button mat-button (click)="this.onSubscriptionTierUpgradeButtonClick()">UPGRADE TO
-          PROFESSIONAL PLAN</button>
-        }
-        @case ('earlyadopter') {
-          <button mat-button
-          (click)="this.onSubscriptionTierUpgradeButtonClick()">UPGRADE TO PROFESSIONAL PLAN</button>
-        }
-        @default {
-          <button mat-button matTooltip="see billing & subscription details"
-          (click)="this.onSubscriptionTierChangeButtonClick()">SUBSCRIPTION: PROFESSIONAL PLAN</button>
-        }
-      }
-    </div>
     <div class="user-profile-details">
       <span class="user-profile-text">{{userProfile.email|lowercase}}
       </span>

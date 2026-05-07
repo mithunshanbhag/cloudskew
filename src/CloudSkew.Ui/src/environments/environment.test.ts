@@ -5,11 +5,6 @@ export const environment = {
   customImagesUrlPrefix: 'https://cloudskewcustomimagestest.azureedge.net',
   diagramHelperWebAPIUrl: 'https://cloudskewtest.azure-api.net/cloudskewfunctionstest',
   docsUrl: 'https://cloudskewdocstest.azureedge.net',
-  professionalPriceId: 'price_1HtWGaKGaI8j1MzviNzbVlQR',
-  stripeAPIPublishableKey: 'pk_test_51HsQNnKGaI8j1Mzv7S771QodfMDqx7GWcMekH0U4Hz3prTaIIwCVbKuPVCA3ufyKfJjDLh9xhd7GopGzpqqr60X000RM9w8hH0',
-  stripeCheckoutSessionCancelUrl: 'https://cloudskewuitest.azureedge.net',
-  stripeCheckoutSessionSuccessUrl: 'https://cloudskewuitest.azureedge.net/checkoutsessioncallback/{CHECKOUT_SESSION_ID}',
-  stripeCustomerPortalReturnUrl: 'https://cloudskewuitest.azureedge.net',
   webAPIPublicUrl: 'https://cloudskewtest.azure-api.net/cloudskewfunctionstest-public',
   webAPIUrl: 'https://cloudskewtest.azure-api.net/cloudskewfunctionstest',
 };
