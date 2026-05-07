@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" x="0" y="0" height="20px" width="20px" viewBox="0 0 100 100">
+<defs>
+<clipPath id="clip0-A77F9A24-E9DE-40BA-93CE-A66119AC71E3">
+<path d="M342 70 456 70 456 168 342 168Z" fill-rule="evenodd" clip-rule="evenodd"></path>
+</clipPath>
+</defs>
+<g clip-path="url(#clip0-A77F9A24-E9DE-40BA-93CE-A66119AC71E3)" transform="translate(-342 -70)">
+<text font-family="Courier New,Courier New_MSFontService,sans-serif" font-weight="700" font-size="42" transform="translate(365.5 130)">ABC</text>
+</g>
+</svg>
