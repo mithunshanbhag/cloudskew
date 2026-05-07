@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { from, Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { ErrorMessageConstants } from '../constants/error-message-constants';
@@ -8,10 +8,11 @@ import { UrlConstants } from '../constants/url-constants';
 import { APIResponse } from '../interfaces/api-response';
 import { DiagramCompactDTO } from '../models/dto/diagramCompactDTO';
 import { DiagramDTO } from '../models/dto/diagramDTO';
+import { ImageGenerationRequestDTO } from '../models/dto/imageGenerationRequestDTO';
 import { TemplateCompactDTO } from '../models/dto/templateCompactDTO';
 import { TemplateDTO } from '../models/dto/templateDTO';
-import { ImageGenerationRequestDTO } from '../models/dto/imageGenerationRequestDTO';
 import { UserProfileDTO } from '../models/dto/userProfileDTO';
+import { LocalApiStorageService } from './local-api-storage.service';
 import { NotificationService } from './notification.service';
 
 
@@ -30,6 +31,7 @@ export class APIService {
 
   constructor(
     private httpClient: HttpClient,
+    private localApiStorageService: LocalApiStorageService,
     private notificationService: NotificationService,
   ) {
   }
@@ -39,10 +41,7 @@ export class APIService {
   // list all users
   userProfilesListAsync()
     : Observable<APIResponse<UserProfileDTO[]>> {
-    return this.httpClient.get<UserProfileDTO[]>(
-      `${UrlConstants.webAPIUrl}/users`,
-      this.httpOptions
-    ).pipe(
+    return from(this.localApiStorageService.userProfilesListAsync()).pipe(
       map(dto => this.handleSuccess<UserProfileDTO[]>(dto)),
       catchError((err, source) => this.handleError<UserProfileDTO[]>(err, ErrorMessageConstants.userProfilesListError))
     );
@@ -51,23 +50,16 @@ export class APIService {
   // get specific user
   userProfileGetAsync(user: string)
     : Observable<APIResponse<UserProfileDTO>> {
-    return this.httpClient.get<UserProfileDTO>(
-      `${UrlConstants.webAPIUrl}/users/${user}`,
-      this.httpOptions
-    ).pipe(
-      map(dto => this.handleSuccess<UserProfileDTO>(dto)),
-      catchError((err, source) => this.handleError<UserProfileDTO>(err,
-        (err instanceof HttpErrorResponse && err.status === 404) ? null : ErrorMessageConstants.userProfileGetError))
+    return from(this.localApiStorageService.userProfileGetAsync(user)).pipe(
+      map(dto => dto ? this.handleSuccess<UserProfileDTO>(dto) : this.handleNotFound<UserProfileDTO>()),
+      catchError((err, source) => this.handleError<UserProfileDTO>(err, ErrorMessageConstants.userProfileGetError))
     );
   }
 
   // create new user
   userProfileCreateAsync(userProfile: UserProfileDTO)
     : Observable<APIResponse<UserProfileDTO>> {
-    return this.httpClient.post<UserProfileDTO>(
-      `${UrlConstants.webAPIUrl}/users`,
-      userProfile, this.httpOptions
-    ).pipe(
+    return from(this.localApiStorageService.userProfileSaveAsync(userProfile)).pipe(
       map(dto => this.handleSuccess<UserProfileDTO>(dto)),
       catchError((err, source) => this.handleError<UserProfileDTO>(err, ErrorMessageConstants.userProfileCreateError))
     );
@@ -76,10 +68,10 @@ export class APIService {
   // modify/update existing user
   userProfileUpdateAsync(user: string, modifiedUserProfile: UserProfileDTO)
     : Observable<APIResponse<UserProfileDTO>> {
-    return this.httpClient.put<UserProfileDTO>(
-      `${UrlConstants.webAPIUrl}/users/${user}`,
-      modifiedUserProfile, this.httpOptions
-    ).pipe(
+    return from(this.localApiStorageService.userProfileSaveAsync({
+      ...modifiedUserProfile,
+      emailMD5: user,
+    } as UserProfileDTO)).pipe(
       map(dto => this.handleSuccess<UserProfileDTO>(dto)),
       catchError((err, source) => this.handleError<UserProfileDTO>(err, ErrorMessageConstants.userProfileUpdateError))
     );
@@ -88,11 +80,8 @@ export class APIService {
   // modify/update existing user's preferences
   userProfileUpdatePreferencesAsync(user: string, modifiedPreferences: number)
     : Observable<APIResponse<null>> {
-    return this.httpClient.post<null>(
-      `${UrlConstants.webAPIUrl}/users/${user}/updatepreferences/${modifiedPreferences}`,
-      null, this.httpOptions
-    ).pipe(
-      map(dto => this.handleSuccess<null>(dto)),
+    return from(this.localApiStorageService.userProfileUpdatePreferencesAsync(user, modifiedPreferences)).pipe(
+      map(() => this.handleSuccess<null>(null)),
       catchError((err, source) => this.handleError<null>(err, ErrorMessageConstants.userProfileUpdateError))
     );
   }
@@ -104,11 +93,8 @@ export class APIService {
   // get last updated diagram
   diagramGetLastUpdatedAsync(user: string)
     : Observable<APIResponse<DiagramDTO>> {
-    return this.httpClient.get<DiagramDTO>(
-      `${UrlConstants.webAPIUrl}/users/${user}/lastupdateddiagram`,
-      this.httpOptions
-    ).pipe(
-      map(dto => this.handleSuccess<DiagramDTO>(dto)),
+    return from(this.localApiStorageService.diagramGetLastUpdatedAsync(user)).pipe(
+      map(dto => this.handleOptionalSuccess<DiagramDTO>(dto)),
       catchError((err, source) => this.handleError<DiagramDTO>(err, ErrorMessageConstants.diagramGetError))
     );
   }
@@ -116,10 +102,7 @@ export class APIService {
   // list all diagrams belonging to a user.
   diagramsListAsync(user: string)
     : Observable<APIResponse<DiagramCompactDTO[]>> {
-    return this.httpClient.get<DiagramCompactDTO[]>(
-      `${UrlConstants.webAPIUrl}/users/${user}/diagrams`,
-      this.httpOptions
-    ).pipe(
+    return from(this.localApiStorageService.diagramsListAsync(user)).pipe(
       map(dto => this.handleSuccess<DiagramCompactDTO[]>(dto)),
       catchError((err, source) => this.handleError<DiagramCompactDTO[]>(err, ErrorMessageConstants.diagramsListError))
     );
@@ -128,11 +111,8 @@ export class APIService {
   // get specific diagram by id.
   diagramGetAsync(user: string, diagramId: string)
     : Observable<APIResponse<DiagramDTO>> {
-    return this.httpClient.get<DiagramDTO>(
-      `${UrlConstants.webAPIUrl}/users/${user}/diagrams/${diagramId}`,
-      this.httpOptions
-    ).pipe(
-      map(dto => this.handleSuccess<DiagramDTO>(dto)),
+    return from(this.localApiStorageService.diagramGetAsync(user, diagramId)).pipe(
+      map(dto => dto ? this.handleSuccess<DiagramDTO>(dto) : this.handleNotFound<DiagramDTO>()),
       catchError((err, source) => this.handleError<DiagramDTO>(err, ErrorMessageConstants.diagramGetError))
     );
   }
@@ -140,23 +120,16 @@ export class APIService {
   // get specific diagram by name.
   diagramGetByNameAsync(user: string, diagramName: string)
     : Observable<APIResponse<DiagramCompactDTO>> {
-    return this.httpClient.get<DiagramCompactDTO>(
-      `${UrlConstants.webAPIUrl}/users/${user}/diagrams/${diagramName}`,
-      this.httpOptions
-    ).pipe(
-      map(dto => this.handleSuccess<DiagramCompactDTO>(dto)),
-      catchError((err, source) => this.handleError<DiagramCompactDTO>(err,
-        (err instanceof HttpErrorResponse && err.status === 404) ? null : ErrorMessageConstants.diagramGetError))
+    return from(this.localApiStorageService.diagramGetByNameAsync(user, diagramName)).pipe(
+      map(dto => dto ? this.handleSuccess<DiagramCompactDTO>(dto) : this.handleNotFound<DiagramCompactDTO>()),
+      catchError((err, source) => this.handleError<DiagramCompactDTO>(err, ErrorMessageConstants.diagramGetError))
     );
   }
 
   // create new diagram
   diagramCreateAsync(user: string, templateId: string)
     : Observable<APIResponse<DiagramDTO>> {
-    return this.httpClient.post<DiagramDTO>(
-      `${UrlConstants.webAPIUrl}/users/${user}/diagrams?diagramTemplateId=${templateId}`,
-      null, this.httpOptions
-    ).pipe(
+    return from(this.localApiStorageService.diagramCreateAsync(user, templateId)).pipe(
       map(dto => this.handleSuccess<DiagramDTO>(dto)),
       catchError((err, source) => this.handleError<DiagramDTO>(err, ErrorMessageConstants.diagramCreateError))
     );
@@ -165,10 +138,7 @@ export class APIService {
   // create new diagram (from imported json)
   diagramImportAsync(user: string, sourceTemplate: TemplateDTO)
     : Observable<APIResponse<DiagramDTO>> {
-    return this.httpClient.post<DiagramDTO>(
-      `${UrlConstants.webAPIUrl}/users/${user}/diagrams/import`,
-      sourceTemplate, this.httpOptions
-    ).pipe(
+    return from(this.localApiStorageService.diagramImportAsync(user, sourceTemplate)).pipe(
       map(dto => this.handleSuccess<DiagramDTO>(dto)),
       catchError((err, source) => this.handleError<DiagramDTO>(err, ErrorMessageConstants.diagramCreateError))
     );
@@ -177,11 +147,8 @@ export class APIService {
   // modify existing diagram
   diagramUpdateAsync(user: string, existingDiagramId: string, modifiedDiagram: DiagramDTO)
     : Observable<APIResponse<null>> {
-    return this.httpClient.put<null>(
-      `${UrlConstants.webAPIUrl}/users/${user}/diagrams/${existingDiagramId}`,
-      modifiedDiagram, this.httpOptions
-    ).pipe(
-      map(dto => this.handleSuccess<null>(dto)),
+    return from(this.localApiStorageService.diagramUpdateAsync(user, existingDiagramId, modifiedDiagram)).pipe(
+      map(() => this.handleSuccess<null>(null)),
       catchError((err, source) => this.handleError<null>(err, ErrorMessageConstants.diagramUpdateError))
     );
   }
@@ -189,11 +156,8 @@ export class APIService {
   // delete existing diagram
   diagramDeleteAsync(user: string, diagramId: string)
     : Observable<APIResponse<null>> {
-    return this.httpClient.delete<null>(
-      `${UrlConstants.webAPIUrl}/users/${user}/diagrams/${diagramId}`,
-      this.httpOptions
-    ).pipe(
-      map(dto => this.handleSuccess<null>(dto)),
+    return from(this.localApiStorageService.diagramDeleteAsync(user, diagramId)).pipe(
+      map(() => this.handleSuccess<null>(null)),
       catchError((err, source) => this.handleError<null>(err, ErrorMessageConstants.diagramDeleteError))
     );
   }
@@ -205,10 +169,7 @@ export class APIService {
   // list all templates accessible to a user.
   templatesListAsync(user: string)
     : Observable<APIResponse<TemplateCompactDTO[]>> {
-    return this.httpClient.get<TemplateCompactDTO[]>(
-      `${UrlConstants.webAPIUrl}/users/${user}/diagramTemplates`,
-      this.httpOptions
-    ).pipe(
+    return from(this.localApiStorageService.templatesListAsync(user)).pipe(
       map(dto => this.handleSuccess<TemplateCompactDTO[]>(dto)),
       catchError((err, source) => this.handleError<TemplateCompactDTO[]>(err, ErrorMessageConstants.templatesListError))
     );
@@ -217,11 +178,8 @@ export class APIService {
   // get specific template by id.
   templateGetAsync(user: string, templateId: string)
     : Observable<APIResponse<TemplateDTO>> {
-    return this.httpClient.get<TemplateDTO>(
-      `${UrlConstants.webAPIUrl}/users/${user}/diagramTemplates/${templateId}`,
-      this.httpOptions
-    ).pipe(
-      map(dto => this.handleSuccess<TemplateDTO>(dto)),
+    return from(this.localApiStorageService.templateGetAsync(user, templateId)).pipe(
+      map(dto => dto ? this.handleSuccess<TemplateDTO>(dto) : this.handleNotFound<TemplateDTO>()),
       catchError((err, source) => this.handleError<TemplateDTO>(err, ErrorMessageConstants.templateGetError))
     );
   }
@@ -229,23 +187,16 @@ export class APIService {
   // get specific template by name.
   templateGetByNameAsync(user: string, templateName: string)
     : Observable<APIResponse<TemplateCompactDTO>> {
-    return this.httpClient.get<TemplateCompactDTO>(
-      `${UrlConstants.webAPIUrl}/users/${user}/diagramTemplates/${templateName}`,
-      this.httpOptions
-    ).pipe(
-      map(dto => this.handleSuccess<TemplateCompactDTO>(dto)),
-      catchError((err, source) => this.handleError<TemplateCompactDTO>(err,
-        (err instanceof HttpErrorResponse && err.status === 404) ? null : ErrorMessageConstants.templateGetError))
+    return from(this.localApiStorageService.templateGetByNameAsync(user, templateName)).pipe(
+      map(dto => dto ? this.handleSuccess<TemplateCompactDTO>(dto) : this.handleNotFound<TemplateCompactDTO>()),
+      catchError((err, source) => this.handleError<TemplateCompactDTO>(err, ErrorMessageConstants.templateGetError))
     );
   }
 
   // create new template
   templateCreateAsync(user: string, diagramId: string, newTemplateName: string)
     : Observable<APIResponse<TemplateDTO>> {
-    return this.httpClient.post<TemplateDTO>(
-      `${UrlConstants.webAPIUrl}/users/${user}/diagramTemplates?diagramId=${diagramId}&newDiagramTemplateName=${newTemplateName}`,
-      null, this.httpOptions
-    ).pipe(
+    return from(this.localApiStorageService.templateCreateAsync(user, diagramId, newTemplateName)).pipe(
       map(dto => this.handleSuccess<TemplateDTO>(dto)),
       catchError((err, source) => this.handleError<TemplateDTO>(err, ErrorMessageConstants.templateCreateError))
     );
@@ -254,11 +205,8 @@ export class APIService {
   // modify existing template
   templateUpdateAsync(user: string, existingTemplateId: string, modifiedTemplate: TemplateCompactDTO)
     : Observable<APIResponse<null>> {
-    return this.httpClient.put<null>(
-      `${UrlConstants.webAPIUrl}/users/${user}/diagramTemplates/${existingTemplateId}`,
-      modifiedTemplate, this.httpOptions
-    ).pipe(
-      map(dto => this.handleSuccess<null>(dto)),
+    return from(this.localApiStorageService.templateUpdateAsync(user, existingTemplateId, modifiedTemplate)).pipe(
+      map(() => this.handleSuccess<null>(null)),
       catchError((err, source) => this.handleError<null>(err, ErrorMessageConstants.templateUpdateError))
     );
   }
@@ -266,11 +214,8 @@ export class APIService {
   // delete existing template
   templateDeleteAsync(user: string, templateId: string)
     : Observable<APIResponse<null>> {
-    return this.httpClient.delete<null>(
-      `${UrlConstants.webAPIUrl}/users/${user}/diagramTemplates/${templateId}`,
-      this.httpOptions
-    ).pipe(
-      map(dto => this.handleSuccess<null>(dto)),
+    return from(this.localApiStorageService.templateDeleteAsync(user, templateId)).pipe(
+      map(() => this.handleSuccess<null>(null)),
       catchError((err, source) => this.handleError<null>(err, ErrorMessageConstants.templateDeleteError))
     );
   }
@@ -292,11 +237,8 @@ export class APIService {
 
   uploadThumbnailAsync(user: string, diagramId: string, imageGenerationRequest: ImageGenerationRequestDTO)
     : Observable<APIResponse<null>> {
-    return this.httpClient.post<null>(
-      `${UrlConstants.diagramHelperWebAPIUrl}/users/${user}/diagrams/${diagramId}/UploadThumbnail`,
-      imageGenerationRequest, this.httpOptions
-    ).pipe(
-      map(dto => this.handleSuccess<null>(dto)),
+    return from(this.localApiStorageService.diagramUpdateThumbnailAsync(user, diagramId)).pipe(
+      map(() => this.handleSuccess<null>(null)),
       catchError((err, source) => this.handleError<null>(err, ErrorMessageConstants.uploadThumbnailError))
     );
   }
@@ -330,6 +272,19 @@ export class APIService {
     }
 
     return of({ error: err });
+  }
+
+  private handleNotFound<T>(): APIResponse<T> {
+    return {
+      error: new HttpErrorResponse({
+        status: 404,
+        statusText: 'Not Found',
+      })
+    };
+  }
+
+  private handleOptionalSuccess<T>(val?: T): APIResponse<T> {
+    return { dto: val };
   }
 
   private handleSuccess<T>(val: T): APIResponse<T> {
