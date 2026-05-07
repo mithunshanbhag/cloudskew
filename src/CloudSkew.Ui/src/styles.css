@@ -38,6 +38,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .propertyWindowSplitterWrapper {
     border: 1px solid rgb(224, 224, 224) /* color code matches border color of splitter, sidebar etc */
 }
+/* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. 
+*/
 .propertyWindowSplitterWrapper .mat-tab-label {
     padding: 0px;
     width: 50%;
@@ -89,6 +91,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .propertyWindowPaneItem .btn {
     font-family: "Roboto Mono",sans-serif;
 }
+/* TODO(mdc-migration): The following rule targets internal classes of slider that may no longer apply for the MDC version. 
+*/
 .propertyWindowPaneItem .mat-slider-horizontal {
     min-width: 100px;
     padding: 0px;
@@ -98,6 +102,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     width: 30px;
     border: none;
 }
+/* TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version. 
+*/
 .propertyWindowPaneItem .mat-button-toggle-appearance-standard .mat-button-toggle-label-content {
     /* HACK to ensure that the material icons stay centered in parent button */
     display: flex;

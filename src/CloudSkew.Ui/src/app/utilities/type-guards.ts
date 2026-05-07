@@ -3,36 +3,36 @@ import { BasicShapeModel, ConnectorModel, NativeModel, NodeModel, TextModel } fr
 
 export class TypeGuards {
 
-    static symbolIsDiagramComponent(symbol: NodeModel | ConnectorModel | (NodeModel | ConnectorModel)[] | SyncfusionDiagramComponent): symbol is SyncfusionDiagramComponent {
-        return (symbol as SyncfusionDiagramComponent).pageSettings !== undefined;
+    static symbolIsDiagramComponent(symbol: unknown): symbol is SyncfusionDiagramComponent {
+        return !!symbol && (symbol as SyncfusionDiagramComponent).pageSettings !== undefined;
     }
 
-    static symbolIsMultiSelection(symbol: NodeModel | ConnectorModel | (NodeModel | ConnectorModel)[]): symbol is (NodeModel | ConnectorModel)[] {
+    static symbolIsMultiSelection(symbol: unknown): symbol is (NodeModel | ConnectorModel)[] {
         return Array.isArray(symbol);
     }
 
-    static symbolIsNodeModel(symbol: NodeModel | ConnectorModel): symbol is NodeModel {
-        return (symbol as NodeModel).height !== undefined;
+    static symbolIsNodeModel(symbol: unknown): symbol is NodeModel {
+        return !!symbol && (symbol as NodeModel).height !== undefined;
     }
 
-    static symbolIsConnectorModel(symbol: NodeModel | ConnectorModel): symbol is ConnectorModel {
-        return (symbol as ConnectorModel).segments !== undefined;
+    static symbolIsConnectorModel(symbol: unknown): symbol is ConnectorModel {
+        return !!symbol && (symbol as ConnectorModel).segments !== undefined;
     }
 
     static symbolIsBasicShape(symbol: NodeModel): boolean {
-        return (symbol.shape as BasicShapeModel).type === 'Basic';
+        return (symbol.shape as BasicShapeModel)?.type === 'Basic';
     }
 
     static symbolIsText(symbol: NodeModel): boolean {
-        return (symbol.shape as TextModel).type === 'Text';
+        return (symbol.shape as TextModel)?.type === 'Text';
     }
 
     static symbolIsNative(symbol: NodeModel): boolean {
-        return (symbol.shape as NativeModel).type === 'Native';
+        return (symbol.shape as NativeModel)?.type === 'Native';
     }
 
     static symbolIsImage(symbol: NodeModel): boolean {
-        return (symbol.shape as ImageModel).type === 'Image';
+        return (symbol.shape as ImageModel)?.type === 'Image';
     }
 
     // @todo: investigate if there is a better way to do this?

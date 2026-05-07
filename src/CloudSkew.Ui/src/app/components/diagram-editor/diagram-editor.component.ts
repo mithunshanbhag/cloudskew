@@ -30,9 +30,10 @@ import { IUserProfileChangedEventArgs, StatusbarService } from '../statusbar/sta
 import { TemplateSelectorGridService } from '../template-selector-grid/template-selector-grid.service';
 
 @Component({
-  selector: 'app-diagram-editor',
-  templateUrl: './diagram-editor.component.html',
-  styleUrls: ['./diagram-editor.component.css']
+    selector: 'app-diagram-editor',
+    templateUrl: './diagram-editor.component.html',
+    styleUrls: ['./diagram-editor.component.css'],
+    standalone: false
 })
 export class DiagramEditorComponent implements OnInit, OnDestroy {
 
@@ -253,8 +254,10 @@ export class DiagramEditorComponent implements OnInit, OnDestroy {
               // the logout steps
               this.sessionService.clear();
               this.authService.logout({
-                client_id: AuthenticationConstants.auth0ClientId,
-                returnTo: AuthenticationConstants.auth0LogoutUrl,
+                clientId: AuthenticationConstants.auth0ClientId,
+                logoutParams: {
+                  returnTo: AuthenticationConstants.auth0LogoutUrl,
+                },
               });
             }, 1500);
           }

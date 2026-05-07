@@ -11,9 +11,10 @@ import { IResourceDocumentationRequest } from '../../interfaces/resource-documen
 import { ResourceDocumentationDialogComponent } from '../resource-documentation-dialog/resource-documentation-dialog.component';
 
 @Component({
-  selector: 'app-native-properties-editor',
-  templateUrl: './native-properties-editor.component.html',
-  styles: []
+    selector: 'app-native-properties-editor',
+    templateUrl: './native-properties-editor.component.html',
+    styles: [],
+    standalone: false
 })
 export class NativePropertiesEditorComponent {
 

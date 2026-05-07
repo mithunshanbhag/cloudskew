@@ -7,9 +7,10 @@ import { NodeModel } from '@syncfusion/ej2-diagrams';
 import { SymbolHelper } from 'src/app/utilities/symbol-helper';
 
 @Component({
-  selector: 'app-basic-shape-properties-editor',
-  templateUrl: './basic-shape-properties-editor.component.html',
-  styles: []
+    selector: 'app-basic-shape-properties-editor',
+    templateUrl: './basic-shape-properties-editor.component.html',
+    styles: [],
+    standalone: false
 })
 export class BasicShapePropertiesEditorComponent {
 

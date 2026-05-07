@@ -1,5 +1,5 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, AsyncValidatorFn, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { AbstractControl, AsyncValidatorFn, UntypedFormControl, UntypedFormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { faSave } from '@fortawesome/free-solid-svg-icons';
 import { of, Subject, timer } from 'rxjs';
@@ -10,9 +10,10 @@ import { TemplateCompactDTO } from 'src/app/models/dto/templateCompactDTO';
 import { APIService } from 'src/app/services/api.service';
 
 @Component({
-  selector: 'app-template-selector-edit-dialog',
-  templateUrl: './template-selector-edit-dialog.component.html',
-  styleUrls: ['./template-selector-edit-dialog.component.css']
+    selector: 'app-template-selector-edit-dialog',
+    templateUrl: './template-selector-edit-dialog.component.html',
+    styleUrls: ['./template-selector-edit-dialog.component.css'],
+    standalone: false
 })
 export class TemplateSelectorEditDialogComponent implements OnInit, OnDestroy {
 
@@ -33,8 +34,8 @@ export class TemplateSelectorEditDialogComponent implements OnInit, OnDestroy {
   uniqueNameValidatorMessage = ValidatorMessageConstants.templateNameEditorUniqueNameValidator;
 
   // the reactive form itself
-  templateNameEditorForm = new FormGroup({
-    templateNameInputControl: new FormControl(
+  templateNameEditorForm = new UntypedFormGroup({
+    templateNameInputControl: new UntypedFormControl(
       '',
       [ // sync validators
         Validators.required,

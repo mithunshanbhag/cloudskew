@@ -9,9 +9,10 @@ import { NotificationService } from 'src/app/services/notification.service';
 import { SessionService } from 'src/app/services/session.service';
 
 @Component({
-  selector: 'app-checkout-session-callback',
-  templateUrl: './checkout-session-callback.component.html',
-  styles: []
+    selector: 'app-checkout-session-callback',
+    templateUrl: './checkout-session-callback.component.html',
+    styles: [],
+    standalone: false
 })
 export class CheckoutSessionCallbackComponent implements OnInit {
 

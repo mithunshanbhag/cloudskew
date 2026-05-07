@@ -2,32 +2,42 @@
 
 <mat-dialog-content>
 
-    <div class="windowContent">
-        <button *ngIf="!this.diagram.shareId" [disabled]="this.apiCallInProgress" class="btn btn-sm btn-outline-dark"
-            (click)="this.onSharingStartButtonClick()">CREATE LINK (VIEW ONLY)</button>
-    </div>
+  <div class="windowContent">
+    @if (!this.diagram.shareId) {
+      <button [disabled]="this.apiCallInProgress" class="btn btn-sm btn-outline-dark"
+      (click)="this.onSharingStartButtonClick()">CREATE LINK (VIEW ONLY)</button>
+    }
+  </div>
 
-    <div class="windowContent">
-        <div class="input-group">
-            <input *ngIf="this.diagram.shareId" class="form-control" type="text" [value]="this.getDiagramShareLink()"
-                readOnly=true>
-            <div class="input-group-append clipboard-button-wrapper">
-                <button *ngIf="this.diagram.shareId" [disabled]="this.apiCallInProgress"
-                    [cdkCopyToClipboard]="this.getDiagramShareLink()" class="btn btn-link"
-                    matTooltip="copy to clipboard">
-                    <fa-icon class="color-success" [icon]="this.faCopyIcon"></fa-icon>
-                </button>
-            </div>
-        </div>
+  <div class="windowContent">
+    <div class="input-group">
+      @if (this.diagram.shareId) {
+        <input class="form-control" type="text" [value]="this.getDiagramShareLink()"
+          readOnly=true>
+      }
+      <div class="input-group-append clipboard-button-wrapper">
+        @if (this.diagram.shareId) {
+          <button [disabled]="this.apiCallInProgress"
+            [cdkCopyToClipboard]="this.getDiagramShareLink()" class="btn btn-link"
+            matTooltip="copy to clipboard">
+            <fa-icon class="color-success" [icon]="this.faCopyIcon"></fa-icon>
+          </button>
+        }
+      </div>
     </div>
+  </div>
 
-    <div class="windowContent defaultFlexbox">
-        <button *ngIf="this.diagram.shareId" [disabled]="this.apiCallInProgress" class="btn btn-sm btn-outline-warning"
-            (click)="this.onSharingStopButtonClick()">DELETE LINK
-        </button>
-        <button *ngIf="this.diagram.shareId" [disabled]="this.apiCallInProgress" class="btn btn-sm btn-outline-dark"
-            (click)="this.onSharingRefreshButtonClick()">REGENERATE LINK
-        </button>
-    </div>
+  <div class="windowContent defaultFlexbox">
+    @if (this.diagram.shareId) {
+      <button [disabled]="this.apiCallInProgress" class="btn btn-sm btn-outline-warning"
+        (click)="this.onSharingStopButtonClick()">DELETE LINK
+      </button>
+    }
+    @if (this.diagram.shareId) {
+      <button [disabled]="this.apiCallInProgress" class="btn btn-sm btn-outline-dark"
+        (click)="this.onSharingRefreshButtonClick()">REGENERATE LINK
+      </button>
+    }
+  </div>
 
 </mat-dialog-content>

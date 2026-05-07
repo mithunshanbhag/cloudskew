@@ -6,9 +6,10 @@ import * as WebFont from 'webfontloader';
 import { NotificationService, NotificationType } from './services/notification.service';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styles: []
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styles: [],
+    standalone: false
 })
 export class AppComponent implements OnInit, OnDestroy {
 

@@ -6,7 +6,7 @@
     align-items: center;
 }
 
-.diagram-controls-read-only .mat-icon-button {
+.diagram-controls-read-only .mat-mdc-icon-button {
     /* horizontal flexbox items */
     background-color: white;
 

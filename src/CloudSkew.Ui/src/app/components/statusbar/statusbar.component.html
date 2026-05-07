@@ -1,31 +1,39 @@
-<div class="status-bar-content" *ngIf="this.provider && this.userProfile">
-
+@if (this.provider && this.userProfile) {
+  <div class="status-bar-content">
     <!-- subscription plan and upgrade button -->
     <div class="subscription-details">
-        <ng-container [ngSwitch]="userProfile.subscriptionName.toLowerCase()">
-            <button mat-button *ngSwitchCase="'free'" (click)="this.onSubscriptionTierUpgradeButtonClick()">UPGRADE TO
-                PROFESSIONAL PLAN</button>
-            <button mat-button *ngSwitchCase="'earlyadopter'"
-                (click)="this.onSubscriptionTierUpgradeButtonClick()">UPGRADE TO PROFESSIONAL PLAN</button>
-            <button mat-button *ngSwitchDefault matTooltip="see billing & subscription details"
-                (click)="this.onSubscriptionTierChangeButtonClick()">SUBSCRIPTION: PROFESSIONAL PLAN</button>
-        </ng-container>
+      @switch (userProfile.subscriptionName.toLowerCase()) {
+        @case ('free') {
+          <button mat-button (click)="this.onSubscriptionTierUpgradeButtonClick()">UPGRADE TO
+          PROFESSIONAL PLAN</button>
+        }
+        @case ('earlyadopter') {
+          <button mat-button
+          (click)="this.onSubscriptionTierUpgradeButtonClick()">UPGRADE TO PROFESSIONAL PLAN</button>
+        }
+        @default {
+          <button mat-button matTooltip="see billing & subscription details"
+          (click)="this.onSubscriptionTierChangeButtonClick()">SUBSCRIPTION: PROFESSIONAL PLAN</button>
+        }
+      }
     </div>
-
     <!-- login details -->
     <div class="user-profile-details">
-        <!-- provider & email -->
-        <span class="user-profile-text">{{this.provider|lowercase}}: {{userProfile.email|lowercase}}
-        </span>
-        <!-- logout button -->
-        <button mat-icon-button disableRipple=true matTooltip="logout" (click)="this.onLogoutButtonClick()">
-            <mat-icon fontSet="material-icons-outlined">logout</mat-icon>
-        </button>
+      <!-- provider & email -->
+      <span class="user-profile-text">{{this.provider|lowercase}}: {{userProfile.email|lowercase}}
+      </span>
+      <!-- logout button -->
+      <button mat-icon-button disableRipple=true matTooltip="logout" (click)="this.onLogoutButtonClick()">
+        <mat-icon fontSet="material-icons-outlined">logout</mat-icon>
+      </button>
     </div>
-
     <!-- mode/tool -->
-    <div *ngIf="this.tool">mode: {{this.tool}}</div>
-
+    @if (this.tool) {
+      <div>mode: {{this.tool}}</div>
+    }
     <!-- zoom percentage -->
-    <div class="zoom-details" *ngIf="this.zoomPercentage">zoom: {{this.zoomPercentage|percent}}</div>
-</div>
+    @if (this.zoomPercentage) {
+      <div class="zoom-details">zoom: {{this.zoomPercentage|percent}}</div>
+    }
+  </div>
+}

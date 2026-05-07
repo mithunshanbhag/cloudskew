@@ -6,9 +6,10 @@ import { NodeModel, TextAlign, TextDecoration, TextStyleModel } from '@syncfusio
 import { SymbolHelper } from 'src/app/utilities/symbol-helper';
 
 @Component({
-  selector: 'app-text-properties-editor',
-  templateUrl: './text-properties-editor.component.html',
-  styles: []
+    selector: 'app-text-properties-editor',
+    templateUrl: './text-properties-editor.component.html',
+    styles: [],
+    standalone: false
 })
 export class TextPropertiesEditorComponent {
 

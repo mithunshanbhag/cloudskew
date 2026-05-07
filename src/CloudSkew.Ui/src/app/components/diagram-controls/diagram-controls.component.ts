@@ -10,9 +10,10 @@ import { SymbolFamilyDefinitions } from '../../constants/symbol-family-definitio
 import { DiagramControlsRequestArgs, DiagramControlsService } from './diagram-controls.service';
 
 @Component({
-  selector: 'app-diagram-controls',
-  templateUrl: './diagram-controls.component.html',
-  styleUrls: ['./diagram-controls.component.css']
+    selector: 'app-diagram-controls',
+    templateUrl: './diagram-controls.component.html',
+    styleUrls: ['./diagram-controls.component.css'],
+    standalone: false
 })
 export class DiagramControlsComponent implements OnInit, OnDestroy {
 

@@ -10,9 +10,10 @@ import { SessionService } from 'src/app/services/session.service';
 import { Md5 } from 'ts-md5';
 
 @Component({
-  selector: 'app-image-upload-dialog',
-  templateUrl: './image-upload-dialog.component.html',
-  styleUrls: ['./image-upload-dialog.component.css']
+    selector: 'app-image-upload-dialog',
+    templateUrl: './image-upload-dialog.component.html',
+    styleUrls: ['./image-upload-dialog.component.css'],
+    standalone: false
 })
 export class ImageUploadDialogComponent implements OnInit, OnDestroy {
 

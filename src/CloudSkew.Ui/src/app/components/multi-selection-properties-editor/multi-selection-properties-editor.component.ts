@@ -5,9 +5,10 @@ import { AlignmentOptions, ConnectorModel, DistributeOptions, NodeModel } from '
 import { DiagramService, IDiagramAlignRequestArgs, IDiagramDistributeRequestArgs } from '../diagram/diagram.service';
 
 @Component({
-  selector: 'app-multi-selection-properties-editor',
-  templateUrl: './multi-selection-properties-editor.component.html',
-  styles: []
+    selector: 'app-multi-selection-properties-editor',
+    templateUrl: './multi-selection-properties-editor.component.html',
+    styles: [],
+    standalone: false
 })
 export class MultiSelectionPropertiesEditorComponent {
 

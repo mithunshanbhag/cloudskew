@@ -8,9 +8,10 @@ import { AuthenticationConstants } from '../../constants/authentication-constant
 import { RouteConstants } from '../../constants/route-constants';
 
 @Component({
-  selector: 'app-authentication-callback',
-  templateUrl: './authentication-callback.component.html',
-  styles: []
+    selector: 'app-authentication-callback',
+    templateUrl: './authentication-callback.component.html',
+    styles: [],
+    standalone: false
 })
 export class AuthenticationCallbackComponent implements OnInit {
 
@@ -48,8 +49,10 @@ export class AuthenticationCallbackComponent implements OnInit {
       // the logout steps
       this.sessionService.clear();
       this.authService.logout({
-        client_id: AuthenticationConstants.auth0ClientId,
-        returnTo: AuthenticationConstants.auth0LogoutUrl,
+        clientId: AuthenticationConstants.auth0ClientId,
+        logoutParams: {
+          returnTo: AuthenticationConstants.auth0LogoutUrl,
+        },
       });
     }, 5000);
   }

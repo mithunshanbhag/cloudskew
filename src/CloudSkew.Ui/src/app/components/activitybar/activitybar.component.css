@@ -36,7 +36,7 @@
     justify-content: flex-start;
     align-items: center;
 }
-.activitybarMainSection .mat-mini-fab {
+.activitybarMainSection .mat-mdc-mini-fab {
     margin: 15px auto;
 }
 
@@ -51,12 +51,12 @@
     justify-content: center;
     align-items: center;
 }
-.activitybarFooterSection .mat-mini-fab {
+.activitybarFooterSection .mat-mdc-mini-fab {
     margin: 10px auto;
 }
 
 
-.activitybarControl .mat-mini-fab {
+.activitybarControl .mat-mdc-mini-fab {
     /* vertical flexbox item */
     color: gray;
     background-color: black;
@@ -67,10 +67,10 @@
     justify-content: center;
     align-items: center;
 }
-.activitybarControl .mat-mini-fab:focus {
+.activitybarControl .mat-mdc-mini-fab:focus {
     color: white;
 }
-.activitybarControl .mat-mini-fab:hover {
+.activitybarControl .mat-mdc-mini-fab:hover {
     color: white;
 }
 .activitybarControl .btn-active {

@@ -6,12 +6,13 @@ import { ConnectorModel } from '@syncfusion/ej2-diagrams';
 import { SymbolHelper } from 'src/app/utilities/symbol-helper';
 
 @Component({
-  selector: 'app-connector-properties-editor',
-  templateUrl: './connector-properties-editor.component.html',
-  styleUrls: ['./connector-properties-editor.component.css'],
-  // Per docs, encapsulation has to be disabled in order for the
-  // component style (specified via [panelClass]) to apply to the select panel.
-  encapsulation: ViewEncapsulation.None,
+    selector: 'app-connector-properties-editor',
+    templateUrl: './connector-properties-editor.component.html',
+    styleUrls: ['./connector-properties-editor.component.css'],
+    // Per docs, encapsulation has to be disabled in order for the
+    // component style (specified via [panelClass]) to apply to the select panel.
+    encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class ConnectorPropertiesEditorComponent {
 

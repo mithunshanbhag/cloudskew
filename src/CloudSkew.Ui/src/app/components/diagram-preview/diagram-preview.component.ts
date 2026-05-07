@@ -4,9 +4,10 @@ import { UrlConstants } from 'src/app/constants/url-constants';
 import { DiagramCompactDTO } from 'src/app/models/dto/diagramCompactDTO';
 
 @Component({
-  selector: 'app-diagram-preview',
-  templateUrl: './diagram-preview.component.html',
-  styleUrls: ['./diagram-preview.component.css']
+    selector: 'app-diagram-preview',
+    templateUrl: './diagram-preview.component.html',
+    styleUrls: ['./diagram-preview.component.css'],
+    standalone: false
 })
 export class DiagramPreviewComponent {
 

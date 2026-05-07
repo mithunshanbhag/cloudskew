@@ -3,9 +3,10 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DiagramDTO } from 'src/app/models/dto/diagramDTO';
 
 @Component({
-  selector: 'app-diagram-delete-confirmation-dialog',
-  templateUrl: './diagram-delete-confirmation-dialog.component.html',
-  styles: []
+    selector: 'app-diagram-delete-confirmation-dialog',
+    templateUrl: './diagram-delete-confirmation-dialog.component.html',
+    styles: [],
+    standalone: false
 })
 export class DiagramDeleteConfirmationDialogComponent {
 

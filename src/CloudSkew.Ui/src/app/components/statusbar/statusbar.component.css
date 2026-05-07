@@ -41,7 +41,7 @@
 }
 
 
-.status-bar-content .mat-button { /* subscription details */
+.status-bar-content .mat-mdc-button { /* subscription details */
     /* required for correct sizing */
     height: 16px;
     font-size: 11px;
@@ -52,7 +52,7 @@
 .status-bar-content mat-icon { /* logout button */
     transform: scale(0.6); /* reduce to about 15px */
 }
-.status-bar-content .mat-icon-button { /* logout button */
+.status-bar-content .mat-mdc-icon-button { /* logout button */
     /* container for horizontal flexbox items */
     /* required to center the child icon */
     display: flex;

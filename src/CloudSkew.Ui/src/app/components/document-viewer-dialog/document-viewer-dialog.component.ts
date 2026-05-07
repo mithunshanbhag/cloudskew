@@ -5,9 +5,10 @@ import { Subject, takeUntil } from 'rxjs';
 import { DiagramDTO } from 'src/app/models/dto/diagramDTO';
 
 @Component({
-  selector: 'app-document-viewer-dialog',
-  templateUrl: './document-viewer-dialog.component.html',
-  styles: []
+    selector: 'app-document-viewer-dialog',
+    templateUrl: './document-viewer-dialog.component.html',
+    styles: [],
+    standalone: false
 })
 export class DocumentViewerDialogComponent implements OnInit, OnDestroy {
 

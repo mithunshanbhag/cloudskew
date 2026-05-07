@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
-import { AbstractControl, AsyncValidatorFn, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { AbstractControl, AsyncValidatorFn, UntypedFormControl, UntypedFormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { faPencilAlt, faSave, faWindowClose } from '@fortawesome/free-solid-svg-icons';
 import { of, Subject, timer } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
@@ -11,9 +11,10 @@ import { DiagramSelectorGridService } from '../diagram-selector-grid/diagram-sel
 import { DiagramService, IDiagramSaveRequestArgs } from '../diagram/diagram.service';
 
 @Component({
-  selector: 'app-diagram-name-editor',
-  templateUrl: './diagram-name-editor.component.html',
-  styleUrls: ['./diagram-name-editor.component.css']
+    selector: 'app-diagram-name-editor',
+    templateUrl: './diagram-name-editor.component.html',
+    styleUrls: ['./diagram-name-editor.component.css'],
+    standalone: false
 })
 export class DiagramNameEditorComponent implements OnInit, OnDestroy, OnChanges {
 
@@ -41,8 +42,8 @@ export class DiagramNameEditorComponent implements OnInit, OnDestroy, OnChanges 
   uniqueNameValidatorMessage = ValidatorMessageConstants.diagramNameEditorUniqueNameValidator;
 
   // the reactive form itself
-  diagramNameEditorForm = new FormGroup({
-    nameInputControl: new FormControl(
+  diagramNameEditorForm = new UntypedFormGroup({
+    nameInputControl: new UntypedFormControl(
       '',
       [ // sync validators
         Validators.required,

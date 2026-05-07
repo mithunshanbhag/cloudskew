@@ -1,5 +1,5 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, AsyncValidatorFn, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { AbstractControl, AsyncValidatorFn, UntypedFormControl, UntypedFormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { faSave } from '@fortawesome/free-solid-svg-icons';
 import { Subject, timer } from 'rxjs';
@@ -10,9 +10,10 @@ import { DiagramDTO } from 'src/app/models/dto/diagramDTO';
 import { APIService } from 'src/app/services/api.service';
 
 @Component({
-  selector: 'app-diagram-save-template-dialog',
-  templateUrl: './diagram-save-template-dialog.component.html',
-  styleUrls: ['./diagram-save-template-dialog.component.css']
+    selector: 'app-diagram-save-template-dialog',
+    templateUrl: './diagram-save-template-dialog.component.html',
+    styleUrls: ['./diagram-save-template-dialog.component.css'],
+    standalone: false
 })
 export class DiagramSaveTemplateDialogComponent implements OnInit, OnDestroy {
 
@@ -33,8 +34,8 @@ export class DiagramSaveTemplateDialogComponent implements OnInit, OnDestroy {
   uniqueNameValidatorMessage = ValidatorMessageConstants.templateNameEditorUniqueNameValidator;
 
   // the reactive form itself
-  templateNameEditorForm = new FormGroup({
-    templateNameInputControl: new FormControl(
+  templateNameEditorForm = new UntypedFormGroup({
+    templateNameInputControl: new UntypedFormControl(
       '',
       [ // sync validators
         Validators.required,

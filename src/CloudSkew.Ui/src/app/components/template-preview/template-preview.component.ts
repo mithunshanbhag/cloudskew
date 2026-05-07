@@ -4,9 +4,10 @@ import { UrlConstants } from 'src/app/constants/url-constants';
 import { TemplateCompactDTO } from 'src/app/models/dto/templateCompactDTO';
 
 @Component({
-  selector: 'app-template-preview',
-  templateUrl: './template-preview.component.html',
-  styleUrls: ['./template-preview.component.css']
+    selector: 'app-template-preview',
+    templateUrl: './template-preview.component.html',
+    styleUrls: ['./template-preview.component.css'],
+    standalone: false
 })
 export class TemplatePreviewComponent {
 

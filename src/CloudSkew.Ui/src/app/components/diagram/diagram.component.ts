@@ -2,7 +2,7 @@ import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChil
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { CommandManagerModel, Connector, DiagramBeforeMenuOpenEventArgs, DiagramComponent as SyncFusionDiagramComponent, DiagramConstraints, DiagramTools, IClickEventArgs, ImageModel, IScrollChangeEventArgs, Node } from '@syncfusion/ej2-angular-diagrams';
 import { FileInfo } from '@syncfusion/ej2-angular-inputs';
-import { ConnectorModel, ContextMenuSettingsModel, FileFormats, ICollectionChangeEventArgs, IConnectionChangeEventArgs, IEndChangeEventArgs, IExportOptions, IHistoryChangeArgs, ISelectionChangeEventArgs, KeyModifiers, Keys, NativeModel, NodeModel, PageSettingsModel, PointModel, PointPortModel, RulerSettingsModel, ScrollSettingsModel, SnapConstraints, SnapSettingsModel } from '@syncfusion/ej2-diagrams';
+import { AnnotationModel, ConnectorModel, ContextMenuSettingsModel, FileFormats, ICollectionChangeEventArgs, IConnectionChangeEventArgs, IEndChangeEventArgs, IExportOptions, IHistoryChangeArgs, ISelectionChangeEventArgs, KeyModifiers, Keys, NativeModel, NodeModel, PageSettingsModel, PointModel, PointPortModel, RulerSettingsModel, ScrollSettingsModel, SnapConstraints, SnapSettingsModel } from '@syncfusion/ej2-diagrams';
 import { BeforeOpenCloseMenuEventArgs, MenuEventArgs } from '@syncfusion/ej2-navigations';
 import { interval, Subject } from 'rxjs';
 import { filter, map, takeUntil, tap } from 'rxjs/operators';
@@ -31,9 +31,10 @@ import { IDiagramToolChangedEventArgs, StatusbarEventArgs, StatusbarService } fr
 
 
 @Component({
-  selector: 'app-diagram',
-  templateUrl: './diagram.component.html',
-  styles: []
+    selector: 'app-diagram',
+    templateUrl: './diagram.component.html',
+    styles: [],
+    standalone: false
 })
 export class DiagramComponent implements OnInit, OnDestroy, OnChanges {
 
@@ -294,15 +295,16 @@ export class DiagramComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     if (args.state === 'Changed') {
-      switch (args.newValue.length) {
+      const selectedSymbols = this.getSelectedSymbols(args.newValue);
+      switch (selectedSymbols.length) {
         case 0:
           this.visualPropertiesEditorService.request(this.diagramControl);
           break;
         case 1:
-          this.visualPropertiesEditorService.request(args.newValue[0]);
+          this.visualPropertiesEditorService.request(selectedSymbols[0]);
           break;
         default:
-          this.visualPropertiesEditorService.request(args.newValue);
+          this.visualPropertiesEditorService.request(selectedSymbols);
           break;
       }
     }
@@ -493,6 +495,11 @@ export class DiagramComponent implements OnInit, OnDestroy, OnChanges {
       }
     }
     return items;
+  }
+
+  private getSelectedSymbols(selectedItems: (NodeModel | ConnectorModel | AnnotationModel)[]): (NodeModel | ConnectorModel)[] {
+    return selectedItems.filter((item): item is NodeModel | ConnectorModel =>
+      TypeGuards.symbolIsNodeModel(item) || TypeGuards.symbolIsConnectorModel(item));
   }
 
   // remove ghost connectors from nodes

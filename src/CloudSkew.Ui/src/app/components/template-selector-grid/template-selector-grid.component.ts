@@ -22,9 +22,10 @@ import { TemplateSelectorEditDialogComponent } from '../template-selector-edit-d
 import { TemplateSelectorGridService } from './template-selector-grid.service';
 
 @Component({
-  selector: 'app-template-selector-grid',
-  templateUrl: './template-selector-grid.component.html',
-  styleUrls: ['./template-selector-grid.component.css']
+    selector: 'app-template-selector-grid',
+    templateUrl: './template-selector-grid.component.html',
+    styleUrls: ['./template-selector-grid.component.css'],
+    standalone: false
 })
 export class TemplateSelectorGridComponent implements OnInit, OnDestroy {
 

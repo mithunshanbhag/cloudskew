@@ -3,9 +3,10 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TemplateCompactDTO } from 'src/app/models/dto/templateCompactDTO';
 
 @Component({
-  selector: 'app-template-selector-delete-dialog',
-  templateUrl: './template-selector-delete-dialog.component.html',
-  styles: []
+    selector: 'app-template-selector-delete-dialog',
+    templateUrl: './template-selector-delete-dialog.component.html',
+    styles: [],
+    standalone: false
 })
 export class TemplateSelectorDeleteDialogComponent {
 

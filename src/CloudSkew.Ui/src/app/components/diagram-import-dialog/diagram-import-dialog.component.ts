@@ -9,9 +9,10 @@ import { UrlConstants } from 'src/app/constants/url-constants';
 import { SessionService } from 'src/app/services/session.service';
 
 @Component({
-  selector: 'app-diagram-import-dialog',
-  templateUrl: './diagram-import-dialog.component.html',
-  styleUrls: ['./diagram-import-dialog.component.css']
+    selector: 'app-diagram-import-dialog',
+    templateUrl: './diagram-import-dialog.component.html',
+    styleUrls: ['./diagram-import-dialog.component.css'],
+    standalone: false
 })
 export class DiagramImportDialogComponent implements OnInit, OnDestroy {
 

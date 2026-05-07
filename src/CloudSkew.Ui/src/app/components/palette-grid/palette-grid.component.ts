@@ -31,9 +31,10 @@ L10n.load({
 });
 
 @Component({
-  selector: 'app-palette-grid',
-  templateUrl: './palette-grid.component.html',
-  styleUrls: ['./palette-grid.component.css']
+    selector: 'app-palette-grid',
+    templateUrl: './palette-grid.component.html',
+    styleUrls: ['./palette-grid.component.css'],
+    standalone: false
 })
 export class PaletteGridComponent implements OnInit, OnDestroy {
 

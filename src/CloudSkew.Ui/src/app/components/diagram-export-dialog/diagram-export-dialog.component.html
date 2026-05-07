@@ -1,48 +1,50 @@
 <!-- note: the 'checked' option for radio buttons does not seem to be working with template driven forms for some reason.
-    Instead we can use the 'FormControl' constructor to specify the default/checked radio button. 
-    See this component's accompanying .ts file for details  -->
+Instead we can use the 'FormControl' constructor to specify the default/checked radio button.
+See this component's accompanying .ts file for details  -->
 <!-- note: I had trouble using the radio buttons with template driven forms. Found this link very useful:
-    https://stackblitz.com/edit/angular-radio-buttons-demo-reactive-forms -->
-<!-- note: Since we're using reactive forms, the 'formControlName' angular attribute can be used instead of 
-            the 'name' html attribute to group the radio button together. -->
+https://stackblitz.com/edit/angular-radio-buttons-demo-reactive-forms -->
+<!-- note: Since we're using reactive forms, the 'formControlName' angular attribute can be used instead of
+the 'name' html attribute to group the radio button together. -->
 <form [formGroup]="this.optionsForm" (ngSubmit)="this.onExportButtonClick()">
 
-    <span mat-dialog-title class="windowHeaderText">Export Diagram</span>
+  <span mat-dialog-title class="windowHeaderText">Export Diagram</span>
 
-    <mat-dialog-content>
-        <div class="diagram-export-options-dialog-content">
-            <input type="radio" id="diagramExportOptionsJpg" [value]="this.optionsJpg"
-                formControlName="radioButtonControl">
-            <label for="diagramExportOptionsJpg">{{this.optionsJpg}}</label>
+  <mat-dialog-content>
+    <div class="diagram-export-options-dialog-content">
+      <input type="radio" id="diagramExportOptionsJpg" [value]="this.optionsJpg"
+        formControlName="radioButtonControl">
+        <label for="diagramExportOptionsJpg">{{this.optionsJpg}}</label>
+      </div>
+      <div class="diagram-export-options-dialog-content">
+        <input type="radio" id="diagramExportOptionsJson" [value]="this.optionsJson"
+          formControlName="radioButtonControl">
+          <label for="diagramExportOptionsJson">{{this.optionsJson}}</label>
         </div>
         <div class="diagram-export-options-dialog-content">
-            <input type="radio" id="diagramExportOptionsJson" [value]="this.optionsJson"
-                formControlName="radioButtonControl">
-            <label for="diagramExportOptionsJson">{{this.optionsJson}}</label>
-        </div>
-        <div class="diagram-export-options-dialog-content">
-            <input type="radio" id="diagramExportOptionsPdf" [value]="this.optionsPdf"
-                formControlName="radioButtonControl">
+          <input type="radio" id="diagramExportOptionsPdf" [value]="this.optionsPdf"
+            formControlName="radioButtonControl">
             <label for="diagramExportOptionsPdf">{{this.optionsPdf}}</label>
-        </div>
-        <div class="diagram-export-options-dialog-content">
+          </div>
+          <div class="diagram-export-options-dialog-content">
             <input type="radio" id="diagramExportOptionsPng" [value]="this.optionsPng"
+              formControlName="radioButtonControl">
+              <label for="diagramExportOptionsPng">{{this.optionsPng}}</label>
+            </div>
+            <div class="diagram-export-options-dialog-content">
+              <input type="radio" id="diagramExportOptionsSvg" [value]="this.optionsSvg"
                 formControlName="radioButtonControl">
-            <label for="diagramExportOptionsPng">{{this.optionsPng}}</label>
-        </div>
-        <div class="diagram-export-options-dialog-content">
-            <input type="radio" id="diagramExportOptionsSvg" [value]="this.optionsSvg"
-                formControlName="radioButtonControl">
-            <label for="diagramExportOptionsSvg">{{this.optionsSvg}}</label>
-        </div>
-        <div class="diagram-export-options-validator-messages">
-            <span *ngIf="this.radioButtonControl.errors?.required">{{this.requiredValidatorMessage}}</span>
-        </div>
-    </mat-dialog-content>
+                <label for="diagramExportOptionsSvg">{{this.optionsSvg}}</label>
+              </div>
+              <div class="diagram-export-options-validator-messages">
+                @if (this.radioButtonControl.errors?.required) {
+                  <span>{{this.requiredValidatorMessage}}</span>
+                }
+              </div>
+            </mat-dialog-content>
 
-    <div mat-dialog-actions class="defaultFlexbox">
-        <button type="submit" mat-stroked-button [disabled]="this.optionsForm.invalid">EXPORT</button>
-        <button mat-stroked-button mat-dialog-close>CANCEL</button>
-    </div>
+            <div mat-dialog-actions class="defaultFlexbox">
+              <button type="submit" mat-stroked-button [disabled]="this.optionsForm.invalid">EXPORT</button>
+              <button mat-stroked-button mat-dialog-close>CANCEL</button>
+            </div>
 
-</form>
+          </form>

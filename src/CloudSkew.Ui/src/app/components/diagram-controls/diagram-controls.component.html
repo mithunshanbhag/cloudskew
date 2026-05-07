@@ -1,132 +1,152 @@
 <div class="diagram-controls">
 
-    <!-- lock/unlock buttons -->
-    <button mat-icon-button *ngIf="this.isLocked" matTooltip="diagram locked (click to unlock)"
-        [class.locked-btn]="this.isLocked" [disableRipple]="true" (click)="this.onUnlockButtonClick()">
-        <mat-icon fontSet="material-icons-outlined">lock</mat-icon>
+  <!-- lock/unlock buttons -->
+  @if (this.isLocked) {
+    <button mat-icon-button matTooltip="diagram locked (click to unlock)"
+      [class.locked-btn]="this.isLocked" [disableRipple]="true" (click)="this.onUnlockButtonClick()">
+      <mat-icon fontSet="material-icons-outlined">lock</mat-icon>
     </button>
-    <button mat-icon-button *ngIf="!this.isLocked" matTooltip="diagram unlocked (click to lock)"
-        [class.unlocked-btn]="!this.isLocked" [disableRipple]="true" (click)="this.onLockButtonClick()">
-        <mat-icon fontSet="material-icons-outlined">lock_open</mat-icon>
+  }
+  @if (!this.isLocked) {
+    <button mat-icon-button matTooltip="diagram unlocked (click to lock)"
+      [class.unlocked-btn]="!this.isLocked" [disableRipple]="true" (click)="this.onLockButtonClick()">
+      <mat-icon fontSet="material-icons-outlined">lock_open</mat-icon>
     </button>
-    <mat-divider [vertical]="true"></mat-divider>
+  }
+  <mat-divider [vertical]="true"></mat-divider>
 
-    <!-- delete button -->
-    <button mat-icon-button *ngIf="!this.deleteInProgress" matTooltip="delete diagram"
-        [class.delete-btn]="!this.isLocked" [disableRipple]="true" [disabled]="this.isLocked"
-        (click)="this.deleteButtonClick.emit()">
-        <mat-icon fontSet="material-icons-outlined">delete</mat-icon>
+  <!-- delete button -->
+  @if (!this.deleteInProgress) {
+    <button mat-icon-button matTooltip="delete diagram"
+      [class.delete-btn]="!this.isLocked" [disableRipple]="true" [disabled]="this.isLocked"
+      (click)="this.deleteButtonClick.emit()">
+      <mat-icon fontSet="material-icons-outlined">delete</mat-icon>
     </button>
-    <button mat-icon-button *ngIf="this.deleteInProgress" matTooltip="delete diagram (in progress)"
-        [disableRipple]="true" [disabled]="this.isLocked">
-        <mat-icon>
-            <mat-spinner [diameter]="this.spinnerDiameter" color="primary"></mat-spinner>
-        </mat-icon>
+  }
+  @if (this.deleteInProgress) {
+    <button mat-icon-button matTooltip="delete diagram (in progress)"
+      [disableRipple]="true" [disabled]="this.isLocked">
+      <mat-icon>
+        <mat-spinner [diameter]="this.spinnerDiameter" color="primary"></mat-spinner>
+      </mat-icon>
     </button>
-    <mat-divider [vertical]="true"></mat-divider>
+  }
+  <mat-divider [vertical]="true"></mat-divider>
 
-    <!-- quick insert button -->
-    <!-- the id="quick-insert-button" is needed for styling the quick insert button which 
-        doesn't look visually consistent with the other toolbar items when in disabled state 
-        (e.g. when diagram is locked). -->
-    <button mat-icon-button matTooltip="quick insert" [disableRipple]="true" [disabled]="this.isLocked"
-        [matMenuTriggerFor]="quickInsertMenu">
-        <mat-icon fontSet="material-icons-outlined">add</mat-icon>
-    </button>
-    <mat-menu #quickInsertMenu="matMenu">
-        <button mat-menu-item (click)="this.onLineConnectorSelect()">Line Connector</button>
-        <button mat-menu-item (click)="this.onLineConnector2WaySelect()">Line Connector (2 Way)</button>
-        <button mat-menu-item (click)="this.onElbowConnectorSelect()">Elbow Connector</button>
-        <button mat-menu-item (click)="this.onElbowConnector2WaySelect()">Elbow Connector (2 Way)</button>
-        <button mat-menu-item (click)="this.onCurvedConnectorSelect()">Curved Connector</button>
-        <button mat-menu-item (click)="this.onCurvedConnector2WaySelect()">Curved Connector (2 Way)</button>
-        <mat-divider></mat-divider>
-        <button mat-menu-item (click)="this.onCircleSelect()">Circle / Ellipse</button>
-        <button mat-menu-item (click)="this.onRectangleSelect()">Rectangle / Square</button>
-        <mat-divider></mat-divider>
-        <button mat-menu-item (click)="this.onTextSelect()">Text</button>
-        <mat-divider></mat-divider>
-        <button mat-menu-item (click)="this.onCustomImageSelect()">Custom Image</button>
-    </mat-menu>
-    <mat-divider [vertical]="true"></mat-divider>
+  <!-- quick insert button -->
+  <!-- the id="quick-insert-button" is needed for styling the quick insert button which
+  doesn't look visually consistent with the other toolbar items when in disabled state
+  (e.g. when diagram is locked). -->
+  <button mat-icon-button matTooltip="quick insert" [disableRipple]="true" [disabled]="this.isLocked"
+    [matMenuTriggerFor]="quickInsertMenu">
+    <mat-icon fontSet="material-icons-outlined">add</mat-icon>
+  </button>
+  <mat-menu #quickInsertMenu="matMenu">
+    <button mat-menu-item (click)="this.onLineConnectorSelect()">Line Connector</button>
+    <button mat-menu-item (click)="this.onLineConnector2WaySelect()">Line Connector (2 Way)</button>
+    <button mat-menu-item (click)="this.onElbowConnectorSelect()">Elbow Connector</button>
+    <button mat-menu-item (click)="this.onElbowConnector2WaySelect()">Elbow Connector (2 Way)</button>
+    <button mat-menu-item (click)="this.onCurvedConnectorSelect()">Curved Connector</button>
+    <button mat-menu-item (click)="this.onCurvedConnector2WaySelect()">Curved Connector (2 Way)</button>
+    <mat-divider></mat-divider>
+    <button mat-menu-item (click)="this.onCircleSelect()">Circle / Ellipse</button>
+    <button mat-menu-item (click)="this.onRectangleSelect()">Rectangle / Square</button>
+    <mat-divider></mat-divider>
+    <button mat-menu-item (click)="this.onTextSelect()">Text</button>
+    <mat-divider></mat-divider>
+    <button mat-menu-item (click)="this.onCustomImageSelect()">Custom Image</button>
+  </mat-menu>
+  <mat-divider [vertical]="true"></mat-divider>
 
-    <!-- drawing tools/modes -->
-    <button mat-icon-button matTooltip="select/edit mode" [disableRipple]="true"
-        [disabled]="this.isSelectMode || this.isLocked" (click)="this.onSelectModeButtonClick()">
-        <mat-icon fontSet="material-icons-outlined">near_me</mat-icon>
-    </button>
-    <button mat-icon-button matTooltip="pan/swipe mode" [disableRipple]="true"
-        [disabled]="this.isPanMode|| this.isLocked" (click)="this.onPanModeButtonClick()">
-        <mat-icon fontSet="material-icons-outlined">swipe</mat-icon>
-    </button>
-    <mat-divider [vertical]="true"></mat-divider>
+  <!-- drawing tools/modes -->
+  <button mat-icon-button matTooltip="select/edit mode" [disableRipple]="true"
+    [disabled]="this.isSelectMode || this.isLocked" (click)="this.onSelectModeButtonClick()">
+    <mat-icon fontSet="material-icons-outlined">near_me</mat-icon>
+  </button>
+  <button mat-icon-button matTooltip="pan/swipe mode" [disableRipple]="true"
+    [disabled]="this.isPanMode|| this.isLocked" (click)="this.onPanModeButtonClick()">
+    <mat-icon fontSet="material-icons-outlined">swipe</mat-icon>
+  </button>
+  <mat-divider [vertical]="true"></mat-divider>
 
-    <!-- document attachment -->
-    <button mat-icon-button matTooltip="documentation" [disableRipple]="true" [disabled]="this.isLocked"
-        (click)="this.documentButtonClick.emit()">
-        <mat-icon fontSet="material-icons-outlined">description</mat-icon>
-    </button>
-    <mat-divider [vertical]="true"></mat-divider>
+  <!-- document attachment -->
+  <button mat-icon-button matTooltip="documentation" [disableRipple]="true" [disabled]="this.isLocked"
+    (click)="this.documentButtonClick.emit()">
+    <mat-icon fontSet="material-icons-outlined">description</mat-icon>
+  </button>
+  <mat-divider [vertical]="true"></mat-divider>
 
-    <!-- undo/redo buttons -->
-    <button mat-icon-button matTooltip="undo edit" [disableRipple]="true"
-        [disabled]="!this.isUndoPossible || this.isLocked" (click)="this.onUndoButtonClick()">
-        <mat-icon fontSet="material-icons-outlined">undo</mat-icon>
-    </button>
-    <button mat-icon-button matTooltip="redo edit" [disableRipple]="true"
-        [disabled]="!this.isRedoPossible || this.isLocked" (click)="this.onRedoButtonClick()">
-        <mat-icon fontSet="material-icons-outlined">redo</mat-icon>
-    </button>
-    <mat-divider [vertical]="true"></mat-divider>
+  <!-- undo/redo buttons -->
+  <button mat-icon-button matTooltip="undo edit" [disableRipple]="true"
+    [disabled]="!this.isUndoPossible || this.isLocked" (click)="this.onUndoButtonClick()">
+    <mat-icon fontSet="material-icons-outlined">undo</mat-icon>
+  </button>
+  <button mat-icon-button matTooltip="redo edit" [disableRipple]="true"
+    [disabled]="!this.isRedoPossible || this.isLocked" (click)="this.onRedoButtonClick()">
+    <mat-icon fontSet="material-icons-outlined">redo</mat-icon>
+  </button>
+  <mat-divider [vertical]="true"></mat-divider>
 
-    <!-- zoom in/reset/out buttons -->
-    <button mat-icon-button matTooltip="zoom out" [disableRipple]="true"
-        [disabled]="!this.isZoomOutPossible || this.isLocked" (click)="this.onZoomOutButtonClick()">
-        <mat-icon fontSet="material-icons-outlined">zoom_out</mat-icon>
-    </button>
-    <button mat-icon-button matTooltip="center view" [disableRipple]="true" [disabled]="this.isLocked"
-        (click)="this.onCenterViewButtonClick()">
-        <mat-icon fontSet="material-icons-outlined">center_focus_strong</mat-icon>
-    </button>
-    <button mat-icon-button matTooltip="zoom in" [disableRipple]="true"
-        [disabled]="!this.isZoomInPossible || this.isLocked" (click)="this.onZoomInButtonClick()">
-        <mat-icon fontSet="material-icons-outlined">zoom_in</mat-icon>
-    </button>
-    <mat-divider [vertical]="true"></mat-divider>
+  <!-- zoom in/reset/out buttons -->
+  <button mat-icon-button matTooltip="zoom out" [disableRipple]="true"
+    [disabled]="!this.isZoomOutPossible || this.isLocked" (click)="this.onZoomOutButtonClick()">
+    <mat-icon fontSet="material-icons-outlined">zoom_out</mat-icon>
+  </button>
+  <button mat-icon-button matTooltip="center view" [disableRipple]="true" [disabled]="this.isLocked"
+    (click)="this.onCenterViewButtonClick()">
+    <mat-icon fontSet="material-icons-outlined">center_focus_strong</mat-icon>
+  </button>
+  <button mat-icon-button matTooltip="zoom in" [disableRipple]="true"
+    [disabled]="!this.isZoomInPossible || this.isLocked" (click)="this.onZoomInButtonClick()">
+    <mat-icon fontSet="material-icons-outlined">zoom_in</mat-icon>
+  </button>
+  <mat-divider [vertical]="true"></mat-divider>
 
-    <!-- export and print buttons -->
-    <button mat-icon-button *ngIf="!this.exportInProgress" matTooltip="export diagram as image" [disableRipple]="true"
-        (click)="this.exportButtonClick.emit()">
-        <mat-icon fontSet="material-icons-outlined">file_download</mat-icon>
+  <!-- export and print buttons -->
+  @if (!this.exportInProgress) {
+    <button mat-icon-button matTooltip="export diagram as image" [disableRipple]="true"
+      (click)="this.exportButtonClick.emit()">
+      <mat-icon fontSet="material-icons-outlined">file_download</mat-icon>
     </button>
-    <button mat-icon-button *ngIf="this.exportInProgress" matTooltip="export diagram as image (in progress)"
-        [disableRipple]="true">
-        <mat-icon>
-            <mat-spinner [diameter]="this.spinnerDiameter" color="primary"></mat-spinner>
-        </mat-icon>
+  }
+  @if (this.exportInProgress) {
+    <button mat-icon-button matTooltip="export diagram as image (in progress)"
+      [disableRipple]="true">
+      <mat-icon>
+        <mat-spinner [diameter]="this.spinnerDiameter" color="primary"></mat-spinner>
+      </mat-icon>
     </button>
-    <button mat-icon-button *ngIf="!this.printInProgress" matTooltip="print diagram" [disableRipple]="true"
-        (click)="this.printButtonClick.emit()">
-        <mat-icon fontSet="material-icons-outlined">print</mat-icon>
+  }
+  @if (!this.printInProgress) {
+    <button mat-icon-button matTooltip="print diagram" [disableRipple]="true"
+      (click)="this.printButtonClick.emit()">
+      <mat-icon fontSet="material-icons-outlined">print</mat-icon>
     </button>
-    <button mat-icon-button *ngIf="this.printInProgress" matTooltip="print diagram (in progress)"
-        [disableRipple]="true">
-        <mat-icon>
-            <mat-spinner [diameter]="this.spinnerDiameter" color="primary"></mat-spinner>
-        </mat-icon>
+  }
+  @if (this.printInProgress) {
+    <button mat-icon-button matTooltip="print diagram (in progress)"
+      [disableRipple]="true">
+      <mat-icon>
+        <mat-spinner [diameter]="this.spinnerDiameter" color="primary"></mat-spinner>
+      </mat-icon>
     </button>
-    <button mat-icon-button *ngIf="!this.exportTemplateInProgress" matTooltip="save diagram as template"
-        [disableRipple]="true" (click)="this.saveTemplateButtonClick.emit()">
-        <mat-icon fontSet="material-icons-outlined">cloud_download</mat-icon>
+  }
+  @if (!this.exportTemplateInProgress) {
+    <button mat-icon-button matTooltip="save diagram as template"
+      [disableRipple]="true" (click)="this.saveTemplateButtonClick.emit()">
+      <mat-icon fontSet="material-icons-outlined">cloud_download</mat-icon>
     </button>
-    <button mat-icon-button *ngIf="this.exportTemplateInProgress" matTooltip="save diagram as template (in progress)"
-        [disableRipple]="true">
-        <mat-icon>
-            <mat-spinner [diameter]="this.spinnerDiameter" color="primary"></mat-spinner>
-        </mat-icon>
+  }
+  @if (this.exportTemplateInProgress) {
+    <button mat-icon-button matTooltip="save diagram as template (in progress)"
+      [disableRipple]="true">
+      <mat-icon>
+        <mat-spinner [diameter]="this.spinnerDiameter" color="primary"></mat-spinner>
+      </mat-icon>
     </button>
-    <button mat-icon-button matTooltip="share diagram" [disableRipple]="true" (click)="this.shareButtonClick.emit()">
-        <mat-icon fontSet="material-icons-outlined">share</mat-icon>
-    </button>
+  }
+  <button mat-icon-button matTooltip="share diagram" [disableRipple]="true" (click)="this.shareButtonClick.emit()">
+    <mat-icon fontSet="material-icons-outlined">share</mat-icon>
+  </button>
 
 </div>

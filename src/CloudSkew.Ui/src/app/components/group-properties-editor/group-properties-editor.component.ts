@@ -5,9 +5,10 @@ import { AlignmentOptions, DistributeOptions, NodeModel } from '@syncfusion/ej2-
 import { DiagramService, IDiagramAlignRequestArgs, IDiagramDistributeRequestArgs } from '../diagram/diagram.service';
 
 @Component({
-  selector: 'app-group-properties-editor',
-  templateUrl: './group-properties-editor.component.html',
-  styles: []
+    selector: 'app-group-properties-editor',
+    templateUrl: './group-properties-editor.component.html',
+    styles: [],
+    standalone: false
 })
 export class GroupPropertiesEditorComponent {
 

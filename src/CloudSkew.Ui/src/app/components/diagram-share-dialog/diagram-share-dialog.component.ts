@@ -9,9 +9,10 @@ import { APIService } from 'src/app/services/api.service';
 import { SessionService } from 'src/app/services/session.service';
 
 @Component({
-  selector: 'app-diagram-share-dialog',
-  templateUrl: './diagram-share-dialog.component.html',
-  styleUrls: ['./diagram-share-dialog.component.css']
+    selector: 'app-diagram-share-dialog',
+    templateUrl: './diagram-share-dialog.component.html',
+    styleUrls: ['./diagram-share-dialog.component.css'],
+    standalone: false
 })
 export class DiagramShareDialogComponent implements OnDestroy {
 

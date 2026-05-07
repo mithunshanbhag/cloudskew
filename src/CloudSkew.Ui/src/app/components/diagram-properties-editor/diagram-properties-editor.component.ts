@@ -3,9 +3,10 @@ import { faBorderAll } from '@fortawesome/free-solid-svg-icons';
 import { DiagramComponent as SyncfusionDiagramComponent } from '@syncfusion/ej2-angular-diagrams';
 
 @Component({
-  selector: 'app-diagram-properties-editor',
-  templateUrl: './diagram-properties-editor.component.html',
-  styles: []
+    selector: 'app-diagram-properties-editor',
+    templateUrl: './diagram-properties-editor.component.html',
+    styles: [],
+    standalone: false
 })
 export class DiagramPropertiesEditorComponent {
 

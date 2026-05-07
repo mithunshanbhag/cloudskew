@@ -15,9 +15,10 @@ import { DiagramSelectorConfirmationDialogComponent } from '../diagram-selector-
 import { DiagramSelectorGridService } from './diagram-selector-grid.service';
 
 @Component({
-  selector: 'app-diagram-selector-grid',
-  templateUrl: './diagram-selector-grid.component.html',
-  styles: []
+    selector: 'app-diagram-selector-grid',
+    templateUrl: './diagram-selector-grid.component.html',
+    styles: [],
+    standalone: false
 })
 export class DiagramSelectorGridComponent implements OnInit, OnDestroy {
 

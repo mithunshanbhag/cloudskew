@@ -1,4 +1,6 @@
 <div class="status-bar-read-only-content">
-    <!-- this needs to be the first item -->
-    <div *ngIf="this.zoomPercentage">Zoom: {{this.zoomPercentage|percent}}</div>
+  <!-- this needs to be the first item -->
+  @if (this.zoomPercentage) {
+    <div>Zoom: {{this.zoomPercentage|percent}}</div>
+  }
 </div>

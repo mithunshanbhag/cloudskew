@@ -3,9 +3,10 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DiagramCompactDTO } from 'src/app/models/dto/diagramCompactDTO';
 
 @Component({
-  selector: 'app-diagram-selector-confirmation-dialog',
-  templateUrl: './diagram-selector-confirmation-dialog.component.html',
-  styles: []
+    selector: 'app-diagram-selector-confirmation-dialog',
+    templateUrl: './diagram-selector-confirmation-dialog.component.html',
+    styles: [],
+    standalone: false
 })
 export class DiagramSelectorConfirmationDialogComponent {
 

@@ -6,9 +6,10 @@ import { IResourceDocumentationItem } from '../../interfaces/resource-documentat
 import { IResourceDocumentationRequest } from '../../interfaces/resource-documentation-request';
 
 @Component({
-  selector: 'app-resource-documentation-dialog',
-  templateUrl: './resource-documentation-dialog.component.html',
-  styleUrls: ['./resource-documentation-dialog.component.css']
+    selector: 'app-resource-documentation-dialog',
+    templateUrl: './resource-documentation-dialog.component.html',
+    styleUrls: ['./resource-documentation-dialog.component.css'],
+    standalone: false
 })
 export class ResourceDocumentationDialogComponent {
 

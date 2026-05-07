@@ -8,9 +8,10 @@ import { DiagramDTO } from 'src/app/models/dto/diagramDTO';
 import { ExtensionDefinitions } from './extension-definitions';
 
 @Component({
-  selector: 'app-extension-grid',
-  templateUrl: './extension-grid.component.html',
-  styles: []
+    selector: 'app-extension-grid',
+    templateUrl: './extension-grid.component.html',
+    styles: [],
+    standalone: false
 })
 export class ExtensionGridComponent implements OnInit, OnDestroy {
 

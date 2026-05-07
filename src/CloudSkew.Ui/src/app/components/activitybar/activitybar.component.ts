@@ -6,9 +6,10 @@ import { UrlConstants } from '../../constants/url-constants';
 
 
 @Component({
-  selector: 'app-activitybar',
-  templateUrl: './activitybar.component.html',
-  styleUrls: ['./activitybar.component.css']
+    selector: 'app-activitybar',
+    templateUrl: './activitybar.component.html',
+    styleUrls: ['./activitybar.component.css'],
+    standalone: false
 })
 export class ActivitybarComponent implements OnInit, OnDestroy {
 

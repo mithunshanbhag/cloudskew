@@ -15,9 +15,10 @@ import { SessionService } from 'src/app/services/session.service';
 declare var Stripe: any;
 
 @Component({
-  selector: 'app-pricing-dialog',
-  templateUrl: './pricing-dialog.component.html',
-  styleUrls: ['./pricing-dialog.component.css']
+    selector: 'app-pricing-dialog',
+    templateUrl: './pricing-dialog.component.html',
+    styleUrls: ['./pricing-dialog.component.css'],
+    standalone: false
 })
 export class PricingDialogComponent implements OnDestroy {
 

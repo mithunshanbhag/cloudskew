@@ -6,9 +6,10 @@ import { DiagramReadOnlyService, IDiagramReadOnlyZoomRequestArgs } from '../diag
 import { DiagramControlsReadOnlyRequestArgs, DiagramControlsReadOnlyService } from './diagram-controls-read-only.service';
 
 @Component({
-  selector: 'app-diagram-controls-read-only',
-  templateUrl: './diagram-controls-read-only.component.html',
-  styleUrls: ['./diagram-controls-read-only.component.css']
+    selector: 'app-diagram-controls-read-only',
+    templateUrl: './diagram-controls-read-only.component.html',
+    styleUrls: ['./diagram-controls-read-only.component.css'],
+    standalone: false
 })
 export class DiagramControlsReadOnlyComponent implements OnInit, OnDestroy {
 

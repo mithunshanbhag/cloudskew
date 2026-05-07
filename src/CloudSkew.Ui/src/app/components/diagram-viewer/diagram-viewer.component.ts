@@ -10,9 +10,10 @@ import { APIService } from '../../services/api.service';
 import { DocumentViewerDialogComponent } from '../document-viewer-dialog/document-viewer-dialog.component';
 
 @Component({
-  selector: 'app-diagram-viewer',
-  templateUrl: './diagram-viewer.component.html',
-  styleUrls: ['./diagram-viewer.component.css']
+    selector: 'app-diagram-viewer',
+    templateUrl: './diagram-viewer.component.html',
+    styleUrls: ['./diagram-viewer.component.css'],
+    standalone: false
 })
 export class DiagramViewerComponent implements OnInit, OnDestroy {
 

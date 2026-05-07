@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ValidatorMessageConstants } from 'src/app/constants/validator-message-constants';
 
 @Component({
-  selector: 'app-diagram-export-dialog',
-  templateUrl: './diagram-export-dialog.component.html',
-  styleUrls: ['./diagram-export-dialog.component.css']
+    selector: 'app-diagram-export-dialog',
+    templateUrl: './diagram-export-dialog.component.html',
+    styleUrls: ['./diagram-export-dialog.component.css'],
+    standalone: false
 })
 export class DiagramExportDialogComponent {
 
@@ -24,8 +25,8 @@ export class DiagramExportDialogComponent {
   //#endregion validator messages
 
   // the reactive form itself
-  optionsForm = new FormGroup({
-    radioButtonControl: new FormControl(
+  optionsForm = new UntypedFormGroup({
+    radioButtonControl: new UntypedFormControl(
       this.optionsJpg, // selects this as the default/checked radio button
       [
         Validators.required

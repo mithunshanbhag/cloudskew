@@ -1,59 +1,49 @@
 <div class="diagram-editor">
 
-    <!-- the activity bar -->
-    <div class="diagram-editor-activity-bar">
-        <app-activitybar></app-activitybar>
+  <!-- the activity bar -->
+  <div class="diagram-editor-activity-bar">
+    <app-activitybar></app-activitybar>
+  </div>
+
+  <!-- the main area -->
+  @if ((this.diagram$|async); as diagram) {
+    <div class="diagram-editor-content">
+      <!-- the nav bar -->
+      <div class="diagram-editor-navbar">
+        <!-- control to rename the diagram -->
+        <app-diagram-name-editor [diagram]="diagram">
+        </app-diagram-name-editor>
+        <!-- control for all diagram actions (save, zoom, export etc) -->
+        <app-diagram-controls (deleteButtonClick)="onDiagramDeleteButtonClick(diagram)"
+          (exportButtonClick)="onDiagramExportButtonClick(diagram)"
+          (printButtonClick)="onDiagramPrintButtonClick(diagram)"
+          (saveTemplateButtonClick)="onDiagramSaveTemplateButtonClick(diagram)"
+          (shareButtonClick)="onDiagramShareButtonClick(diagram)"
+          (documentButtonClick)="onDiagramDocumentEditorButtonClick(diagram)">
+        </app-diagram-controls>
+      </div>
+      <!-- the main content -->
+      <div class="diagram-editor-maincontent">
+        <!-- the app's main sidebar -->
+        <div class="diagram-editor-sidebar">
+          <app-sidebar #sidebar></app-sidebar>
+        </div>
+        <!-- the diagram itself -->
+        <div class="diagram-editor-diagram">
+          <app-diagram #diagramControl [diagram]="diagram"></app-diagram>
+        </div>
+        <!-- the app's property bar -->
+        <div class="diagram-editor-propertiesbar">
+          <app-propertiesbar #propertiesbar></app-propertiesbar>
+        </div>
+      </div>
+      <!-- the status bar -->
+      <div class="diagram-editor-statusbar">
+        <app-statusbar #statusbar></app-statusbar>
+      </div>
     </div>
-
-    <!-- the main area -->
-    <div *ngIf="(this.diagram$|async) as diagram; else loadingBlock" class="diagram-editor-content">
-
-        <!-- the nav bar -->
-        <div class="diagram-editor-navbar">
-
-            <!-- control to rename the diagram -->
-            <app-diagram-name-editor [diagram]="diagram">
-            </app-diagram-name-editor>
-
-            <!-- control for all diagram actions (save, zoom, export etc) -->
-            <app-diagram-controls (deleteButtonClick)="onDiagramDeleteButtonClick(diagram)"
-                (exportButtonClick)="onDiagramExportButtonClick(diagram)"
-                (printButtonClick)="onDiagramPrintButtonClick(diagram)"
-                (saveTemplateButtonClick)="onDiagramSaveTemplateButtonClick(diagram)"
-                (shareButtonClick)="onDiagramShareButtonClick(diagram)"
-                (documentButtonClick)="onDiagramDocumentEditorButtonClick(diagram)">
-            </app-diagram-controls>
-
-        </div>
-
-        <!-- the main content -->
-        <div class="diagram-editor-maincontent">
-
-            <!-- the app's main sidebar -->
-            <div class="diagram-editor-sidebar">
-                <app-sidebar #sidebar></app-sidebar>
-            </div>
-
-            <!-- the diagram itself -->
-            <div class="diagram-editor-diagram">
-                <app-diagram #diagramControl [diagram]="diagram"></app-diagram>
-            </div>
-
-            <!-- the app's property bar -->
-            <div class="diagram-editor-propertiesbar">
-                <app-propertiesbar #propertiesbar></app-propertiesbar>
-            </div>
-
-        </div>
-
-        <!-- the status bar -->
-        <div class="diagram-editor-statusbar">
-            <app-statusbar #statusbar></app-statusbar>
-        </div>
-
-    </div>
+  } @else {
+    <app-loading-block></app-loading-block>
+  }
 </div>
 
-<ng-template #loadingBlock>
-    <app-loading-block></app-loading-block>
-</ng-template>

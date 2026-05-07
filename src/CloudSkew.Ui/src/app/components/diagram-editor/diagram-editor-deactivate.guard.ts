@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanDeactivate, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { DiagramService, IDiagramSaveRequestArgs } from '../diagram/diagram.service';
 import { DiagramEditorComponent } from './diagram-editor.component';
 
 @Injectable({
   providedIn: 'root'
 })
-export class DiagramEditorDeactivateGuard implements CanDeactivate<DiagramEditorComponent> {
+export class DiagramEditorDeactivateGuard  {
 
   constructor(
     private diagramService: DiagramService,

@@ -6,9 +6,10 @@ import { DiagramDTO } from 'src/app/models/dto/diagramDTO';
 import { DiagramService, IDiagramSaveRequestArgs } from '../diagram/diagram.service';
 
 @Component({
-  selector: 'app-document-editor-dialog',
-  templateUrl: './document-editor-dialog.component.html',
-  styles: []
+    selector: 'app-document-editor-dialog',
+    templateUrl: './document-editor-dialog.component.html',
+    styles: [],
+    standalone: false
 })
 export class DocumentEditorDialogComponent implements OnInit, OnDestroy {
 

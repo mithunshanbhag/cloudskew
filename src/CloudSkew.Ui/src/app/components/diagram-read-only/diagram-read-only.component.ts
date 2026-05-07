@@ -12,9 +12,10 @@ import { DiagramReadOnlyRequestArgs, DiagramReadOnlyService } from './diagram-re
 
 
 @Component({
-  selector: 'app-diagram-read-only',
-  templateUrl: './diagram-read-only.component.html',
-  styles: []
+    selector: 'app-diagram-read-only',
+    templateUrl: './diagram-read-only.component.html',
+    styles: [],
+    standalone: false
 })
 export class DiagramReadOnlyComponent implements OnInit, OnDestroy {
 

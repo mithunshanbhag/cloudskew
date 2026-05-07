@@ -1,31 +1,25 @@
 <!-- the main area -->
-<div *ngIf="(this.diagram$|async) as diagram; else loadingBlock" class="diagram-viewer-content">
-
+@if ((this.diagram$|async); as diagram) {
+  <div class="diagram-viewer-content">
     <!-- the nav bar -->
     <div class="diagram-viewer-navbar">
-
-        <!-- control to rename the diagram -->
-        <app-diagram-name-viewer [diagram]="diagram"></app-diagram-name-viewer>
-
-        <!-- control for all diagram actions (save, zoom, export etc) -->
-        <app-diagram-controls-read-only (documentButtonClick)="onDocumentViewerButtonClick(diagram)">
-        </app-diagram-controls-read-only>
-
+      <!-- control to rename the diagram -->
+      <app-diagram-name-viewer [diagram]="diagram"></app-diagram-name-viewer>
+      <!-- control for all diagram actions (save, zoom, export etc) -->
+      <app-diagram-controls-read-only (documentButtonClick)="onDocumentViewerButtonClick(diagram)">
+      </app-diagram-controls-read-only>
     </div>
-
     <!-- the main content -->
     <!-- the diagram itself -->
     <div class="diagram-viewer-maincontent">
-        <app-diagram-read-only #diagramControl [diagram]="diagram"></app-diagram-read-only>
+      <app-diagram-read-only #diagramControl [diagram]="diagram"></app-diagram-read-only>
     </div>
-
     <!-- the status bar -->
     <div class="diagram-viewer-statusbar">
-        <app-statusbar-read-only #statusbar></app-statusbar-read-only>
+      <app-statusbar-read-only #statusbar></app-statusbar-read-only>
     </div>
+  </div>
+} @else {
+  <app-loading-block></app-loading-block>
+}
 
-</div>
-
-<ng-template #loadingBlock>
-    <app-loading-block></app-loading-block>
-</ng-template>

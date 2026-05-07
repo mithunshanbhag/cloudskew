@@ -4,9 +4,10 @@ import { takeUntil } from 'rxjs/operators';
 import { StatusbarReadOnlyEventArgs, StatusbarReadOnlyService } from './statusbar-read-only.service';
 
 @Component({
-  selector: 'app-statusbar-read-only',
-  templateUrl: './statusbar-read-only.component.html',
-  styleUrls: ['./statusbar-read-only.component.css']
+    selector: 'app-statusbar-read-only',
+    templateUrl: './statusbar-read-only.component.html',
+    styleUrls: ['./statusbar-read-only.component.css'],
+    standalone: false
 })
 export class StatusbarReadOnlyComponent implements OnInit, OnDestroy {
 

@@ -4,9 +4,10 @@ import { AuthenticationConstants } from 'src/app/constants/authentication-consta
 import { SessionService } from 'src/app/services/session.service';
 
 @Component({
-  selector: 'app-logout',
-  template: '',
-  styles: ['']
+    selector: 'app-logout',
+    template: '',
+    styles: [''],
+    standalone: false
 })
 export class LogoutComponent implements OnInit {
 
@@ -19,8 +20,10 @@ export class LogoutComponent implements OnInit {
     // the logout steps
     this.sessionService.clear();
     this.authService.logout({
-      client_id: AuthenticationConstants.auth0ClientId,
-      returnTo: AuthenticationConstants.auth0LogoutUrl,
+      clientId: AuthenticationConstants.auth0ClientId,
+      logoutParams: {
+        returnTo: AuthenticationConstants.auth0LogoutUrl,
+      },
     });
   }
 }

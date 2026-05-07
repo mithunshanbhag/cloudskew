@@ -11,9 +11,10 @@ import { SymbolFamilyDefinitions } from '../../constants/symbol-family-definitio
 import { PreferenceService } from './preference.service';
 
 @Component({
-  selector: 'app-preference-grid',
-  templateUrl: './preference-grid.component.html',
-  styles: []
+    selector: 'app-preference-grid',
+    templateUrl: './preference-grid.component.html',
+    styles: [],
+    standalone: false
 })
 export class PreferenceGridComponent implements OnInit, OnDestroy {
 

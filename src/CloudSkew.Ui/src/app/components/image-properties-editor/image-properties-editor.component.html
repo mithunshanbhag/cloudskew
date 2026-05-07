@@ -1,134 +1,133 @@
 <div class="propertyWindowSplitterWrapper">
 
-    <div class="propertyWindowSplitterHeadlineWrapper">
-        <div class="propertyWindowSplitterHeadline">IMAGE</div>
-        <div>
-            <button *ngIf="this.isLocked()" class="btn" matTooltip="symbol locked (click to unlock)"
-                (click)="this.unlock()">
-                <fa-icon class="color-success" [icon]="this.faLockedIcon"></fa-icon>
-            </button>
-            <button *ngIf="!this.isLocked()" class="btn" matTooltip="symbol unlocked (click to lock)"
-                (click)="this.lock()">
-                <fa-icon class="color-warning" [icon]="this.faUnlockedIcon"></fa-icon>
-            </button>
-        </div>
+  <div class="propertyWindowSplitterHeadlineWrapper">
+    <div class="propertyWindowSplitterHeadline">IMAGE</div>
+    <div>
+      @if (this.isLocked()) {
+        <button class="btn" matTooltip="symbol locked (click to unlock)"
+          (click)="this.unlock()">
+          <fa-icon class="color-success" [icon]="this.faLockedIcon"></fa-icon>
+        </button>
+      }
+      @if (!this.isLocked()) {
+        <button class="btn" matTooltip="symbol unlocked (click to lock)"
+          (click)="this.lock()">
+          <fa-icon class="color-warning" [icon]="this.faUnlockedIcon"></fa-icon>
+        </button>
+      }
     </div>
+  </div>
 
-    <div *ngIf="!this.isLocked()">
-        <mat-tab-group dynamicHeight="true" animationDuration="0ms" [disablePagination]="true" [disableRipple]="true">
-
-            <mat-tab label="STYLE">
-                <!-- The 'style' section -->
-                <div class="propertyWindowPaneHeader">Style</div>
-                <div class="propertyWindowPaneItem">
-                    <span class="propertyWindowPaneItemText">Opacity:
-                        {{this.activeImageShape.style.opacity|percent}}</span>
-                    <mat-slider color="primary" [min]="this.opacitySliderMin" [max]="this.opacitySliderMax"
-                        [step]="this.opacitySliderStep" [(value)]="this.activeImageShape.style.opacity"
-                        (input)="this.onOpacityChange($event)">
-                    </mat-slider>
-                </div>
-                <mat-divider></mat-divider>
-
-                <!-- the 'miscellaneous' section -->
-                <div class="propertyWindowPaneHeader">Miscellaneous</div>
-                <div class="propertyWindowPaneItem">
-                    <span class="propertyWindowPaneItemText">Lock Aspect Ratio</span>
-                    <mat-checkbox color="primary" [checked]="this.isSymbolAspectRatioLocked" [disableRipple]="true"
-                        (change)="this.onSymbolAspectRatioLockChange($event)"></mat-checkbox>
-                </div>
-                <div class="propertyWindowPaneItem">
-                    <span class="propertyWindowPaneItemText">Id</span>
-                    <span class="propertyWindowPaneItemText">{{this.activeImageShape.id}}</span>
-                </div>
-                <div class="propertyWindowPaneItem">
-                    <span class="propertyWindowPaneItemText">Z-Index</span>
-                    <span class="propertyWindowPaneItemText">{{this.activeImageShape.zIndex}}</span>
-                </div>
-                <div class="propertyWindowPaneItem">
-                    <span class="propertyWindowPaneItemText">Dimensions</span>
-                    <span class="propertyWindowPaneItemText">W: {{this.activeImageShape.width.toFixed(0) }} H:
-                        {{this.activeImageShape.height.toFixed(0) }}</span>
-                </div>
-            </mat-tab>
-
-            <mat-tab label="TEXT"
-                [disabled]="this.activeImageShape.annotations.length === 0 || this.activeImageShape.annotations[0].content === ''">
-                <!-- the 'label/annotation' section -->
-                <div class="propertyWindowPaneItem">
-                    <span class="propertyWindowPaneItemText">Color: {{this.annotationTextColor|uppercase}}</span>
-                    <input type="color" [(ngModel)]="this.annotationTextColor" />
-                </div>
-                <div class="propertyWindowPaneItem">
-                    <span class="propertyWindowPaneItemText">Background:
-                        {{this.annotationBackgroundColor|uppercase}}</span>
-                    <input type="color" [(ngModel)]="this.annotationBackgroundColor" />
-                </div>
-                <div class="propertyWindowPaneItem">
-                    <span class="propertyWindowPaneItemText">Styling</span>
-                    <mat-button-toggle-group multiple>
-                        <mat-button-toggle matTooltip="Bold" [checked]="this.isAnnotationTextBold"
-                            [disableRipple]="true" (click)="this.onAnnotationBoldButtonClick()">
-                            <mat-icon fontSet="material-icons-outlined">format_bold</mat-icon>
-                        </mat-button-toggle>
-                        <mat-button-toggle matTooltip="Italic" [checked]="this.isAnnotationTextItalic"
-                            [disableRipple]="true" (click)="this.onAnnotationItalicButtonClick()">
-                            <mat-icon fontSet="material-icons-outlined">format_italic</mat-icon>
-                        </mat-button-toggle>
-                    </mat-button-toggle-group>
-                </div>
-                <div class="propertyWindowPaneItem">
-                    <span class="propertyWindowPaneItemText">Decoration</span>
-                    <mat-button-toggle-group [(ngModel)]="this.annotationTextDecoration">
-                        <mat-button-toggle [value]="this.annotationDecorationUnderLine"
-                            [matTooltip]="this.annotationDecorationUnderLine" [disableRipple]="true">
-                            <mat-icon fontSet="material-icons-outlined">format_underlined</mat-icon>
-                        </mat-button-toggle>
-                        <mat-button-toggle [value]="this.annotationDecorationLineThrough"
-                            [matTooltip]="this.annotationDecorationLineThrough" [disableRipple]="true">
-                            <mat-icon fontSet="material-icons-outlined">format_strikethrough</mat-icon>
-                        </mat-button-toggle>
-                        <mat-button-toggle [value]="this.annotationDecorationOverLine"
-                            [matTooltip]="this.annotationDecorationOverLine" [disableRipple]="true">
-                            <mat-icon fontSet="material-icons-outlined">format_overline</mat-icon>
-                        </mat-button-toggle>
-                        <mat-button-toggle [value]="this.annotationDecorationNone"
-                            [matTooltip]="this.annotationDecorationNone" [disableRipple]="true">
-                            <mat-icon fontSet="material-icons-outlined">title</mat-icon>
-                        </mat-button-toggle>
-                    </mat-button-toggle-group>
-                </div>
-                <div class="propertyWindowPaneItem">
-                    <span class="propertyWindowPaneItemText">Alignment</span>
-                    <mat-button-toggle-group [(ngModel)]="this.annotationTextAlignment">
-                        <mat-button-toggle [value]="this.annotationAlignmentLeft"
-                            [matTooltip]="this.annotationAlignmentLeft" [disableRipple]="true">
-                            <mat-icon fontSet="material-icons-outlined">format_align_left</mat-icon>
-                        </mat-button-toggle>
-                        <mat-button-toggle [value]="this.annotationAlignmentCenter"
-                            [matTooltip]="this.annotationAlignmentCenter" [disableRipple]="true">
-                            <mat-icon fontSet="material-icons-outlined">format_align_center</mat-icon>
-                        </mat-button-toggle>
-                        <mat-button-toggle [value]="this.annotationAlignmentRight"
-                            [matTooltip]="this.annotationAlignmentRight" [disableRipple]="true">
-                            <mat-icon fontSet="material-icons-outlined">format_align_right</mat-icon>
-                        </mat-button-toggle>
-                        <mat-button-toggle [value]="this.annotationAlignmentJustify"
-                            [matTooltip]="this.annotationAlignmentJustify" [disableRipple]="true">
-                            <mat-icon fontSet="material-icons-outlined">format_align_justify</mat-icon>
-                        </mat-button-toggle>
-                    </mat-button-toggle-group>
-                </div>
-                <div class="propertyWindowPaneItem">
-                    <span class="propertyWindowPaneItemText">Size: {{this.annotationFontSize}}</span>
-                    <mat-slider color="primary" [min]="this.annotationFontSizeSliderMin"
-                        [max]="this.annotationFontSizeSliderMax" [step]="this.annotationFontSizeSliderStep"
-                        [value]="this.annotationFontSize" (input)="this.onAnnotationFontSizeChange($event)">
-                    </mat-slider>
-                </div>
-            </mat-tab>
-
-        </mat-tab-group>
-
+  @if (!this.isLocked()) {
+    <div>
+      <mat-tab-group dynamicHeight="true" animationDuration="0ms" [disablePagination]="true" [disableRipple]="true">
+        <mat-tab label="STYLE">
+          <!-- The 'style' section -->
+          <div class="propertyWindowPaneHeader">Style</div>
+          <div class="propertyWindowPaneItem">
+            <span class="propertyWindowPaneItemText">Opacity:
+            {{this.activeImageShape.style.opacity|percent}}</span>
+            <mat-slider color="primary" [min]="this.opacitySliderMin" [max]="this.opacitySliderMax"
+              [step]="this.opacitySliderStep" #ngSlider><input matSliderThumb (input)="this.onOpacityChange({source: ngSliderThumb, parent: ngSlider, value: ngSliderThumb.value})" #ngSliderThumb="matSliderThumb" [(value)]="this.activeImageShape.style.opacity" />
+            </mat-slider>
+          </div>
+          <mat-divider></mat-divider>
+          <!-- the 'miscellaneous' section -->
+          <div class="propertyWindowPaneHeader">Miscellaneous</div>
+          <div class="propertyWindowPaneItem">
+            <span class="propertyWindowPaneItemText">Lock Aspect Ratio</span>
+            <mat-checkbox color="primary" [checked]="this.isSymbolAspectRatioLocked" [disableRipple]="true"
+            (change)="this.onSymbolAspectRatioLockChange($event)"></mat-checkbox>
+          </div>
+          <div class="propertyWindowPaneItem">
+            <span class="propertyWindowPaneItemText">Id</span>
+            <span class="propertyWindowPaneItemText">{{this.activeImageShape.id}}</span>
+          </div>
+          <div class="propertyWindowPaneItem">
+            <span class="propertyWindowPaneItemText">Z-Index</span>
+            <span class="propertyWindowPaneItemText">{{this.activeImageShape.zIndex}}</span>
+          </div>
+          <div class="propertyWindowPaneItem">
+            <span class="propertyWindowPaneItemText">Dimensions</span>
+            <span class="propertyWindowPaneItemText">W: {{this.activeImageShape.width.toFixed(0) }} H:
+            {{this.activeImageShape.height.toFixed(0) }}</span>
+          </div>
+        </mat-tab>
+        <mat-tab label="TEXT"
+          [disabled]="this.activeImageShape.annotations.length === 0 || this.activeImageShape.annotations[0].content === ''">
+          <!-- the 'label/annotation' section -->
+          <div class="propertyWindowPaneItem">
+            <span class="propertyWindowPaneItemText">Color: {{this.annotationTextColor|uppercase}}</span>
+            <input type="color" [(ngModel)]="this.annotationTextColor" />
+          </div>
+          <div class="propertyWindowPaneItem">
+            <span class="propertyWindowPaneItemText">Background:
+            {{this.annotationBackgroundColor|uppercase}}</span>
+            <input type="color" [(ngModel)]="this.annotationBackgroundColor" />
+          </div>
+          <div class="propertyWindowPaneItem">
+            <span class="propertyWindowPaneItemText">Styling</span>
+            <mat-button-toggle-group multiple>
+              <mat-button-toggle matTooltip="Bold" [checked]="this.isAnnotationTextBold"
+                [disableRipple]="true" (click)="this.onAnnotationBoldButtonClick()">
+                <mat-icon fontSet="material-icons-outlined">format_bold</mat-icon>
+              </mat-button-toggle>
+              <mat-button-toggle matTooltip="Italic" [checked]="this.isAnnotationTextItalic"
+                [disableRipple]="true" (click)="this.onAnnotationItalicButtonClick()">
+                <mat-icon fontSet="material-icons-outlined">format_italic</mat-icon>
+              </mat-button-toggle>
+            </mat-button-toggle-group>
+          </div>
+          <div class="propertyWindowPaneItem">
+            <span class="propertyWindowPaneItemText">Decoration</span>
+            <mat-button-toggle-group [(ngModel)]="this.annotationTextDecoration">
+              <mat-button-toggle [value]="this.annotationDecorationUnderLine"
+                [matTooltip]="this.annotationDecorationUnderLine" [disableRipple]="true">
+                <mat-icon fontSet="material-icons-outlined">format_underlined</mat-icon>
+              </mat-button-toggle>
+              <mat-button-toggle [value]="this.annotationDecorationLineThrough"
+                [matTooltip]="this.annotationDecorationLineThrough" [disableRipple]="true">
+                <mat-icon fontSet="material-icons-outlined">format_strikethrough</mat-icon>
+              </mat-button-toggle>
+              <mat-button-toggle [value]="this.annotationDecorationOverLine"
+                [matTooltip]="this.annotationDecorationOverLine" [disableRipple]="true">
+                <mat-icon fontSet="material-icons-outlined">format_overline</mat-icon>
+              </mat-button-toggle>
+              <mat-button-toggle [value]="this.annotationDecorationNone"
+                [matTooltip]="this.annotationDecorationNone" [disableRipple]="true">
+                <mat-icon fontSet="material-icons-outlined">title</mat-icon>
+              </mat-button-toggle>
+            </mat-button-toggle-group>
+          </div>
+          <div class="propertyWindowPaneItem">
+            <span class="propertyWindowPaneItemText">Alignment</span>
+            <mat-button-toggle-group [(ngModel)]="this.annotationTextAlignment">
+              <mat-button-toggle [value]="this.annotationAlignmentLeft"
+                [matTooltip]="this.annotationAlignmentLeft" [disableRipple]="true">
+                <mat-icon fontSet="material-icons-outlined">format_align_left</mat-icon>
+              </mat-button-toggle>
+              <mat-button-toggle [value]="this.annotationAlignmentCenter"
+                [matTooltip]="this.annotationAlignmentCenter" [disableRipple]="true">
+                <mat-icon fontSet="material-icons-outlined">format_align_center</mat-icon>
+              </mat-button-toggle>
+              <mat-button-toggle [value]="this.annotationAlignmentRight"
+                [matTooltip]="this.annotationAlignmentRight" [disableRipple]="true">
+                <mat-icon fontSet="material-icons-outlined">format_align_right</mat-icon>
+              </mat-button-toggle>
+              <mat-button-toggle [value]="this.annotationAlignmentJustify"
+                [matTooltip]="this.annotationAlignmentJustify" [disableRipple]="true">
+                <mat-icon fontSet="material-icons-outlined">format_align_justify</mat-icon>
+              </mat-button-toggle>
+            </mat-button-toggle-group>
+          </div>
+          <div class="propertyWindowPaneItem">
+            <span class="propertyWindowPaneItemText">Size: {{this.annotationFontSize}}</span>
+            <mat-slider color="primary" [min]="this.annotationFontSizeSliderMin"
+              [max]="this.annotationFontSizeSliderMax" [step]="this.annotationFontSizeSliderStep" #ngSlider><input matSliderThumb [value]="this.annotationFontSize" (input)="this.onAnnotationFontSizeChange({source: ngSliderThumb, parent: ngSlider, value: ngSliderThumb.value})" #ngSliderThumb="matSliderThumb" />
+            </mat-slider>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
     </div>
+  }
 </div>

@@ -1,58 +1,66 @@
 <div class="sidebarWrapper">
 
-    <ejs-textbox class="templateSelectorGridSearchControl e-small" [placeholder]="this.searchControlPlaceholderText"
-        [showClearButton]="this.searchControlShowClearButton" [cssClass]="this.searchControlCssClass"
-        (input)="this.onSearchControlInput($event)" (blur)="this.onSearchControlFocusOut($event)">
-    </ejs-textbox>
+  <ejs-textbox class="templateSelectorGridSearchControl e-small" [placeholder]="this.searchControlPlaceholderText"
+    [showClearButton]="this.searchControlShowClearButton" [cssClass]="this.searchControlCssClass"
+    (input)="this.onSearchControlInput($event)" (blur)="this.onSearchControlFocusOut($event)">
+  </ejs-textbox>
 
-    <div class="templateSelectorGridControlWrapper">
-        <ejs-grid #templateSelectorGridControl class="sidebarGridControl" [dataSource]="this.data$|async"
-            [allowGrouping]="this.allowGrouping" [groupSettings]="this.groupSettingsModel"
-            [searchSettings]="this.searchModel" [sortSettings]="this.sortSettingsModel"
-            [allowSorting]="this.allowSorting">
+  <div class="templateSelectorGridControlWrapper">
+    <ejs-grid #templateSelectorGridControl class="sidebarGridControl" [dataSource]="this.data$|async"
+      [allowGrouping]="this.allowGrouping" [groupSettings]="this.groupSettingsModel"
+      [searchSettings]="this.searchModel" [sortSettings]="this.sortSettingsModel"
+      [allowSorting]="this.allowSorting">
 
-            <e-columns>
-                <!-- this column exists only so that we can group by this column and achieve visual consistency 
-                with the palette grid (in terms of column header etc). -->
-                <e-column field="visibility" [visible]=false>
-                </e-column>
+      <e-columns>
+        <!-- this column exists only so that we can group by this column and achieve visual consistency
+        with the palette grid (in terms of column header etc). -->
+        <e-column field="visibility" [visible]=false>
+        </e-column>
 
-                <e-column field="name" textAlign="Left" [customAttributes]="this.customAttribute">
-                    <!-- the template reference variable name '#template' is dictated by the syncfusion control -->
-                    <ng-template #template let-columnData>
-                        <app-template-preview [template]="columnData"
-                            (templateSelected)="this.onDataItemSelected($event)"
-                            (templateRenamed)="this.onDataItemRenamed($event)"
-                            (templateDeleted)="this.onDataItemDeleted($event)"></app-template-preview>
-                    </ng-template>
-                    <!-- documentation for the 'captionTemplate' (needed to customize the group header) field is very sparse. -->
-                    <!-- https://www.syncfusion.com/kb/5197/how-to-customize-the-group-header-caption-in-grid -->
-                    <!-- https://www.syncfusion.com/forums/140627/format-grouping-header-caption -->
-                    <!-- note: using 'title' instead of 'matTooltip' in grouped header as it causes rendering issues otherwise. -->
-                    <ng-template #groupSettingsCaptionTemplate let-groupData>
-                        <ng-container [ngSwitch]="groupData.key.toLowerCase()">
-                            <span *ngSwitchCase="'public'" title="Create new diagram from public templates">Public
-                                Templates</span>
-                            <span *ngSwitchCase="'private'" title="Create new diagram from my private templates">My
-                                Saved Templates</span>
-                            <span *ngSwitchCase="'local'" title="Create new diagram from local (json) file">My Local
-                                Files</span>
-                            <span *ngSwitchDefault>Other Templates</span>
-                        </ng-container>
-                    </ng-template>
-                </e-column>
+        <e-column field="name" textAlign="Left" [customAttributes]="this.customAttribute">
+          <!-- the template reference variable name '#template' is dictated by the syncfusion control -->
+          <ng-template #template let-columnData>
+            <app-template-preview [template]="columnData"
+              (templateSelected)="this.onDataItemSelected($event)"
+              (templateRenamed)="this.onDataItemRenamed($event)"
+            (templateDeleted)="this.onDataItemDeleted($event)"></app-template-preview>
+          </ng-template>
+          <!-- documentation for the 'captionTemplate' (needed to customize the group header) field is very sparse. -->
+          <!-- https://www.syncfusion.com/kb/5197/how-to-customize-the-group-header-caption-in-grid -->
+          <!-- https://www.syncfusion.com/forums/140627/format-grouping-header-caption -->
+          <!-- note: using 'title' instead of 'matTooltip' in grouped header as it causes rendering issues otherwise. -->
+          <ng-template #groupSettingsCaptionTemplate let-groupData>
+            @switch (groupData.key.toLowerCase()) {
+              @case ('public') {
+                <span title="Create new diagram from public templates">Public
+                Templates</span>
+              }
+              @case ('private') {
+                <span title="Create new diagram from my private templates">My
+                Saved Templates</span>
+              }
+              @case ('local') {
+                <span title="Create new diagram from local (json) file">My Local
+                Files</span>
+              }
+              @default {
+                <span>Other Templates</span>
+              }
+            }
+          </ng-template>
+        </e-column>
 
-            </e-columns>
+      </e-columns>
 
-        </ejs-grid>
-    </div>
+    </ejs-grid>
+  </div>
 
-    <div class="templateSelectorGridButtonWrapper">
-        <button mat-stroked-button disableRipple=true matTooltip="import from local (json) file">Import From Json
-            File</button>
-        <button mat-stroked-button disableRipple=true matTooltip="create new blank diagram">Create New Blank
-            Diagram</button>
-    </div>
+  <div class="templateSelectorGridButtonWrapper">
+    <button mat-stroked-button disableRipple=true matTooltip="import from local (json) file">Import From Json
+    File</button>
+    <button mat-stroked-button disableRipple=true matTooltip="create new blank diagram">Create New Blank
+    Diagram</button>
+  </div>
 
 
 </div>
