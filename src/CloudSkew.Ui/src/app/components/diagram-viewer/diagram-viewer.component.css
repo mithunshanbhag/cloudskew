@@ -1,0 +1,56 @@
+.diagram-viewer-content {
+    /* dimensions */
+    width: 100vw;
+    height: 100vh;
+
+    /* container for vertical flexbox items */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.diagram-viewer-navbar {
+    /* vertical flexbox item */
+    flex-basis: 60px;
+
+    /* dimensions */
+    width: 100vw;
+    height: 60px;
+    min-height: 60px;
+    max-height: 60px;
+
+    /* margin, padding etc */
+    padding: 5px 5px 15px 5px;
+
+    /* container for horizontal flexbox items */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.diagram-editor-statusbar {
+    /* vertical flexbox item */
+    flex-basis: 20px;
+
+    /* dimensions */
+    width: 100vw;
+    height: 20px;
+    min-height: 20px;
+    max-height: 20px;
+}
+
+.diagram-viewer-maincontent {
+    /* vertical flexbox item */
+    /* flex-grow: 1; */
+    flex-basis: calc(100vh - 80px);
+
+    /* dimensions */
+    width: 100vw;
+    height: calc(100vh - 80px);
+    overflow: auto; /* needed for scrollbar */
+
+    /* margin, padding etc */
+    padding: 0 5px;
+}

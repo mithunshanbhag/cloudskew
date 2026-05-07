@@ -1,0 +1,1 @@
+[MithunS note] Customized Syncfusion's material theme using [Syncfusion theme studio](https://ej2.syncfusion.com/themestudio/?theme=material). This is do use black as the accent color, instead of the default purple(?).

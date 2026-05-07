@@ -1,0 +1,26 @@
+.diagram-controls-read-only {
+    /* container for horizontal flexbox items */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.diagram-controls-read-only .mat-icon-button {
+    /* horizontal flexbox items */
+    background-color: white;
+
+    /* container for horizontal flexbox items */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.diagram-controls-read-only mat-icon {
+    /* horizontal flexbox items */
+}
+
+.diagram-controls-read-only mat-divider {
+    height: 20px; /* divider won't be visible without explicit height */
+}

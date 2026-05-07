@@ -1,0 +1,16 @@
+<ejs-diagram #diagramControl [pageSettings]="this.diagramControlPageSettings"
+    [getNodeDefaults]="this.diagramControlGetNodeDefaults"
+    [getConnectorDefaults]="this.diagramControlGetConnectorDefaults"
+    [scrollSettings]="this.diagramControlScrollSettings" [rulerSettings]="this.diagramControlRulerSettings"
+    [contextMenuSettings]="this.diagramControlContextMenuSettings" [commandManager]="this.diagramControlCommandManager"
+    [tool]="this.diagramControlTool" [snapSettings]="this.diagramControlSnapSettings"
+    (created)="this.onDiagramControlCreated()" (contextMenuOpen)="this.onDiagramControlContextMenuOpen($event)"
+    (contextMenuClick)="this.onDiagramControlContextMenuClick($event)"
+    (historyChange)="this.onDiagramControlHistoryChange($event)"
+    (scrollChange)="this.onDiagramControlScrollChange($event)" (click)="this.onDiagramControlClick($event)"
+    (sourcePointChange)="this.onDiagramControlSourceOrTargetPointChange($event)"
+    (targetPointChange)="this.onDiagramControlSourceOrTargetPointChange($event)"
+    (connectionChange)="this.onDiagramControlConnectionChange($event)"
+    (collectionChange)="this.onDiagramControlCollectionChange($event)"
+    (selectionChange)="this.onDiagramControlSelectionChange($event)">
+</ejs-diagram>

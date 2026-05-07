@@ -1,0 +1,24 @@
+<div class="diagram-controls-read-only">
+
+    <!-- document attachment -->
+    <button mat-icon-button matTooltip="documentation" [disableRipple]="true" [disabled]="this.isLocked"
+        (click)="this.documentButtonClick.emit()">
+        <mat-icon fontSet="material-icons-outlined">description</mat-icon>
+    </button>
+    <mat-divider [vertical]="true"></mat-divider>
+
+    <!-- zoom in/reset/out buttons -->
+    <button mat-icon-button matTooltip="zoom out" [disableRipple]="true"
+        [disabled]="!this.isZoomOutPossible || this.isLocked" (click)="this.onZoomOutButtonClick()">
+        <mat-icon fontSet="material-icons-outlined">zoom_out</mat-icon>
+    </button>
+    <button mat-icon-button matTooltip="zoom reset" [disableRipple]="true"
+        [disabled]="!this.isZoomResetPossible ||this.isLocked" (click)="this.onZoomResetButtonClick()">
+        <mat-icon fontSet="material-icons-outlined">zoom_in_map</mat-icon>
+    </button>
+    <button mat-icon-button matTooltip="zoom in" [disableRipple]="true"
+        [disabled]="!this.isZoomInPossible || this.isLocked" (click)="this.onZoomInButtonClick()">
+        <mat-icon fontSet="material-icons-outlined">zoom_in</mat-icon>
+    </button>
+
+</div>

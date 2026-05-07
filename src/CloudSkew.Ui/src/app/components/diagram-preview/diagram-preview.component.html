@@ -1,0 +1,30 @@
+<div class="preview-card">
+
+    <div class="preview-card-cta">
+        <img class="preview-card-cta-image" [height]="this.thumbnailPreviewImageHeight"
+            [width]="this.thumbnailPreviewImageWidth" loading="lazy"
+            [src]="this.diagram.thumbnailUrl ? this.diagram.thumbnailUrl : this.previewUnavailableImageUrl">
+        <button mat-flat-button class="preview-card-cta-button" color="primary"
+            (click)="this.diagramSelected.emit(this.diagram)">OPEN</button>
+        <!-- @todo: fix this later -->
+        <!-- <button mat-icon-button class="preview-card-cta-options" matTooltip="more options" [disableRipple]="true" -->
+        <!-- [matMenuTriggerFor]="optionsMenu"> -->
+        <!-- <mat-icon fontSet="material-icons-outlined">more_vert</mat-icon> -->
+        <!-- </button> -->
+        <!-- <mat-menu #optionsMenu="matMenu"> -->
+        <!-- <button mat-menu-item (click)="this.diagramDeleted.emit(this.diagram)"> -->
+        <!-- <mat-icon fontSet="material-icons-outlined">delete</mat-icon> -->
+        <!-- <span>Delete</span> -->
+        <!-- </button> -->
+        <!-- </mat-menu> -->
+    </div>
+
+    <div class="preview-card-description">
+        <span class="preview-card-description-title"
+            matTooltip="{{this.diagram.name|lowercase}}">{{this.diagram.name|lowercase|ellipsis:35}}</span>
+        <span class="preview-card-description-subtitle">last updated:
+            {{this.diagram.lastUpdatedUTC|date:'mediumDate'}}
+            at {{this.diagram.lastUpdatedUTC|date:'shortTime'}}</span>
+    </div>
+
+</div>

@@ -1,0 +1,23 @@
+<div #sidebarControl class="sidebarControl">
+
+    <!-- the symbol palette (palette grid) -->
+    <app-palette-grid [hidden]="this.sidebarType !== 'palette'" class="sidebar-item"></app-palette-grid>
+
+    <!-- the diagram-template selector grid -->
+    <app-template-selector-grid [hidden]="this.sidebarType !== 'template'" class="sidebar-item">
+    </app-template-selector-grid>
+
+    <!-- the diagram selector grid -->
+    <!-- note: if we need to dynamically fetch the user's diagrams, then we should consider using *ngIf instead. This will
+    cause the component to be re-initialized each time the ngIf condition is met (the ctor & ngOnInit methods will 
+    be invoked each time). -->
+    <app-diagram-selector-grid [hidden]="this.sidebarType !== 'diagram'" class="sidebar-item">
+    </app-diagram-selector-grid>
+
+    <!-- the preferences/settings grid -->
+    <app-preference-grid [hidden]="this.sidebarType !== 'preference'" class="sidebar-item"></app-preference-grid>
+
+    <!-- the extension grid -->
+    <app-extension-grid [hidden]="this.sidebarType !== 'extension'" class="sidebar-item"></app-extension-grid>
+
+</div>

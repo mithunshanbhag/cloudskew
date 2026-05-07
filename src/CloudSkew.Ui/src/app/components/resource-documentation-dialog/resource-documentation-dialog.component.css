@@ -1,0 +1,12 @@
+.resourceDocumentationSymbol {
+    display: block;
+    font-family: "Roboto Mono",sans-serif;
+}
+ul.resourceDocumentationLinks {
+    padding-left: 25px;
+    padding-top: 10px;
+}
+.resourceDocumentationLinks {
+    font-family: "Open Sans",sans-serif;
+    font-size: 11px;
+}

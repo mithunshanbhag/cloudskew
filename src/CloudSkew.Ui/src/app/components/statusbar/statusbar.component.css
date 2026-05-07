@@ -1,0 +1,70 @@
+.status-bar-content {
+    /* dimensions */
+    width: calc(100vw - 50px);
+    height: 25px;
+
+    /* padding, margin etc */
+    background-color: lightgrey;
+    font-family: "Roboto Mono",sans-serif;
+    font-size: 11px;
+
+    /* container for horizontal flexbox items */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.status-bar-content .subscription-details {
+    /* container for horizontal flexbox items */
+    /* required to center the child button */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* required styling */
+    background-color: #00BBB0;
+    height: 25px;
+    width: 240px;
+
+    /* padding, margin etc */
+    padding: 0 5px;
+}
+.status-bar-content .user-profile-details {
+    /* container for horizontal flexbox items */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.status-bar-content .zoom-details {
+    /* padding, margin etc */
+    padding-right: 10px;
+}
+
+
+.status-bar-content .mat-button { /* subscription details */
+    /* required for correct sizing */
+    height: 16px;
+    font-size: 11px;
+    line-height: 16px;
+}
+
+
+.status-bar-content mat-icon { /* logout button */
+    transform: scale(0.6); /* reduce to about 15px */
+}
+.status-bar-content .mat-icon-button { /* logout button */
+    /* container for horizontal flexbox items */
+    /* required to center the child icon */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* required for correct sizing */
+    height: 16px;
+    width: 16px;
+    font-size: 16px;
+    line-height: 16px;
+
+    /* margin, padding etc */
+    padding-left: 20px;
+}

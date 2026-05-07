@@ -1,0 +1,14 @@
+.clipboard-button-wrapper .btn {
+    background-color: whitesmoke;
+    border: 1px solid lightgrey;
+    /* margin: auto 2px; */
+}
+.clipboard-button-wrapper .btn:hover {
+    background-color: lightgrey;
+}
+.clipboard-button-wrapper .btn:active {
+    border: 2px solid lightgrey; /* to give user the perception of some click "action" */
+}
+.clipboard-button-wrapper fa-icon {
+    color: black;
+}

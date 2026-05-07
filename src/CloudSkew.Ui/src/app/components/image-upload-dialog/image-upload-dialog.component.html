@@ -1,0 +1,15 @@
+<span mat-dialog-title class="windowHeaderText">Upload Image</span>
+
+<mat-dialog-content>
+    <div class="windowContent">
+        <span>Please pick a JPG or PNG file (size must be &lt; 512 KB).</span>
+    </div>
+    <div class="windowContent">
+        <ejs-uploader #imageUploader [autoUpload]="this.uploaderAutoUpload" [buttons]="this.uploaderButtons"
+            [enablePersistence]="this.uploaderEnablePersistence" [multiple]="this.uploaderAllowMultipleFileUpload"
+            [allowedExtensions]="this.uploaderAllowedExtensions" [asyncSettings]="this.uploaderAsyncSettings"
+            [minFileSize]="this.uploaderMinFileSizeBytes" [maxFileSize]="this.uploaderMaxFileSizeBytes"
+            (success)="this.onUploaderSuccess($event)" (uploading)="this.onUploaderUploading($event)">
+        </ejs-uploader>
+    </div>
+</mat-dialog-content>

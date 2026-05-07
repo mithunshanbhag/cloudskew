@@ -1,0 +1,67 @@
+.preview-card {
+    /* container for vertical flexbox items */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.preview-card-cta {
+    position: relative;
+}
+.preview-card-cta-image {
+    opacity: 1;
+    transition: 0.3s ease;
+    backface-visibility: hidden;
+}
+.preview-card-cta-button {
+    opacity: 0;
+    transition: 0.3s ease;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+}
+.preview-card-cta-options {
+    opacity: 0;
+    transition: 0.3s ease;
+    position: absolute;
+    top: 10%;
+    left: 80%;
+}
+
+.preview-card-description {
+    /* container for vertical flexbox items */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    /* margin, padding etc */
+    margin: 5px 0px;
+}
+.preview-card-description-title {
+    display: block;
+    text-align: left;
+    color: black;
+    font-size: 11px;
+    border: 1px solid rgba(0, 0, 0, 0); /* transparent */
+}
+.preview-card-description-subtitle {
+    display: block;
+    text-align: left;
+    color: grey;
+    font-size: 10px;
+    border: 1px solid rgba(0, 0, 0, 0); /* transparent */
+}
+
+.preview-card-cta:hover .preview-card-cta-image {
+    opacity: 0.3;
+}
+.preview-card-cta:hover .preview-card-cta-button {
+    opacity: 1;
+}
+.preview-card-cta:hover .preview-card-cta-options {
+    opacity: 1;
+}

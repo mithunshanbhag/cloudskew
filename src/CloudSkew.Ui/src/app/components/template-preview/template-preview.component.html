@@ -1,0 +1,33 @@
+<div class="preview-card">
+
+    <div class="preview-card-cta">
+        <img class="preview-card-cta-image" [height]="this.thumbnailPreviewImageHeight"
+            [width]="this.thumbnailPreviewImageWidth" loading="lazy"
+            [src]="this.template.thumbnailUrl ? this.template.thumbnailUrl : this.previewUnavailableImageUrl">
+        <button mat-flat-button class="preview-card-cta-button" color="primary"
+            (click)="this.templateSelected.emit(this.template)">OPEN</button>
+        <button mat-icon-button class="preview-card-cta-options" matTooltip="more options" [disableRipple]="true"
+            [matMenuTriggerFor]="optionsMenu">
+            <mat-icon fontSet="material-icons-outlined">more_vert</mat-icon>
+        </button>
+        <mat-menu #optionsMenu="matMenu">
+            <button mat-menu-item (click)="this.templateRenamed.emit(this.template)">
+                <mat-icon fontSet="material-icons-outlined">edit</mat-icon>
+                <span>Rename</span>
+            </button>
+            <button mat-menu-item (click)="this.templateDeleted.emit(this.template)">
+                <mat-icon fontSet="material-icons-outlined">delete</mat-icon>
+                <span>Delete</span>
+            </button>
+        </mat-menu>
+    </div>
+
+    <div class="preview-card-description">
+        <span class="preview-card-description-title"
+            matTooltip="{{this.template.name|lowercase}}">{{this.template.name|lowercase|ellipsis:35}}</span>
+        <span class="preview-card-description-subtitle">last updated:
+            {{this.template.lastUpdatedUTC|date:'mediumDate'}}
+            at {{this.template.lastUpdatedUTC|date:'shortTime'}}</span>
+    </div>
+
+</div>

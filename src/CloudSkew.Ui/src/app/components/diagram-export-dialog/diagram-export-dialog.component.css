@@ -1,0 +1,19 @@
+.diagram-export-options-dialog-content {
+    margin: 5px 5px;
+}
+.diagram-export-options-dialog-content input {
+    vertical-align: middle;
+    margin: 0 0;
+}
+.diagram-export-options-dialog-content label {
+    font-family: "Roboto Mono",sans-serif;
+    vertical-align: middle;
+    margin: 0 5px;
+}
+.diagram-export-options-validator-messages {
+    margin-top: 5px;
+    margin-bottom: 15px;
+    font-size: 9px;
+    font-style: italic;
+    color: red;
+}

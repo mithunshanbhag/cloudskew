@@ -1,0 +1,11 @@
+<span mat-dialog-title class="windowHeaderText">Resource Documentation</span>
+
+<mat-dialog-content>
+    <span *ngIf="this.symbol" class="resourceDocumentationSymbol">{{this.symbol.displayName | uppercase}}</span>
+    <ul *ngIf="this.symbol" class="resourceDocumentationLinks">
+        <li *ngFor="let item of this.symbolDocsData">
+            <a href="{{item.documentValue}}" target="_blank">{{item.documentKey}}
+            </a>
+        </li>
+    </ul>
+</mat-dialog-content>

@@ -1,0 +1,133 @@
+<div class="propertyWindowSplitterWrapper">
+
+    <div class="propertyWindowSplitterHeadlineWrapper">
+        <div class="propertyWindowSplitterHeadline">TEXT</div>
+        <div>
+            <button *ngIf="this.isLocked()" class="btn" matTooltip="text locked (click to unlock)"
+                (click)="this.unlock()">
+                <fa-icon class="color-success" [icon]="this.faLockedIcon"></fa-icon>
+            </button>
+            <button *ngIf="!this.isLocked()" class="btn" matTooltip="text unlocked (click to lock)"
+                (click)="this.lock()">
+                <fa-icon class="color-warning" [icon]="this.faUnlockedIcon"></fa-icon>
+            </button>
+        </div>
+    </div>
+
+    <div *ngIf="!this.isLocked()">
+        <mat-tab-group dynamicHeight="true" animationDuration="0ms" [disablePagination]="true" [disableRipple]="true">
+
+            <mat-tab label="STYLE">
+                <!-- the 'style' section -->
+                <div class="propertyWindowPaneHeader">Style</div>
+                <div class="propertyWindowPaneItem">
+                    <span class="propertyWindowPaneItemText">Opacity:
+                        {{this.activeTextShape.style.opacity|percent}}</span>
+                    <mat-slider color="primary" [min]="this.opacitySliderMin" [max]="this.opacitySliderMax"
+                        [step]="this.opacitySliderStep" [value]="this.activeTextShape.style.opacity"
+                        (input)="this.onOpacityChange($event)">
+                    </mat-slider>
+                </div>
+                <mat-divider></mat-divider>
+
+                <!-- the 'miscellaneous' section -->
+                <div class="propertyWindowPaneHeader">Miscellaneous</div>
+                <div class="propertyWindowPaneItem">
+                    <span class="propertyWindowPaneItemText">Lock Aspect Ratio</span>
+                    <mat-checkbox color="primary" [checked]="this.isSymbolAspectRatioLocked" [disableRipple]="true"
+                        (change)="this.onSymbolAspectRatioLockChange($event)"></mat-checkbox>
+                </div>
+                <div class="propertyWindowPaneItem">
+                    <span class="propertyWindowPaneItemText">Id</span>
+                    <span class="propertyWindowPaneItemText">{{this.activeTextShape.id}}</span>
+                </div>
+                <div class="propertyWindowPaneItem">
+                    <span class="propertyWindowPaneItemText">Z-Index</span>
+                    <span class="propertyWindowPaneItemText">{{this.activeTextShape.zIndex}}</span>
+                </div>
+                <div class="propertyWindowPaneItem">
+                    <span class="propertyWindowPaneItemText">Dimensions</span>
+                    <span class="propertyWindowPaneItemText">W: {{this.activeTextShape.width.toFixed(0) }} H:
+                        {{this.activeTextShape.height.toFixed(0) }}</span>
+                </div>
+            </mat-tab>
+
+            <mat-tab label="TEXT">
+                <!-- The 'text' section -->
+                <div class="propertyWindowPaneItem">
+                    <span class="propertyWindowPaneItemText">Color: {{this.textColor|uppercase}}</span>
+                    <input type="color" [(ngModel)]="this.textColor" />
+                </div>
+                <div class="propertyWindowPaneItem">
+                    <span class="propertyWindowPaneItemText">Background:
+                        {{this.textBackgroundColor|uppercase}}</span>
+                    <input type="color" [(ngModel)]="this.textBackgroundColor" />
+                </div>
+                <div class="propertyWindowPaneItem">
+                    <span class="propertyWindowPaneItemText">Styling</span>
+                    <mat-button-toggle-group multiple>
+                        <mat-button-toggle matTooltip="Bold" [checked]="this.isTextBold" [disableRipple]="true"
+                            (click)="this.onBoldButtonClick()">
+                            <mat-icon fontSet="material-icons-outlined">format_bold</mat-icon>
+                        </mat-button-toggle>
+                        <mat-button-toggle matTooltip="Italic" [checked]="this.isTextItalic" [disableRipple]="true"
+                            (click)="this.onItalicButtonClick()">
+                            <mat-icon fontSet="material-icons-outlined">format_italic</mat-icon>
+                        </mat-button-toggle>
+                    </mat-button-toggle-group>
+                </div>
+                <div class="propertyWindowPaneItem">
+                    <span class="propertyWindowPaneItemText">Decoration</span>
+                    <mat-button-toggle-group [(ngModel)]="this.textDecoration">
+                        <mat-button-toggle [value]="this.textDecorationUnderLine"
+                            [matTooltip]="this.textDecorationUnderLine" [disableRipple]="true">
+                            <mat-icon fontSet="material-icons-outlined">format_underlined</mat-icon>
+                        </mat-button-toggle>
+                        <mat-button-toggle [value]="this.textDecorationLineThrough"
+                            [matTooltip]="this.textDecorationLineThrough" [disableRipple]="true">
+                            <mat-icon fontSet="material-icons-outlined">format_strikethrough</mat-icon>
+                        </mat-button-toggle>
+                        <mat-button-toggle [value]="this.textDecorationOverLine"
+                            [matTooltip]="this.textDecorationOverLine" [disableRipple]="true">
+                            <mat-icon fontSet="material-icons-outlined">format_overline</mat-icon>
+                        </mat-button-toggle>
+                        <mat-button-toggle [value]="this.textDecorationNone" [matTooltip]="this.textDecorationNone"
+                            [disableRipple]="true">
+                            <mat-icon fontSet="material-icons-outlined">title</mat-icon>
+                        </mat-button-toggle>
+                    </mat-button-toggle-group>
+                </div>
+                <div class="propertyWindowPaneItem">
+                    <span class="propertyWindowPaneItemText">Alignment</span>
+                    <mat-button-toggle-group [(ngModel)]="this.textAlignment">
+                        <mat-button-toggle [value]="this.textAlignmentLeft" [matTooltip]="this.textAlignmentLeft"
+                            [disableRipple]="true">
+                            <mat-icon fontSet="material-icons-outlined">format_align_left</mat-icon>
+                        </mat-button-toggle>
+                        <mat-button-toggle [value]="this.textAlignmentCenter" [matTooltip]="this.textAlignmentCenter"
+                            [disableRipple]="true">
+                            <mat-icon fontSet="material-icons-outlined">format_align_center</mat-icon>
+                        </mat-button-toggle>
+                        <mat-button-toggle [value]="this.textAlignmentRight" [matTooltip]="this.textAlignmentRight"
+                            [disableRipple]="true">
+                            <mat-icon fontSet="material-icons-outlined">format_align_right</mat-icon>
+                        </mat-button-toggle>
+                        <mat-button-toggle [value]="this.textAlignmentJustify" [matTooltip]="this.textAlignmentJustify"
+                            [disableRipple]="true">
+                            <mat-icon fontSet="material-icons-outlined">format_align_justify</mat-icon>
+                        </mat-button-toggle>
+                    </mat-button-toggle-group>
+                </div>
+                <div class="propertyWindowPaneItem">
+                    <span class="propertyWindowPaneItemText">Size: {{this.fontSize}}</span>
+                    <mat-slider color="primary" [min]="this.fontSizeSliderMin" [max]="this.fontSizeSliderMax"
+                        [step]="this.fontSizeSliderStep" [value]="this.fontSize"
+                        (input)="this.onFontSizeChange($event)">
+                    </mat-slider>
+                </div>
+            </mat-tab>
+
+        </mat-tab-group>
+
+    </div>
+</div>

@@ -1,0 +1,71 @@
+<div class="sidebarWrapper">
+
+    <ejs-textbox class="paletteGridSearchControl e-small" [placeholder]="this.paletteSearchControlPlaceholderText"
+        [showClearButton]="this.paletteSearchControlShowClearButton" [cssClass]="this.paletteSearchControlCssClass"
+        (input)="onPaletteSearchControlInput($event)" (blur)="this.onPaletteSearchSearchFocusOut($event)">
+    </ejs-textbox>
+
+    <div class="paletteGridControlWrapper">
+        <ejs-grid #paletteGridControl class="sidebarGridControl" [dataSource]="this.paletteGridControlData"
+            [allowGrouping]="this.paletteGridControlAllowGrouping"
+            [groupSettings]="this.paletteGridControlGroupSettingsModel"
+            [allowSorting]="this.paletteGridControlAllowSorting"
+            [sortSettings]="this.paletteGridControlSortSettingsModel"
+            [searchSettings]="this.paletteGridControlSearchModel" (created)="this.onPaletteGridControlCreated()">
+
+            <e-columns>
+                <!-- this column exists only so that we can group by this column and achieve visual consistency 
+                with the palette grid (in terms of column header etc). -->
+                <e-column field="groupDisplayName" [visible]=false>
+                </e-column>
+                <e-column field="symbolSvgUrl" textAlign="Left"
+                    [customAttributes]="this.paletteGridControlCustomAttribute"
+                    [width]="this.paletteGridControlSymbolImageWidth">
+                    <!-- the template reference variable name '#template' is dictated by the syncfusion control -->
+                    <ng-template #template let-columnData>
+                        <img [src]="columnData.symbolSvgUrl" loading="lazy">
+                    </ng-template>
+                </e-column>
+                <e-column field="symbolDisplayName" textAlign="Left"
+                    [customAttributes]="this.paletteGridControlCustomAttribute">
+                    <!-- the template reference variable name '#template' is dictated by the syncfusion control -->
+                    <ng-template #template let-columnData>
+                        <button class="btn btn-link btn-sm"
+                            [matTooltip]="columnData.symbolDescription ? columnData.symbolDescription: columnData.symbolDisplayName"
+                            (click)="this.onPaletteGridControlDataItemSelected(columnData)">{{columnData.symbolDisplayName}}</button>
+                    </ng-template>
+                    <!-- documentation for the 'captionTemplate' (needed to customize the group header) field is very sparse. -->
+                    <!-- https://www.syncfusion.com/kb/5197/how-to-customize-the-group-header-caption-in-grid -->
+                    <!-- https://www.syncfusion.com/forums/140627/format-grouping-header-caption -->
+                    <!-- note: using 'title' instead of 'matTooltip' in grouped header as it causes rendering issues otherwise. -->
+                    <ng-template #groupSettingsCaptionTemplate let-groupData>
+                        <span title="{{groupData.key}}">{{groupData.key}}</span>
+                    </ng-template>
+                </e-column>
+                <e-column field="fakeColumnForInfoGlyph" textAlign="Left"
+                    [customAttributes]="this.paletteGridControlCustomAttribute"
+                    [width]="this.paletteGridControlSymbolInfoGlyphWidth">
+                    <!-- the template reference variable name '#template' is dictated by the syncfusion control -->
+                    <ng-template #template let-columnData>
+                        <!-- only render if symbol has documentation details -->
+                        <ng-container *ngIf="columnData.hasDocs">
+                            <button class="btn btn-link btn-sm infoGlyph" matTooltip="click here for documentation"
+                                (click)="this.onPaletteGridControlInfoGlyphClicked(columnData)">
+                                <fa-icon [icon]="this.faInfoIcon"></fa-icon>
+                            </button>
+                        </ng-container>
+                    </ng-template>
+                </e-column>
+            </e-columns>
+
+        </ejs-grid>
+    </div>
+
+    <div class="paletteGridButtonWrapper">
+        <button mat-stroked-button disableRipple=true matTooltip="upload a custom png/jpg image"
+            (click)="this.onAddCustomImageButtonClicked()">Add Image</button>
+        <button mat-stroked-button disableRipple=true matTooltip="add/remove symbols"
+            (click)="this.onAddRemoveSymbolsButtonClicked()">Add/Remove Symbols</button>
+    </div>
+
+</div>

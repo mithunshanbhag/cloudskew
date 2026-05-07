@@ -1,0 +1,82 @@
+.pricing-card-wrapper {
+    /* container for horizontal flexbox items */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: stretch;
+}
+
+.pricing-card-wrapper .pricing-card {
+    width: 250px;
+    margin: 10px;
+    padding: 10px;
+    border-top: 5px solid black;
+    border-bottom: 5px solid black;
+    background-color: whitesmoke;
+
+    /* container for vertical flexbox items */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.pricing-card-wrapper .pricing-card .plan-title {
+    font-family: "Roboto Mono",sans-serif;
+    font-size: 18px;
+}
+
+.pricing-card-wrapper .pricing-card .plan-price {
+    font-family: "Open Sans",sans-serif;
+    font-size: 18px;
+}
+
+.pricing-card-wrapper .pricing-card .plan-price-subtitle {
+    font-family: "Roboto Mono",sans-serif;
+    font-size: 10px;
+    margin-bottom: 10px;
+}
+
+.pricing-card-wrapper .pricing-card .plan-feature {
+    width: 150px;
+
+    /* container for horizontal flexbox items */
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.pricing-card-wrapper .pricing-card .plan-feature .plan-feature-checkbox {
+    margin: 5px;
+}
+
+.pricing-card-wrapper .pricing-card .plan-feature .plan-feature-text {
+    margin: 5px;
+    font-family: "Open Sans",sans-serif;
+    font-size: 10px;
+}
+
+.pricing-card-wrapper .pricing-card .plan-feature .plan-feature-info {
+    margin: 5px;
+}
+
+.pricing-card-wrapper .pricing-card .plan-feature-upgrade-button {
+    margin-top: 10px; 
+}
+
+.pricing-card-wrapper .pricing-card .plan-feature-tos-pp {
+    margin-top: 5px;
+    font-family: "Open Sans",sans-serif;
+    font-size: 10px;
+}
+
+.pricing-card-wrapper .pricing-card hr {
+    width: 150px;
+    border: 1px solid black;
+}
+
+.pricing-card-wrapper .pricing-card .professional-plan-colors {
+    /* same color as bootstrap 'btn-info' button */
+    color: rgb(23, 162, 184); 
+}

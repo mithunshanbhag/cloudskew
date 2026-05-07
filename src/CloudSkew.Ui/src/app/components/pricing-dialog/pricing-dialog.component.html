@@ -1,0 +1,94 @@
+<span mat-dialog-title class="windowHeaderText">CloudSkew Plans</span>
+
+<mat-dialog-content>
+    <div class="windowContent">
+        <div class="pricing-card-wrapper">
+            <!-- pricing card for free plan -->
+            <div class="pricing-card">
+                <div class="plan-title">FREE</div>
+                <br>
+                <div class="plan-price">$0</div>
+                <span class="plan-price-subtitle">(Free Forever)</span>
+                <hr>
+                <div class="plan-feature">
+                    <fa-icon class="plan-feature-checkbox" [icon]="this.faCheckIcon"></fa-icon>
+                    <div class="plan-feature-text">1 diagram</div>
+                </div>
+                <div class="plan-feature">
+                    <fa-icon class="plan-feature-checkbox" [icon]="this.faCheckIcon"></fa-icon>
+                    <div class="plan-feature-text">1 template</div>
+                </div>
+                <div class="plan-feature">
+                    <fa-icon class="plan-feature-checkbox" [icon]="this.faCheckIcon"></fa-icon>
+                    <div class="plan-feature-text">Standard support</div>
+                </div>
+                <div class="plan-feature">
+                    <fa-icon class="plan-feature-checkbox" [icon]="this.faCheckIcon"></fa-icon>
+                    <div class="plan-feature-text">Infinite canvas size</div>
+                </div>
+                <div class="plan-feature">
+                    <fa-icon class="plan-feature-checkbox" [icon]="this.faCheckIcon"></fa-icon>
+                    <div class="plan-feature-text">Autosaved to cloud</div>
+                </div>
+                <div class="plan-feature">
+                    <fa-icon class="plan-feature-checkbox" [icon]="this.faCheckIcon"></fa-icon>
+                    <div class="plan-feature-text">Built-in document editor</div>
+                </div>
+                <div class="plan-feature">
+                    <fa-icon class="plan-feature-checkbox" [icon]="this.faCheckIcon"></fa-icon>
+                    <div class="plan-feature-text">Print, export, share</div>
+                </div>
+            </div>
+            <!-- pricing card for professional plan -->
+            <div class="pricing-card">
+                <div class="plan-title">PROFESSIONAL</div>
+                <br>
+                <div class="plan-price">USD $36/year</div>
+                <span class="plan-price-subtitle">(Limited time offer)</span>
+                <hr>
+                <div class="plan-feature">
+                    <fa-icon class="plan-feature-checkbox professional-plan-colors" [icon]="this.faCheckIcon">
+                    </fa-icon>
+                    <div class="plan-feature-text">Unlimited diagrams</div>
+                </div>
+                <div class="plan-feature" title="Create as many reusable diagram templates as needed">
+                    <fa-icon class="plan-feature-checkbox professional-plan-colors" [icon]="this.faCheckIcon">
+                    </fa-icon>
+                    <div class="plan-feature-text">Unlimited templates</div>
+                    <fa-icon class="plan-feature-info professional-plan-colors" [icon]="this.faInfoIcon"></fa-icon>
+                </div>
+                <div class="plan-feature" title="24 hr response time for support requests">
+                    <fa-icon class="plan-feature-checkbox professional-plan-colors" [icon]="this.faCheckIcon">
+                    </fa-icon>
+                    <div class="plan-feature-text">Priority support</div>
+                    <fa-icon class="plan-feature-info professional-plan-colors" [icon]="this.faInfoIcon"></fa-icon>
+                </div>
+                <div class="plan-feature">
+                    <fa-icon class="plan-feature-checkbox" [icon]="this.faCheckIcon"></fa-icon>
+                    <div class="plan-feature-text">Infinite canvas size</div>
+                </div>
+                <div class="plan-feature">
+                    <fa-icon class="plan-feature-checkbox" [icon]="this.faCheckIcon"></fa-icon>
+                    <div class="plan-feature-text">Autosaved to cloud</div>
+                </div>
+                <div class="plan-feature">
+                    <fa-icon class="plan-feature-checkbox" [icon]="this.faCheckIcon"></fa-icon>
+                    <div class="plan-feature-text">Built-in document editor</div>
+                </div>
+                <div class="plan-feature">
+                    <fa-icon class="plan-feature-checkbox" [icon]="this.faCheckIcon"></fa-icon>
+                    <div class="plan-feature-text">Print, export, share</div>
+                </div>
+                <br>
+                <button class="plan-feature-upgrade-button btn btn-sm btn-info"
+                    (click)="this.onUpgradeButtonClick()">Upgrade</button>
+                <span class="plan-feature-tos-pp">See <a [href]="this.termsOfServiceUrl" target="_blank" rel="noopener"
+                        rel="noreferrer">terms of service</a> and <a [href]="this.privacyPolicyUrl" target="_blank"
+                        rel="noopener" rel="noreferrer">privacy policy</a></span>
+            </div>
+        </div>
+        <br>
+        <span>CloudSkew uses <a href="https://www.stripe.com" target="_blank" rel="noopener"
+                rel="noreferrer">stripe.com</a> for simplified billing.</span>
+    </div>
+</mat-dialog-content>

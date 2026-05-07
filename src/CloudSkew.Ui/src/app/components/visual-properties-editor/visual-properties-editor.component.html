@@ -1,0 +1,51 @@
+<ng-container *ngIf="(this.visualPropertiesEditorService.requestFeed$|async) as activeSymbol">
+    <ng-container *ngIf="!this.selectedSymbolIsDiagramComponent(activeSymbol); else diagramComponentBlock">
+        <ng-container *ngIf="!this.selectedSymbolIsMultiSelection(activeSymbol); else multiSelectionBlock">
+            <ng-container *ngIf="!this.selectedSymbolIsConnectorModel(activeSymbol); else connectorModelBlock">
+                <ng-container *ngIf="!this.selectedSymbolIsText(activeSymbol); else nodeModelTextBlock">
+                    <ng-container *ngIf="!this.selectedSymbolIsImage(activeSymbol); else nodeModelImageBlock">
+                        <ng-container *ngIf="!this.selectedSymbolIsNative(activeSymbol); else nodeModelNativeBlock">
+                            <ng-container
+                                *ngIf="this.selectedSymbolIsGroup(activeSymbol); then nodeModelGroupBlock else nodeModelBasicShapeBlock">
+                            </ng-container>
+                        </ng-container>
+                    </ng-container>
+                </ng-container>
+            </ng-container>
+        </ng-container>
+    </ng-container>
+
+    <ng-template #connectorModelBlock>
+        <app-connector-properties-editor [activeConnector]="activeSymbol"></app-connector-properties-editor>
+    </ng-template>
+
+    <ng-template #nodeModelTextBlock>
+        <app-text-properties-editor [activeTextShape]="activeSymbol"></app-text-properties-editor>
+    </ng-template>
+
+    <ng-template #nodeModelImageBlock>
+        <app-image-properties-editor [activeImageShape]="activeSymbol"></app-image-properties-editor>
+    </ng-template>
+
+    <ng-template #nodeModelBasicShapeBlock>
+        <app-basic-shape-properties-editor [activeBasicShape]="activeSymbol"></app-basic-shape-properties-editor>
+    </ng-template>
+
+    <ng-template #nodeModelNativeBlock>
+        <app-native-properties-editor [activeNativeSymbol]="activeSymbol"></app-native-properties-editor>
+    </ng-template>
+
+    <ng-template #nodeModelGroupBlock>
+        <app-group-properties-editor [activeGroupShape]="activeSymbol"></app-group-properties-editor>
+    </ng-template>
+
+    <ng-template #multiSelectionBlock>
+        <app-multi-selection-properties-editor [activeMultiSelection]="activeSymbol">
+        </app-multi-selection-properties-editor>
+    </ng-template>
+
+    <ng-template #diagramComponentBlock>
+        <app-diagram-properties-editor [activeDiagramComponent]="activeSymbol"></app-diagram-properties-editor>
+    </ng-template>
+
+</ng-container>

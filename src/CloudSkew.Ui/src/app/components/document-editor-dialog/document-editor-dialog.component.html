@@ -1,0 +1,8 @@
+<span mat-dialog-title class="windowHeaderText">Documentation</span>
+
+<mat-dialog-content>
+    <ejs-richtexteditor #documentEditor [readonly]="this.documentViewerReadOnly" [value]="this.diagram.documentDetails"
+        [toolbarSettings]="this.documentEditorToolbarSettings" [saveInterval]="this.documentEditorSaveInternal"
+        (change)="this.onDocumentEditorChange($event)">
+    </ejs-richtexteditor>
+</mat-dialog-content>

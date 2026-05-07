@@ -1,0 +1,23 @@
+.status-bar-read-only-content {
+    /* dimensions */
+    width: calc(100vw - 50px);
+    height: 20px;
+
+    /* container for horizontal flexbox items */
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    align-items: center;
+
+    /* padding, margin etc */
+    padding: 0 10px;
+    background-color: lightgrey;
+    font-family: "Roboto Mono",sans-serif;
+    font-size: 11px;
+}
+
+.status-bar-read-only-content .btn {
+    font-size: 11px;
+    font-family: "Roboto Mono",sans-serif;
+    padding: 0 0;
+}

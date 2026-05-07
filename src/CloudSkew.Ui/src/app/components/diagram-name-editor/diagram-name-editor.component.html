@@ -1,0 +1,31 @@
+<div class=diagram-name-editor>
+    <form class="form-inline" [formGroup]="this.diagramNameEditorForm" (ngSubmit)="this.onSaveButtonClick()">
+        <div class="input-group">
+            <input class="form-control" type="text" placeholder="diagram name" name="diagram-name-input"
+                [readonly]="!this.isDiagramNameEditable" formControlName="nameInputControl"
+                [size]="this.visibleWidthInChars">
+            <div class="input-group-append">
+                <button *ngIf="!this.isDiagramNameEditable" class="btn" type="button"
+                    matTooltip="edit diagram name" (click)="this.onEditButtonClick()">
+                    <fa-icon [icon]="this.faEditIcon"></fa-icon>
+                </button>
+                <button *ngIf="this.isDiagramNameEditable" class="btn" type="button" matTooltip="cancel"
+                    (click)="this.onCancelButtonClick()">
+                    <fa-icon [icon]="this.faCancelIcon"></fa-icon>
+                </button>
+                <button *ngIf="this.isDiagramNameEditable"
+                    [disabled]="this.diagramNameEditorForm.invalid || this.diagramNameEditorForm.pristine"
+                    class="btn" type="submit" matTooltip="save">
+                    <fa-icon [icon]="this.faSaveIcon"></fa-icon>
+                </button>
+            </div>
+        </div>
+    </form>
+    <div class="diagram-name-editor-validator-messages">
+        <span *ngIf="this.nameInputControl.errors?.required">{{this.requiredValidatorMessage}}</span>
+        <span *ngIf="this.nameInputControl.errors?.minlength">{{this.minlengthValidatorMessage}}</span>
+        <span *ngIf="this.nameInputControl.errors?.maxlength">{{this.maxLengthValidatorMessage}}</span>
+        <span *ngIf="this.nameInputControl.errors?.pattern">{{this.patternValidatorMessage}}</span>
+        <span *ngIf="this.nameInputControl.errors?.uniqueDiagramName">{{this.uniqueNameValidatorMessage}}</span>
+    </div>
+</div>

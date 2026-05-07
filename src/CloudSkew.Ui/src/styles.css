@@ -1,0 +1,209 @@
+/* Purpose of this file:
+   1: You can add global styles to this file, and also import other style files.
+   2: If you need to override/customize any classes defined in third party
+      components, please do it here. Since this file is declared at the very 
+      end of the styles section in the angular.json file, it ensures overriding. 
+*/
+
+/* ***** Added by Angular Material Schematics ***** */
+/* ************************************************ */
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* ***** Default Flexbox Options ***** */
+/* *********************************** */
+.defaultFlexbox {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: "Roboto Mono",sans-serif;
+}
+
+/* ***** Dialog Header, Content & Footer ***** */
+/* ******************************************* */
+.e-dlg-header .windowHeaderText, .windowHeaderText { /* usage: use with <span> tag */
+    font-family: "Roboto Mono",sans-serif;
+    font-size: 18px;
+}
+.e-dlg-content .windowContent, .windowContent {
+    font-family: "Open Sans",sans-serif;
+    font-size: 12px;
+    vertical-align: middle;
+    text-align: center; 
+    margin: 20px auto; 
+}
+
+/* ***** Properties Window ***** */
+/* ***************************** */
+.propertyWindowSplitterWrapper {
+    border: 1px solid rgb(224, 224, 224) /* color code matches border color of splitter, sidebar etc */
+}
+.propertyWindowSplitterWrapper .mat-tab-label {
+    padding: 0px;
+    width: 50%;
+    min-width: 50%;
+    max-width: 50%;
+    font-family: "Roboto Mono",sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+}
+.propertyWindowSplitterHeadlineWrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.propertyWindowSplitterHeadlineWrapper .btn .color-success {
+    color: green;
+}
+.propertyWindowSplitterHeadlineWrapper .btn .color-warning {
+    color: orange;
+}
+.propertyWindowSplitterHeadline {
+    font-family: "Roboto Mono",sans-serif;
+    font-weight: bold;
+    font-size: 14px;
+    text-align: left;
+    padding-left: 5px;
+}
+.propertyWindowPaneHeader {
+    font-family: "Open Sans",sans-serif;
+    font-weight: bold;
+    font-size: 12px;
+    text-align: left;
+    margin: 5px 0px 0px 5px;
+}
+.propertyWindowPaneItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 15px 5px 5px; /* 15px needed to accommodate the checkbox ripple on hover */
+    min-height: 40px; /* else controls appear too vertically squished */
+}
+.propertyWindowPaneItemText {
+    font-family: "Open Sans",sans-serif;
+    font-size: 11px;
+}
+.propertyWindowPaneItemControlWrapper {
+    width: 120px;
+}
+.propertyWindowPaneItem .btn {
+    font-family: "Roboto Mono",sans-serif;
+}
+.propertyWindowPaneItem .mat-slider-horizontal {
+    min-width: 100px;
+    padding: 0px;
+}
+.propertyWindowPaneItem input[type=color] {
+    padding: 0px;
+    width: 30px;
+    border: none;
+}
+.propertyWindowPaneItem .mat-button-toggle-appearance-standard .mat-button-toggle-label-content {
+    /* HACK to ensure that the material icons stay centered in parent button */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* HACK to ensure correct sizing & alignment of icons, after much trial & error */
+    /* additional details: https://stackoverflow.com/a/70600372 */
+    height: 26px;
+    padding: 2px 2px;
+}
+.propertyWindowPaneItem mat-icon {
+    color: #616161; /* matches with material primary color (see custom-theme.scss file for details) */
+}
+
+/* ***** Sidebar Control ***** */
+/* *************************** */
+.sidebarControl {
+    background-color: white;
+}
+.sidebarControl .sidebar-item {
+    text-align: center;
+    font-size: 18px;
+}
+.sidebarControl .btn:focus { /* prevent the glow/halo around bootstrap buttons immediately after clicking */
+    box-shadow: none; 
+}
+.sidebarControl .btn:hover {
+    background-color: whitesmoke;
+}
+
+/* ***** Sidebar Search Control ***** */
+/* ********************************** */
+.sidebarWrapper {
+    display: flex;
+    flex-direction: column;
+}
+.sidebarWrapper .sidebarSearchControl {
+    height: 40px;
+    max-height: 40px;
+}
+.sidebarWrapper .sidebarGridControlWrapper {
+    height: calc(100vh - 115px);
+    max-height: calc(100vh - 115px);
+    overflow: auto; /* needed for scrollbar */
+}
+
+/* ***** Sidebar Grid Control ***** */
+/* ******************************** */
+.sidebarGridControl.e-grid .e-gridheader { /* hide the palette grid's header */ 
+    display: none; 
+}
+.sidebarGridControl.e-grid .e-rowcell.sidebarGridControlColumnCSS { /* customize the grid item sizing (note: this CSS is per syncfusion specs/docs) */
+    font-family: "Open Sans",sans-serif;
+    padding: 2px 5px;
+    margin: 0;
+    vertical-align: middle;
+}
+.sidebarGridControl.e-grid .e-rowcell .btn-sm {
+    font-size: 11px;
+}
+.sidebarGridControl.e-grid .e-rowcell .btn-link {
+    color: black;
+}
+.sidebarGridControl.e-grid .e-rowcell ejs-checkbox span.e-label {
+    font-family: "Open Sans",sans-serif;
+    font-size: 11px;
+    padding: 4px 8px;
+}
+.sidebarGridControl.e-grid .e-rowcell .infoGlyph {
+    color: lightslategray;
+} 
+
+/* ***** Propertiesbar Control ***** */
+/* ********************************* */
+.propertiesbarControl {
+    background-color: white;
+}
+.propertiesbarControl .sidebar-item {
+    text-align: center;
+    font-size: 16px;
+}
+.propertiesbarControl .btn:focus { /* prevent the glow/halo around bootstrap buttons immediately after clicking */
+    box-shadow: none; 
+}
+.propertiesbarControl .btn:hover {
+    background-color: whitesmoke;
+}
+
+/* ***** SnackBar ***** */
+/* ******************** */
+.snack-bar-warning {
+    color: black;
+    background-color: rgb(139, 122, 91);
+}
+.snack-bar-error {
+    color: black;
+    background-color: rgb(226, 139, 139);
+}
+.snack-bar-success {
+    color: black;
+    background-color: rgb(58, 129, 58);
+}
+/* for some reason if you need to modify the styling of the action button ('dismiss'), then
+   you can uncomment below snippet and modify as needed.
+    .snack-bar-info .mat-simple-snackbar-action {
+        color: black;
+    }
+*/
