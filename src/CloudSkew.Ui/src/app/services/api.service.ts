@@ -194,9 +194,9 @@ export class APIService {
   }
 
   // create new template
-  templateCreateAsync(user: string, diagramId: string, newTemplateName: string)
+  templateCreateAsync(user: string, sourceDiagram: DiagramDTO, newTemplateName: string)
     : Observable<APIResponse<TemplateDTO>> {
-    return from(this.localApiStorageService.templateCreateAsync(user, diagramId, newTemplateName)).pipe(
+    return from(this.localApiStorageService.templateCreateAsync(user, sourceDiagram, newTemplateName)).pipe(
       map(dto => this.handleSuccess<TemplateDTO>(dto)),
       catchError((err, source) => this.handleError<TemplateDTO>(err, ErrorMessageConstants.templateCreateError))
     );
@@ -237,7 +237,11 @@ export class APIService {
 
   uploadThumbnailAsync(user: string, diagramId: string, imageGenerationRequest: ImageGenerationRequestDTO)
     : Observable<APIResponse<null>> {
-    return from(this.localApiStorageService.diagramUpdateThumbnailAsync(user, diagramId)).pipe(
+    return from(this.localApiStorageService.diagramUpdateThumbnailAsync(
+      user,
+      diagramId,
+      this.getLocalThumbnailUrl(imageGenerationRequest),
+    )).pipe(
       map(() => this.handleSuccess<null>(null)),
       catchError((err, source) => this.handleError<null>(err, ErrorMessageConstants.uploadThumbnailError))
     );
@@ -289,5 +293,9 @@ export class APIService {
 
   private handleSuccess<T>(val: T): APIResponse<T> {
     return { dto: val };
+  }
+
+  private getLocalThumbnailUrl(imageGenerationRequest: ImageGenerationRequestDTO): string {
+    return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(imageGenerationRequest.htmlData)}`;
   }
 }

@@ -235,7 +235,7 @@ export class DiagramEditorComponent implements OnInit, OnDestroy {
       exportTemplateInProgress: true,
     });
 
-    this.apiService.templateCreateAsync(diagram.emailMD5, diagram.id, templateName)
+    this.apiService.templateCreateAsync(diagram.emailMD5, diagram, templateName)
       .pipe(
         tap(() => this.diagramControlsService.request({
           kind: 'IDiagramControlsExportTemplateArgs',

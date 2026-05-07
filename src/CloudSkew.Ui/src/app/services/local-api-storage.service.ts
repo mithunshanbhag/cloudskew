@@ -175,10 +175,9 @@ export class LocalApiStorageService {
     return template ? this.toTemplateCompactDTO(template) : undefined;
   }
 
-  async templateCreateAsync(user: string, diagramId: string, newTemplateName: string): Promise<TemplateDTO> {
-    const sourceDiagram = await this.diagramGetAsync(user, diagramId);
+  async templateCreateAsync(user: string, sourceDiagram: DiagramDTO, newTemplateName: string): Promise<TemplateDTO> {
     if (!sourceDiagram) {
-      throw new Error(`Diagram not found: ${diagramId}`);
+      throw new Error('A source diagram is required to create a template.');
     }
 
     const now = new Date();
