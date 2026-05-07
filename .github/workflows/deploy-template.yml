@@ -13,6 +13,7 @@ env:
   APP_NAME_ASSETS: cloudskew-assets
   APP_NAME_DOCS: cloudskew-docs
   APP_NAME_BLOG: cloudskew-blog
+  APP_NAME_UI: cloudskew-ui
   DOTNET_VERSION_10: "10.0.x"
   NODE_VERSION_24: "24.x"
   RESOURCE_GROUP_NAME: cloudskew-rg
@@ -138,6 +139,46 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
           app_location: ./src/CloudSkew.Landing/dist/CloudSkew.Landing/browser
+          api_location: "" # No API in this app
+          output_location: "" # No build step, so output location is same as app location
+
+  build-deploy-cloudskew-ui:
+    runs-on: ubuntu-24.04
+    needs: provision
+    environment: test
+    timeout-minutes: 10
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4.1.1
+      - name: setup node
+        uses: actions/setup-node@v6.4.0
+        with:
+          node-version: ${{ env.NODE_VERSION_24 }}
+      - name: install angular cli globally
+        run: npm install -g @angular/cli
+      - name: install npm packages
+        run: npm install
+        working-directory: ./src/CloudSkew.Ui
+      - name: build cloudskew ui
+        run: npm run build-testing
+        working-directory: ./src/CloudSkew.Ui
+      - name: azure login
+        uses: azure/login@v2.2.0
+        with:
+          creds: ${{ secrets.SERVICEPRINCIPAL }}
+      - name: get swa deployment token
+        id: get-swaDeploymentToken
+        uses: azure/CLI@v2.2.0
+        with:
+          inlineScript: echo "swaDeploymentToken"="$(az staticwebapp secrets list -g ${{ env.RESOURCE_GROUP_NAME }} -n ${{ env.APP_NAME_UI }} --query properties.apiKey -o tsv)" >> $GITHUB_OUTPUT
+      - name: deploy cloudskew ui to swa
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ steps.get-swaDeploymentToken.outputs.swaDeploymentToken }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          action: "upload"
+          app_location: ./src/CloudSkew.Ui/dist/cloudskew-ui
+          skip_app_build: true
           api_location: "" # No API in this app
           output_location: "" # No build step, so output location is same as app location
 
