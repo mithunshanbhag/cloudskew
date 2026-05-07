@@ -1,6 +1,6 @@
-import { NgModule } from '@angular/core';
+import { NgModule, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ExtraOptions, RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
@@ -36,7 +36,7 @@ const routes: Routes = [
     MobileMenuComponent,
   ],
   imports: [
-    BrowserModule.withServerTransition({ appId: 'serverApp' }),
+    BrowserModule,
     BrowserAnimationsModule,
     MatSidenavModule,
     RouterModule.forRoot(routes, {
@@ -45,7 +45,10 @@ const routes: Routes = [
       scrollOffset: [0, 64]
     } as ExtraOptions),
   ],
-  providers: [],
+  providers: [
+    provideBrowserGlobalErrorListeners(),
+    provideClientHydration(withEventReplay()),
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

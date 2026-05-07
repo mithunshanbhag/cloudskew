@@ -4,6 +4,7 @@ import { SidenavService } from 'src/app/services/sidenav.service';
 
 @Component({
   selector: 'app-mobile-menu',
+  standalone: false,
   templateUrl: './mobile-menu.component.html',
   styleUrls: ['./mobile-menu.component.css']
 })

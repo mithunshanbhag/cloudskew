@@ -4,6 +4,7 @@ import { SidenavService } from 'src/app/services/sidenav.service';
 
 @Component({
   selector: 'app-header',
+  standalone: false,
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })

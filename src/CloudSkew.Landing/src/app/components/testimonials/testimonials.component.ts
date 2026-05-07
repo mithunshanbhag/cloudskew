@@ -3,6 +3,7 @@ import { TestimonialItem } from './testimonialItem';
 
 @Component({
   selector: 'app-testimonials',
+  standalone: false,
   templateUrl: './testimonials.component.html',
   styleUrls: ['./testimonials.component.css']
 })

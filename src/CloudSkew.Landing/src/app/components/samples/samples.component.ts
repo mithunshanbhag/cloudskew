@@ -4,6 +4,7 @@ import { GalleryItem } from './galleryItem';
 
 @Component({
   selector: 'app-samples',
+  standalone: false,
   templateUrl: './samples.component.html',
   styleUrls: ['./samples.component.css']
 })

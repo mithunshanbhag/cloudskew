@@ -6,19 +6,19 @@
 
         <div class="features-flexbox">
             <!-- feature card -->
-            <div class="features-card" *ngFor="let featureItem of this.featureItems">
+            <div class="features-card" *ngFor="let featureItem of featureItems">
 
                 <!-- random artwork image -->
-                <img class="features-card-artwork" [src]="this.featureItem.artwork" alt="artwork" text="artwork"
+                <img class="features-card-artwork" [src]="featureItem.artwork" alt="artwork" text="artwork"
                     width="48px" height="48px" loading="lazy">
 
                 <!-- feature title -->
                 <div class="features-card-title cs-font-quote">
-                    {{this.featureItem.title}}</div>
+                    {{featureItem.title}}</div>
 
                 <!-- feature description -->
                 <div class="features-card-description cs-font-secondary-content">
-                    {{this.featureItem.description}}</div>
+                    {{featureItem.description}}</div>
 
             </div>
         </div>

@@ -12,6 +12,7 @@ import { PageCustomization } from './page-customization';
 
 @Component({
   selector: 'app-hero',
+  standalone: false,
   templateUrl: './hero.component.html',
   styleUrls: ['./hero.component.css']
 })

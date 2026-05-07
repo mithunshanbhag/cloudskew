@@ -6,14 +6,14 @@
 
         <div class="samples-gallery">
             <!-- gallery item -->
-            <div class="samples-gallery-item" *ngFor="let galleryItem of this.galleryItems">
+            <div class="samples-gallery-item" *ngFor="let galleryItem of galleryItems">
 
                 <!-- header -->
                 <div class="samples-gallery-item-header">
                     <!-- title -->
                     <span class="samples-gallery-item-header-title cs-font-quote">{{galleryItem.title}}</span>
                     <!-- share link -->
-                    <a class="samples-gallery-item-header-sharelink" [href]="this.galleryItem.shareUrl" target="_blank"
+                    <a class="samples-gallery-item-header-sharelink" [href]="galleryItem.shareUrl" target="_blank"
                         rel="noopener noreferrer">See Live</a>
                 </div>
 
@@ -22,10 +22,10 @@
                     class="samples-gallery-item-description cs-font-secondary-content">{{galleryItem.description}}</span>
 
                 <!-- image -->
-                <a class="samples-gallery-item-image" [href]="this.galleryItem.imgUrl" target="_blank"
+                <a class="samples-gallery-item-image" [href]="galleryItem.imgUrl" target="_blank"
                     rel="noopener noreferrer">
-                    <img [src]="this.galleryItem.thumbnailUrl" [title]="this.galleryItem.description"
-                        [alt]="this.galleryItem.description" loading="lazy">
+                    <img [src]="galleryItem.thumbnailUrl" [title]="galleryItem.description"
+                        [alt]="galleryItem.description" loading="lazy">
                 </a>
 
             </div>

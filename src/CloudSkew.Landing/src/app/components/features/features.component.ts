@@ -3,6 +3,7 @@ import { FeatureItem } from './featureItem';
 
 @Component({
   selector: 'app-features',
+  standalone: false,
   templateUrl: './features.component.html',
   styleUrls: ['./features.component.css']
 })
