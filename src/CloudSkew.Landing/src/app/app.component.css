@@ -1,0 +1,57 @@
+/* notification banner section */
+
+.landing-page-notification-banner {
+    background-color: whitesmoke;
+    text-align: center;
+    font-size: 85%;
+}
+
+.landing-page-notification-banner > p {
+    margin: 1px auto;
+}
+
+/* hero section */
+
+.landing-page-hero-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(15, 15, 15);
+}
+.landing-page-hero {
+    position: relative;
+    height: calc(100vh - 50px);
+    line-height: calc(100vh - 50px); /* this is important for vertically centering the image */
+}
+.landing-page-hero-img {
+    opacity: 1;
+    border-radius: 10px;
+    transition: .5s ease;
+    backface-visibility: hidden;
+    height: 60%;
+}
+.landing-page-hero-cta {
+    opacity: 0;
+    transition: .5s ease;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    text-align: center;
+    font-family: "Open Sans",sans-serif;
+}
+.landing-page-hero:hover .landing-page-hero-img {
+    opacity: 0.1;
+}
+.landing-page-hero:hover .landing-page-hero-cta {
+    opacity: 1;
+}
+
+/* media queries */
+
+@media screen and (max-width: 650px) {
+    .landing-page-notification-banner {
+        display: none;
+    }   
+}
