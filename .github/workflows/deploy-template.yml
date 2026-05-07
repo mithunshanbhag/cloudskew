@@ -162,7 +162,7 @@ jobs:
           azure_static_web_apps_api_token: ${{ steps.get-swaDeploymentToken.outputs.swaDeploymentToken }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
-          app_location: ./src/CloudSkew.assets
+          app_location: ./src/CloudSkew.Assets
           skip_app_build: true
           api_location: "" # No API in this app
           output_location: "" # No build step, so output location is same as app location
