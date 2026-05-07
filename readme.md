@@ -12,13 +12,13 @@
 
 | Component        | Repository                                                                                        |
 | ---------------- | ------------------------------------------------------------------------------------------------- |
-| 🎨 UI             | [cloudskew-ui](https://github.com/mithunshanbhag/cloudskew-ui)                                    |
+| 🎨 UI             | [cloudskew-ui](https://github.com/mithunshanbhag/cloudskew-ui-deprecated)                         |
 | 🔌 APIs           | [cloudskew-api](https://github.com/mithunshanbhag/cloudskew-api)                                  |
 | 🖼 Assets         | [cloudskew-assets](https://github.com/mithunshanbhag/cloudskew-assets-deprecated)                 |
 | 🏗 Infrastructure | [cloudskew-provisioning](https://github.com/mithunshanbhag/cloudskew-provisioning-deprecated)     |
-| 🌐 Landing Page   | [cloudskew-landing](https://github.com/mithunshanbhag/cloudskew-landing)                          |
+| 🌐 Landing Page   | [cloudskew-landing](https://github.com/mithunshanbhag/cloudskew-landing-v1-deprecated)            |
 | 📔 Docs           | [cloudskew-docs](https://github.com/mithunshanbhag/cloudskew-docs-deprecated)                     |
-| ✍️ Blog           | [cloudskew-blog](https://github.com/mithunshanbhag/cloudskew-blog)                                |
+| ✍️ Blog           | [cloudskew-blog](https://github.com/mithunshanbhag/cloudskew-blog-deprecated)                     |
 | 🗄 SQL DB         | [cloudskew-sql](https://github.com/mithunshanbhag/cloudskew-sql-deprecated)                       |
 | 🖨 Print Helper   | [cloudskew-diagram-helper](https://github.com/mithunshanbhag/cloudskew-diagram-helper-deprecated) |
 
