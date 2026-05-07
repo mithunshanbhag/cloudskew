@@ -10,15 +10,10 @@
   - Major upgrade targets: Angular Material/CDK, Syncfusion, FontAwesome, TypeScript, ESLint, Karma tooling, Bootstrap.
   - Existing backend/auth/payment dependencies: Auth0, Azure Functions API, Cosmos/blob-backed persistence paths, Stripe, App Insights.
 - **Angular Upgrade Findings**
-  - The overall direction looks sane: upgrade from Angular 13 to 21 via Angular CLI migrations while preserving folders, filenames, component/service/type names, and the existing NgModule/bootstrap structure.
-  - Do the upgrade sequentially by major version (`13 -> 14 -> 15 -> ... -> 21`) rather than as one large jump so that migrations, breakages, and dependency issues can be isolated.
-  - Avoid standalone conversion, broad refactors, or visual redesign as part of this effort; treat those as separate follow-up work after the framework upgrade settles.
-  - Make the dependency/version matrix an explicit workstream up front. The biggest risk area is Syncfusion (`19.x -> 33.x`), followed by Angular Material/CDK, TypeScript (`4.4.x -> 5.9.x`), Angular ESLint, Karma tooling, Bootstrap, FontAwesome, and Zone.js.
-  - Expected compatibility edits include router config cleanup (`relativeLinkResolution: 'legacy'`), Material theming API updates, MDC CSS selector adjustments, builder/test config modernization, and Protractor removal or replacement.
+  - Expected compatibility edits still include MDC CSS selector adjustments, builder/test config modernization, and Protractor removal or replacement.
   - Angular 21 also changes the preferred build story. Plan for eventual migration away from the legacy browser builder to the newer application/static build pipeline, but do not combine that with unrelated architectural cleanup.
   - The current global stylesheet overrides internal Material selectors such as `.mat-tab-label`, `.mat-button-toggle-label-content`, and `.mat-simple-snackbar-action`; these should be treated as likely regression points during the Angular Material MDC migration.
-  - For hosting on Azure Static Web Apps, add a future task to create `staticwebapp.config.json` for SPA deep-link fallback (`/editor/:id`, `/viewer/:id`) and update the deploy workflow only after the Angular 21 output artifact layout is confirmed.
-  - Node runtime compatibility should be called out explicitly in the plan. Angular 21 supports Node `^20.19.0 || ^22.12.0 || ^24.0.0`, so a future workflow using Node 24 is fine for the upgraded app.
+  - For hosting on Azure Static Web Apps, add a future task to create `staticwebapp.config.json` for SPA deep-link fallback (`/editor/:id`, `/viewer/:id`).
 - **Anonymous Local-First App Findings**
   - Remove Auth0 requirements from routing, bootstrap, interceptors, editor initialization, callback/logout flows, and status bar.
   - Keep obsolete Auth0-related files/components in place but unused for now.
