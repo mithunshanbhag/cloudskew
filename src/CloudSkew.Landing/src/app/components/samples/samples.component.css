@@ -1,0 +1,96 @@
+.samples-gallery {
+    /* layout */
+    margin-bottom: 35px;
+
+    /* flex container */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.samples-gallery-item {
+    /* flex item */
+    background-color: var(--color-primary-dark);
+
+    /* flex item, layout */
+    border: 1px solid var(--color-secondary-lightest); /* @todo: commented out for A/B testing */
+    border-radius: 5px;
+    margin: 20px; /* 20px vertical separation between flex items when wrapped */
+    padding: 30px;
+    flex-basis: 30%; /* this is to ensure that we realistically get max two flex-items per row */
+}
+
+.samples-gallery-item-header {
+    /* layout */
+    margin-bottom: 10px;
+
+    /* flex container */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.samples-gallery-item-header-title {
+    /* text styling */
+    text-align: left;
+}
+
+.samples-gallery-item-header-sharelink {
+    /* text styling */
+    text-align: left;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-accent);
+    text-decoration: none;
+}
+
+.samples-gallery-item-header-sharelink:hover, .samples-gallery-item-header-sharelink:focus {
+    /* text styling */
+    color: var(--color-accent-light);
+    text-decoration: underline;
+}
+
+.samples-gallery-item-description {
+    /* layout */
+    display: block;
+    margin-bottom: 25px;
+
+    /* text styling */
+    text-align: left;
+}
+
+.samples-gallery-item-image img {
+    /* layout */
+    width: 100%; /* 100% of parent container */
+    height: auto;
+    border: 1px solid #DEDDDD;
+
+    /* styling */
+    box-shadow: 5px 5px 5px var(--color-secondary-lightest);
+}
+
+.samples-gallery-item-image img:hover {
+    /* styling */
+    box-shadow: 10px 10px 10px var(--color-secondary-lightest);
+}
+
+@media screen and (max-width: 1200px) {
+}
+
+@media screen and (max-width: 980px) {
+    /* Better to hide the 'see live' link at lower resolutions for the following reasons:border:
+       1. Messes up the landing page display on mobile.
+       2. The diagram viewer doesn't render well at lower resolutions.
+    */
+    .samples-gallery-item-header-sharelink {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 540px) {
+    .samples-gallery-item {
+        flex-basis: 80%; /* this is to ensure that we get max one flex-items per row */
+    }
+}

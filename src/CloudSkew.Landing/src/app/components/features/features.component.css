@@ -1,0 +1,57 @@
+.features-flexbox {
+    /* flex container */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.features-card {
+    /* flex item: styling */
+    background-color: var(--color-primary);
+
+    /* flex item: layout */
+    border-radius: 5px;
+    margin: 20px; /* 20px vertical separation between flex items when wrapped */
+    flex-basis: 27%; /* this is to ensure that we get around three flex-items per row */
+}
+
+.features-card-artwork {
+    /* layout */
+    display: block;
+    margin: 30px 0px;
+    padding: 0px 30px;
+    border-left: 5px solid var(--color-accent);
+
+    /* text styling */
+    text-align: left;
+}
+
+.features-card-title {
+    /* layout */
+    margin: 0px 30px;
+
+    /* text styling */
+    text-align: left;
+}
+
+.features-card-description {
+    /* layout */
+    margin: 15px 30px 30px 30px;
+
+    /* text styling */
+    text-align: left;
+    line-height: 1.5;
+}
+
+@media screen and (max-width: 980px) {
+    .features-card {
+        /* flex item: styling */
+        background-color: var(--color-primary);
+    
+        /* flex item: layout */
+        border-radius: 5px;
+        margin: 20px; /* 20px vertical separation between flex items when wrapped */
+        flex-basis: 100%; /* this is to ensure that we get max one flex-item per row */
+    }    
+}

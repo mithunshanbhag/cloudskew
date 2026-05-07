@@ -1,0 +1,41 @@
+<div class="cs-background-primary">
+    <div class="cs-section-smaller" id="header">
+
+        <div class="header">
+
+            <!-- branding section -->
+            <div class="header-branding">
+                <!-- branding logo -->
+                <a class="header-branding-logo" routerLink="">
+                    <img [src]="this.brandingLogoUrl" [title]="this.title" [alt]="this.title" width="50px"
+                        height="50px">
+                </a>
+
+                <!-- branding text -->
+                <span class="cs-font-branding">CloudSkew</span>
+            </div>
+
+            <!-- nav / links section (desktop only) -->
+            <div class="header-nav">
+                <a class="header-nav-link cs-font-secondary-content" routerLink="" fragment="samples">Samples</a>
+                <a class="header-nav-link cs-font-secondary-content" routerLink=""
+                    fragment="testimonials">Testimonials</a>
+                <a class="header-nav-link cs-font-secondary-content" routerLink="" fragment="pricing">Pricing</a>
+                <a class="header-nav-link cs-font-secondary-content" [href]="this.docsUrl" target="_blank"
+                    rel="noopener noreferrer">Docs</a>
+                <a class="header-nav-link cs-font-secondary-content" [href]="this.blogUrl" target="_blank"
+                    rel="noopener noreferrer">Blog</a>
+                <a class="header-nav-link cs-font-secondary-content" [href]="this.statusUrl" target="_blank"
+                    rel="noopener noreferrer">Status</a>
+                <a class="header-nav-link cs-font-secondary-content header-cta-button" [href]="this.appUrl"
+                    target="_blank" rel="noopener noreferrer">Go To App</a>
+            </div>
+
+            <!-- hamburger menu section (mobile only) -->
+            <img class="header-hamburger" src="../../../assets/hamburger-icon.svg" height="50px" width="50px"
+                title="mobile menu" alt="mobile menu" (click)="this.onHamburgerMenuClick()">
+
+        </div>
+
+    </div>
+</div>

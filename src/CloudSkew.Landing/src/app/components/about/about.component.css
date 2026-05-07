@@ -1,0 +1,63 @@
+.about {
+    /* flex container */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* flex-wrap: nowrap; */
+}
+
+.about-item {
+    margin: 10px; /* 10px horizontal and vertical separation (when wrapped at smaller resolutions) */
+}
+
+.about-pic {
+    /* layout */
+    width: 20%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.about-profile {
+    /* flex container */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.about-profile-item {
+    /* layout */
+    margin-bottom: 15px;
+}
+
+.about-profile-name {
+    /* text styling */
+    white-space: nowrap; /* to prevent wrapping at lower screen resolutions */
+}
+
+.about-profile-title {
+    /* text styling */
+    white-space: nowrap; /* to prevent wrapping at lower screen resolutions */
+}
+
+.about-profile-social-bar {
+    /* flex container */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.about-profile-social-bar-link {
+    /* layout */
+    margin: 10px;
+}
+
+@media screen and (max-width: 980px) {
+    .about {
+        flex-wrap: wrap;
+    }
+
+    .about-pic {
+        display: none;
+    }
+}

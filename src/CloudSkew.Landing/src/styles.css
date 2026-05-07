@@ -1,5 +1,175 @@
 /* You can add global styles to this file, and also import other style files */
+html, body { height: 100%; }
+body { margin: 0; font-family: "Open Sans", "Helvetica Neue", sans-serif; }
 
-html {
-    background-color: black;
+@font-face {
+    font-family: Gotham;
+    src: 
+        url("./assets/fonts/gotham/gotham-black.otf") format("opentype"),
+        url("./assets/fonts/gotham/gotham-bold.otf") format("opentype"),
+        url("./assets/fonts/gotham/gotham-bold.ttf") format("truetype"),
+        url("./assets/fonts/gotham/gotham-bolditalic.ttf") format("truetype"),
+        url("./assets/fonts/gotham/gotham-book.ttf") format("truetype"),
+        url("./assets/fonts/gotham/gotham-bookitalic.otf") format("opentype"),
+        url("./assets/fonts/gotham/gotham-bookitalic.ttf") format("truetype"),
+        url("./assets/fonts/gotham/gotham-light.otf") format("opentype"),
+        url("./assets/fonts/gotham/gotham-light.ttf") format("truetype"),
+        url("./assets/fonts/gotham/gotham-lightitalic.ttf") format("truetype"),
+        url("./assets/fonts/gotham/gotham-medium.ttf") format("truetype"),
+        url("./assets/fonts/gotham/gotham-mediumitalic.ttf") format("truetype"),
+        url("./assets/fonts/gotham/gotham-thin.otf") format("opentype"),
+        url("./assets/fonts/gotham/gotham-thinitalic.otf") format("opentype"),
+        url("./assets/fonts/gotham/gotham-ultraitalic.otf") format("opentype"),
+        url("./assets/fonts/gotham/gotham-xlight.otf") format("opentype"),
+        url("./assets/fonts/gotham/gotham-xlightitalic.otf") format("opentype");
+}
+
+:root {
+    /* color palette */
+    --color-primary: white;
+    --color-primary-dark: #F9F9F9;
+    --color-secondary: black;
+    --color-secondary-light: #002927;
+    --color-secondary-lighter: #647E7D;
+    --color-secondary-lightest: #DEDDDD;
+    --color-accent: #00BBB0;
+    --color-accent-light: #00C8BE;
+
+    /* font families */
+    --font-family-open-sans: "Open Sans", sans-serif;
+    --font-family-gotham: "Gotham", sans-serif;
+}
+
+.cs-background-primary {
+    background-color: var(--color-primary);
+}
+
+.cs-background-primary-dark {
+    background-color: var(--color-primary-dark);
+}
+
+.cs-background-gradient-primary-to-primary-dark {
+    background-image: linear-gradient(to bottom, white, var(--color-primary-dark));
+}
+
+.cs-background-grid-primary-dark {
+    background-color: var(--color-primary-dark);
+    background-image: 
+        repeating-linear-gradient(to right, #DEDDDD 0px 0.01px, transparent 1px 25px),
+        repeating-linear-gradient(to bottom, #DEDDDD 0px 0.01px, transparent 1px 25px);
+}
+
+.cs-section-smaller {
+    /* layout */
+    width: 80vw;
+    margin: auto; /* for horizontal centering */
+    padding: 50px 5px;
+
+    /* text styling */
+    font-family: var(--font-family-open-sans);
+    color: var(--color-secondary);
+    line-height: 1;
+    text-align: center;
+}
+
+.cs-section {
+    /* layout */
+    width: 80vw;
+    margin: auto; /* for horizontal centering */
+    padding: 100px 5px;
+
+    /* text styling */
+    font-family: var(--font-family-open-sans);
+    color: var(--color-secondary);
+    line-height: 1;
+    text-align: center;
+}
+
+.cs-section-title { /* Use on <span> elements only */
+    /* layout */
+    display: block;
+    margin-bottom: 35px;
+
+    /* text styling */
+    color: var(--color-secondary-light);
+    font-family: var(--font-family-gotham);
+    font-size: 40px;
+    font-weight: 400;
+}
+
+.cs-section-title-larger { /* Use on <span> elements only */
+    /* layout */
+    display: block;
+    margin-bottom: 35px;
+
+    /* text styling */
+    color: var(--color-secondary-light);
+    font-family: var(--font-family-gotham);
+    font-size: 45px;
+    font-weight: 600;
+}
+
+#cs-section-title-cursor {
+    /* This id is required for ityped to work. */
+    /* Don't delete, even though it may be empty. */
+    color: var(--color-secondary-lighter);
+
+    text-decoration: underline;
+}
+
+.cs-font-branding {
+    color: var(--color-secondary-light);
+    font-family: var(--font-family-open-sans);
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.cs-font-quote {
+    color: var(--color-secondary-lighter);
+    font-family: var(--font-family-gotham);
+    font-size: 20px;
+    font-weight: 200;
+    line-height: 1.2;
+}
+
+.cs-font-primary-content {
+    color: var(--color-secondary-light);
+    font-family: var(--font-family-open-sans);
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.cs-font-secondary-content {
+    color: var(--color-secondary-light);
+    font-family: var(--font-family-open-sans);
+    font-size: 18px;
+    font-weight: 300;
+}
+
+.cs-font-contextual-info {
+    color: var(--color-secondary-light);
+    font-family: var(--font-family-open-sans);
+    font-size: 12px;
+    font-weight: 300;
+}
+
+/* 4K and wide monitors */
+@media screen and (min-width: 1921px) {
+    .cs-section-smaller, .cs-section {
+        width: calc(0.8 * 1920px);
+    }
+}
+
+/* IPad2 and tablets */
+@media screen and (max-width: 1200px) {
+    .cs-section-smaller, .cs-section {
+        width: 90vw;
+    }
+}
+
+/* Smaller form-factors, including mobile */
+@media screen and (max-width: 980px) {
+    .cs-section-smaller, .cs-section {
+        width: 100vw;
+    }
 }

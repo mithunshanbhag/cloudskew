@@ -1,0 +1,122 @@
+.pricing-tables {
+    /* layout */
+    margin-bottom: 35px;
+
+    /* flex container */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.pricing-table-wrapper {
+    /* flex item */
+    background-color: var(--color-primary-dark);
+
+    /* flex item, layout */
+    /* border: 1px solid var(--color-secondary-lightest); */ /* @todo: commented out for A/B testing */
+    border-radius: 5px;
+    margin: 10px 25px; /* 10px vertical separation between flex items when wrapped */
+    padding: 30px;
+}
+
+.pricing-table {
+    background-color: var(--color-primary);
+}
+
+.pricing-table-header {
+    /* layout */
+    /* border: 1px solid var(--color-accent); */ /* @todo: commented out for A/B testing */
+    border-bottom: none;
+    border-radius: 5px 5px 0px 0px;
+    padding: 20px;
+
+    /* text styling */
+    text-align: center;
+}
+
+.pricing-table-header-title {
+    /* layout */
+    margin-bottom: 10px;
+
+    /* text styling */
+    color: var(--color-secondary-lighter);
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.pricing-table-header-price {
+    /* layout */
+    margin-bottom: 10px;
+
+    /* text styling */
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.pricing-table-features {
+    /* layout */
+    /* border: 1px solid var(--color-accent); */ /* @todo: commented out for A/B testing */
+    border-radius: 0px 0px 5px 5px;
+    padding: 20px;
+}
+
+.pricing-table-features-row {
+    /* flex container */
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    /* layout */
+    margin-bottom: 15px;
+}
+
+.pricing-table-features-row-checkbox {
+    /* layout */
+    margin-right: 10px;
+}
+
+.pricing-table-features-row-featureText {
+    /* layout */
+    margin-right: 10px;
+
+    /* text styling */
+    white-space: nowrap; /* to prevent text from wrapping at lesser screen resolutions */
+}
+
+.pricing-cta-button {
+    background-color: var(--color-accent);
+
+    /* layout */
+    display: inline-block;
+    margin-bottom: 35px;
+    padding: 15px 25px;
+    border-radius: 35px;
+
+    /* text styling */
+    text-decoration: none;
+    white-space: nowrap; /* to prevent button text from wrapping at lesser screen resolutions */
+}
+
+.pricing-cta-button:hover, .pricing-cta-button:focus {
+    background-color: var(--color-accent-light);
+
+    /* text styling */
+    text-decoration: none;
+}
+
+.pricing-more-details {
+    /* layout */
+    display: block;
+}
+
+.pricing-more-details a {
+    /* text styling */
+    color: var(--color-secondary);
+    text-decoration: none;
+}
+
+.pricing-more-details a:hover, .pricing-more-details a:focus {
+    /* text styling */
+    text-decoration: underline;
+}

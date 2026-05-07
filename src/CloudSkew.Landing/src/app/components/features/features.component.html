@@ -1,0 +1,27 @@
+<div class="cs-background-grid-primary-dark">
+    <div class="cs-section" id="features">
+
+        <!-- section title -->
+        <span class="cs-section-title">Why CloudSkew?</span>
+
+        <div class="features-flexbox">
+            <!-- feature card -->
+            <div class="features-card" *ngFor="let featureItem of this.featureItems">
+
+                <!-- random artwork image -->
+                <img class="features-card-artwork" [src]="this.featureItem.artwork" alt="artwork" text="artwork"
+                    width="48px" height="48px" loading="lazy">
+
+                <!-- feature title -->
+                <div class="features-card-title cs-font-quote">
+                    {{this.featureItem.title}}</div>
+
+                <!-- feature description -->
+                <div class="features-card-description cs-font-secondary-content">
+                    {{this.featureItem.description}}</div>
+
+            </div>
+        </div>
+
+    </div>
+</div>

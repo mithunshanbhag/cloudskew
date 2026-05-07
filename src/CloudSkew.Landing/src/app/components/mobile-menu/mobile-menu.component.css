@@ -1,0 +1,38 @@
+.mobile-menu {
+    /* flex container */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-end;
+}
+
+.mobile-menu-link {
+    /* layout */
+    margin: 15px auto;
+
+    /* text styling */
+    text-decoration: none; /* removes text decorations related to <a> hyperlinks */
+}
+
+.mobile-menu-link:hover, .mobile-menu-link:focus {
+    /* text styling */
+    text-decoration: underline;
+}
+
+.mobile-menu-cta-button { /* use this class with <a> tags only */
+    background-color: var(--color-accent);
+
+    /* layout */
+    padding: 15px 25px;
+    border-radius: 35px;
+
+    /* text styling */
+    white-space: nowrap; /* to prevent button text from wrapping at lesser screen resolutions */
+}
+
+.mobile-menu-cta-button:hover, .mobile-menu-cta-button:focus {
+    background-color: var(--color-accent-light);
+
+    /* text styling */
+    text-decoration: none;
+}

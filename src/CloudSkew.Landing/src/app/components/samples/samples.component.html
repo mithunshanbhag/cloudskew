@@ -1,0 +1,35 @@
+<div class="cs-background-primary">
+    <div class="cs-section" id="samples">
+
+        <!-- section title -->
+        <span class="cs-section-title">Check out some samples</span>
+
+        <div class="samples-gallery">
+            <!-- gallery item -->
+            <div class="samples-gallery-item" *ngFor="let galleryItem of this.galleryItems">
+
+                <!-- header -->
+                <div class="samples-gallery-item-header">
+                    <!-- title -->
+                    <span class="samples-gallery-item-header-title cs-font-quote">{{galleryItem.title}}</span>
+                    <!-- share link -->
+                    <a class="samples-gallery-item-header-sharelink" [href]="this.galleryItem.shareUrl" target="_blank"
+                        rel="noopener noreferrer">See Live</a>
+                </div>
+
+                <!-- description -->
+                <span
+                    class="samples-gallery-item-description cs-font-secondary-content">{{galleryItem.description}}</span>
+
+                <!-- image -->
+                <a class="samples-gallery-item-image" [href]="this.galleryItem.imgUrl" target="_blank"
+                    rel="noopener noreferrer">
+                    <img [src]="this.galleryItem.thumbnailUrl" [title]="this.galleryItem.description"
+                        [alt]="this.galleryItem.description" loading="lazy">
+                </a>
+
+            </div>
+        </div>
+
+    </div>
+</div>

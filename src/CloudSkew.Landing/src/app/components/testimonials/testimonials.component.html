@@ -1,0 +1,38 @@
+<div class="cs-background-primary-dark">
+    <div class="cs-section" id="testimonials">
+
+        <!-- section title -->
+        <span class="cs-section-title">What users are saying</span>
+
+        <div class="testimonials-flexbox">
+
+            <!-- testimonial card -->
+            <div class="testimonials-card" *ngFor="let testimonialItem of this.testimonialItems">
+
+                <!-- testimonial quote -->
+                <a class="testimonials-card-quote" [href]="this.testimonialItem.liveUrl" target="_blank"
+                    rel="noopener noreferrer">
+                    <div class="cs-font-quote">{{testimonialItem.testimonial}}</div>
+                </a>
+
+                <!-- user info -->
+                <div class="testimonials-card-user-flexbox">
+
+                    <div class="testimonials-card-user-details">
+                        <div class="testimonials-card-user-details-name cs-font-primary-content">
+                            {{this.testimonialItem.name}}</div>
+                        <div class="testimonials-card-user-details-job cs-font-secondary-content">
+                            {{this.testimonialItem.job}}</div>
+                    </div>
+
+                    <!-- random artwork image -->
+                    <img class="testimonials-card-user-artwork" [src]="this.testimonialItem.artwork" alt="artwork"
+                        text="artwork" width="48px" height="48px" loading="lazy">
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>

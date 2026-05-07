@@ -1,0 +1,45 @@
+<div class="cs-background-grid-primary-dark">
+    <div class="cs-section" id="pricing">
+
+        <!-- title -->
+        <span class="cs-section-title">CloudSkew plans</span>
+
+        <!-- pricing tables -->
+        <div class="pricing-tables">
+            <!-- individual pricing table -->
+            <div class="pricing-table-wrapper" *ngFor="let plan of this.pricingPlans">
+                <div class="pricing-table">
+                    <!-- table "header" -->
+                    <div class="pricing-table-header">
+                        <div class="pricing-table-header-title">{{plan.title}}</div>
+                        <div class="pricing-table-header-price">{{plan.price}}</div>
+                        <div class="cs-font-contextual-info">{{plan.subtitle}}</div>
+                    </div>
+                    <!-- table features/content -->
+                    <div class="pricing-table-features">
+                        <div class="pricing-table-features-row" *ngFor="let feature of plan.features">
+                            <img class="pricing-table-features-row-checkbox" [src]="feature.checkboxIcon"
+                                [alt]="feature.featureText" width="16px" height="16px" loading="lazy">
+                            <span
+                                class="pricing-table-features-row-featureText cs-font-secondary-content">{{feature.featureText}}</span>
+                            <img *ngIf="feature.featureContext" [src]="feature.featureContextIcon"
+                                [title]="feature.featureContext" [alt]="feature.featureContext" width="16px"
+                                height="16px" loading="lazy">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA button -->
+        <a class="pricing-cta-button cs-font-secondary-content" [href]="this.appUrl" target="_blank"
+            rel="noopener noreferrer">Start for Free</a>
+
+        <!-- additional details -->
+        <span class="pricing-more-details cs-font-contextual-info">For more details, please see our <a
+                [href]="this.faqsUrl" target="_blank" rel="noopener noreferrer">FAQs</a>, <a
+                [href]="this.termOfServiceUrl" target="_blank" rel="noopener noreferrer">Terms of Service</a>, and <a
+                [href]="this.privacyPolicyUrl" target="_blank" rel="noopener noreferrer">Privacy
+                Policy</a>.</span>
+    </div>
+</div>

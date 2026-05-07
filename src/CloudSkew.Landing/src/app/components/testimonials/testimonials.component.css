@@ -1,0 +1,72 @@
+.testimonials-flexbox {
+    /* flex container */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.testimonials-card {
+    /* flex item: styling */
+    background-color: var(--color-primary);
+
+    /* flex item: layout */
+    border-radius: 5px;
+    margin: 20px; /* 20px vertical separation between flex items when wrapped */
+    flex-basis: 27%;
+}
+
+.testimonials-card-quote {
+    /* layout */
+    display: block;
+    margin: 30px 0px;
+    padding: 0px 30px;
+    border-left: 5px solid var(--color-accent);
+
+    /* text styling */
+    text-align: left;
+    text-decoration: none; /* remove decoration from links */
+}
+
+.testimonials-card-quote:hover, .testimonials-card-quote:focus {
+    border-left: 5px solid var(--color-accent-light);
+}
+
+.testimonials-card-user-flexbox {
+    /* layout */
+    margin: 30px;
+
+    /* flex container */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.testimonials-card-user-details {
+    margin-right: 30px;
+}
+
+.testimonials-card-user-details-name {
+    /* layout */
+    margin-bottom: 10px;
+
+    /* text styling */
+    text-align: left;
+}
+
+.testimonials-card-user-details-job {
+    /* text styling */
+    text-align: left;
+}
+
+@media screen and (max-width: 1200px) {
+    .testimonials-card-user-artwork {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 980px) {
+    .testimonials-card {
+        flex-basis: 100%; /* this is to ensure that we get max one flex-item per row */
+    }
+}

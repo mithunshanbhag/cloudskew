@@ -1,0 +1,59 @@
+.footer {
+    /* flex container */
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.footer-column {
+    /* flex item */
+    margin-bottom: 30px; /* required to create vertical spacing when flex items wrap */
+
+    /* flex container */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.footer-column-item {
+    /* flex item */
+    margin-bottom: 20px;
+}
+
+.footer-column-item-link { /* use this class with <a>, <span> tags only */
+    text-decoration: none; /* removes text decorations related to <a> hyperlinks */
+}
+
+.footer-column-item-link:hover, .footer-column-item-link:focus {
+    text-decoration: underline;
+}
+
+.footer-column-branding {
+    /* flex container */
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.footer-column-branding-logo {
+    margin: auto 10px auto 0; /* right margin at 10px */
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+}
+
+.footer-column-social-bar {
+    padding: 10px 0px;
+
+    /* flex container */
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.footer-column-social-link {
+    /* flex item */
+    margin-right: 20px;
+}

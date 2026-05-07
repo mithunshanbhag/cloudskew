@@ -1,14 +1,22 @@
-<!-- notification banner section -->
-<div class="landing-page-notification-banner">
-    <p>Please try out this early pre-release version of CloudSkew. Your feedback is extremely valuable to us!</p>
-</div>
+<app-header></app-header>
 
-<!-- hero section -->
-<div class="landing-page-hero-container">
-    <div class="landing-page-hero">
-        <img class="landing-page-hero-img" [src]="this.landingPageHeroUrl">
-        <a [href]="this.appUrl">
-            <div class="btn btn-success btn-lg landing-page-hero-cta">Create free cloud diagrams</div>
-        </a>
-    </div>
-</div>
+<mat-sidenav-container>
+
+    <!-- sidebar (visible only on mobile) -->
+    <mat-sidenav position="end" #sidenav class="cs-section-smaller cs-background-primary-dark">
+        <app-mobile-menu></app-mobile-menu>
+    </mat-sidenav>
+
+    <!-- main content -->
+    <mat-sidenav-content>
+        <router-outlet></router-outlet>
+        <app-features></app-features>
+        <app-samples></app-samples>
+        <app-testimonials></app-testimonials>
+        <app-pricing></app-pricing>
+        <!-- temporarily commented out -->
+        <!-- <app-about></app-about> -->
+        <app-footer></app-footer>
+    </mat-sidenav-content>
+
+</mat-sidenav-container>

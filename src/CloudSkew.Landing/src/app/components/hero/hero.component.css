@@ -1,0 +1,54 @@
+.hero {
+    /* styling */
+    background-color: var(--color-primary);
+
+    /* layout */
+    margin: 50px auto;
+    padding: 20px;
+    border: 0.1px solid #DEDDDD;
+    border-radius: 15px;
+    box-shadow: 10px 10px 10px var(--color-secondary-lighter);
+    width: 80%; /* 80% of parent container */
+}
+
+.hero img {
+    width: 100%; /* 100% of parent container */
+    height: auto;
+}
+
+.hero-cta-button {
+    background-color: var(--color-accent);
+
+    /* layout */
+    display: inline-block;
+    padding: 15px 25px;
+    border-radius: 35px;
+    margin-bottom: 35px;
+
+    /* text styling */
+    text-decoration: none;
+    white-space: nowrap; /* to prevent button text from wrapping at lesser screen resolutions */
+}
+
+.hero-cta-button:hover, .hero-cta-button:focus {
+    background-color: var(--color-accent-light);
+
+    /* text styling */
+    text-decoration: none;
+}
+
+.hero-cta-context {
+    /* layout */
+    display: block;
+}
+
+.hero-cta-context a {
+    /* text styling */
+    color: var(--color-secondary-light);
+    text-decoration: none;
+}
+
+.hero-cta-context a:hover, .hero-cta-context a:focus {
+    /* text styling */
+    text-decoration: underline;
+}

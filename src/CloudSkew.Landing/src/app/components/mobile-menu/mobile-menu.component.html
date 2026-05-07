@@ -1,0 +1,32 @@
+<div class="mobile-menu">
+
+    <!-- smaples -->
+    <a class="mobile-menu-link cs-font-secondary-content" routerLink="" fragment="samples"
+        (click)="this.onMenuItemClicked()">Samples</a>
+
+    <!-- testimonials -->
+    <a class="mobile-menu-link cs-font-secondary-content" routerLink="" fragment="testimonials"
+        (click)="this.onMenuItemClicked()">Testimonials</a>
+
+    <!-- pricing -->
+    <a class="mobile-menu-link cs-font-secondary-content" routerLink="" fragment="pricing"
+        (click)="this.onMenuItemClicked()">Pricing</a>
+
+    <!-- docs -->
+    <a class="mobile-menu-link cs-font-secondary-content" [href]="this.docsUrl" target="_blank"
+        rel="noopener noreferrer" (click)="this.onMenuItemClicked()">Docs</a>
+
+    <!-- blog -->
+    <a class="mobile-menu-link cs-font-secondary-content" [href]="this.blogUrl" target="_blank"
+        rel="noopener noreferrer" (click)="this.onMenuItemClicked()">Blog</a>
+
+    <!-- status -->
+    <a class="mobile-menu-link cs-font-secondary-content" [href]="this.statusUrl" target="_blank"
+        rel="noopener noreferrer" (click)="this.onMenuItemClicked()">Status</a>
+
+    <!-- CTA button -->
+    <a class="mobile-menu-link cs-font-secondary-content mobile-menu-cta-button" [href]="this.appUrl" target="_blank"
+        rel="noopener noreferrer" (click)="this.onMenuItemClicked()">Go To
+        App</a>
+
+</div>

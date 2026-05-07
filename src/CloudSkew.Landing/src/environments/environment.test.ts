@@ -1,8 +1,8 @@
 export const environment = {
-    production: false,
-
-    // Please keep this list alphabetically sorted.
-    appUrl: 'https://cloudskewuitest.azureedge.net',
-    landingPageFeature1Url: 'https://cloudskewtest.azureedge.net/assets/misc/landing-page-feature-intellisense.svg',
-    landingPageHeroUrl: 'https://cloudskewtest.azureedge.net/assets/misc/landing-page-hero.png',
+  production: false,
+  appUrl: 'https://cloudskewuitest.azureedge.net',
+  blogUrl: 'https://cloudskewblogtest.azureedge.net',
+  cdnUrlPrefix: 'https://cloudskewtest.azureedge.net',
+  docsUrl: 'https://cloudskewdocstest.azureedge.net',
+  googleAnalyticsTrackingId: 'UA-96116826-3',
 };
