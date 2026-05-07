@@ -1,0 +1,45 @@
+{
+  "trailingSlash": "auto",
+  "routes": [
+    {
+      "route": "/assets/*",
+      "headers": {
+        "Cache-Control": "public, max-age=31536000, immutable",
+        "Vary": "Accept-Encoding"
+      }
+    },
+    {
+      "route": "/sitemap.xml",
+      "headers": {
+        "Cache-Control": "public, max-age=3600",
+        "Vary": "Accept-Encoding"
+      }
+    },
+    {
+      "route": "/sitemap.xsl",
+      "headers": {
+        "Cache-Control": "public, max-age=3600",
+        "Vary": "Accept-Encoding"
+      }
+    },
+    {
+      "route": "/robots.txt",
+      "headers": {
+        "Cache-Control": "public, max-age=3600"
+      }
+    }
+  ],
+  "globalHeaders": {
+    "Cache-Control": "no-cache",
+    "Vary": "Accept-Encoding",
+    "X-Content-Type-Options": "nosniff"
+  },
+  "mimeTypes": {
+    ".avif": "image/avif",
+    ".json": "application/json",
+    ".svg": "image/svg+xml",
+    ".webmanifest": "application/manifest+json",
+    ".webp": "image/webp",
+    ".xml": "application/xml"
+  }
+}
