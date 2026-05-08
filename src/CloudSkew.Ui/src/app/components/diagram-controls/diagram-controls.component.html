@@ -17,58 +17,6 @@
 
   <div class="diagram-controls-groups">
     <div class="diagram-controls-group" role="group" aria-label="Diagram state">
-      @if (this.isLocked) {
-        <button
-          mat-icon-button
-          class="diagram-control-button diagram-control-button--locked"
-          matTooltip="Diagram locked. Click to unlock."
-          [disableRipple]="true"
-          (click)="this.onUnlockButtonClick()">
-          <mat-icon fontSet="material-icons-outlined">lock</mat-icon>
-        </button>
-      }
-      @if (!this.isLocked) {
-        <button
-          mat-icon-button
-          class="diagram-control-button diagram-control-button--attention"
-          matTooltip="Diagram unlocked. Click to lock."
-          [disableRipple]="true"
-          (click)="this.onLockButtonClick()">
-          <mat-icon fontSet="material-icons-outlined">lock_open</mat-icon>
-        </button>
-      }
-
-      @if (!this.deleteInProgress) {
-        <button
-          mat-icon-button
-          class="diagram-control-button diagram-control-button--danger"
-          matTooltip="Delete diagram"
-          [disableRipple]="true"
-          [disabled]="this.isLocked"
-          (click)="this.deleteButtonClick.emit()">
-          <mat-icon fontSet="material-icons-outlined">delete</mat-icon>
-        </button>
-      }
-      @if (this.deleteInProgress) {
-        <button
-          mat-icon-button
-          class="diagram-control-button"
-          matTooltip="Delete diagram in progress"
-          [disableRipple]="true"
-          [disabled]="this.isLocked">
-          <mat-spinner [diameter]="this.spinnerDiameter" color="accent"></mat-spinner>
-        </button>
-      }
-
-      <button
-        mat-icon-button
-        class="diagram-control-button"
-        matTooltip="Import diagram from JSON"
-        [disableRipple]="true"
-        (click)="this.importButtonClick.emit()">
-        <mat-icon fontSet="material-icons-outlined">upload_file</mat-icon>
-      </button>
-
       <button
         mat-icon-button
         class="diagram-control-button"
@@ -257,15 +205,70 @@
         </button>
       }
     </div>
+
+    <div class="diagram-controls-group diagram-controls-group--destructive" role="group" aria-label="Destructive actions">
+      @if (!this.deleteInProgress) {
+        <button
+          mat-icon-button
+          class="diagram-control-button diagram-control-button--danger"
+          matTooltip="Delete diagram"
+          [disableRipple]="true"
+          [disabled]="this.isLocked"
+          (click)="this.deleteButtonClick.emit()">
+          <mat-icon fontSet="material-icons-outlined">delete</mat-icon>
+        </button>
+      }
+      @if (this.deleteInProgress) {
+        <button
+          mat-icon-button
+          class="diagram-control-button"
+          matTooltip="Delete diagram in progress"
+          [disableRipple]="true"
+          [disabled]="this.isLocked">
+          <mat-spinner [diameter]="this.spinnerDiameter" color="accent"></mat-spinner>
+        </button>
+      }
+
+      <button
+        mat-icon-button
+        class="diagram-control-button"
+        matTooltip="Import diagram from JSON"
+        [disableRipple]="true"
+        (click)="this.importButtonClick.emit()">
+        <mat-icon fontSet="material-icons-outlined">upload_file</mat-icon>
+      </button>
+    </div>
   </div>
 
   <div class="diagram-controls-endcap">
-    <span
-      class="diagram-controls-indicator"
-      [class.diagram-controls-indicator--locked]="this.isLocked"
-      [class.diagram-controls-indicator--unlocked]="!this.isLocked">
-      {{ this.lockStatusLabel }}
-    </span>
+    <div class="diagram-controls-lock-state" role="group" aria-label="Diagram lock state">
+      @if (this.isLocked) {
+        <button
+          mat-icon-button
+          class="diagram-control-button diagram-control-button--locked"
+          matTooltip="Diagram locked. Click to unlock."
+          [disableRipple]="true"
+          (click)="this.onUnlockButtonClick()">
+          <mat-icon fontSet="material-icons-outlined">lock</mat-icon>
+        </button>
+      }
+      @if (!this.isLocked) {
+        <button
+          mat-icon-button
+          class="diagram-control-button diagram-control-button--attention"
+          matTooltip="Diagram unlocked. Click to lock."
+          [disableRipple]="true"
+          (click)="this.onLockButtonClick()">
+          <mat-icon fontSet="material-icons-outlined">lock_open</mat-icon>
+        </button>
+      }
+      <span
+        class="diagram-controls-indicator"
+        [class.diagram-controls-indicator--locked]="this.isLocked"
+        [class.diagram-controls-indicator--unlocked]="!this.isLocked">
+        {{ this.lockStatusLabel }}
+      </span>
+    </div>
 
     <button
       mat-icon-button

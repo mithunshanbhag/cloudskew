@@ -88,11 +88,25 @@
     background: rgba(255, 255, 255, 0.04);
 }
 
+.diagram-controls-group--destructive {
+    border-color: rgba(239, 68, 68, 0.16);
+}
+
 .diagram-controls-endcap {
     display: flex;
     align-items: center;
     gap: 12px;
     flex: 0 0 auto;
+}
+
+.diagram-controls-lock-state {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px;
+    border: 1px solid rgba(148, 163, 184, 0.14);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.04);
 }
 
 .diagram-controls .mat-mdc-icon-button.diagram-control-button {

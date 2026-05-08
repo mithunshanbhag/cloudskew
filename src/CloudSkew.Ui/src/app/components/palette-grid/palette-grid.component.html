@@ -5,7 +5,12 @@
             <h2 class="palettePanelTitle">Symbol palette</h2>
             <span class="palettePanelSymbolCount" *ngIf="this.paletteGridControlData.length > 0">{{this.paletteGridControlData.length}}</span>
         </div>
-        <p class="palettePanelDescription">{{this.enabledSymbolFamilySummaryText}}</p>
+        <button
+            class="palettePanelDescriptionButton"
+            (click)="this.onAddRemoveSymbolsButtonClick()"
+            matTooltip="Open Add / Remove Symbols dialog">
+            {{this.enabledSymbolFamilySummaryText}}
+        </button>
     </div>
 
     <ejs-textbox class="paletteGridSearchControl e-small" [placeholder]="this.paletteSearchControlPlaceholderText"

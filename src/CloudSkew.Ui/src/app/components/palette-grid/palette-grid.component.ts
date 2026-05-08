@@ -18,6 +18,7 @@ import { LocalPersistenceService } from 'src/app/services/local-persistence.serv
 import { IResourceDocumentationRequest } from '../../interfaces/resource-documentation-request';
 import { ResourceDocumentationDialogComponent } from '../resource-documentation-dialog/resource-documentation-dialog.component';
 import { SymbolFamilyDefinitions } from '../../constants/symbol-family-definitions';
+import { SymbolPreferencesDialogComponent } from '../symbol-preferences-dialog/symbol-preferences-dialog.component';
 
 setCulture('en-US');
 L10n.load({
@@ -80,7 +81,7 @@ export class PaletteGridComponent implements OnInit, OnDestroy {
   constructor(
     private diagramService: DiagramService,
     private localPersistenceService: LocalPersistenceService,
-    private resourceDocumentationDialog: MatDialog,
+    private dialog: MatDialog,
   ) {
   }
 
@@ -137,7 +138,7 @@ export class PaletteGridComponent implements OnInit, OnDestroy {
   }
 
   onPaletteGridControlInfoGlyphClicked(args: IPaletteGridItem) {
-    this.resourceDocumentationDialog.open(ResourceDocumentationDialogComponent, {
+    this.dialog.open(ResourceDocumentationDialogComponent, {
       data: {
         symbolId: args.symbolId,
         symbolGroupId: args.groupId,
@@ -188,6 +189,12 @@ export class PaletteGridComponent implements OnInit, OnDestroy {
       symbolGroupId: requestedSymbolGroupId,
       symbolFamilyId: requestedSymbolFamilyId,
     });
+  }
+
+  onAddRemoveSymbolsButtonClick() {
+    this.dialog.open(SymbolPreferencesDialogComponent, {
+      width: UIConstants.symbolPreferencesDialogWidth,
+    } as MatDialogConfig);
   }
 
   //#endregion callbacks

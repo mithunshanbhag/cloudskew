@@ -50,10 +50,34 @@
 
 .palettePanelDescription {
     margin: 0;
-    color: #64748b;
+    color: #14b8a6;
     font-family: "Open Sans",sans-serif;
     font-size: 12px;
     line-height: 1.4;
+}
+
+.palettePanelDescriptionButton {
+    display: block;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: #14b8a6;
+    font-family: "Open Sans",sans-serif;
+    font-size: 12px;
+    line-height: 1.4;
+    cursor: pointer;
+    text-decoration: underline;
+    transition: color 160ms ease;
+}
+
+.palettePanelDescriptionButton:hover {
+    color: #0f9f93;
+}
+
+.palettePanelDescriptionButton:focus-visible {
+    outline: 2px solid #14b8a6;
+    outline-offset: 2px;
 }
 
 .paletteGridSearchControl {
@@ -100,7 +124,7 @@
     overflow: hidden;
     font-family: "Open Sans",sans-serif;
     font-size: 13px;
-    font-weight: 600;
+    font-weight: 500;
     line-height: 1.25;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -139,10 +163,10 @@
 }
 
 .paletteGridGroupHeaderLabel {
-    color: #64748b;
+    color: #1f2937;
     font-family: "Open Sans",sans-serif;
     font-size: 11px;
-    font-weight: 700;
+    font-weight: 900;
     letter-spacing: 0.08em;
     text-transform: uppercase;
 }

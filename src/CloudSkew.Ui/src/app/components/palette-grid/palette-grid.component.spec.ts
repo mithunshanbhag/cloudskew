@@ -52,7 +52,7 @@ describe('PaletteGridComponent', () => {
     const host = fixture.nativeElement as HTMLElement;
 
     expect(host.querySelector('.palettePanelTitle')?.textContent?.trim()).toBe('Symbol palette');
-    expect(host.querySelector('.palettePanelDescription')?.textContent?.trim()).toBe('3 libraries enabled');
+    expect(host.querySelector('.palettePanelDescriptionButton')?.textContent?.trim()).toBe('3 libraries enabled');
     expect(host.querySelector('.palettePanelEyebrow')).toBeNull();
     expect(host.querySelector('.palettePanelFamilyPills')).toBeNull();
   });
