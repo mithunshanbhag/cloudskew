@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CloudSkew UI Sidebar Palette Shell Mockup</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Open+Sans:wght@400;600;700&family=Roboto+Mono:wght@500&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,500,0,0" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="mockup-page">
+    <section class="workspace-frame">
+      <header class="workspace-topbar">
+        <div>
+          <div class="workspace-title">CloudSkew UI</div>
+          <div class="workspace-caption">Sidebar palette shell reference</div>
+        </div>
+        <div class="workspace-pill">Light rail + grouped stencil browser</div>
+      </header>
+
+      <section class="workspace-body">
+        <aside class="palette-rail" aria-label="Sidebar palette shell">
+          <div class="palette-header">
+            <div>
+              <p class="eyebrow">Editor surface</p>
+              <h1>Symbol palette</h1>
+              <p class="supporting-copy">Loaded libraries stay visible at a glance while add/remove selection remains in the top toolbar.</p>
+            </div>
+            <div class="family-summary">
+              <span class="family-pill is-strong">General</span>
+              <span class="family-pill">AWS</span>
+              <span class="family-pill">Azure</span>
+            </div>
+          </div>
+
+          <label class="search-shell" aria-label="Search symbols">
+            <span class="material-symbols-outlined">search</span>
+            <span class="search-value">data</span>
+            <button class="ghost-icon-button" type="button" aria-label="Clear search">
+              <span class="material-symbols-outlined">close</span>
+            </button>
+          </label>
+
+          <div class="browser-surface">
+            <section class="group-block">
+              <div class="group-header">
+                <span class="group-name">AWS Analytics</span>
+                <span class="group-count">04</span>
+              </div>
+
+              <button class="palette-row" type="button">
+                <span class="symbol-tile color-purple">DP</span>
+                <span class="row-copy">
+                  <span class="row-title">Data Pipeline</span>
+                </span>
+                <span class="row-action">
+                  <span class="material-symbols-outlined">help</span>
+                </span>
+              </button>
+
+              <button class="palette-row is-hovered" type="button">
+                <span class="symbol-tile color-indigo">KA</span>
+                <span class="row-copy">
+                  <span class="row-title">Kinesis Data Analytics</span>
+                  <span class="row-meta">Streaming analytics</span>
+                </span>
+                <span class="row-action">
+                  <span class="material-symbols-outlined">help</span>
+                </span>
+              </button>
+
+              <button class="palette-row" type="button">
+                <span class="symbol-tile color-violet">KF</span>
+                <span class="row-copy">
+                  <span class="row-title">Kinesis Data Firehose</span>
+                </span>
+                <span class="row-action">
+                  <span class="material-symbols-outlined">help</span>
+                </span>
+              </button>
+
+              <button class="palette-row" type="button">
+                <span class="symbol-tile color-plum">KS</span>
+                <span class="row-copy">
+                  <span class="row-title">Kinesis Data Streams</span>
+                </span>
+                <span class="row-action">
+                  <span class="material-symbols-outlined">help</span>
+                </span>
+              </button>
+            </section>
+
+            <section class="group-block">
+              <div class="group-header">
+                <span class="group-name">AWS Database</span>
+                <span class="group-count">09</span>
+              </div>
+
+              <button class="palette-row" type="button">
+                <span class="symbol-tile color-blue">AU</span>
+                <span class="row-copy">
+                  <span class="row-title">Aurora</span>
+                </span>
+                <span class="row-action">
+                  <span class="material-symbols-outlined">help</span>
+                </span>
+              </button>
+
+              <button class="palette-row" type="button">
+                <span class="symbol-tile color-sky">DMS</span>
+                <span class="row-copy">
+                  <span class="row-title">Database Migration Service</span>
+                  <span class="row-meta">Migration and replication</span>
+                </span>
+                <span class="row-action">
+                  <span class="material-symbols-outlined">help</span>
+                </span>
+              </button>
+
+              <button class="palette-row" type="button">
+                <span class="symbol-tile color-cyan">DOC</span>
+                <span class="row-copy">
+                  <span class="row-title">DocumentDB</span>
+                </span>
+                <span class="row-action">
+                  <span class="material-symbols-outlined">help</span>
+                </span>
+              </button>
+            </section>
+          </div>
+
+          <footer class="palette-footer">
+            <button class="secondary-button" type="button">
+              <span class="material-symbols-outlined">add_photo_alternate</span>
+              <span>Add image</span>
+            </button>
+            <p class="footer-caption">Footer action stays pinned so custom image insert is always easy to find.</p>
+          </footer>
+        </aside>
+
+        <section class="canvas-hint" aria-hidden="true">
+          <div class="canvas-card">
+            <div class="canvas-chip">
+              <span class="material-symbols-outlined">grid_view</span>
+              <span>Canvas remains the primary surface</span>
+            </div>
+            <div class="canvas-preview">
+              <div class="canvas-page"></div>
+            </div>
+          </div>
+        </section>
+      </section>
+    </section>
+  </main>
+</body>
+</html>

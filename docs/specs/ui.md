@@ -230,6 +230,52 @@ This file captures the checked-in UI details for the two CloudSkew web apps:
 | Symbol families         | General, AWS, Azure, GCP, IBM, Oracle, DigitalOcean, Alibaba Cloud, Kubernetes/CNCF ecosystem, Elastic, VMWare, Font Awesome, HashiCorp, and Cloudflare. |
 | Default symbol families | General + AWS + Azure.                                                                                                                                   |
 
+#### Intended Design Refresh
+
+The next pass should keep the same palette scope, search behavior, group ordering, documentation affordance, and Add Image action, but restyle the left rail into a cleaner stencil browser. The direction should feel aligned with the refreshed command bar and property rail: quieter surfaces, clearer group structure, lighter typography, more deliberate icon treatment, and better spacing around each symbol row.
+
+##### Sidebar Shell
+
+| Area | Intended design change |
+| ---- | ---------------------- |
+| Surface | Evolve the left palette from a plain `240px` strip into a more deliberate browser rail. Target a `272px` desktop width with `12px` outer padding, a `#f8fafc` background, a `1px` right border `#dbe4ee`, and a subtle inset shadow so the rail feels part of the editor chrome without overpowering the canvas. |
+| Layout | Treat the sidebar as three stacked zones: palette header/search, scrollable symbol browser, and a pinned footer action. Keep the rail full height, but use consistent `12px` rhythm between these zones so the palette feels composed instead of improvised. |
+| Palette header | Add a compact header block above the search field with a `13px` to `14px` semibold title such as `Symbol palette` and a muted `11px` to `12px` supporting line for active library context. This is informational only; add/remove library selection still lives in the toolbar dialog. |
+| Active family summary | Present enabled symbol families as quiet pills or summary text directly under the header so users can quickly understand which stencil sets are loaded without opening the toolbar action first. Keep the treatment lightweight and avoid turning it into a second filter bar. |
+| Search shell | Restyle the palette search control as a `40px` rounded input with a leading search icon, `12px` horizontal padding, white background, `1px` neutral border, and a teal focus ring. Preserve the clear button behavior, but treat the clear affordance as a subdued trailing icon inside the same shell. |
+| Scroll container | Let the symbol list fill the remaining vertical space between the search band and footer. The scroll surface should use rounded corners, a white background, a light inner border, and enough inset padding that group headers and rows do not crash into the rail edges. |
+| Footer action | Keep Add Image as the only palette footer action, but pin it to a lightly separated footer zone with a subtle top border. The button should be full width, `36px` high, use icon + label treatment, and match the same secondary-button language used by the dialog and property rail refresh. |
+
+##### Symbol Browser And Row Treatment
+
+| Area | Intended design change |
+| ---- | ---------------------- |
+| Group headers | Replace the current plain grouped-header feel with sticky section labels that read like stencil categories. Use `11px` uppercase or small-caps labels in muted slate (`#64748b`), paired with optional counts or secondary metadata in `Roboto Mono` when helpful. |
+| Rows | Increase symbol rows to a `44px` minimum touch target with `10px` to `12px` horizontal padding, `10px` gap between icon and copy, and an `8px` to `10px` row radius. Rows should feel scannable and clickable without becoming card-heavy. |
+| Icon tile | Place each symbol preview inside a compact `32px` square or rounded-rectangle tile with white background, a thin neutral border, and centered artwork. The tile should frame the SVG stencil cleanly so mixed icon sets feel visually consistent even when their source artwork varies. |
+| Labels | Use a UI sans-serif (`Inter`, `Open Sans`, or equivalent) for symbol names at `13px` semibold with tighter line height than the current mono presentation. Reserve `Roboto Mono` for compact metadata only, such as counts or future keyboard hints, not for every row label. |
+| Secondary metadata | When a symbol benefits from synonyms or category context during search, show that as muted `11px` supporting text beneath the main label instead of forcing every row to remain single-line. Default rows may remain visually single-line when no extra context is needed. |
+| Documentation action | Replace the tiny ellipsis feel with a clearer ghost-style documentation affordance at the row end: `28px` square, `8px` radius, neutral icon color, and tooltip copy in sentence case. If the underlying icon remains Font Awesome for implementation convenience, wrap it in the same visual shell as the rest of the row-end controls. |
+| Hover, press, and focus | Use soft teal-tinted row hover (`rgba(20, 184, 166, 0.12)`), slightly stronger pressed state (`rgba(20, 184, 166, 0.18)`), and a visible teal focus ring. The palette should feel responsive, but rows should avoid heavy filled selection states because clicking primarily inserts a symbol into the canvas rather than toggling a persistent selection. |
+| Empty and filtered states | When search returns no matches, show the empty state inside the same list surface using a compact icon, a short muted message, and a subtle suggestion to adjust the search term. Keep it lightweight and centered; do not introduce a large illustration or extra actions beyond the existing clear/search flow. |
+
+##### Visual Language
+
+| Area | Intended design change |
+| ---- | ---------------------- |
+| Typography | Standardize visible palette labels, headers, chips, and buttons on `Inter`, `Open Sans`, or equivalent UI sans-serif. Use medium to semibold weights, and reserve `Roboto Mono` for technical microcopy only. |
+| Color | Keep the rail predominantly light with white surfaces, slate text (`#0f172a` / `#475569`), teal accents (`#14b8a6`) for focus and hover states, and restrained amber only for attention states if needed. Avoid legacy mixed grays and raw Bootstrap link blue in this surface. |
+| Iconography | Prefer Material Symbols Outlined for search, clear, add-image, and documentation-supporting chrome. Provider/resource artwork remains SVG-based, but it should sit inside the shared tile treatment so AWS, Azure, Kubernetes, and generic symbols feel like part of one palette system. |
+| Spacing rhythm | Use `12px` rail padding, `10px` row insets, `8px` to `12px` internal gaps, and modest `12px` to `14px` spacing between groups. The palette should read as dense and efficient, but not cramped. |
+| Accessibility | Maintain `44px` minimum row targets, keep all icon-only affordances keyboard focusable with visible rings, and ensure muted labels still meet contrast expectations against the light panel surfaces. |
+
+##### Reference Mockups
+
+| Mockup | Path | Purpose |
+| ------ | ---- | ------- |
+| Sidebar palette shell | `docs/ui-mockups/CloudSkewUiSidebarPaletteShell/` | Shows the intended left-rail shell, header/search treatment, grouped symbol list, and pinned Add Image footer. |
+| Sidebar palette variants | `docs/ui-mockups/CloudSkewUiSidebarPaletteVariants/` | Shows row states, documentation affordances, empty search treatment, and compact family-summary/search patterns that support the refreshed palette design language. |
+
 ### Toolbar And Status Bar
 
 | Surface           | Details                                                                                                                             |
