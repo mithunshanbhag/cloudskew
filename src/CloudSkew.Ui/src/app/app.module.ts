@@ -23,7 +23,6 @@ import { CheckBoxModule } from '@syncfusion/ej2-angular-buttons';
 import { ConnectorBridgingService, DiagramContextMenuService, DiagramModule, PrintAndExportService, SnappingService, UndoRedoService } from '@syncfusion/ej2-angular-diagrams';
 import { GridModule, GroupService, SearchService, SortService } from '@syncfusion/ej2-angular-grids';
 import { TextBoxModule, UploaderModule } from '@syncfusion/ej2-angular-inputs';
-import { HtmlEditorService, LinkService, QuickToolbarService, RichTextEditorModule, TableService, ToolbarService } from '@syncfusion/ej2-angular-richtexteditor';
 import { AppComponent } from './app.component';
 import { ActivitybarComponent } from './components/activitybar/activitybar.component';
 import { BasicShapePropertiesEditorComponent } from './components/basic-shape-properties-editor/basic-shape-properties-editor.component';
@@ -42,7 +41,6 @@ import { DiagramSaveTemplateDialogComponent } from './components/diagram-save-te
 import { DiagramSelectorConfirmationDialogComponent } from './components/diagram-selector-confirmation-dialog/diagram-selector-confirmation-dialog.component';
 import { DiagramSelectorGridComponent } from './components/diagram-selector-grid/diagram-selector-grid.component';
 import { DiagramComponent } from './components/diagram/diagram.component';
-import { DocumentEditorDialogComponent } from './components/document-editor-dialog/document-editor-dialog.component';
 import { ExtensionGridComponent } from './components/extension-grid/extension-grid.component';
 import { GroupPropertiesEditorComponent } from './components/group-properties-editor/group-properties-editor.component';
 import { ImagePropertiesEditorComponent } from './components/image-properties-editor/image-properties-editor.component';
@@ -104,7 +102,6 @@ const appRoutes: Routes = [
         ImageUploadDialogComponent,
         ImagePropertiesEditorComponent,
         PreferenceGridComponent,
-        DocumentEditorDialogComponent,
         StatusbarComponent,
         DiagramPropertiesEditorComponent,
         GroupPropertiesEditorComponent,
@@ -141,7 +138,6 @@ const appRoutes: Routes = [
         MatTooltipModule,
         UploaderModule,
         ReactiveFormsModule,
-        RichTextEditorModule,
         TextBoxModule,
         RouterModule.forRoot(appRoutes, {})], providers: [
         ConnectorBridgingService,
@@ -153,11 +149,6 @@ const appRoutes: Routes = [
         SearchService,
         SnappingService,
         SortService,
-        LinkService,
-        HtmlEditorService,
-        QuickToolbarService,
-        TableService,
-        ToolbarService,
         UndoRedoService,
         ErrorHandlerProvider,
         provideHttpClient(withInterceptorsFromDi()),

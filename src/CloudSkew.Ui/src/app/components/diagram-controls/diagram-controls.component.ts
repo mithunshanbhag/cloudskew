@@ -42,7 +42,6 @@ export class DiagramControlsComponent implements OnInit, OnDestroy {
   @Output() exportButtonClick = new EventEmitter();
   @Output() saveTemplateButtonClick = new EventEmitter();
   @Output() deleteButtonClick = new EventEmitter();
-  @Output() documentButtonClick = new EventEmitter();
 
   constructor(
     private diagramControlsService: DiagramControlsService,

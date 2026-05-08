@@ -20,9 +20,9 @@
   - Keep the rendering helper API only for anonymous JPG/PNG/PDF/SVG print/export operations.
   - Static CDN/docs URLs remain external and unchanged.
 - **IndexedDB Storage Direction**
-  - Store diagrams, templates, preferences, document details, thumbnails/custom images, and last-opened diagram metadata locally.
+- Store diagrams, templates, preferences, thumbnails/custom images, and last-opened diagram metadata locally.
   - Use `localStorage` only for tiny compatibility/session values if needed; primary persistence is IndexedDB.
-  - Define local IDs client-side and preserve existing DTO fields such as `id`, `name`, `diagramDetails`, `documentDetails`, `thumbnailUrl`, `lastUpdatedUTC`, and `visibility`.
+- Define local IDs client-side and preserve existing DTO fields such as `id`, `name`, `diagramDetails`, `thumbnailUrl`, `lastUpdatedUTC`, and `visibility`.
 
 ## Known Product/Technical Follow-ups
   - Decide whether JSON export/import should represent raw Syncfusion diagram JSON or full app-level `DiagramDTO`.

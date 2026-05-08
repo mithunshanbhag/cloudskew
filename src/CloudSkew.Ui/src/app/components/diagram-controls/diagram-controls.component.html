@@ -69,13 +69,6 @@
   </button>
   <mat-divider [vertical]="true"></mat-divider>
 
-  <!-- document attachment -->
-  <button mat-icon-button matTooltip="documentation" [disableRipple]="true" [disabled]="this.isLocked"
-    (click)="this.documentButtonClick.emit()">
-    <mat-icon fontSet="material-icons-outlined">description</mat-icon>
-  </button>
-  <mat-divider [vertical]="true"></mat-divider>
-
   <!-- undo/redo buttons -->
   <button mat-icon-button matTooltip="undo edit" [disableRipple]="true"
     [disabled]="!this.isUndoPossible || this.isLocked" (click)="this.onUndoButtonClick()">

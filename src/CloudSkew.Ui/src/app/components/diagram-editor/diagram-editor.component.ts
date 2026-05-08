@@ -21,7 +21,6 @@ import { DiagramExportDialogComponent } from '../diagram-export-dialog/diagram-e
 import { DiagramPrintDialogComponent } from '../diagram-print-dialog/diagram-print-dialog.component';
 import { DiagramSaveTemplateDialogComponent } from '../diagram-save-template-dialog/diagram-save-template-dialog.component';
 import { DiagramService, IDiagramExportRequestArgs, IDiagramPrintRequestArgs } from '../diagram/diagram.service';
-import { DocumentEditorDialogComponent } from '../document-editor-dialog/document-editor-dialog.component';
 import { SidebarService } from '../sidebar/sidebar.service';
 import { IUserProfileChangedEventArgs, StatusbarService } from '../statusbar/statusbar.service';
 import { TemplateSelectorGridService } from '../template-selector-grid/template-selector-grid.service';
@@ -125,13 +124,6 @@ export class DiagramEditorComponent implements OnInit, OnDestroy {
         takeUntil(this.onDestroy$)
       )
       .subscribe((result) => this.saveDiagramAsTemplate(diagram, result));
-  }
-
-  onDiagramDocumentEditorButtonClick(diagram: DiagramDTO) {
-    this.dialog.open(DocumentEditorDialogComponent, {
-      data: diagram,
-      width: UIConstants.documentEditorDialogWidth,
-    } as MatDialogConfig<DiagramDTO>);
   }
 
   //#endregion callbacks

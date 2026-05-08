@@ -6,7 +6,6 @@ export class TemplateDTO {
         public notes?: string,
         public visibility?: string,
         public diagramDetails?: string,
-        public documentDetails?: string,
         public thumbnailUrl?: string,
         public lastUpdatedUTC?: Date,
         public emailMD5?: string,

@@ -38,9 +38,6 @@ export class UIConstants {
     // diagram selector confirmation dialog
     public static readonly diagramSelectorConfirmationDialogWidth = '350px';
 
-    // document editor dialog
-    public static readonly documentEditorDialogWidth = '800px';
-
     // image upload options dialog
     public static readonly imageUploadOptionsDialogWidth = '600px';
 
