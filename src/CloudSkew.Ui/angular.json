@@ -37,7 +37,6 @@
               "./node_modules/@syncfusion/ej2-angular-diagrams/styles/material.css",
               "./node_modules/@syncfusion/ej2-angular-grids/styles/material.css",
               "./node_modules/@syncfusion/ej2-angular-inputs/styles/material.css",
-              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/themes/syncfusion-material-customized/material.min.css",
               "src/styles.css"
             ],

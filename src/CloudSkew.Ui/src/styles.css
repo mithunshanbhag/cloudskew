@@ -10,6 +10,25 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+button.btn {
+    display: inline-block;
+    margin: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    line-height: inherit;
+    text-align: center;
+    text-decoration: none;
+    user-select: none;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+button.btn:disabled {
+    cursor: default;
+}
+
 /* ***** Default Flexbox Options ***** */
 /* *********************************** */
 .defaultFlexbox {
@@ -669,7 +688,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     text-align: left;
     font-size: inherit;
 }
-.sidebarControl .btn:focus { /* prevent the glow/halo around bootstrap buttons immediately after clicking */
+.sidebarControl .btn:focus {
     box-shadow: none; 
 }
 
@@ -812,7 +831,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     text-align: left;
     font-size: inherit;
 }
-.propertiesbarControl .btn:focus { /* prevent the glow/halo around bootstrap buttons immediately after clicking */
+.propertiesbarControl .btn:focus {
     box-shadow: none; 
 }
 .propertiesbarControl .btn:hover {

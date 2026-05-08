@@ -1,5 +1,6 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatMenuModule } from '@angular/material/menu';
 import { DiagramService } from '../diagram/diagram.service';
 import { DiagramControlsComponent } from './diagram-controls.component';
 import { DiagramControlsService } from './diagram-controls.service';
@@ -95,6 +96,7 @@ describe('DiagramControlsComponent template', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [DiagramControlsComponent],
+      imports: [MatMenuModule],
       providers: [
         DiagramControlsService,
         { provide: DiagramService, useValue: jasmine.createSpyObj<DiagramService>('DiagramService', ['request']) },

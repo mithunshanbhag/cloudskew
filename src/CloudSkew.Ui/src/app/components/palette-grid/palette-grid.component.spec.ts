@@ -6,6 +6,7 @@ import { PaletteGridComponent } from './palette-grid.component';
 import { LocalPersistenceService } from '../../services/local-persistence.service';
 import { SymbolFamilyConstants } from '../../constants/symbol-family-constants';
 import { MatDialog } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
 
 class LocalPersistenceServiceStub {
   private readonly preferencesSubject = new BehaviorSubject<number>(SymbolFamilyConstants.Default);
@@ -33,6 +34,7 @@ describe('PaletteGridComponent', () => {
 
     await TestBed.configureTestingModule({
       declarations: [PaletteGridComponent],
+      imports: [MatIconModule],
       providers: [
         { provide: DiagramService, useValue: diagramService },
         { provide: LocalPersistenceService, useValue: localPersistenceService },

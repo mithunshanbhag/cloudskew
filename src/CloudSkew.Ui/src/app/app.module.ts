@@ -1,4 +1,3 @@
-import { ClipboardModule } from '@angular/cdk/clipboard';
 import { NgOptimizedImage } from '@angular/common';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { NgModule } from '@angular/core';
@@ -53,7 +52,6 @@ import { PropertiesEditorComponent } from './components/visual-properties-editor
 import { EllipsisPipe } from './pipes/ellipsis.pipe';
 import { DialogProvider } from './services/dialog.service';
 import { ErrorHandlerProvider } from './services/global-error-handler.service';
-import { NotificationService } from './services/notification.service';
 
 const appRoutes: Routes = [
   // routes should be ordered from most specific to least specific.
@@ -93,7 +91,6 @@ const appRoutes: Routes = [
     ],
     bootstrap: [AppComponent], imports: [BrowserAnimationsModule,
         BrowserModule,
-        ClipboardModule,
         DiagramModule,
         FontAwesomeModule,
         FormsModule,
@@ -121,7 +118,6 @@ const appRoutes: Routes = [
         DialogProvider,
         GroupService,
         PrintAndExportService,
-        NotificationService, // @todo: check if really needed to be declared in providers array
         SearchService,
         SnappingService,
         SortService,

@@ -1,9 +1,7 @@
 <!-- content to render while awaiting content to be fetched -->
 <!-- this usually needs to be wrapped in an ng-template when consumed -->
 <div class="loading-block">
-    <!-- the 'role' attribute is required for accessibility purposes (per bootstrap docs) -->
-    <div class="spinner-grow text-dark" role="status">
-        <!-- the 'span' attribute too is required for accessibility purposes (per bootstrap docs) -->
-        <span class="sr-only">Loading...</span>
+    <div class="loading-block-spinner" role="status">
+        <span class="visually-hidden">Loading...</span>
     </div>
 </div>
