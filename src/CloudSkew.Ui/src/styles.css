@@ -207,6 +207,66 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     color: black;
     background-color: rgb(58, 129, 58);
 }
+
+/* ***** Diagram Control Menus ***** */
+/* ********************************* */
+.diagram-controls-menu-panel.mat-mdc-menu-panel {
+    border: 1px solid #dbe4ee;
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: 0 24px 48px rgba(15, 23, 42, 0.18);
+    overflow: hidden;
+}
+.diagram-controls-menu-panel .mat-mdc-menu-content {
+    padding: 12px;
+}
+.diagram-controls-menu-panel .diagram-controls-menu-section-label {
+    margin: 0 0 8px;
+    padding: 0 12px;
+    color: #64748b;
+    font-family: "Open Sans",sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+.diagram-controls-menu-panel .diagram-controls-menu-divider {
+    margin: 8px 0;
+}
+.diagram-controls-menu-panel .mat-mdc-menu-item {
+    min-height: 36px;
+    margin: 0 0 4px;
+    border-radius: 8px;
+    color: #0f172a;
+}
+.diagram-controls-menu-panel .mat-mdc-menu-item:last-child {
+    margin-bottom: 0;
+}
+.diagram-controls-menu-panel .mat-mdc-menu-item:hover:not([disabled]),
+.diagram-controls-menu-panel .mat-mdc-menu-item.cdk-program-focused,
+.diagram-controls-menu-panel .mat-mdc-menu-item.cdk-keyboard-focused {
+    background: rgba(20, 184, 166, 0.12);
+}
+.diagram-controls-menu-panel .mat-mdc-menu-item .mat-icon {
+    color: #475569;
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    margin-right: 12px;
+}
+.diagram-controls-menu-panel .mat-mdc-menu-item .mdc-list-item__primary-text,
+.diagram-controls-menu-panel .mat-mdc-menu-item span {
+    font-family: "Open Sans",sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+}
+.diagram-controls-menu-panel .mat-mdc-menu-item .diagram-controls-menu-item-hint {
+    margin-left: auto;
+    color: #64748b;
+    font-family: "Roboto Mono",sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+}
 /* for some reason if you need to modify the styling of the action button ('dismiss'), then
    you can uncomment below snippet and modify as needed.
     .snack-bar-info .mat-simple-snackbar-action {

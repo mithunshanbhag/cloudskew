@@ -1,4 +1,5 @@
 import { ClipboardModule } from '@angular/cdk/clipboard';
+import { NgOptimizedImage } from '@angular/common';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -99,6 +100,7 @@ const appRoutes: Routes = [
         FontAwesomeModule,
         FormsModule,
         GridModule, // per angular docs, HttpClientModule must be imported after BrowserModule
+        NgOptimizedImage,
         MatButtonModule,
         MatButtonToggleModule,
         MatCheckboxModule,

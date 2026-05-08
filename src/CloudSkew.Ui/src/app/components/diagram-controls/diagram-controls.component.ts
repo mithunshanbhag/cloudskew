@@ -19,10 +19,12 @@ import { DiagramControlsRequestArgs, DiagramControlsService } from './diagram-co
     standalone: false
 })
 export class DiagramControlsComponent implements OnInit, OnDestroy {
-
+ 
   //
   spinnerDiameter = UIConstants.diagramControlSpinnerDefaultDiameter;
   logoUrl = 'assets/logos/cloudskew-logo.png';
+  logoWidth = 28;
+  logoHeight = 28;
   faqsUrl = UrlConstants.faqsUrl;
   githubIssuesUrl = UrlConstants.githubIssuesUrl;
   keyboardShortcutsUrl = UrlConstants.keyboardShortcutsUrl;
@@ -43,6 +45,10 @@ export class DiagramControlsComponent implements OnInit, OnDestroy {
   isZoomResetPossible = false;
   isSelectMode = false;
   isPanMode = false;
+
+  get lockStatusLabel(): string {
+    return this.isLocked ? 'Locked' : 'Unlocked';
+  }
 
   //
   @Output() printButtonClick = new EventEmitter();
@@ -160,6 +166,10 @@ export class DiagramControlsComponent implements OnInit, OnDestroy {
   }
 
   onSelectModeButtonClick() {
+    if (this.isLocked || this.isSelectMode) {
+      return;
+    }
+
     this.diagramService.request({
       kind: 'IDiagramToolRequestArgs',
       type: 'select',
@@ -167,6 +177,10 @@ export class DiagramControlsComponent implements OnInit, OnDestroy {
   }
 
   onPanModeButtonClick() {
+    if (this.isLocked || this.isPanMode) {
+      return;
+    }
+
     this.diagramService.request({
       kind: 'IDiagramToolRequestArgs',
       type: 'pan',

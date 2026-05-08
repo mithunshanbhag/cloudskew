@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CloudSkew UI Top Control Bar Mockup</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@500&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,500,0,0" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="mockup-page">
+    <section class="shell">
+      <header class="control-bar">
+        <div class="brand-block">
+          <div class="brand-tile" aria-hidden="true">C</div>
+          <div class="brand-copy">
+            <div class="brand-name">CloudSkew</div>
+            <div class="brand-caption">Diagram editor</div>
+          </div>
+        </div>
+
+        <div class="control-groups">
+          <div class="control-group">
+            <button class="command-button" aria-label="Lock diagram">
+              <span class="material-symbols-outlined">lock</span>
+            </button>
+            <button class="command-button destructive" aria-label="Delete diagram">
+              <span class="material-symbols-outlined">delete</span>
+            </button>
+            <button class="command-button" aria-label="Import JSON">
+              <span class="material-symbols-outlined">upload_file</span>
+            </button>
+            <button class="command-button" aria-label="Add or remove symbols">
+              <span class="material-symbols-outlined">filter_alt</span>
+            </button>
+          </div>
+
+          <div class="control-group">
+            <button class="command-button" aria-label="Quick insert">
+              <span class="material-symbols-outlined">add</span>
+            </button>
+          </div>
+
+          <div class="control-group">
+            <button class="command-button is-active" aria-label="Select mode">
+              <span class="material-symbols-outlined">near_me</span>
+            </button>
+            <button class="command-button" aria-label="Pan mode">
+              <span class="material-symbols-outlined">pan_tool_alt</span>
+            </button>
+          </div>
+
+          <div class="control-group">
+            <button class="command-button" aria-label="Undo">
+              <span class="material-symbols-outlined">undo</span>
+            </button>
+            <button class="command-button" aria-label="Redo">
+              <span class="material-symbols-outlined">redo</span>
+            </button>
+          </div>
+
+          <div class="control-group">
+            <button class="command-button" aria-label="Zoom out">
+              <span class="material-symbols-outlined">zoom_out</span>
+            </button>
+            <button class="command-button" aria-label="Center view">
+              <span class="material-symbols-outlined">center_focus_strong</span>
+            </button>
+            <button class="command-button" aria-label="Zoom in">
+              <span class="material-symbols-outlined">zoom_in</span>
+            </button>
+          </div>
+
+          <div class="control-group">
+            <button class="command-button" aria-label="Export image">
+              <span class="material-symbols-outlined">download</span>
+            </button>
+            <button class="command-button" aria-label="Print">
+              <span class="material-symbols-outlined">print</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="control-endcap">
+          <div class="status-pill">Unlocked</div>
+          <button class="command-button help-button" aria-label="Help and support">
+            <span class="material-symbols-outlined">help</span>
+          </button>
+        </div>
+      </header>
+
+      <section class="menu-preview-grid" aria-label="Top control bar menu preview states">
+        <article class="menu-card">
+          <div class="menu-title">Quick insert menu</div>
+          <div class="menu-section-label">Connectors</div>
+          <button class="menu-row">
+            <span class="menu-icon material-symbols-outlined">timeline</span>
+            <span class="menu-label">Line connector</span>
+            <span class="menu-hint">L</span>
+          </button>
+          <button class="menu-row is-selected">
+            <span class="menu-icon material-symbols-outlined">device_hub</span>
+            <span class="menu-label">Elbow connector</span>
+            <span class="menu-hint">E</span>
+          </button>
+          <button class="menu-row">
+            <span class="menu-icon material-symbols-outlined">show_chart</span>
+            <span class="menu-label">Curved connector</span>
+            <span class="menu-hint">C</span>
+          </button>
+
+          <div class="menu-divider"></div>
+          <div class="menu-section-label">Shapes</div>
+          <button class="menu-row">
+            <span class="menu-icon material-symbols-outlined">circle</span>
+            <span class="menu-label">Circle / ellipse</span>
+          </button>
+          <button class="menu-row">
+            <span class="menu-icon material-symbols-outlined">crop_square</span>
+            <span class="menu-label">Rectangle / square</span>
+          </button>
+
+          <div class="menu-divider"></div>
+          <div class="menu-section-label">Content</div>
+          <button class="menu-row">
+            <span class="menu-icon material-symbols-outlined">text_fields</span>
+            <span class="menu-label">Text</span>
+          </button>
+          <button class="menu-row">
+            <span class="menu-icon material-symbols-outlined">image</span>
+            <span class="menu-label">Custom image</span>
+          </button>
+        </article>
+
+        <article class="menu-card">
+          <div class="menu-title">Help menu</div>
+          <div class="menu-section-label">Resources</div>
+          <button class="menu-row">
+            <span class="menu-icon material-symbols-outlined">keyboard</span>
+            <span class="menu-label">Keyboard shortcuts</span>
+            <span class="menu-hint">?</span>
+          </button>
+          <button class="menu-row">
+            <span class="menu-icon material-symbols-outlined">help</span>
+            <span class="menu-label">FAQs</span>
+          </button>
+          <button class="menu-row">
+            <span class="menu-icon material-symbols-outlined">description</span>
+            <span class="menu-label">Release notes</span>
+          </button>
+
+          <div class="menu-divider"></div>
+          <div class="menu-section-label">Feedback</div>
+          <button class="menu-row">
+            <span class="menu-icon material-symbols-outlined">bug_report</span>
+            <span class="menu-label">Report an issue on GitHub</span>
+            <span class="menu-hint">ext</span>
+          </button>
+        </article>
+      </section>
+    </section>
+  </main>
+</body>
+</html>

@@ -242,6 +242,47 @@ This file captures the checked-in UI details for the two CloudSkew web apps:
 | Progress state    | Delete/export/print buttons swap icon content for a `mat-spinner` while in progress.                                                |
 | Status bar        | Light gray, Roboto Mono `11px`; shows current mode and zoom percentage.                                                             |
 
+#### Intended Design Refresh
+
+The next pass should keep the same functional controls and menu destinations, but restyle the top control bar and bottom status bar as a more cohesive command surface. The reference direction is a cleaner, MudBlazor-inspired command bar: grouped actions, calmer separators, stronger visual hierarchy, and consistent icon/menu treatment.
+
+##### Top Control Bar
+
+| Area | Intended design change |
+| ---- | ---------------------- |
+| Surface | Use a `56px` tall command bar with `12px 16px` padding, a dark slate background (`#111827`), a subtle `1px` bottom border (`#1f2937`), and a soft shadow so the editor chrome reads as a distinct app frame. |
+| Layout | Replace the divider-after-every-button treatment with grouped action clusters separated by `12px` gaps. Within each group, keep `4px` gaps between controls so related actions read as a single command set. |
+| Branding | Keep the CloudSkew logo first, but place it in a `40px` rounded square tile with a matching wordmark label beside it. The branding block should anchor the bar visually without consuming excessive width. |
+| Action grouping | Present actions in this order: Branding, Diagram State (lock/delete/import/symbols), Insert, Tool Mode, History, View, Output, Help. Functional scope stays unchanged; only grouping and emphasis change. |
+| Icon buttons | Standardize command buttons to `36px` square with `10px` radius and `20px` icons. Default state should be transparent with `#e5e7eb` icons, hover/focus should use `#1f2937`, and active mode buttons should use a teal fill (`#14b8a6`) with white icon contrast. |
+| State colors | Avoid using unrelated greens/oranges for most controls. Reserve teal for active or selected states, amber (`#f59e0b`) for cautionary unlocked attention states when needed, and red (`#ef4444`) only for destructive delete affordances. |
+| Typography | Use a clean UI sans-serif for visible labels and menus (`Inter`, `Open Sans`, or equivalent) at `13px` to `14px`, medium to semibold. Keep `Roboto Mono` only for technical readouts such as zoom or keyboard hints. |
+| Progress affordances | Keep spinner replacement behavior for delete/export/print, but show the spinner inside the same `36px` button frame so the layout does not shift while an action is running. |
+| Focus and accessibility | All actionable controls should preserve a visible focus ring in teal (`2px` outer ring), keep tooltip copy in sentence case, and maintain a minimum `44px` touch target via outer padding even when the visible button is `36px`. |
+
+##### Menu Item Treatment
+
+| Area | Intended design change |
+| ---- | ---------------------- |
+| Menu surface | Render quick-insert and help menus as rounded panels with `12px` radius, white background, `1px` border `#dbe4ee`, and a soft elevated shadow so menus feel lighter than the dark command bar. |
+| Menu rows | Use `36px` minimum row height with `10px 12px` padding, `8px` row radius, and a three-part structure: leading icon, primary label, optional trailing shortcut or hint. |
+| Menu icons | Keep leading icons at `18px`, use the same outlined icon family as the toolbar where possible, and align connector/shape items with lightweight directional glyphs rather than plain text-only rows. |
+| Labels | Keep labels in sentence case, semibold `13px`, with optional secondary metadata or shortcut hints in `11px` `Roboto Mono` and muted slate (`#64748b`). |
+| Interaction states | Hover/focus rows should use a soft teal tint (`rgba(20, 184, 166, 0.12)`), selected rows a stronger teal tint (`rgba(20, 184, 166, 0.18)`), and destructive/help escalation items should never use a fully saturated fill by default. |
+| Sectioning | Separate logical groups with `8px` vertical rhythm and muted uppercase section labels when a menu has more than one conceptual cluster. The quick-insert menu should visually separate connectors, shapes, text, and image actions. |
+
+##### Bottom Status Bar
+
+| Area | Intended design change |
+| ---- | ---------------------- |
+| Surface | Increase the status bar to `32px` height with `8px 16px` padding, a light neutral background (`#f8fafc`), and a thin top border (`#dbe4ee`) so it feels intentional rather than a leftover footer strip. |
+| Layout | Keep the content minimal and stable: left-aligned mode indicator, right-aligned zoom indicator, with a flexible center gap reserved for future editor feedback without forcing a redesign later. |
+| Readouts | Present mode and zoom as compact chips instead of plain text. Each chip should use a `24px` height, `999px` radius, `6px` horizontal gap between icon and text, and subtle neutral fill. |
+| Typography | Use `11px` uppercase/label text for chip captions and `12px` `Roboto Mono` for values such as `select`, `pan`, or `125%`. This keeps the bar readable while still feeling technical and tool-oriented. |
+| Color | Use cool neutral text (`#334155`) on light chips (`#e2e8f0`), with a teal accent dot or icon for the active mode chip. Avoid heavy borders or saturated backgrounds so the status bar remains secondary to the canvas. |
+| Spacing | Keep `12px` spacing between chips and ensure the zoom chip sits flush to the right edge rhythm rather than floating away from the bar edge. |
+| Responsiveness | Preserve the same visual structure when horizontal space tightens: chips may compress their interior gap, but the bar should not wrap or increase in height. |
+
 ### Properties Bar And Editing Controls
 
 | Pattern                | Details                                                                                                    |

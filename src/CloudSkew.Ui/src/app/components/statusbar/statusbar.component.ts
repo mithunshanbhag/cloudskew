@@ -18,6 +18,17 @@ export class StatusbarComponent implements OnInit, OnDestroy {
   zoomPercentage?: number;
   tool?: string;
 
+  get displayTool(): string | undefined {
+    switch (this.tool) {
+      case 'select/edit':
+        return 'Select';
+      case 'pan/swipe':
+        return 'Pan';
+      default:
+        return this.tool;
+    }
+  }
+
   constructor(
     private statusbarService: StatusbarService,
   ) { }

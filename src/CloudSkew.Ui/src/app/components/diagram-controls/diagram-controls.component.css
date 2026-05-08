@@ -1,63 +1,198 @@
 :host {
     display: block;
     width: 100%;
+    height: 100%;
 }
 
 .diagram-controls {
-    /* container for horizontal flexbox items */
+    box-sizing: border-box;
     display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
+    gap: 16px;
     width: 100%;
-}
-
-.diagram-controls .mat-mdc-icon-button {
-    /* horizontal flexbox items */
-    background-color: white;
-
-    /* container for horizontal flexbox items */
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-}
-
-.diagram-controls mat-icon {
-    /* horizontal flexbox items */
-}
-
-.diagram-controls mat-divider {
-    height: 20px; /* divider won't be visible without explicit height */
+    height: 100%;
+    padding: 8px 16px;
+    background: #111827;
+    border-bottom: 1px solid #1f2937;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.24);
+    color: #e5e7eb;
+    font-family: "Open Sans", sans-serif;
 }
 
 .diagram-controls-branding {
     display: flex;
     align-items: center;
-    justify-content: center;
+    gap: 12px;
+    min-width: 176px;
+}
+
+.diagram-controls-branding-tile {
+    display: grid;
+    place-items: center;
     width: 40px;
-    min-width: 40px;
     height: 40px;
-    background-color: black;
+    border-radius: 12px;
+    background: linear-gradient(180deg, rgba(31, 41, 55, 0.95), rgba(15, 23, 42, 0.95));
+    box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.16);
+}
+
+.diagram-controls-branding-copy {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 0;
+}
+
+.diagram-controls-branding-title {
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.1;
+}
+
+.diagram-controls-branding-caption {
+    color: #94a3b8;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    line-height: 1.1;
 }
 
 .diagram-controls-branding .branding-logo {
-    width: 28px;
-    height: 28px;
     border-radius: 15%;
 }
 
-.diagram-controls-spacer {
+.diagram-controls-groups {
+    display: flex;
+    align-items: center;
+    gap: 12px;
     flex: 1 1 auto;
+    min-width: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
 }
 
+.diagram-controls-groups::-webkit-scrollbar {
+    display: none;
+}
 
-.diagram-controls .locked-btn {
-    color: green;
+.diagram-controls-group {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex: 0 0 auto;
+    padding: 4px;
+    border: 1px solid rgba(148, 163, 184, 0.14);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.04);
 }
-.diagram-controls .unlocked-btn {
-    color: orange;
+
+.diagram-controls-endcap {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 0 0 auto;
 }
-.diagram-controls .delete-btn {
-    color: red;
+
+.diagram-controls .mat-mdc-icon-button.diagram-control-button {
+    --mdc-icon-button-state-layer-size: 36px;
+    width: 36px;
+    height: 36px;
+    padding: 8px;
+    border-radius: 10px;
+    color: #e5e7eb;
+    background: transparent;
+    transition: background-color 160ms ease, box-shadow 160ms ease, color 160ms ease;
+}
+
+.diagram-controls .mat-mdc-icon-button.diagram-control-button:hover:not(:disabled) {
+    background: #1f2937;
+}
+
+.diagram-controls .mat-mdc-icon-button.diagram-control-button:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(20, 184, 166, 0.5);
+}
+
+.diagram-controls .mat-mdc-icon-button.diagram-control-button .mat-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 20px;
+    height: 20px;
+    font-size: 20px;
+}
+
+.diagram-controls .mat-mdc-icon-button.diagram-control-button:disabled {
+    opacity: 0.42;
+    color: #94a3b8;
+}
+
+.diagram-controls .mat-mdc-icon-button.diagram-control-button--locked {
+    color: #5eead4;
+}
+
+.diagram-controls .mat-mdc-icon-button.diagram-control-button--attention {
+    color: #fbbf24;
+}
+
+.diagram-controls .mat-mdc-icon-button.diagram-control-button--danger {
+    color: #fca5a5;
+}
+
+.diagram-controls .mat-mdc-icon-button.diagram-control-button--danger:hover:not(:disabled) {
+    background: rgba(239, 68, 68, 0.16);
+    color: #fecaca;
+}
+
+.diagram-controls .mat-mdc-icon-button.diagram-control-button--active {
+    background: #14b8a6;
+    color: #f8fafc;
+}
+
+.diagram-controls .mat-mdc-icon-button.diagram-control-button--active:hover:not(:disabled) {
+    background: #0f9f93;
+}
+
+.diagram-controls .mat-mdc-icon-button.diagram-control-button--help {
+    background: rgba(20, 184, 166, 0.12);
+}
+
+.diagram-controls-indicator {
+    display: inline-flex;
+    align-items: center;
+    min-height: 28px;
+    padding: 0 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+}
+
+.diagram-controls-indicator--locked {
+    background: rgba(20, 184, 166, 0.14);
+    color: #5eead4;
+}
+
+.diagram-controls-indicator--unlocked {
+    background: rgba(245, 158, 11, 0.18);
+    color: #fcd34d;
+}
+
+@media (max-width: 1100px) {
+    .diagram-controls {
+        gap: 12px;
+        padding: 8px 12px;
+    }
+
+    .diagram-controls-branding-caption,
+    .diagram-controls-indicator {
+        display: none;
+    }
+
+    .diagram-controls-branding {
+        min-width: auto;
+    }
 }
