@@ -1,32 +1,187 @@
-.paletteGridSearchControl {
-    height: 40px;
-    max-height: 40px;
-}
-.paletteGridControlWrapper {
-    height: calc(100vh - 155px);
-    max-height: calc(100vh - 155px);
-    overflow: auto; /* needed for scrollbar */
-}
-.paletteGridButtonWrapper {
-    /* container for vertical flexbox items */
+.sidebarWrapper {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    /* dimensions */
-    height: 40px;
-    max-height: 40px;
-
-    /* padding, margin etc */
-    padding: 2px 0px;
+    gap: 12px;
+    height: 100%;
+    min-height: 0;
+    padding: 12px;
 }
-.paletteGridButtonWrapper button {
-    /* vertical flexbox items */
-    flex-basis: 100%;
-    width: 100%;
 
-    /* text styling */
+.palettePanelHeader {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.palettePanelTitleRow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.palettePanelTitle {
+    margin: 0;
+    color: #0f172a;
+    font-family: "Open Sans",sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.palettePanelSymbolCount {
+    display: inline-flex;
+    align-items: center;
+    min-height: 24px;
+    padding: 0 10px;
+    border: 1px solid #e2e8f0;
+    border-radius: 999px;
+    background: #ffffff;
+    color: #475569;
+    font-family: "Open Sans",sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.palettePanelSymbolCount {
+    padding: 0 8px;
     font-family: "Roboto Mono",sans-serif;
+    font-weight: 500;
+}
+
+.palettePanelDescription {
+    margin: 0;
+    color: #64748b;
+    font-family: "Open Sans",sans-serif;
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+.paletteGridSearchControl {
+    display: block;
+}
+
+.paletteGridControlWrapper {
+    flex: 1 1 auto;
+    min-height: 0;
+}
+
+.paletteGridSymbolTile {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 4px;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    background: #ffffff;
+}
+
+.paletteGridSymbolTile img {
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.paletteGridSymbolButton {
+    display: inline-flex;
+    align-items: center;
+    width: 100%;
+    min-height: 32px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: #0f172a;
+    text-align: left;
+}
+
+.paletteGridSymbolButtonTitle {
+    display: block;
+    overflow: hidden;
+    font-family: "Open Sans",sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.25;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.paletteGridGroupHeader {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    min-height: 24px;
+}
+
+.paletteGridGroupToggleButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    padding: 0;
+    border: none;
+    border-radius: 999px;
+    background: transparent;
+    color: #64748b;
+}
+
+.paletteGridGroupToggleButton:focus-visible {
+    outline: 2px solid #14b8a6;
+    outline-offset: 2px;
+}
+
+.paletteGridGroupToggleIcon {
+    width: 14px;
+    height: 14px;
     font-size: 14px;
+    transition: transform 160ms ease;
+}
+
+.paletteGridGroupHeaderLabel {
+    color: #64748b;
+    font-family: "Open Sans",sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.paletteGridInfoButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: #64748b;
+}
+
+.paletteGridInfoButton svg,
+.paletteFooterButton .mat-icon {
+    width: 14px;
+    height: 14px;
+    font-size: 14px;
+}
+
+.paletteGridButtonWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-top: 12px;
+    border-top: 1px solid #e2e8f0;
+}
+
+.paletteFooterButton {
+    width: 100%;
+    min-height: 36px;
+    border-color: rgba(20, 184, 166, 0.2);
+    border-radius: 10px;
+    background: #ffffff;
+    color: #0f766e;
+    font-family: "Open Sans",sans-serif;
+    font-size: 12px;
+    font-weight: 700;
 }

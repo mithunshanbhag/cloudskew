@@ -107,38 +107,59 @@ body {
   background: var(--surface-muted);
 }
 
-.family-summary {
-  display: flex;
-  flex-wrap: wrap;
+.title-row {
+  display: inline-flex;
+  align-items: center;
   gap: 8px;
 }
 
-.family-pill {
+.title-label {
+  color: var(--text);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.symbol-count {
   display: inline-flex;
   align-items: center;
   min-height: 24px;
-  padding: 0 10px;
+  padding: 0 8px;
   border-radius: 999px;
   border: 1px solid var(--border);
   background: var(--surface);
   color: var(--text-muted);
+  font-family: "Roboto Mono", monospace;
   font-size: 11px;
-  font-weight: 700;
+  font-weight: 500;
 }
 
-.family-pill.is-strong {
-  border-color: rgba(20, 184, 166, 0.2);
-  background: rgba(20, 184, 166, 0.12);
+.summary-copy {
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--accent);
+  font-size: 12px;
+  line-height: 1.45;
+  font-family: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.summary-copy:hover,
+.summary-copy:focus {
   color: var(--accent-dark);
+  outline: none;
 }
 
 .search-shell {
   display: grid;
-  grid-template-columns: 20px minmax(0, 1fr) 28px;
+  grid-template-columns: minmax(0, 1fr) 28px;
   align-items: center;
   gap: 10px;
   min-height: 40px;
-  padding: 0 6px 0 12px;
+  padding: 0 6px 0 14px;
   border: 1px solid var(--border-strong);
   border-radius: 12px;
   background: var(--surface);
@@ -171,7 +192,6 @@ body {
   width: 28px;
   height: 28px;
   border: none;
-  border-radius: 8px;
   background: transparent;
   color: var(--text-subtle);
   cursor: default;
@@ -181,7 +201,7 @@ body {
 .group-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 8px;
   min-height: 24px;
 }
 
@@ -200,11 +220,19 @@ body {
 }
 
 .group-name {
-  color: var(--text-subtle);
+  flex: 1 1 auto;
+  color: #1f2937;
   font-size: 11px;
-  font-weight: 700;
+  font-weight: 900;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+}
+
+.group-header::before {
+  content: "▾";
+  color: var(--text-subtle);
+  font-size: 10px;
+  line-height: 1;
 }
 
 .palette-row {
@@ -235,6 +263,11 @@ body {
   box-shadow: 0 0 0 2px rgba(20, 184, 166, 0.32);
 }
 
+.row-action-glyph {
+  font-size: 18px;
+  line-height: 1;
+}
+
 .symbol-tile {
   display: inline-flex;
   align-items: center;
@@ -261,7 +294,7 @@ body {
 .row-title {
   display: block;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 500;
   line-height: 1.25;
 }
 

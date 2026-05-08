@@ -657,31 +657,54 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .sidebarControl {
     background-color: white;
 }
+.sidebarControl {
+    height: 100%;
+    background: #f8fafc;
+    border-right: 1px solid #dbe4ee;
+    box-shadow: inset -8px 0 18px rgba(15, 23, 42, 0.03);
+}
 .sidebarControl .sidebar-item {
-    text-align: center;
-    font-size: 18px;
+    display: block;
+    height: 100%;
+    text-align: left;
+    font-size: inherit;
 }
 .sidebarControl .btn:focus { /* prevent the glow/halo around bootstrap buttons immediately after clicking */
     box-shadow: none; 
 }
-.sidebarControl .btn:hover {
-    background-color: whitesmoke;
-}
 
 /* ***** Sidebar Search Control ***** */
 /* ********************************** */
-.sidebarWrapper {
+.sidebarWrapper .sidebarSearchControl.e-control-wrapper.e-input-group {
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    min-height: 40px;
+    border: 1px solid #dbe4ee;
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: none;
 }
-.sidebarWrapper .sidebarSearchControl {
-    height: 40px;
-    max-height: 40px;
+.sidebarWrapper .sidebarSearchControl.e-control-wrapper.e-input-group.e-input-focus,
+.sidebarWrapper .sidebarSearchControl.e-control-wrapper.e-input-group:focus-within {
+    border-color: rgba(20, 184, 166, 0.32);
+    box-shadow: 0 0 0 2px rgba(20, 184, 166, 0.12);
 }
-.sidebarWrapper .sidebarGridControlWrapper {
-    height: calc(100vh - 115px);
-    max-height: calc(100vh - 115px);
-    overflow: auto; /* needed for scrollbar */
+.sidebarWrapper .sidebarSearchControl.e-control-wrapper.e-input-group .e-input {
+    min-height: 38px;
+    padding-left: 14px;
+    padding-right: 14px;
+    color: #0f172a;
+    font-family: "Open Sans",sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+}
+.sidebarWrapper .sidebarSearchControl.e-control-wrapper.e-input-group .e-input::placeholder {
+    color: #94a3b8;
+    font-weight: 500;
+}
+.sidebarWrapper .sidebarSearchControl.e-control-wrapper.e-input-group .e-clear-icon {
+    color: #64748b;
+    min-width: 28px;
 }
 
 /* ***** Sidebar Grid Control ***** */
@@ -689,26 +712,91 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .sidebarGridControl.e-grid .e-gridheader { /* hide the palette grid's header */ 
     display: none; 
 }
+.sidebarGridControl.e-grid {
+    height: 100%;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    background: #ffffff;
+}
+.sidebarGridControl.e-grid .e-gridcontent,
+.sidebarGridControl.e-grid .e-content,
+.sidebarGridControl.e-grid .e-table {
+    background: transparent;
+}
+.sidebarGridControl.e-grid .e-gridcontent {
+    border-radius: 16px;
+    overflow-y: auto;
+}
+.sidebarGridControl.e-grid .e-gridcontent table {
+    border-collapse: separate;
+    border-spacing: 0 4px;
+}
+.sidebarGridControl.e-grid .e-gridcontent tr.e-row:hover .e-rowcell,
+.sidebarGridControl.e-grid .e-gridcontent tr.e-row:focus-within .e-rowcell {
+    background: rgba(20, 184, 166, 0.12);
+}
 .sidebarGridControl.e-grid .e-rowcell.sidebarGridControlColumnCSS { /* customize the grid item sizing (note: this CSS is per syncfusion specs/docs) */
-    font-family: "Open Sans",sans-serif;
-    padding: 2px 5px;
+    min-height: 44px;
+    padding: 6px 4px;
     margin: 0;
+    border: 0;
+    background: transparent;
     vertical-align: middle;
 }
-.sidebarGridControl.e-grid .e-rowcell .btn-sm {
-    font-size: 11px;
+.sidebarGridControl.e-grid .e-gridcontent tr.e-row .e-rowcell:first-child {
+    padding-left: 10px;
+    border-radius: 10px 0 0 10px;
 }
-.sidebarGridControl.e-grid .e-rowcell .btn-link {
-    color: black;
+.sidebarGridControl.e-grid .e-gridcontent tr.e-row .e-rowcell:last-child {
+    padding-right: 10px;
+    border-radius: 0 10px 10px 0;
 }
-.sidebarGridControl.e-grid .e-rowcell ejs-checkbox span.e-label {
+.sidebarGridControl.e-grid .e-groupcaptionrow td,
+.sidebarGridControl.e-grid .e-summaryrow td {
+    border: 0;
+    background: transparent;
+}
+.sidebarGridControl.e-grid .e-groupcaptionrow .e-recordpluscollapse,
+.sidebarGridControl.e-grid .e-groupcaptionrow .e-recordplusexpand {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+.sidebarGridControl.e-grid .e-groupcaption {
+    position: relative;
+    padding: 8px 10px 4px 10px;
+    color: #64748b;
     font-family: "Open Sans",sans-serif;
     font-size: 11px;
-    padding: 4px 8px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
 }
-.sidebarGridControl.e-grid .e-rowcell .infoGlyph {
-    color: lightslategray;
-} 
+.sidebarGridControl.e-grid .e-groupcaptionrow .e-recordplusexpand + .e-groupcaption .paletteGridGroupToggleIcon {
+    transform: rotate(0deg);
+}
+.sidebarGridControl.e-grid .e-groupcaptionrow .e-recordpluscollapse + .e-groupcaption .paletteGridGroupToggleIcon {
+    transform: rotate(-90deg);
+}
+.sidebarGridControl.e-grid .e-groupcaptionrow .e-icons::before {
+    font-size: 10px;
+}
+.sidebarGridControl.e-grid .e-emptyrow td {
+    padding: 28px 18px;
+    color: #64748b;
+    font-family: "Open Sans",sans-serif;
+    font-size: 13px;
+    line-height: 1.5;
+    text-align: center;
+}
 
 /* ***** Propertiesbar Control ***** */
 /* ********************************* */

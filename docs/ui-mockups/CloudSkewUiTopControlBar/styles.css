@@ -109,6 +109,10 @@ body {
   background: var(--group-background);
 }
 
+.control-group.destructive {
+  border-color: rgba(239, 68, 68, 0.16);
+}
+
 .command-button {
   display: inline-flex;
   align-items: center;
@@ -152,6 +156,16 @@ body {
 
 .control-endcap {
   gap: 12px;
+}
+
+.lock-state {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  border-radius: 14px;
+  background: var(--group-background);
 }
 
 .status-pill {

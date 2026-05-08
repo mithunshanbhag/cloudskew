@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
+import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 import { GridComponent, GroupSettingsModel, SearchSettingsModel, SortDescriptorModel, SortSettingsModel } from '@syncfusion/ej2-angular-grids';
 import { FocusOutEventArgs, InputEventArgs } from '@syncfusion/ej2-angular-inputs';
 import { L10n, setCulture } from '@syncfusion/ej2-base';
@@ -41,17 +41,19 @@ export class PaletteGridComponent implements OnInit, OnDestroy {
   private onDestroy$: Subject<void> = new Subject<void>();
 
   //
-  faInfoIcon = faEllipsisH;
+  readonly faInfoIcon = faEllipsisVertical;
+  enabledSymbolFamilySummaryText = '';
 
   //#region palette search textbox/input control
-  paletteSearchControlPlaceholderText = 'Search';
+  paletteSearchControlPlaceholderText = 'Search symbols';
   paletteSearchControlShowClearButton = true;
-  paletteSearchControlCssClass = "e-outline";
+  paletteSearchControlCssClass = 'e-outline sidebarSearchControl';
   //#endregion palette search textbox/input control
 
   //#region palette grid
-  @ViewChild('paletteGridControl') paletteGridControl: GridComponent;
+  @ViewChild('paletteGridControl') paletteGridControl?: GridComponent;
   paletteGridControlAllowGrouping = true;
+  paletteGridControlHeight = '100%';
   paletteGridControlGroupSettingsModel: GroupSettingsModel = {
     columns: ['groupDisplayName'],
     showDropArea: false,
@@ -90,7 +92,7 @@ export class PaletteGridComponent implements OnInit, OnDestroy {
         distinctUntilChanged(),
         takeUntil(this.onDestroy$)
       )
-      .subscribe(searchText => this.paletteGridControl.search(searchText));
+      .subscribe(searchText => this.paletteGridControl?.search(searchText));
 
     this.localPersistenceService.preferences$
       .pipe(takeUntil(this.onDestroy$))
@@ -145,13 +147,40 @@ export class PaletteGridComponent implements OnInit, OnDestroy {
     } as MatDialogConfig<IResourceDocumentationRequest>);
   }
 
+  onPaletteGridGroupToggleClicked(event: MouseEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const toggleButton = event.currentTarget as HTMLElement | null;
+    const groupRow = toggleButton?.closest('.e-groupcaption')?.closest('tr.e-groupcaptionrow');
+    const syncfusionToggle = groupRow?.querySelector<HTMLElement>('.e-recordplusexpand a, .e-recordpluscollapse a');
+
+    if (!syncfusionToggle) {
+      throw new Error('Unable to locate the Syncfusion palette group toggle control.');
+    }
+
+    syncfusionToggle.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
+  }
+
   onAddCustomImageButtonClicked() {
     const generalSymbolFamily = SymbolFamilyDefinitions.find(symbolFamilyDefinition => symbolFamilyDefinition.id === SymbolFamilyConstants.General);
+    if (!generalSymbolFamily) {
+      throw new Error('The General symbol family is unavailable.');
+    }
+
     const generalSymbolGroup = generalSymbolFamily.SymbolGroups.find(symbolGroupDefinition => symbolGroupDefinition.id === SymbolGroupConstants.General);
+    if (!generalSymbolGroup) {
+      throw new Error('The General symbol group is unavailable.');
+    }
+
+    const customImageSymbol = generalSymbolGroup.symbols.find(symbol => symbol.id === SymbolIdConstants.CustomImage);
+    if (!customImageSymbol) {
+      throw new Error('The custom image symbol is unavailable.');
+    }
 
     const requestedSymbolFamilyId: SymbolFamilyConstants = SymbolFamilyConstants.General;
     const requestedSymbolGroupId = generalSymbolGroup.id;
-    const requestedSymbolId = generalSymbolGroup.symbols.find(symbol => symbol.id === SymbolIdConstants.CustomImage).id;
+    const requestedSymbolId = customImageSymbol.id;
 
     this.diagramService.request({
       kind: 'IDiagramAddSymbolRequestArgs',
@@ -166,10 +195,14 @@ export class PaletteGridComponent implements OnInit, OnDestroy {
   //#region private helper methods
 
   private initialize() {
+    const enabledSymbolFamilies = SymbolFamilyDefinitions
+      .filter(symbolFamily => this.isEnabled(symbolFamily))
+      .sort((left, right) => left.id - right.id);
+
+    this.updateEnabledSymbolFamilySummary(enabledSymbolFamilies);
     this.paletteGridControlData = []; // clear existing contents
 
-    SymbolFamilyDefinitions
-      .filter(symbolFamily => this.isEnabled(symbolFamily))
+    enabledSymbolFamilies
       .forEach(symbolFamily =>
         symbolFamily.SymbolGroups.forEach(symbolGroup =>
           symbolGroup.symbols.forEach(symbol => this.paletteGridControlData.push({
@@ -190,6 +223,12 @@ export class PaletteGridComponent implements OnInit, OnDestroy {
 
   private isEnabled(symbolFamily: ISymbolFamilyDefinition): boolean {
     return ((this.localPersistenceService.preferences & symbolFamily.id as number) !== 0);
+  }
+
+  private updateEnabledSymbolFamilySummary(enabledSymbolFamilies: ISymbolFamilyDefinition[]) {
+    this.enabledSymbolFamilySummaryText = enabledSymbolFamilies.length === 1
+      ? '1 library enabled'
+      : `${enabledSymbolFamilies.length} libraries enabled`;
   }
 
   //#endregion private helper methods

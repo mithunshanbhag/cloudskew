@@ -23,15 +23,6 @@
 
         <div class="control-groups">
           <div class="control-group">
-            <button class="command-button" aria-label="Lock diagram">
-              <span class="material-symbols-outlined">lock</span>
-            </button>
-            <button class="command-button destructive" aria-label="Delete diagram">
-              <span class="material-symbols-outlined">delete</span>
-            </button>
-            <button class="command-button" aria-label="Import JSON">
-              <span class="material-symbols-outlined">upload_file</span>
-            </button>
             <button class="command-button" aria-label="Add or remove symbols">
               <span class="material-symbols-outlined">filter_alt</span>
             </button>
@@ -81,10 +72,24 @@
               <span class="material-symbols-outlined">print</span>
             </button>
           </div>
+
+          <div class="control-group destructive">
+            <button class="command-button destructive" aria-label="Delete diagram">
+              <span class="material-symbols-outlined">delete</span>
+            </button>
+            <button class="command-button" aria-label="Import JSON">
+              <span class="material-symbols-outlined">upload_file</span>
+            </button>
+          </div>
         </div>
 
         <div class="control-endcap">
-          <div class="status-pill">Unlocked</div>
+          <div class="lock-state">
+            <button class="command-button" aria-label="Lock diagram">
+              <span class="material-symbols-outlined">lock</span>
+            </button>
+            <div class="status-pill">Locked</div>
+          </div>
           <button class="command-button help-button" aria-label="Help and support">
             <span class="material-symbols-outlined">help</span>
           </button>

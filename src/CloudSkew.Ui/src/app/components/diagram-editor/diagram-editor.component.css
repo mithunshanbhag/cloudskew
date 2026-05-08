@@ -1,5 +1,5 @@
 .diagram-editor {
-    --diagram-editor-sidebar-width: 240px;
+    --diagram-editor-sidebar-width: 272px;
     --diagram-editor-propertiesbar-width: 280px;
     --diagram-editor-chrome-height: 88px;
 
@@ -90,7 +90,7 @@
     height: calc(100vh - var(--diagram-editor-chrome-height));
 
     /* margin, padding etc */
-    padding: 0 5px;
+    padding: 0;
 }
 
 .diagram-editor-diagram {
