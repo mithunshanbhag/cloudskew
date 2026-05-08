@@ -2,25 +2,27 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, from, Observable, of, throwError } from 'rxjs';
 import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
-import { AnonymousUserConstants } from '../constants/anonymous-user-constants';
 import { ErrorMessageConstants } from '../constants/error-message-constants';
-import { NewUserConstants } from '../constants/new-user-constants';
 import { SymbolFamilyConstants } from '../constants/symbol-family-constants';
 import { DiagramDTO } from '../models/dto/diagramDTO';
 import { DiagramImportDTO } from '../models/dto/diagramImportDTO';
 import { ImageGenerationRequestDTO } from '../models/dto/imageGenerationRequestDTO';
-import { UserProfileDTO } from '../models/dto/userProfileDTO';
 import { NotificationService } from './notification.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LocalPersistenceService {
+  private static readonly activeDiagramRecordKey = 'activeDiagram';
+  private static readonly defaultDiagramHelperUserId = '294de3557d9d00b3d2d8a1e6aab028cf';
+  private static readonly preferencesRecordKey = 'preferences';
+
   private readonly databaseName = 'cloudskew-local';
-  private readonly databaseVersion = 3;
-  private readonly userProfilesStoreName = 'userProfiles';
+  private readonly databaseVersion = 4;
   private readonly activeDiagramsStoreName = 'activeDiagrams';
   private readonly legacyDiagramsStoreName = 'diagrams';
+  private readonly preferencesStoreName = 'preferences';
+  private readonly userProfilesStoreName = 'userProfiles';
   private readonly legacyStorageKeys = ['preferences', 'user', 'lastFlushedDiagramDtoMd5'];
 
   private readonly preferencesSubject = new BehaviorSubject<number>(SymbolFamilyConstants.Default);
@@ -35,8 +37,8 @@ export class LocalPersistenceService {
     this.clearLegacyStorageKeys();
   }
 
-  get user(): string {
-    return AnonymousUserConstants.emailMD5;
+  get diagramHelperUserId(): string {
+    return LocalPersistenceService.defaultDiagramHelperUserId;
   }
 
   get preferences(): number {
@@ -55,60 +57,30 @@ export class LocalPersistenceService {
     this.preferencesSubject.next(preferences);
   }
 
-  ensureAnonymousUserProfile(): Observable<UserProfileDTO> {
-    return from(this.get<UserProfileDTO>(this.userProfilesStoreName, this.user)).pipe(
-      catchError(err => this.handleError<UserProfileDTO>(err, ErrorMessageConstants.userProfileGetError)),
-      mergeMap(existingProfile => this.saveUserProfile(
-        existingProfile
-          ? new UserProfileDTO(
-            existingProfile.subscriptionName,
-            AnonymousUserConstants.email,
-            this.user,
-            existingProfile.preferences,
-            true,
-            AnonymousUserConstants.displayName,
-            '',
-            new Date(),
-          )
-          : new UserProfileDTO(
-            NewUserConstants.subscriptionName,
-            AnonymousUserConstants.email,
-            this.user,
-            this.preferences,
-            true,
-            AnonymousUserConstants.displayName,
-            '',
-            new Date(),
-          ),
-        existingProfile ? ErrorMessageConstants.userProfileUpdateError : ErrorMessageConstants.userProfileCreateError,
-      )),
-      tap(profile => this.preferencesSubject.next(profile.preferences)),
+  loadPreferences(): Observable<number> {
+    return from(this.get<IPreferencesRecord>(this.preferencesStoreName, LocalPersistenceService.preferencesRecordKey)).pipe(
+      map(record => record?.preferences ?? SymbolFamilyConstants.Default),
+      tap(preferences => this.preferencesSubject.next(preferences)),
+      catchError(err => this.handleError<number>(err, ErrorMessageConstants.preferencesGetError)),
     );
   }
 
-  updatePreferences(modifiedPreferences: number): Observable<UserProfileDTO> {
-    return from(this.get<UserProfileDTO>(this.userProfilesStoreName, this.user)).pipe(
-      catchError(err => this.handleError<UserProfileDTO>(err, ErrorMessageConstants.userProfileGetError)),
-      mergeMap(existingProfile => this.saveUserProfile(
-        new UserProfileDTO(
-          existingProfile?.subscriptionName || NewUserConstants.subscriptionName,
-          AnonymousUserConstants.email,
-          this.user,
-          modifiedPreferences,
-          true,
-          AnonymousUserConstants.displayName,
-          '',
-          new Date(),
-        ),
-        ErrorMessageConstants.userProfileUpdateError,
-      )),
-      tap(profile => this.preferencesSubject.next(profile.preferences)),
+  updatePreferences(modifiedPreferences: number): Observable<number> {
+    const record: IPreferencesRecord = {
+      id: LocalPersistenceService.preferencesRecordKey,
+      preferences: modifiedPreferences,
+    };
+
+    return from(this.put(this.preferencesStoreName, record)).pipe(
+      map(() => modifiedPreferences),
+      tap(preferences => this.preferencesSubject.next(preferences)),
+      catchError(err => this.handleError<number>(err, ErrorMessageConstants.preferencesUpdateError)),
     );
   }
 
   getActiveDiagram(): Observable<DiagramDTO | undefined> {
-    return from(this.get<DiagramDTO>(this.activeDiagramsStoreName, this.user)).pipe(
-      map(diagram => diagram && diagram.emailMD5 === this.user ? diagram : undefined),
+    return from(this.get<IActiveDiagramRecord>(this.activeDiagramsStoreName, LocalPersistenceService.activeDiagramRecordKey)).pipe(
+      map(record => record?.diagram),
       catchError(err => this.handleError<DiagramDTO | undefined>(err, ErrorMessageConstants.diagramGetError)),
     );
   }
@@ -128,7 +100,6 @@ export class LocalPersistenceService {
       undefined,
       undefined,
       now,
-      this.user,
     );
 
     return this.saveDiagram(diagram, ErrorMessageConstants.diagramCreateError);
@@ -143,37 +114,44 @@ export class LocalPersistenceService {
       sourceDiagram.diagramDetails,
       sourceDiagram.thumbnailUrl,
       now,
-      this.user,
     );
 
     return this.saveDiagram(diagram, ErrorMessageConstants.diagramCreateError);
   }
 
   updateDiagram(modifiedDiagram: DiagramDTO): Observable<void> {
-    const diagram = {
+    const diagram: DiagramDTO = {
       ...modifiedDiagram,
-      emailMD5: this.user,
       lastUpdatedUTC: new Date(),
       visibility: modifiedDiagram.visibility || 'private',
-    } as DiagramDTO;
+    };
 
-    return from(this.put(this.activeDiagramsStoreName, diagram)).pipe(
+    return from(this.put(this.activeDiagramsStoreName, {
+      id: LocalPersistenceService.activeDiagramRecordKey,
+      diagram,
+    } as IActiveDiagramRecord)).pipe(
       map(() => undefined),
       catchError(err => this.handleError<void>(err, ErrorMessageConstants.diagramUpdateError)),
     );
   }
 
   updateDiagramThumbnail(imageGenerationRequest: ImageGenerationRequestDTO): Observable<void> {
-    return from(this.get<DiagramDTO>(this.activeDiagramsStoreName, this.user)).pipe(
-      mergeMap(diagram => {
-        if (!diagram) {
+    return from(this.get<IActiveDiagramRecord>(this.activeDiagramsStoreName, LocalPersistenceService.activeDiagramRecordKey)).pipe(
+      mergeMap(record => {
+        if (!record?.diagram) {
           return of(undefined);
         }
 
-        diagram.thumbnailUrl = this.getLocalThumbnailUrl(imageGenerationRequest);
-        diagram.lastUpdatedUTC = new Date();
+        const updatedDiagram: DiagramDTO = {
+          ...record.diagram,
+          thumbnailUrl: this.getLocalThumbnailUrl(imageGenerationRequest),
+          lastUpdatedUTC: new Date(),
+        };
 
-        return from(this.put(this.activeDiagramsStoreName, diagram)).pipe(
+        return from(this.put(this.activeDiagramsStoreName, {
+          id: LocalPersistenceService.activeDiagramRecordKey,
+          diagram: updatedDiagram,
+        } as IActiveDiagramRecord)).pipe(
           map(() => undefined),
         );
       }),
@@ -189,24 +167,11 @@ export class LocalPersistenceService {
     this.legacyStorageKeys.forEach(key => localStorage.removeItem(key));
   }
 
-  private saveUserProfile(userProfile: UserProfileDTO, errorMessage: string): Observable<UserProfileDTO> {
-    const profile = {
-      ...userProfile,
-      email: userProfile.email || AnonymousUserConstants.email,
-      emailMD5: userProfile.emailMD5 || this.user,
-      lastUpdatedUTC: new Date(),
-      name: userProfile.name || AnonymousUserConstants.displayName,
-      subscriptionName: userProfile.subscriptionName || NewUserConstants.subscriptionName,
-    } as UserProfileDTO;
-
-    return from(this.put(this.userProfilesStoreName, profile)).pipe(
-      map(() => profile),
-      catchError(err => this.handleError<UserProfileDTO>(err, errorMessage)),
-    );
-  }
-
   private saveDiagram(diagram: DiagramDTO, errorMessage: string): Observable<DiagramDTO> {
-    return from(this.put(this.activeDiagramsStoreName, diagram)).pipe(
+    return from(this.put(this.activeDiagramsStoreName, {
+      id: LocalPersistenceService.activeDiagramRecordKey,
+      diagram,
+    } as IActiveDiagramRecord)).pipe(
       map(() => diagram),
       catchError(err => this.handleError<DiagramDTO>(err, errorMessage)),
     );
@@ -232,27 +197,54 @@ export class LocalPersistenceService {
         request.onupgradeneeded = () => {
           const database = request.result;
           const transaction = request.transaction;
-          this.createStore(database, this.userProfilesStoreName, 'emailMD5');
 
-          if (database.objectStoreNames.contains(this.legacyDiagramsStoreName) && transaction) {
-            const legacyStore = transaction.objectStore(this.legacyDiagramsStoreName);
-            const getAllRequest = legacyStore.getAll();
-
-            getAllRequest.onsuccess = () => {
-              const migratedDiagram = this.selectDiagramForMigration(getAllRequest.result as ILegacyDiagramRecord[]);
-              database.deleteObjectStore(this.legacyDiagramsStoreName);
-              this.createStore(database, this.activeDiagramsStoreName, 'emailMD5');
-
-              if (migratedDiagram) {
-                transaction.objectStore(this.activeDiagramsStoreName).put(migratedDiagram);
-              }
-            };
-          } else {
-            this.createStore(database, this.activeDiagramsStoreName, 'emailMD5');
+          if (!transaction) {
+            reject(new Error('CloudSkew local database upgrade transaction was unavailable.'));
+            return;
           }
 
-          if (database.objectStoreNames.contains('templates')) {
-            database.deleteObjectStore('templates');
+          const diagramSourceStoreName = database.objectStoreNames.contains(this.activeDiagramsStoreName)
+            ? this.activeDiagramsStoreName
+            : database.objectStoreNames.contains(this.legacyDiagramsStoreName)
+              ? this.legacyDiagramsStoreName
+              : undefined;
+          const hasUserProfilesStore = database.objectStoreNames.contains(this.userProfilesStoreName);
+
+          if (!diagramSourceStoreName && !hasUserProfilesStore) {
+            this.rebuildStores(database, transaction);
+            return;
+          }
+
+          let pendingReads = 0;
+          let legacyDiagrams: ILegacyDiagramRecord[] = [];
+          let migratedPreferences: number | undefined;
+
+          const completeUpgradeIfReady = () => {
+            pendingReads -= 1;
+
+            if (pendingReads === 0) {
+              this.rebuildStores(database, transaction, legacyDiagrams, migratedPreferences);
+            }
+          };
+
+          if (diagramSourceStoreName) {
+            pendingReads += 1;
+            const getLegacyDiagramsRequest = transaction.objectStore(diagramSourceStoreName).getAll();
+            getLegacyDiagramsRequest.onsuccess = () => {
+              legacyDiagrams = getLegacyDiagramsRequest.result as ILegacyDiagramRecord[];
+              completeUpgradeIfReady();
+            };
+            getLegacyDiagramsRequest.onerror = () => reject(getLegacyDiagramsRequest.error);
+          }
+
+          if (hasUserProfilesStore) {
+            pendingReads += 1;
+            const getUserProfilesRequest = transaction.objectStore(this.userProfilesStoreName).getAll();
+            getUserProfilesRequest.onsuccess = () => {
+              migratedPreferences = this.selectPreferencesForMigration(getUserProfilesRequest.result as IUserProfileRecord[]);
+              completeUpgradeIfReady();
+            };
+            getUserProfilesRequest.onerror = () => reject(getUserProfilesRequest.error);
           }
         };
 
@@ -263,6 +255,48 @@ export class LocalPersistenceService {
     }
 
     return this.databasePromise;
+  }
+
+  private rebuildStores(
+    database: IDBDatabase,
+    transaction: IDBTransaction,
+    legacyDiagrams: ILegacyDiagramRecord[] = [],
+    migratedPreferences?: number,
+  ) {
+    if (database.objectStoreNames.contains(this.userProfilesStoreName)) {
+      database.deleteObjectStore(this.userProfilesStoreName);
+    }
+
+    if (database.objectStoreNames.contains(this.activeDiagramsStoreName)) {
+      database.deleteObjectStore(this.activeDiagramsStoreName);
+    }
+
+    if (database.objectStoreNames.contains(this.legacyDiagramsStoreName)) {
+      database.deleteObjectStore(this.legacyDiagramsStoreName);
+    }
+
+    if (database.objectStoreNames.contains('templates')) {
+      database.deleteObjectStore('templates');
+    }
+
+    this.createStore(database, this.preferencesStoreName, 'id');
+    this.createStore(database, this.activeDiagramsStoreName, 'id');
+
+    if (migratedPreferences !== undefined) {
+      transaction.objectStore(this.preferencesStoreName).put({
+        id: LocalPersistenceService.preferencesRecordKey,
+        preferences: migratedPreferences,
+      } as IPreferencesRecord);
+    }
+
+    const migratedDiagram = this.selectDiagramForMigration(legacyDiagrams);
+
+    if (migratedDiagram) {
+      transaction.objectStore(this.activeDiagramsStoreName).put({
+        id: LocalPersistenceService.activeDiagramRecordKey,
+        diagram: migratedDiagram,
+      } as IActiveDiagramRecord);
+    }
   }
 
   private createStore(database: IDBDatabase, storeName: string, keyPath: string) {
@@ -286,8 +320,14 @@ export class LocalPersistenceService {
       latestDiagram.diagramDetails,
       latestDiagram.thumbnailUrl,
       latestDiagram.lastUpdatedUTC ? new Date(latestDiagram.lastUpdatedUTC) : undefined,
-      latestDiagram.emailMD5 || this.user,
     );
+  }
+
+  private selectPreferencesForMigration(userProfiles: IUserProfileRecord[]): number | undefined {
+    const latestProfile = [...userProfiles]
+      .sort((left, right) => this.getTicks(right.lastUpdatedUTC) - this.getTicks(left.lastUpdatedUTC))[0];
+
+    return latestProfile?.preferences;
   }
 
   private async get<T>(storeName: string, key: IDBValidKey): Promise<T | undefined> {
@@ -341,5 +381,19 @@ interface ILegacyDiagramRecord {
   diagramDetails?: string;
   thumbnailUrl?: string;
   lastUpdatedUTC?: Date | string;
-  emailMD5?: string;
+}
+
+interface IPreferencesRecord {
+  id: string;
+  preferences: number;
+}
+
+interface IActiveDiagramRecord {
+  id: string;
+  diagram: DiagramDTO;
+}
+
+interface IUserProfileRecord {
+  preferences?: number;
+  lastUpdatedUTC?: Date | string;
 }

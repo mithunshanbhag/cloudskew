@@ -7,7 +7,6 @@ export class DiagramDTO {
         public diagramDetails?: string,
         public thumbnailUrl?: string,
         public lastUpdatedUTC?: Date,
-        public emailMD5?: string,
     ) {
     }
 }

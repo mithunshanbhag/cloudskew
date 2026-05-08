@@ -31,10 +31,10 @@ export class APIService {
 
   //#region images
 
-  generateImageAsync(user: string, imageGenerationRequest: ImageGenerationRequestDTO)
+  generateImageAsync(userId: string, imageGenerationRequest: ImageGenerationRequestDTO)
     : Observable<APIResponse<string>> {
     return this.httpClient.post<string>(
-      `${UrlConstants.diagramHelperWebAPIUrl}/users/${user}/images/GenerateImageV1`,
+      `${UrlConstants.diagramHelperWebAPIUrl}/users/${userId}/images/GenerateImageV1`,
       imageGenerationRequest, this.httpOptions
     ).pipe(
       map(dto => this.handleSuccess<string>(dto)),

@@ -7,13 +7,13 @@ import { ImageUploadDialogComponent } from './image-upload-dialog.component';
 describe('ImageUploadDialogComponent', () => {
   // #region Positive Cases
 
-  it('should build the upload url from the local persistence user', () => {
+  it('should build the upload url from the diagram helper user id', () => {
     const dialogRef = {
       afterOpened: () => EMPTY,
       close: jasmine.createSpy('close'),
     } as unknown as MatDialogRef<ImageUploadDialogComponent>;
     const localPersistenceService = {
-      user: 'test-user',
+      diagramHelperUserId: 'test-user',
     } as LocalPersistenceService;
 
     const component = new ImageUploadDialogComponent(dialogRef, localPersistenceService);

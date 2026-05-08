@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
 import { ReplaySubject } from 'rxjs';
-import { UserProfileDTO } from 'src/app/models/dto/userProfileDTO';
 
 //#region interfaces for statusbar events
 
 export type StatusbarEventArgs = IDiagramZoomChangedEventArgs
-  | IDiagramToolChangedEventArgs
-  | IUserProfileChangedEventArgs;
+  | IDiagramToolChangedEventArgs;
 
 export interface IDiagramZoomChangedEventArgs {
   kind: 'IDiagramZoomChangedEventArgs';
@@ -16,11 +14,6 @@ export interface IDiagramZoomChangedEventArgs {
 export interface IDiagramToolChangedEventArgs {
   kind: 'IDiagramToolChangedEventArgs';
   value: 'select/edit' | 'pan/swipe';
-}
-
-export interface IUserProfileChangedEventArgs {
-  kind: 'IUserProfileChangedEventArgs';
-  userProfile: UserProfileDTO;
 }
 
 //#endregion

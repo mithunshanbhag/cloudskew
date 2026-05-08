@@ -8,9 +8,7 @@ export class ErrorMessageConstants {
     public static readonly generateImageError = 'unable to generate image.';
     public static readonly getFileAsStringError = 'unable to fetch file.';
     public static readonly invalidJsonFile = 'unable to parse the json file.';
+    public static readonly preferencesGetError = 'unable to fetch preferences.';
+    public static readonly preferencesUpdateError = 'unable to update preferences.';
     public static readonly uploadThumbnailError = 'unable to upload thumbnail.';
-    public static readonly userProfileCreateError = 'unable to create user profile.';
-    public static readonly userProfileGetError = 'unable to fetch user profile.';
-    public static readonly userProfilesListError = 'unable to fetch user profiles.';
-    public static readonly userProfileUpdateError = 'unable to update user profile.';
 }

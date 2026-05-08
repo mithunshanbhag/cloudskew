@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { UserProfileDTO } from 'src/app/models/dto/userProfileDTO';
 import { StatusbarEventArgs, StatusbarService } from './statusbar.service';
 
 @Component({
@@ -18,7 +17,6 @@ export class StatusbarComponent implements OnInit, OnDestroy {
   //
   zoomPercentage?: number;
   tool?: string;
-  userProfile?: UserProfileDTO;
 
   constructor(
     private statusbarService: StatusbarService,
@@ -29,9 +27,6 @@ export class StatusbarComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe((args: StatusbarEventArgs) => {
         switch (args.kind) {
-          case 'IUserProfileChangedEventArgs':
-            this.userProfile = args.userProfile;
-            break;
           case 'IDiagramZoomChangedEventArgs':
             this.zoomPercentage = args.value;
             break;

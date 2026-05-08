@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
 import { firstValueFrom } from 'rxjs';
-import { AnonymousUserConstants } from '../constants/anonymous-user-constants';
 import { SymbolFamilyConstants } from '../constants/symbol-family-constants';
 import { DiagramDTO } from '../models/dto/diagramDTO';
 import { ImageGenerationRequestDTO } from '../models/dto/imageGenerationRequestDTO';
@@ -31,12 +30,10 @@ describe('LocalPersistenceService', () => {
 
   // #region Positive Cases
 
-  it('should create the anonymous user profile with default preferences', async () => {
-    const profile = await firstValueFrom(service.ensureAnonymousUserProfile());
+  it('should load default preferences when no preference record exists', async () => {
+    const preferences = await firstValueFrom(service.loadPreferences());
 
-    expect(profile.email).toBe(AnonymousUserConstants.email);
-    expect(profile.emailMD5).toBe(AnonymousUserConstants.emailMD5);
-    expect(profile.preferences).toBe(SymbolFamilyConstants.Default);
+    expect(preferences).toBe(SymbolFamilyConstants.Default);
     expect(service.preferences).toBe(SymbolFamilyConstants.Default);
   });
 
@@ -98,12 +95,11 @@ describe('LocalPersistenceService', () => {
     await closeDatabase(rehydratedService);
   });
 
-  it('should publish preference updates from persisted profile changes', async () => {
+  it('should publish preference updates from persisted preference changes', async () => {
     const emittedPreferences: number[] = [];
     const expectedPreferences = SymbolFamilyConstants.General | SymbolFamilyConstants.GCP;
     const subscription = service.preferences$.subscribe(preferences => emittedPreferences.push(preferences));
 
-    await firstValueFrom(service.ensureAnonymousUserProfile());
     await firstValueFrom(service.updatePreferences(expectedPreferences));
     subscription.unsubscribe();
 

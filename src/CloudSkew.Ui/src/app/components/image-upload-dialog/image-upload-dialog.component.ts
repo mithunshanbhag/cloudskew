@@ -36,7 +36,7 @@ export class ImageUploadDialogComponent implements OnInit, OnDestroy {
       }),
   };
   uploaderAsyncSettings: AsyncSettingsModel = {
-    saveUrl: `${UrlConstants.webAPIPublicUrl}/users/${this.localPersistenceService.user}/customimages`,
+    saveUrl: `${UrlConstants.webAPIPublicUrl}/users/${this.localPersistenceService.diagramHelperUserId}/customimages`,
   };
   uploaderAllowedExtensions = '.jpg, .jpeg, .png';
   uploaderMinFileSizeBytes = 1;

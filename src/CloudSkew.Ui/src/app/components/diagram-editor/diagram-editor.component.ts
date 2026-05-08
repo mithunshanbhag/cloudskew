@@ -1,8 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { EMPTY, Observable, of, Subject } from 'rxjs';
-import { catchError, filter, takeUntil, tap } from 'rxjs/operators';
-import { SymbolFamilyConstants } from 'src/app/constants/symbol-family-constants';
+import { catchError, filter, takeUntil } from 'rxjs/operators';
 import { UIConstants } from 'src/app/constants/ui-constants';
 import { DiagramDTO } from '../../models/dto/diagramDTO';
 import { ActiveDiagramService } from '../../services/active-diagram.service';
@@ -12,7 +11,6 @@ import { DiagramDeleteConfirmationDialogComponent } from '../diagram-delete-conf
 import { DiagramExportDialogComponent } from '../diagram-export-dialog/diagram-export-dialog.component';
 import { DiagramPrintDialogComponent } from '../diagram-print-dialog/diagram-print-dialog.component';
 import { DiagramService, IDiagramExportRequestArgs, IDiagramPrintRequestArgs } from '../diagram/diagram.service';
-import { IUserProfileChangedEventArgs, StatusbarService } from '../statusbar/statusbar.service';
 
 @Component({
   selector: 'app-diagram-editor',
@@ -34,14 +32,13 @@ export class DiagramEditorComponent implements OnInit, OnDestroy {
     private diagramControlsService: DiagramControlsService,
     private dialog: MatDialog,
     private localPersistenceService: LocalPersistenceService,
-    private statusbarService: StatusbarService,
   ) {
     this.diagram$ = this.activeDiagramService.activeDiagram$
       .pipe(filter((diagram): diagram is DiagramDTO => !!diagram));
   }
 
   ngOnInit() {
-    this.processAnonymousUserProfile();
+    this.initializeEditorState();
   }
 
   ngOnDestroy() {
@@ -111,18 +108,13 @@ export class DiagramEditorComponent implements OnInit, OnDestroy {
   }
 
 
-  private processAnonymousUserProfile() {
+  private initializeEditorState() {
     window.location.hash = ''; // clear the hash fragment from the address bar
 
-    this.localPersistenceService.setCurrentPreferences(SymbolFamilyConstants.Default);
-    this.localPersistenceService.ensureAnonymousUserProfile()
+    this.localPersistenceService.loadPreferences()
       .pipe(
         takeUntil(this.onDestroy$),
-        tap(userProfile => this.statusbarService.request({
-          kind: 'IUserProfileChangedEventArgs',
-          userProfile,
-        } as IUserProfileChangedEventArgs)),
-        catchError(() => of(undefined)),
+        catchError(() => of(this.localPersistenceService.preferences)),
       )
       .subscribe(() => this.initialize());
 

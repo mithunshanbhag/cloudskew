@@ -16,8 +16,8 @@ export class GlobalErrorHandlerService implements ErrorHandler {
   handleError(error: Error): void {
     // inject to telemetry service
     const url = window.location.href;
-    const user = this.localPersistenceService.user;
-    this.logger.logException(error, url, user);
+    const diagramHelperUserId = this.localPersistenceService.diagramHelperUserId;
+    this.logger.logException(error, url, diagramHelperUserId);
   }
 }
 
