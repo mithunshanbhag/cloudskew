@@ -1,13 +1,6 @@
 <div #sidebarControl class="sidebarControl">
 
     <!-- the symbol palette (palette grid) -->
-    <app-palette-grid [hidden]="this.sidebarType !== 'palette'" class="sidebar-item"></app-palette-grid>
-
-    <!-- create new diagram pane -->
-    <app-create-diagram-pane [hidden]="this.sidebarType !== 'create'" class="sidebar-item">
-    </app-create-diagram-pane>
-
-    <!-- the preferences/settings grid -->
-    <app-preference-grid [hidden]="this.sidebarType !== 'preference'" class="sidebar-item"></app-preference-grid>
+    <app-palette-grid class="sidebar-item"></app-palette-grid>
 
 </div>

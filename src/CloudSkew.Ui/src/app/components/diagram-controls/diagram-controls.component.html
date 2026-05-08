@@ -1,5 +1,11 @@
 <div class="diagram-controls">
 
+  <!-- branding logo -->
+  <div class="diagram-controls-branding" matTooltip="CloudSkew">
+    <img class="branding-logo" [src]="this.logoUrl" alt="CloudSkew">
+  </div>
+  <mat-divider [vertical]="true"></mat-divider>
+
   <!-- lock/unlock buttons -->
   @if (this.isLocked) {
     <button mat-icon-button matTooltip="diagram locked (click to unlock)"
@@ -31,6 +37,20 @@
       </mat-icon>
     </button>
   }
+  <mat-divider [vertical]="true"></mat-divider>
+
+  <!-- import button -->
+  <button mat-icon-button matTooltip="import diagram from JSON" [disableRipple]="true"
+    (click)="this.importButtonClick.emit()">
+    <mat-icon fontSet="material-icons-outlined">upload_file</mat-icon>
+  </button>
+  <mat-divider [vertical]="true"></mat-divider>
+
+  <!-- add/remove symbols button -->
+  <button mat-icon-button matTooltip="add/remove symbols" [disableRipple]="true"
+    (click)="this.onAddRemoveSymbolsButtonClick()">
+    <mat-icon fontSet="material-icons-outlined">filter_alt</mat-icon>
+  </button>
   <mat-divider [vertical]="true"></mat-divider>
 
   <!-- quick insert button -->
@@ -124,4 +144,35 @@
       </mat-icon>
     </button>
   }
+
+  <span class="diagram-controls-spacer"></span>
+
+  <!-- help and support button -->
+  <button mat-icon-button matTooltip="help & support" [disableRipple]="true" [matMenuTriggerFor]="helpAndSupportMenu">
+    <mat-icon fontSet="material-icons-outlined">help_outline</mat-icon>
+  </button>
+  <mat-menu #helpAndSupportMenu="matMenu">
+    <a mat-menu-item [disableRipple]="true" [href]="this.keyboardShortcutsUrl" target="_blank" rel="noopener"
+      rel="noreferrer">
+      <mat-icon fontSet="material-icons-outlined">keyboard_alt</mat-icon>
+      <span>Keyboard shortcuts</span>
+    </a>
+    <a mat-menu-item [disableRipple]="true" [href]="this.faqsUrl" target="_blank" rel="noopener"
+      rel="noreferrer">
+      <mat-icon fontSet="material-icons-outlined">help_outline</mat-icon>
+      <span>FAQs</span>
+    </a>
+    <mat-divider></mat-divider>
+    <a mat-menu-item [disableRipple]="true" [href]="this.releaseNotesUrl" target="_blank" rel="noopener"
+      rel="noreferrer">
+      <mat-icon fontSet="material-icons-outlined">description</mat-icon>
+      <span>Release Notes</span>
+    </a>
+    <mat-divider></mat-divider>
+    <a mat-menu-item [disableRipple]="true" [href]="this.githubIssuesUrl" target="_blank" rel="noopener"
+      rel="noreferrer">
+      <mat-icon fontSet="material-icons-outlined">feedback</mat-icon>
+      <span>Report an issue on github</span>
+    </a>
+  </mat-menu>
 </div>

@@ -18,6 +18,10 @@
                 with the palette grid (in terms of column header etc). -->
                 <e-column field="groupDisplayName" [visible]=false>
                 </e-column>
+                <e-column field="groupId" [visible]=false>
+                </e-column>
+                <e-column field="symbolId" [visible]=false>
+                </e-column>
                 <e-column field="symbolSvgUrl" textAlign="Left"
                     [customAttributes]="this.paletteGridControlCustomAttribute"
                     [width]="this.paletteGridControlSymbolImageWidth">
@@ -64,8 +68,6 @@
     <div class="paletteGridButtonWrapper">
         <button mat-stroked-button disableRipple=true matTooltip="upload a custom png/jpg image"
             (click)="this.onAddCustomImageButtonClicked()">Add Image</button>
-        <button mat-stroked-button disableRipple=true matTooltip="add/remove symbols"
-            (click)="this.onAddRemoveSymbolsButtonClicked()">Add/Remove Symbols</button>
     </div>
 
 </div>

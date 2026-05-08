@@ -24,10 +24,8 @@ import { ConnectorBridgingService, DiagramContextMenuService, DiagramModule, Pri
 import { GridModule, GroupService, SearchService, SortService } from '@syncfusion/ej2-angular-grids';
 import { TextBoxModule, UploaderModule } from '@syncfusion/ej2-angular-inputs';
 import { AppComponent } from './app.component';
-import { ActivitybarComponent } from './components/activitybar/activitybar.component';
 import { BasicShapePropertiesEditorComponent } from './components/basic-shape-properties-editor/basic-shape-properties-editor.component';
 import { ConnectorPropertiesEditorComponent } from './components/connector-properties-editor/connector-properties-editor.component';
-import { CreateDiagramPaneComponent } from './components/create-diagram-pane/create-diagram-pane.component';
 import { DiagramControlsComponent } from './components/diagram-controls/diagram-controls.component';
 import { DiagramDeleteConfirmationDialogComponent } from './components/diagram-delete-confirmation-dialog/diagram-delete-confirmation-dialog.component';
 import { DiagramEditorComponent } from './components/diagram-editor/diagram-editor.component';
@@ -49,6 +47,7 @@ import { PropertiesbarComponent } from './components/propertiesbar/propertiesbar
 import { ResourceDocumentationDialogComponent } from './components/resource-documentation-dialog/resource-documentation-dialog.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { StatusbarComponent } from './components/statusbar/statusbar.component';
+import { SymbolPreferencesDialogComponent } from './components/symbol-preferences-dialog/symbol-preferences-dialog.component';
 import { TextPropertiesEditorComponent } from './components/text-properties-editor/text-properties-editor.component';
 import { PropertiesEditorComponent } from './components/visual-properties-editor/visual-properties-editor.component';
 import { EllipsisPipe } from './pipes/ellipsis.pipe';
@@ -66,7 +65,6 @@ const appRoutes: Routes = [
         AppComponent,
         DiagramEditorComponent,
         DiagramControlsComponent,
-        CreateDiagramPaneComponent,
         DiagramReplaceConfirmationDialogComponent,
         LoadingBlockComponent,
         DiagramComponent,
@@ -78,7 +76,6 @@ const appRoutes: Routes = [
         ConnectorPropertiesEditorComponent,
         DiagramExportDialogComponent,
         DiagramDeleteConfirmationDialogComponent,
-        ActivitybarComponent,
         SidebarComponent,
         EllipsisPipe,
         DiagramPrintDialogComponent,
@@ -92,6 +89,7 @@ const appRoutes: Routes = [
         ResourceDocumentationDialogComponent,
         DiagramImportDialogComponent,
         MultiSelectionPropertiesEditorComponent,
+        SymbolPreferencesDialogComponent,
     ],
     bootstrap: [AppComponent], imports: [BrowserAnimationsModule,
         BrowserModule,

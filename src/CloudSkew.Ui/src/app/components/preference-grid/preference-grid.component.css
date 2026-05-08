@@ -1,0 +1,9 @@
+.preferenceGridDialogMode {
+    min-height: 420px;
+}
+
+.preferenceGridDialogWrapper {
+    height: 420px;
+    max-height: 60vh;
+    overflow: auto;
+}

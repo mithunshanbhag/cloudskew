@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ChangeEventArgs } from '@syncfusion/ej2-angular-buttons';
 import { GridComponent, GroupSettingsModel, SortDescriptorModel, SortSettingsModel } from '@syncfusion/ej2-angular-grids';
 import { EMPTY, Subject } from 'rxjs';
@@ -12,13 +12,15 @@ import { PreferenceService } from './preference.service';
 @Component({
     selector: 'app-preference-grid',
     templateUrl: './preference-grid.component.html',
-    styles: [],
+    styleUrls: ['./preference-grid.component.css'],
     standalone: false
 })
 export class PreferenceGridComponent implements OnInit, OnDestroy {
 
   //
   private onDestroy$: Subject<void> = new Subject<void>();
+
+  @Input() dialogMode = false;
 
   //#region diagram selector grid
   @ViewChild('preferenceGridControl') control: GridComponent;
@@ -31,7 +33,7 @@ export class PreferenceGridComponent implements OnInit, OnDestroy {
   allowSorting: true;
   sortSettingsModel: SortSettingsModel = { // @todo: fix the sorting later.
     columns: [
-      { field: 'name', direction: 'Ascending', }
+      { field: 'displayName', direction: 'Ascending', }
     ] as SortDescriptorModel[],
   };
   data: IPreferenceGridItem[] = [];

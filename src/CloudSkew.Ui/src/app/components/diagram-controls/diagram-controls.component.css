@@ -1,9 +1,15 @@
+:host {
+    display: block;
+    width: 100%;
+}
+
 .diagram-controls {
     /* container for horizontal flexbox items */
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
+    width: 100%;
 }
 
 .diagram-controls .mat-mdc-icon-button {
@@ -23,6 +29,26 @@
 
 .diagram-controls mat-divider {
     height: 20px; /* divider won't be visible without explicit height */
+}
+
+.diagram-controls-branding {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    min-width: 40px;
+    height: 40px;
+    background-color: black;
+}
+
+.diagram-controls-branding .branding-logo {
+    width: 28px;
+    height: 28px;
+    border-radius: 15%;
+}
+
+.diagram-controls-spacer {
+    flex: 1 1 auto;
 }
 
 

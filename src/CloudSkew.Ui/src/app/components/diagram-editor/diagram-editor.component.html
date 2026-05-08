@@ -1,10 +1,5 @@
 <div class="diagram-editor">
 
-  <!-- the activity bar -->
-  <div class="diagram-editor-activity-bar">
-    <app-activitybar></app-activitybar>
-  </div>
-
   <!-- the main area -->
   @if ((this.diagram$|async); as diagram) {
       <div class="diagram-editor-content">
@@ -13,6 +8,7 @@
           <!-- control for all diagram actions (save, zoom, export etc) -->
           <app-diagram-controls (deleteButtonClick)="onDiagramDeleteButtonClick(diagram)"
             (exportButtonClick)="onDiagramExportButtonClick(diagram)"
+            (importButtonClick)="onDiagramImportButtonClick()"
           (printButtonClick)="onDiagramPrintButtonClick(diagram)">
         </app-diagram-controls>
       </div>

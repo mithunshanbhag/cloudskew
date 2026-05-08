@@ -38,6 +38,9 @@ export class UIConstants {
     // resource documentation dialog
     public static readonly resourceDocumentationDialogWidth = '350px';
 
+    // symbol preferences dialog
+    public static readonly symbolPreferencesDialogWidth = '360px';
+
     // thumbnail preview image
     // note: the width and height are actually in pixels, but the 'px' is not
     // included in the value since the image does render otherwise.

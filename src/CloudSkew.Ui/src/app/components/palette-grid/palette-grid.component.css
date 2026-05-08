@@ -3,8 +3,8 @@
     max-height: 40px;
 }
 .paletteGridControlWrapper {
-    height: calc(100vh - 195px);
-    max-height: calc(100vh - 195px);
+    height: calc(100vh - 155px);
+    max-height: calc(100vh - 155px);
     overflow: auto; /* needed for scrollbar */
 }
 .paletteGridButtonWrapper {
@@ -15,8 +15,8 @@
     align-items: center;
 
     /* dimensions */
-    height: 80px; 
-    max-height: 80px;
+    height: 40px;
+    max-height: 40px;
 
     /* padding, margin etc */
     padding: 2px 0px;

@@ -1,6 +1,6 @@
-<div class="sidebarWrapper">
+<div class="sidebarWrapper" [class.preferenceGridDialogMode]="this.dialogMode">
 
-    <div class="sidebarGridControlWrapper">
+    <div class="sidebarGridControlWrapper" [class.preferenceGridDialogWrapper]="this.dialogMode">
         <ejs-grid #preferenceGridControl class="sidebarGridControl" [dataSource]="this.data"
             [allowGrouping]="this.allowGrouping" [groupSettings]="this.groupSettingsModel"
             [sortSettings]="this.sortSettingsModel" [allowSorting]="this.allowSorting"

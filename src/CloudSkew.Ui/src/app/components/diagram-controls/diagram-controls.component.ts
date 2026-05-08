@@ -1,12 +1,15 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { SymbolFamilyConstants } from 'src/app/constants/symbol-family-constants';
 import { SymbolGroupConstants } from 'src/app/constants/symbol-group-constants';
 import { SymbolIdConstants } from 'src/app/constants/symbol-id-constants';
 import { UIConstants } from 'src/app/constants/ui-constants';
+import { UrlConstants } from 'src/app/constants/url-constants';
 import { DiagramService, IDiagramLockRequestArgs, IDiagramToolRequestArgs, IDiagramUndoRedoRequestArgs, IDiagramZoomRequestArgs } from '../diagram/diagram.service';
 import { SymbolFamilyDefinitions } from '../../constants/symbol-family-definitions';
+import { SymbolPreferencesDialogComponent } from '../symbol-preferences-dialog/symbol-preferences-dialog.component';
 import { DiagramControlsRequestArgs, DiagramControlsService } from './diagram-controls.service';
 
 @Component({
@@ -19,6 +22,11 @@ export class DiagramControlsComponent implements OnInit, OnDestroy {
 
   //
   spinnerDiameter = UIConstants.diagramControlSpinnerDefaultDiameter;
+  logoUrl = 'assets/logos/cloudskew-logo.png';
+  faqsUrl = UrlConstants.faqsUrl;
+  githubIssuesUrl = UrlConstants.githubIssuesUrl;
+  keyboardShortcutsUrl = UrlConstants.keyboardShortcutsUrl;
+  releaseNotesUrl = UrlConstants.releaseNotesUrl;
 
   //
   private onDestroy$: Subject<void> = new Subject<void>();
@@ -40,10 +48,12 @@ export class DiagramControlsComponent implements OnInit, OnDestroy {
   @Output() printButtonClick = new EventEmitter();
   @Output() exportButtonClick = new EventEmitter();
   @Output() deleteButtonClick = new EventEmitter();
+  @Output() importButtonClick = new EventEmitter();
 
   constructor(
     private diagramControlsService: DiagramControlsService,
     private diagramService: DiagramService,
+    private dialog: MatDialog,
   ) { }
 
   //#region lifecycle hooks
@@ -201,6 +211,12 @@ export class DiagramControlsComponent implements OnInit, OnDestroy {
 
   onCustomImageSelect() {
     this.onItemSelect(SymbolIdConstants.CustomImage);
+  }
+
+  onAddRemoveSymbolsButtonClick() {
+    this.dialog.open(SymbolPreferencesDialogComponent, {
+      width: UIConstants.symbolPreferencesDialogWidth,
+    } as MatDialogConfig);
   }
 
   //#endregion

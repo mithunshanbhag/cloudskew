@@ -17,7 +17,6 @@ import { ISymbolFamilyDefinition } from 'src/app/interfaces/symbol-family-defini
 import { LocalPersistenceService } from 'src/app/services/local-persistence.service';
 import { IResourceDocumentationRequest } from '../../interfaces/resource-documentation-request';
 import { ResourceDocumentationDialogComponent } from '../resource-documentation-dialog/resource-documentation-dialog.component';
-import { SidebarService } from '../sidebar/sidebar.service';
 import { SymbolFamilyDefinitions } from '../../constants/symbol-family-definitions';
 
 setCulture('en-US');
@@ -80,7 +79,6 @@ export class PaletteGridComponent implements OnInit, OnDestroy {
     private diagramService: DiagramService,
     private localPersistenceService: LocalPersistenceService,
     private resourceDocumentationDialog: MatDialog,
-    private sidebarService: SidebarService,
   ) {
   }
 
@@ -160,10 +158,6 @@ export class PaletteGridComponent implements OnInit, OnDestroy {
       symbolGroupId: requestedSymbolGroupId,
       symbolFamilyId: requestedSymbolFamilyId,
     });
-  }
-
-  onAddRemoveSymbolsButtonClicked() {
-    this.sidebarService.request('preference');
   }
 
   //#endregion callbacks

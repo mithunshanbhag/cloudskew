@@ -124,7 +124,7 @@ This file captures the checked-in UI details for the two CloudSkew web apps:
 | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
 | App purpose         | Browser-based diagram editor for cloud architecture diagrams, generic diagrams, text, shapes, connectors, images, export, and print. |
 | Primary route shape | `/` renders `DiagramEditorComponent`; unknown routes redirect to `/`.                                                                |
-| Page composition    | Activity bar, toolbar/navbar, left sidebar, central Syncfusion diagram canvas, right properties bar, status bar.                     |
+| Page composition    | Toolbar/navbar, left palette sidebar, central Syncfusion diagram canvas, right properties bar, status bar.                           |
 | UX character        | Dense, tool-like editor UI optimized for repeated actions and canvas work rather than marketing content.                             |
 
 ### Component Libraries
@@ -151,6 +151,7 @@ This file captures the checked-in UI details for the two CloudSkew web apps:
 | `src/app/constants/ui-constants.ts`                          | Holds canvas, symbol, thumbnail, spinner, and dialog sizing constants.                                                                                   |
 | `src/app/constants/color-hex-codes-constants.ts`             | Holds named diagram/editor color constants.                                                                                                              |
 | `src/app/constants/diagram-constants.ts`                     | Holds default Syncfusion connector, node, port, and annotation styling.                                                                                  |
+| Local asset server                                           | `src/CloudSkew.Assets/run-local.ps1` serves `src/CloudSkew.Assets` at `http://localhost:7001` so local stencil SVG URLs continue to use the local CDN prefix. |
 
 ### Fonts
 
@@ -175,7 +176,6 @@ This file captures the checked-in UI details for the two CloudSkew web apps:
 | `ColorHexCodeConstants.lightBlack`           | `#242424`                                                | Darker neutral.                                                           |
 | `ColorHexCodeConstants.lightBlue`            | `#add8e6`                                                | Light blue neutral.                                                       |
 | `ColorHexCodeConstants.white`                | `#ffffff`                                                | White fill/background.                                                    |
-| Activity bar                                 | `black`, `gray`, `white`                                 | Black rail, gray inactive icons, white active/focus/hover icons.          |
 | Editor chrome                                | `white`, `whitesmoke`, `lightgrey`, `rgb(224, 224, 224)` | Sidebars, toolbar buttons, hover fills, status bar, and splitter borders. |
 | Toolbar state                                | `green`, `orange`, `red`                                 | Locked, unlocked, and delete button emphasis.                             |
 | Sidebar info glyph                           | `lightslategray`                                         | Documentation/info glyph color.                                           |
@@ -188,14 +188,13 @@ This file captures the checked-in UI details for the two CloudSkew web apps:
 | Surface         | Size and behavior                                                                            |
 | --------------- | -------------------------------------------------------------------------------------------- |
 | Root editor     | Full viewport `100vw` by `100vh`, horizontal flex layout, overflow auto.                     |
-| Activity bar    | Fixed `50px` width, `100vh` height, black vertical rail.                                     |
-| Main content    | Width `calc(100vw - 50px)`, height `100vh`, vertical flex layout.                            |
-| Toolbar/navbar  | Fixed `50px` height, width `calc(100vw - 50px)`, horizontal flex layout.                     |
-| Main editor row | Height `calc(100vh - 75px)`, width `calc(100vw - 50px)`, horizontal flex layout.             |
-| Left sidebar    | Fixed `240px` width, height `calc(100vh - 75px)`, contains palette/create/preferences panes. |
-| Canvas region   | Width `calc(100vw - 510px)`, height `calc(100vh - 75px)`, scrollable.                        |
+| Main content    | Width `100vw`, height `100vh`, vertical flex layout.                                         |
+| Toolbar/navbar  | Fixed `50px` height, width `100vw`, horizontal flex layout.                                  |
+| Main editor row | Height `calc(100vh - 75px)`, width `100vw`, horizontal flex layout.                          |
+| Left sidebar    | Fixed `240px` width, height `calc(100vh - 75px)`, contains the symbol palette.               |
+| Canvas region   | Width `calc(100vw - 460px)`, height `calc(100vh - 75px)`, scrollable.                        |
 | Properties bar  | Fixed `220px` width, height `calc(100vh - 75px)`, scrollable.                                |
-| Status bar      | Fixed `25px` height, width `calc(100vw - 50px)`.                                             |
+| Status bar      | Fixed `25px` height, width `100vw`.                                                          |
 | Loading block   | Full viewport-height loading surface, centered content.                                      |
 
 ### Canvas And Diagram Defaults
@@ -220,27 +219,25 @@ This file captures the checked-in UI details for the two CloudSkew web apps:
 
 | Surface                 | Details                                                                                                                                                  |
 | ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Sidebar modes           | Palette, Add/Remove Symbols preferences, and Create New Diagram.                                                                                         |
+| Sidebar modes           | Palette only.                                                                                                                                             |
 | Palette search          | Syncfusion `ejs-textbox`, `40px` tall, clear button enabled by component settings.                                                                       |
-| Palette grid            | Syncfusion `ejs-grid`, grouped and sorted, header hidden, scrollable height `calc(100vh - 195px)`.                                                       |
+| Palette grid            | Syncfusion `ejs-grid`, grouped and sorted, header hidden, scrollable height `calc(100vh - 155px)`.                                                       |
 | Palette symbols         | `30px` symbol image column and `30px` info glyph column.                                                                                                 |
 | Symbol labels           | Bootstrap link buttons with Material tooltips.                                                                                                           |
 | Documentation glyph     | Font Awesome ellipsis icon displayed only when symbol documentation exists.                                                                              |
-| Palette actions         | Angular Material stroked buttons for Add Image and Add/Remove Symbols.                                                                                   |
+| Palette actions         | Angular Material stroked button for Add Image. Add/Remove Symbols lives in the toolbar.                                                                   |
 | Preferences grid        | Syncfusion grid with Syncfusion checkboxes and grouped rows.                                                                                             |
 | Symbol families         | General, AWS, Azure, GCP, IBM, Oracle, DigitalOcean, Alibaba Cloud, Kubernetes/CNCF ecosystem, Elastic, VMWare, Font Awesome, HashiCorp, and Cloudflare. |
 | Default symbol families | General + AWS + Azure.                                                                                                                                   |
 
-### Activity Bar, Toolbar, And Status Bar
+### Toolbar And Status Bar
 
 | Surface           | Details                                                                                                                             |
 | ----------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| Activity bar      | Black vertical rail with logo at top, main mode buttons in the middle, help/support menu at bottom.                                 |
-| Activity buttons  | Angular Material mini FABs with Material Icons Outlined; inactive gray, active/focus/hover white.                                   |
-| Activity modes    | Palette, add/remove symbols, create new diagram.                                                                                    |
-| Help menu         | Angular Material menu with keyboard shortcuts, FAQs, release notes, GitHub issue link, and email support.                           |
 | Toolbar           | Horizontal Angular Material icon-button row with dividers.                                                                          |
-| Toolbar actions   | Lock/unlock, delete, quick insert, select/edit, pan/swipe, undo, redo, zoom out, center view, zoom in, export image, print.         |
+| Toolbar branding  | CloudSkew brand logo appears as the first left-aligned toolbar item.                                                                |
+| Toolbar actions   | Lock/unlock, delete, import JSON, add/remove symbols, quick insert, select/edit, pan/swipe, undo, redo, zoom out, center view, zoom in, export image, print. |
+| Help menu         | Right-most toolbar `?` icon opens an Angular Material menu with keyboard shortcuts, FAQs, release notes, and GitHub issue link.      |
 | Quick insert menu | Angular Material menu for line/elbow/curved connectors, two-way variants, circle/ellipse, rectangle/square, text, and custom image. |
 | Progress state    | Delete/export/print buttons swap icon content for a `mat-spinner` while in progress.                                                |
 | Status bar        | Light gray, Roboto Mono `11px`; shows current mode and zoom percentage.                                                             |
@@ -268,6 +265,7 @@ This file captures the checked-in UI details for the two CloudSkew web apps:
 | Export options dialog         | `250px`                            | Export image options.                                                                                                     |
 | Print options dialog          | `300px`                            | Print options.                                                                                                            |
 | Import options dialog         | `600px`                            | Diagram import flow.                                                                                                      |
+| Symbol preferences dialog     | `360px`                            | Add/remove symbol family checkbox flow for AWS, Azure, GCP, and other symbol sets.                                        |
 | Image upload dialog           | `600px`                            | Local JPG/PNG image upload flow.                                                                                          |
 | Resource documentation dialog | `350px`                            | Shows documentation details for palette/native resources.                                                                 |
 | Dialog title                  | Roboto Mono, `18px`                | `.windowHeaderText`.                                                                                                      |
@@ -278,10 +276,10 @@ This file captures the checked-in UI details for the two CloudSkew web apps:
 
 | Icon system              | Usage                                                                                                                                                                                                           |
 | ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Material Icons Outlined  | Primary app chrome and toolbar icons: palette, filter, add, more, keyboard, help, description, feedback, email, lock, delete, select, pan, undo, redo, zoom, center, export, print, text formatting, alignment. |
+| Material Icons Outlined  | Primary app chrome and toolbar icons: filter, upload, add, keyboard, help, description, feedback, lock, delete, select, pan, undo, redo, zoom, center, export, print, text formatting, alignment. |
 | Font Awesome solid icons | Property editor glyphs: lock, unlock, ellipsis/info, object group, and canvas/border.                                                                                                                           |
 | SVG stencil icons        | Cloud/provider/resource symbols in the palette and diagram nodes, loaded from the CDN URL prefix.                                                                                                               |
-| Brand logo               | Activity bar header logo from app constants.                                                                                                                                                                    |
+| Brand logo               | Toolbar branding logo served from `src/assets/logos/cloudskew-logo.png`.                                                                                                                                        |
 
 ### Responsive Behavior
 

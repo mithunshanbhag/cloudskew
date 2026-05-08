@@ -3,13 +3,16 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { EMPTY, Observable, of, Subject } from 'rxjs';
 import { catchError, filter, takeUntil } from 'rxjs/operators';
 import { UIConstants } from 'src/app/constants/ui-constants';
+import { DiagramImportDTO } from 'src/app/models/dto/diagramImportDTO';
 import { DiagramDTO } from '../../models/dto/diagramDTO';
 import { ActiveDiagramService } from '../../services/active-diagram.service';
 import { LocalPersistenceService } from '../../services/local-persistence.service';
 import { DiagramControlsService } from '../diagram-controls/diagram-controls.service';
 import { DiagramDeleteConfirmationDialogComponent } from '../diagram-delete-confirmation-dialog/diagram-delete-confirmation-dialog.component';
 import { DiagramExportDialogComponent } from '../diagram-export-dialog/diagram-export-dialog.component';
+import { DiagramImportDialogComponent } from '../diagram-import-dialog/diagram-import-dialog.component';
 import { DiagramPrintDialogComponent } from '../diagram-print-dialog/diagram-print-dialog.component';
+import { DiagramReplaceConfirmationDialogComponent } from '../diagram-replace-confirmation-dialog/diagram-replace-confirmation-dialog.component';
 import { DiagramService, IDiagramExportRequestArgs, IDiagramPrintRequestArgs } from '../diagram/diagram.service';
 
 @Component({
@@ -78,6 +81,23 @@ export class DiagramEditorComponent implements OnInit, OnDestroy {
       } as IDiagramExportRequestArgs));
   }
 
+  onDiagramImportButtonClick() {
+    const dialogRef = this.dialog.open(DiagramReplaceConfirmationDialogComponent, {
+      data: {
+        title: 'Import Diagram',
+        message: 'This will replace the current diagram with the imported JSON diagram. This cannot be undone.',
+      },
+      width: UIConstants.diagramReplaceConfirmationDialogWidth,
+    } as MatDialogConfig);
+
+    dialogRef.afterClosed()
+      .pipe(
+        filter(result => !!result),
+        takeUntil(this.onDestroy$),
+      )
+      .subscribe(() => this.openImportDialog());
+  }
+
   onDiagramPrintButtonClick(diagram: DiagramDTO) {
     const dialogRef = this.dialog.open(DiagramPrintDialogComponent, {
       data: diagram,
@@ -118,6 +138,28 @@ export class DiagramEditorComponent implements OnInit, OnDestroy {
       )
       .subscribe(() => this.initialize());
 
+  }
+
+  private openImportDialog() {
+    const dialogRef = this.dialog.open(DiagramImportDialogComponent, {
+      width: UIConstants.diagramImportOptionsDialogWidth,
+    } as MatDialogConfig);
+
+    dialogRef.afterClosed()
+      .pipe(
+        filter(result => !!result),
+        takeUntil(this.onDestroy$),
+      )
+      .subscribe(result => this.importDiagram(result as DiagramImportDTO));
+  }
+
+  private importDiagram(sourceDiagram: DiagramImportDTO) {
+    this.localPersistenceService.importDiagram(sourceDiagram)
+      .pipe(
+        takeUntil(this.onDestroy$),
+        catchError(() => EMPTY),
+      )
+      .subscribe(dto => this.activeDiagramService.setActiveDiagram(dto));
   }
 
 

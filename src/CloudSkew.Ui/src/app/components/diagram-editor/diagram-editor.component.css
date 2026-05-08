@@ -11,21 +11,12 @@
     overflow: auto;
 }
 
-.diagram-editor-activity-bar {
-    /* horizontal flexbox item */
-    flex-basis: 50px;
-
-    /* dimensions */
-    width: 50px;
-    height: 100vh;
-}
-
 .diagram-editor-content {
     /* horizontal flexbox item */
-    flex-basis: calc(100vw - 50px);
+    flex-basis: 100vw;
 
     /* dimensions */
-    width: calc(100vw - 50px);
+    width: 100vw;
     height: 100vh;
 
     /* container for vertical flexbox items */
@@ -40,7 +31,7 @@
     flex-basis: 50px;
 
     /* dimensions */
-    width: calc(100vw - 50px);
+    width: 100vw;
     height: 50px;
     min-height: 50px;
     max-height: 50px;
@@ -60,7 +51,7 @@
     flex-basis: 25px;
 
     /* dimensions */
-    width: calc(100vw - 50px);
+    width: 100vw;
     height: 25px;
     min-height: 25px;
     max-height: 25px;
@@ -72,7 +63,7 @@
     flex-basis: calc(100vh - 75px);
 
     /* dimensions */
-    width: calc(100vw - 50px);
+    width: 100vw;
     height: calc(100vh - 75px);
 
     /* container for horizontal flexbox items */
@@ -101,10 +92,10 @@
 .diagram-editor-diagram {
     /* horizontal flexbox item */
     /* flex-grow: 1; */
-    flex-basis: calc(100vw - 510px);
+    flex-basis: calc(100vw - 460px);
 
     /* dimensions */
-    width: calc(100vw - 510px);
+    width: calc(100vw - 460px);
     height: calc(100vh - 75px);
     overflow: auto; /* needed for scrollbar */
 }
