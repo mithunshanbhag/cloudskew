@@ -1,12 +1,16 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { AsyncSettingsModel, ButtonsPropsModel, UploaderComponent, UploadingEventArgs } from '@syncfusion/ej2-angular-inputs';
+import { ButtonsPropsModel, FileInfo, SelectedEventArgs, UploaderComponent } from '@syncfusion/ej2-angular-inputs';
 import { createElement } from '@syncfusion/ej2-base';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { HeaderConstants } from 'src/app/constants/header-constants';
-import { UrlConstants } from 'src/app/constants/url-constants';
-import { LocalPersistenceService } from 'src/app/services/local-persistence.service';
+
+export interface ImageUploadDialogResult {
+  source: string;
+  sizeInBytes: number;
+  type: string;
+  name: string;
+}
 
 @Component({
     selector: 'app-image-upload-dialog',
@@ -21,9 +25,10 @@ export class ImageUploadDialogComponent implements OnInit, OnDestroy {
 
   //#region syncfusion uploader component
   @ViewChild('imageUploader') uploader: UploaderComponent;
-  uploaderAutoUpload = true;
+  uploaderAutoUpload = false;
   uploaderAllowMultipleFileUpload = false;
   uploaderEnablePersistence = false;
+  uploaderShowFileList = false;
   uploaderButtons: ButtonsPropsModel = {
     // per syncfusion documentation
     // https://ej2.syncfusion.com/angular/documentation/uploader/how-to/customize-button-with-html-element/
@@ -34,9 +39,6 @@ export class ImageUploadDialogComponent implements OnInit, OnDestroy {
         className: 'btn btn-sm btn-outline-dark',
       }),
   };
-  uploaderAsyncSettings: AsyncSettingsModel = {
-    saveUrl: `${UrlConstants.webAPIPublicUrl}/users/${this.localPersistenceService.assetContainerId}/customimages`,
-  };
   uploaderAllowedExtensions = '.jpg, .jpeg, .png';
   uploaderMinFileSizeBytes = 1;
   uploaderMaxFileSizeBytes = 524288; // 512 KB
@@ -44,8 +46,7 @@ export class ImageUploadDialogComponent implements OnInit, OnDestroy {
 
 
   constructor(
-    private dialogRef: MatDialogRef<ImageUploadDialogComponent>,
-    private localPersistenceService: LocalPersistenceService,
+    private dialogRef: MatDialogRef<ImageUploadDialogComponent, ImageUploadDialogResult>,
   ) { }
 
   ngOnInit() {
@@ -63,15 +64,29 @@ export class ImageUploadDialogComponent implements OnInit, OnDestroy {
     this.onDestroy$.complete();
   }
 
-  onUploaderUploading(args: UploadingEventArgs) {
-    // ensure that filename is prefixed with a unique upload stamp to avoid hitting
-    // https://github.com/cloudskew/cloudskew/issues/113
-    const uploadStamp = `${Date.now()}_${args.fileData.size}`;
-    args.fileData.name = `${uploadStamp}_${args.fileData.name}`;
-    args.currentRequest.setRequestHeader(HeaderConstants.customImageBlobName, args.fileData.name);
+  onUploaderSelected(args: SelectedEventArgs) {
+    const fileInfo = args.filesData?.[0];
+    if (!fileInfo || fileInfo.statusCode !== '1' || !(fileInfo.rawFile instanceof Blob)) {
+      return;
+    }
+
+    this.readFileAsDataUrl(fileInfo);
   }
 
-  onUploaderSuccess(args: any) {
-    this.dialogRef.close(args);
+  private readFileAsDataUrl(fileInfo: FileInfo) {
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (typeof reader.result !== 'string') {
+        return;
+      }
+
+      this.dialogRef.close({
+        source: reader.result,
+        sizeInBytes: fileInfo.size,
+        type: fileInfo.type,
+        name: fileInfo.name,
+      } as ImageUploadDialogResult);
+    };
+    reader.readAsDataURL(fileInfo.rawFile as Blob);
   }
 }

@@ -7,9 +7,9 @@
     <div class="windowContent">
         <ejs-uploader #imageUploader [autoUpload]="this.uploaderAutoUpload" [buttons]="this.uploaderButtons"
             [enablePersistence]="this.uploaderEnablePersistence" [multiple]="this.uploaderAllowMultipleFileUpload"
-            [allowedExtensions]="this.uploaderAllowedExtensions" [asyncSettings]="this.uploaderAsyncSettings"
+            [showFileList]="this.uploaderShowFileList" [allowedExtensions]="this.uploaderAllowedExtensions"
             [minFileSize]="this.uploaderMinFileSizeBytes" [maxFileSize]="this.uploaderMaxFileSizeBytes"
-            (success)="this.onUploaderSuccess($event)" (uploading)="this.onUploaderUploading($event)">
+            (selected)="this.onUploaderSelected($event)">
         </ejs-uploader>
     </div>
 </mat-dialog-content>

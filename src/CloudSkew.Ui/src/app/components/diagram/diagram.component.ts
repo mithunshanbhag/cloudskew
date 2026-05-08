@@ -1,7 +1,6 @@
 import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { CommandManagerModel, Connector, DiagramBeforeMenuOpenEventArgs, DiagramComponent as SyncFusionDiagramComponent, DiagramConstraints, DiagramTools, IClickEventArgs, ImageModel, IScrollChangeEventArgs, Node } from '@syncfusion/ej2-angular-diagrams';
-import { FileInfo } from '@syncfusion/ej2-angular-inputs';
 import { AnnotationModel, ConnectorModel, ContextMenuSettingsModel, FileFormats, ICollectionChangeEventArgs, IConnectionChangeEventArgs, IEndChangeEventArgs, IExportOptions, IHistoryChangeArgs, ISelectionChangeEventArgs, KeyModifiers, Keys, NativeModel, NodeModel, PageSettingsModel, PointModel, PointPortModel, RulerSettingsModel, ScrollSettingsModel, SnapConstraints, SnapSettingsModel } from '@syncfusion/ej2-diagrams';
 import { BeforeOpenCloseMenuEventArgs, MenuEventArgs } from '@syncfusion/ej2-navigations';
 import { EMPTY, interval, Subject } from 'rxjs';
@@ -12,7 +11,6 @@ import { DiagramConstants } from 'src/app/constants/diagram-constants';
 import { SymbolGroupConstants } from 'src/app/constants/symbol-group-constants';
 import { SymbolIdConstants } from 'src/app/constants/symbol-id-constants';
 import { UIConstants } from 'src/app/constants/ui-constants';
-import { UrlConstants } from 'src/app/constants/url-constants';
 import { WarningMessageConstants } from 'src/app/constants/warning-message-constants';
 import { DiagramDTO } from 'src/app/models/dto/diagramDTO';
 import { APIService } from 'src/app/services/api.service';
@@ -25,7 +23,7 @@ import { TypeGuards } from 'src/app/utilities/type-guards';
 import { SymbolFamilyConstants } from '../../constants/symbol-family-constants';
 import { ISymbolDefinition } from '../../interfaces/symbol-definition';
 import { DiagramControlsService, IDiagramControlsToolArgs } from '../diagram-controls/diagram-controls.service';
-import { ImageUploadDialogComponent } from '../image-upload-dialog/image-upload-dialog.component';
+import { ImageUploadDialogComponent, ImageUploadDialogResult } from '../image-upload-dialog/image-upload-dialog.component';
 import { IDiagramToolChangedEventArgs, StatusbarEventArgs, StatusbarService } from '../statusbar/statusbar.service';
 
 
@@ -610,16 +608,12 @@ export class DiagramComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  private addCustomImage(args: any) {
-    const assetContainerId = this.localPersistenceService.assetContainerId;
-    const blobName = (args.file as FileInfo).name;
-    const uploadedBlobUri = `${UrlConstants.customImagesUrlPrefix}/${assetContainerId}/${blobName}`;
-
+  private addCustomImage(args: ImageUploadDialogResult) {
     this.diagramService.request({
       kind: 'IDiagramAddCustomImageRequestArgs',
-      source: uploadedBlobUri,
-      sizeInBytes: (args.file as FileInfo).size,
-      type: (args.file as FileInfo).type,
+      source: args.source,
+      sizeInBytes: args.sizeInBytes,
+      type: args.type,
     } as IDiagramAddCustomImageRequestArgs);
   }
 
