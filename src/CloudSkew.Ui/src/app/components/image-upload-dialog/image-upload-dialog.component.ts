@@ -7,7 +7,6 @@ import { takeUntil } from 'rxjs/operators';
 import { HeaderConstants } from 'src/app/constants/header-constants';
 import { UrlConstants } from 'src/app/constants/url-constants';
 import { LocalPersistenceService } from 'src/app/services/local-persistence.service';
-import { Md5 } from 'ts-md5';
 
 @Component({
     selector: 'app-image-upload-dialog',
@@ -36,7 +35,7 @@ export class ImageUploadDialogComponent implements OnInit, OnDestroy {
       }),
   };
   uploaderAsyncSettings: AsyncSettingsModel = {
-    saveUrl: `${UrlConstants.webAPIPublicUrl}/users/${this.localPersistenceService.diagramHelperUserId}/customimages`,
+    saveUrl: `${UrlConstants.webAPIPublicUrl}/users/${this.localPersistenceService.assetContainerId}/customimages`,
   };
   uploaderAllowedExtensions = '.jpg, .jpeg, .png';
   uploaderMinFileSizeBytes = 1;
@@ -65,10 +64,10 @@ export class ImageUploadDialogComponent implements OnInit, OnDestroy {
   }
 
   onUploaderUploading(args: UploadingEventArgs) {
-    // ensure that filename is prefixed with the size hash to avoid hitting
+    // ensure that filename is prefixed with a unique upload stamp to avoid hitting
     // https://github.com/cloudskew/cloudskew/issues/113
-    const sizeHash = Md5.hashStr(args.fileData.size.toString()) as string;
-    args.fileData.name = `${sizeHash}_${args.fileData.name}`;
+    const uploadStamp = `${Date.now()}_${args.fileData.size}`;
+    args.fileData.name = `${uploadStamp}_${args.fileData.name}`;
     args.currentRequest.setRequestHeader(HeaderConstants.customImageBlobName, args.fileData.name);
   }
 

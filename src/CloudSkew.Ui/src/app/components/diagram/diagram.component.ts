@@ -22,7 +22,6 @@ import { NotificationService } from 'src/app/services/notification.service';
 import { DiagramComponentHelper } from 'src/app/utilities/diagram-component-helper';
 import { SymbolDefinitionHelper } from 'src/app/utilities/symbol-definition-helper';
 import { TypeGuards } from 'src/app/utilities/type-guards';
-import { Md5 } from 'ts-md5';
 import { SymbolFamilyConstants } from '../../constants/symbol-family-constants';
 import { ISymbolDefinition } from '../../interfaces/symbol-definition';
 import { DiagramControlsService, IDiagramControlsToolArgs } from '../diagram-controls/diagram-controls.service';
@@ -37,6 +36,8 @@ import { IDiagramToolChangedEventArgs, StatusbarEventArgs, StatusbarService } fr
     standalone: false
 })
 export class DiagramComponent implements OnInit, OnDestroy, OnChanges {
+  private static readonly defaultDownloadFileName = 'cloudskew-diagram';
+
 
   // inputs
   @Input() diagram: DiagramDTO;
@@ -175,9 +176,6 @@ export class DiagramComponent implements OnInit, OnDestroy, OnChanges {
             break;
           case 'IDiagramPrintRequestArgs':
             this.print();
-            break;
-          case 'IDiagramUploadThumbnailRequestArgs':
-            this.uploadThumbnail();
             break;
           case 'IDiagramZoomRequestArgs':
             switch (event.type) {
@@ -423,8 +421,6 @@ export class DiagramComponent implements OnInit, OnDestroy, OnChanges {
 
         this.diagramControl.updateViewPort();
 
-        this.uploadThumbnail();
-
         this.diagramControlsService.request({
           kind: 'IDiagramControlsLockArgs',
           isLocked: DiagramComponentHelper.isLocked(this.diagramControl),
@@ -501,7 +497,7 @@ export class DiagramComponent implements OnInit, OnDestroy, OnChanges {
       if (itemParentId) {
         if (!this.diagramControl.getNodeObject(itemParentId)) {
           (item as any).parentId = '';
-          this.logger.logWarning(`Pruning ghost group: ${itemParentId}`, window.location.href, this.localPersistenceService.diagramHelperUserId);
+          this.logger.logWarning(`Pruning ghost group: ${itemParentId}`, window.location.href, this.localPersistenceService.assetContainerId);
         }
       }
     }
@@ -541,7 +537,7 @@ export class DiagramComponent implements OnInit, OnDestroy, OnChanges {
 
     const ghostConnectorIds = nodeInEdges.filter(cId => existingConnectorIdsWithNodeAsTarget.indexOf(cId) === -1);
     for (const ghostConnectorId of ghostConnectorIds) {
-      this.logger.logWarning(`Pruning ghost connector: ${ghostConnectorId} from node: ${node.id} inEdges`, window.location.href, this.localPersistenceService.diagramHelperUserId);
+      this.logger.logWarning(`Pruning ghost connector: ${ghostConnectorId} from node: ${node.id} inEdges`, window.location.href, this.localPersistenceService.assetContainerId);
     }
 
     return nodeInEdges.filter(edge => existingConnectorIdsWithNodeAsTarget.indexOf(edge) !== -1); // return pruned set
@@ -555,7 +551,7 @@ export class DiagramComponent implements OnInit, OnDestroy, OnChanges {
 
     const ghostConnectorIds = nodeOutEdges.filter(cId => existingConnectorIdsWithNodeAsSource.indexOf(cId) === -1);
     for (const ghostConnectorId of ghostConnectorIds) {
-      this.logger.logWarning(`Pruning ghost connector: ${ghostConnectorId} from node: ${node.id} outEdges`, window.location.href, this.localPersistenceService.diagramHelperUserId);
+      this.logger.logWarning(`Pruning ghost connector: ${ghostConnectorId} from node: ${node.id} outEdges`, window.location.href, this.localPersistenceService.assetContainerId);
     }
 
     return nodeOutEdges.filter(edge => existingConnectorIdsWithNodeAsSource.indexOf(edge) !== -1); // return pruned set
@@ -569,7 +565,7 @@ export class DiagramComponent implements OnInit, OnDestroy, OnChanges {
 
     const ghostConnectorIds = portInEdges.filter(cId => existingConnectorIdsWithPortAsTarget.indexOf(cId) === -1);
     for (const ghostConnectorId of ghostConnectorIds) {
-      this.logger.logWarning(`Pruning ghost connector: ${ghostConnectorId} from port: ${port.id} inEdges`, window.location.href, this.localPersistenceService.diagramHelperUserId);
+      this.logger.logWarning(`Pruning ghost connector: ${ghostConnectorId} from port: ${port.id} inEdges`, window.location.href, this.localPersistenceService.assetContainerId);
     }
 
     return portInEdges.filter(edge => existingConnectorIdsWithPortAsTarget.indexOf(edge) !== -1); // return pruned set
@@ -583,7 +579,7 @@ export class DiagramComponent implements OnInit, OnDestroy, OnChanges {
 
     const ghostConnectorIds = portOutEdges.filter(cId => existingConnectorIdsWithPortAsSource.indexOf(cId) === -1);
     for (const ghostConnectorId of ghostConnectorIds) {
-      this.logger.logWarning(`Pruning ghost connector: ${ghostConnectorId} from port: ${port.id} outEdges`, window.location.href, this.localPersistenceService.diagramHelperUserId);
+      this.logger.logWarning(`Pruning ghost connector: ${ghostConnectorId} from port: ${port.id} outEdges`, window.location.href, this.localPersistenceService.assetContainerId);
     }
 
     return portOutEdges.filter(edge => existingConnectorIdsWithPortAsSource.indexOf(edge) !== -1); // return pruned set
@@ -599,10 +595,10 @@ export class DiagramComponent implements OnInit, OnDestroy, OnChanges {
     this.diagramControl.dataBind();
     this.diagram.diagramDetails = this.diagramControl.saveDiagram();
 
-    const diagramDtoMd5 = Md5.hashStr(JSON.stringify(this.diagram)) as string;
+    const serializedDiagram = JSON.stringify(this.diagram);
 
     // check with last write to db
-    if (force || diagramDtoMd5 !== this.localPersistenceService.lastFlushedDiagramDtoMd5) {
+    if (force || serializedDiagram !== this.localPersistenceService.lastPersistedDiagramState) {
 
       // flush to db
       this.localPersistenceService.updateDiagram(this.diagram)
@@ -610,14 +606,14 @@ export class DiagramComponent implements OnInit, OnDestroy, OnChanges {
           takeUntil(this.onDestroy$),
           catchError(() => EMPTY),
         )
-        .subscribe(() => this.localPersistenceService.lastFlushedDiagramDtoMd5 = diagramDtoMd5);
+        .subscribe(() => this.localPersistenceService.lastPersistedDiagramState = serializedDiagram);
     }
   }
 
   private addCustomImage(args: any) {
-    const containerName = this.localPersistenceService.diagramHelperUserId;
+    const assetContainerId = this.localPersistenceService.assetContainerId;
     const blobName = (args.file as FileInfo).name;
-    const uploadedBlobUri = `${UrlConstants.customImagesUrlPrefix}/${containerName}/${blobName}`;
+    const uploadedBlobUri = `${UrlConstants.customImagesUrlPrefix}/${assetContainerId}/${blobName}`;
 
     this.diagramService.request({
       kind: 'IDiagramAddCustomImageRequestArgs',
@@ -763,7 +759,7 @@ export class DiagramComponent implements OnInit, OnDestroy, OnChanges {
       printInProgress: true,
     });
 
-    this.apiService.generateImageAsync(this.localPersistenceService.diagramHelperUserId, imageConversionRequest)
+    this.apiService.generateImageAsync(this.localPersistenceService.assetContainerId, imageConversionRequest)
       .pipe(
         tap(() => this.diagramControlsService.request({
           kind: 'IDiagramControlsPrintArgs',
@@ -776,18 +772,7 @@ export class DiagramComponent implements OnInit, OnDestroy, OnChanges {
       .subscribe(dto => {
         const exportOptions = this.generateExportOptions();
         this.diagramControl.printImage(dto, exportOptions);
-        this.uploadThumbnail(); // might as well upload a thumbnail at the same time.
       });
-  }
-
-  private uploadThumbnail() {
-    const imageGenerationRequest = DiagramComponentHelper.generateImageGenerationRequest(this.diagramControl, 'JPG'); // using 'JPG' as a default format.
-    this.localPersistenceService.updateDiagramThumbnail(imageGenerationRequest)
-      .pipe(
-        takeUntil(this.onDestroy$),
-        catchError(() => EMPTY),
-      )
-      .subscribe(); // do nothing
   }
 
   private export(format: FileFormats | 'PDF' | 'JSON') {
@@ -815,7 +800,6 @@ export class DiagramComponent implements OnInit, OnDestroy, OnChanges {
     const encodedDiagramJson = encodeURIComponent(rawDiagramJson);
     const encodedDiagramJsonAsDataUrl = `data:text/json;charset=utf-8,${encodedDiagramJson}`;
     this.showDownloadableContent(encodedDiagramJsonAsDataUrl, 'JSON');
-    this.uploadThumbnail(); // might as well upload a thumbnail at the same time.
   }
 
   private exportAsPdf() {
@@ -825,7 +809,7 @@ export class DiagramComponent implements OnInit, OnDestroy, OnChanges {
       exportInProgress: true,
     });
 
-    this.apiService.generateImageAsync(this.localPersistenceService.diagramHelperUserId, imageConversionRequest)
+    this.apiService.generateImageAsync(this.localPersistenceService.assetContainerId, imageConversionRequest)
       .pipe(
         tap(() => this.diagramControlsService.request({
           kind: 'IDiagramControlsExportArgs',
@@ -837,7 +821,6 @@ export class DiagramComponent implements OnInit, OnDestroy, OnChanges {
       )
       .subscribe(dto => {
         this.showDownloadableContent(dto, 'PDF');
-        this.uploadThumbnail(); // might as well upload a thumbnail at the same time.
       });
   }
 
@@ -848,7 +831,7 @@ export class DiagramComponent implements OnInit, OnDestroy, OnChanges {
       exportInProgress: true,
     });
 
-    this.apiService.generateImageAsync(this.localPersistenceService.diagramHelperUserId, imageConversionRequest)
+    this.apiService.generateImageAsync(this.localPersistenceService.assetContainerId, imageConversionRequest)
       .pipe(
         tap(() => this.diagramControlsService.request({
           kind: 'IDiagramControlsExportArgs',
@@ -860,7 +843,6 @@ export class DiagramComponent implements OnInit, OnDestroy, OnChanges {
       )
       .subscribe(dto => {
         this.showDownloadableContent(dto, 'SVG');
-        this.uploadThumbnail(); // might as well upload a thumbnail at the same time.
       });
   }
 
@@ -871,7 +853,7 @@ export class DiagramComponent implements OnInit, OnDestroy, OnChanges {
       exportInProgress: true,
     });
 
-    this.apiService.generateImageAsync(this.localPersistenceService.diagramHelperUserId, imageConversionRequest)
+    this.apiService.generateImageAsync(this.localPersistenceService.assetContainerId, imageConversionRequest)
       .pipe(
         tap(() => this.diagramControlsService.request({
           kind: 'IDiagramControlsExportArgs',
@@ -883,7 +865,6 @@ export class DiagramComponent implements OnInit, OnDestroy, OnChanges {
       )
       .subscribe(dto => {
         this.showDownloadableContent(dto, format);
-        this.uploadThumbnail(); // might as well upload a thumbnail at the same time.
       });
   }
 
@@ -901,17 +882,17 @@ export class DiagramComponent implements OnInit, OnDestroy, OnChanges {
   private showDownloadableContent(dataUrl: string, format: FileFormats | 'PDF' | 'JSON') {
     const a: HTMLAnchorElement = document.createElement('a');
     a.href = dataUrl;
-    a.download = `${this.diagram.name}.${format}`;
+    a.download = `${DiagramComponent.defaultDownloadFileName}.${format.toLowerCase()}`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
   }
 
-  private generateExportOptions(name?: string, fileFormat?: FileFormats): IExportOptions {
+  private generateExportOptions(fileFormat?: FileFormats): IExportOptions {
     return {
       region: 'PageSettings',
       mode: 'Download',
-      fileName: name,
+      fileName: DiagramComponent.defaultDownloadFileName,
       format: fileFormat,
     } as IExportOptions;
   }

@@ -38,7 +38,7 @@ export class DiagramImportDialogComponent {
         return;
       }
 
-      this.dialogRef.close(new DiagramImportDTO(selectedFile.name, fileContents));
+      this.dialogRef.close(new DiagramImportDTO(fileContents));
     };
     reader.readAsText(selectedFile);
   }

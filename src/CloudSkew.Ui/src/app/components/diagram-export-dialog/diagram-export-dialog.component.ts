@@ -41,8 +41,8 @@ export class DiagramExportDialogComponent {
   // get accessor for convenience
   get radioButtonControl(): AbstractControl {
     // note: we can also use the following forms to get the control
-    // this.diagramNameEditorForm.controls['radioButtonControl'];
-    // this.diagramNameEditorForm.get('radioButtonControl');
+    // this.optionsForm.controls['radioButtonControl'];
+    // this.optionsForm.get('radioButtonControl');
     return this.optionsForm.controls.radioButtonControl;
   }
 

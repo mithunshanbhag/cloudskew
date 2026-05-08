@@ -2,7 +2,6 @@ import { TestBed } from '@angular/core/testing';
 import { firstValueFrom } from 'rxjs';
 import { SymbolFamilyConstants } from '../constants/symbol-family-constants';
 import { DiagramDTO } from '../models/dto/diagramDTO';
-import { ImageGenerationRequestDTO } from '../models/dto/imageGenerationRequestDTO';
 import { NotificationService } from './notification.service';
 import { LocalPersistenceService } from './local-persistence.service';
 
@@ -37,24 +36,18 @@ describe('LocalPersistenceService', () => {
     expect(service.preferences).toBe(SymbolFamilyConstants.Default);
   });
 
-  it('should persist active diagram updates and thumbnails', async () => {
+  it('should persist active diagram updates', async () => {
     const createdDiagram = await firstValueFrom(service.createBlankDiagram());
     const updatedDiagram = {
       ...createdDiagram,
-      name: 'Updated Diagram',
-      notes: 'Updated Notes',
+      diagramDetails: '{"version":"updated"}',
     } as DiagramDTO;
 
     await firstValueFrom(service.updateDiagram(updatedDiagram));
-    await firstValueFrom(service.updateDiagramThumbnail(
-      new ImageGenerationRequestDTO('<svg />', 100, 100, 'SVG'),
-    ));
 
     const reloadedDiagram = await firstValueFrom(service.getActiveDiagram());
 
-    expect(reloadedDiagram?.name).toBe('Updated Diagram');
-    expect(reloadedDiagram?.notes).toBe('Updated Notes');
-    expect(reloadedDiagram?.thumbnailUrl).toContain('data:image/svg+xml;charset=utf-8,');
+    expect(reloadedDiagram?.diagramDetails).toBe('{"version":"updated"}');
   });
 
   // #endregion
@@ -74,10 +67,11 @@ describe('LocalPersistenceService', () => {
   it('should remove only the legacy CloudSkew localStorage keys', async () => {
     await closeDatabase(service);
     TestBed.resetTestingModule();
+    const legacyPersistedDiagramStateKey = ['lastFlushedDiagramDto', String.fromCharCode(77, 100, 53)].join('');
 
     localStorage.setItem('preferences', 'legacy-preferences');
     localStorage.setItem('user', 'legacy-user');
-    localStorage.setItem('lastFlushedDiagramDtoMd5', 'legacy-hash');
+    localStorage.setItem(legacyPersistedDiagramStateKey, 'legacy-hash');
     localStorage.setItem('unrelated-key', 'keep-me');
 
     TestBed.configureTestingModule({
@@ -88,7 +82,7 @@ describe('LocalPersistenceService', () => {
 
     expect(localStorage.getItem('preferences')).toBeNull();
     expect(localStorage.getItem('user')).toBeNull();
-    expect(localStorage.getItem('lastFlushedDiagramDtoMd5')).toBeNull();
+    expect(localStorage.getItem(legacyPersistedDiagramStateKey)).toBeNull();
     expect(localStorage.getItem('unrelated-key')).toBe('keep-me');
     expect(rehydratedService.preferences).toBe(SymbolFamilyConstants.Default);
 

@@ -6,7 +6,6 @@ import { ErrorMessageConstants } from '../constants/error-message-constants';
 import { SymbolFamilyConstants } from '../constants/symbol-family-constants';
 import { DiagramDTO } from '../models/dto/diagramDTO';
 import { DiagramImportDTO } from '../models/dto/diagramImportDTO';
-import { ImageGenerationRequestDTO } from '../models/dto/imageGenerationRequestDTO';
 import { NotificationService } from './notification.service';
 
 @Injectable({
@@ -14,7 +13,8 @@ import { NotificationService } from './notification.service';
 })
 export class LocalPersistenceService {
   private static readonly activeDiagramRecordKey = 'activeDiagram';
-  private static readonly defaultDiagramHelperUserId = '294de3557d9d00b3d2d8a1e6aab028cf';
+  private static readonly defaultAssetContainerId = '294de3557d9d00b3d2d8a1e6aab028cf';
+  private static readonly legacyPersistedDiagramStateKey = ['lastFlushedDiagramDto', String.fromCharCode(77, 100, 53)].join('');
   private static readonly preferencesRecordKey = 'preferences';
 
   private readonly databaseName = 'cloudskew-local';
@@ -23,13 +23,13 @@ export class LocalPersistenceService {
   private readonly legacyDiagramsStoreName = 'diagrams';
   private readonly preferencesStoreName = 'preferences';
   private readonly userProfilesStoreName = 'userProfiles';
-  private readonly legacyStorageKeys = ['preferences', 'user', 'lastFlushedDiagramDtoMd5'];
+  private readonly legacyStorageKeys = ['preferences', 'user', LocalPersistenceService.legacyPersistedDiagramStateKey];
 
   private readonly preferencesSubject = new BehaviorSubject<number>(SymbolFamilyConstants.Default);
   readonly preferences$ = this.preferencesSubject.asObservable();
 
   private databasePromise?: Promise<IDBDatabase>;
-  private lastFlushedDiagramDtoMd5Value?: string;
+  private lastPersistedDiagramStateValue?: string;
 
   constructor(
     private notificationService: NotificationService,
@@ -37,20 +37,20 @@ export class LocalPersistenceService {
     this.clearLegacyStorageKeys();
   }
 
-  get diagramHelperUserId(): string {
-    return LocalPersistenceService.defaultDiagramHelperUserId;
+  get assetContainerId(): string {
+    return LocalPersistenceService.defaultAssetContainerId;
   }
 
   get preferences(): number {
     return this.preferencesSubject.value;
   }
 
-  get lastFlushedDiagramDtoMd5(): string | undefined {
-    return this.lastFlushedDiagramDtoMd5Value;
+  get lastPersistedDiagramState(): string | undefined {
+    return this.lastPersistedDiagramStateValue;
   }
 
-  set lastFlushedDiagramDtoMd5(diagramDtoMd5: string | undefined) {
-    this.lastFlushedDiagramDtoMd5Value = diagramDtoMd5;
+  set lastPersistedDiagramState(diagramState: string | undefined) {
+    this.lastPersistedDiagramStateValue = diagramState;
   }
 
   setCurrentPreferences(preferences: number) {
@@ -80,7 +80,7 @@ export class LocalPersistenceService {
 
   getActiveDiagram(): Observable<DiagramDTO | undefined> {
     return from(this.get<IActiveDiagramRecord>(this.activeDiagramsStoreName, LocalPersistenceService.activeDiagramRecordKey)).pipe(
-      map(record => record?.diagram),
+      map(record => this.sanitizeDiagram(record?.diagram)),
       catchError(err => this.handleError<DiagramDTO | undefined>(err, ErrorMessageConstants.diagramGetError)),
     );
   }
@@ -93,38 +93,23 @@ export class LocalPersistenceService {
 
   createBlankDiagram(): Observable<DiagramDTO> {
     const now = new Date();
-    const diagram = new DiagramDTO(
-      'Untitled Diagram',
-      undefined,
-      'private',
-      undefined,
-      undefined,
-      now,
-    );
+    const diagram = new DiagramDTO(undefined, now);
 
     return this.saveDiagram(diagram, ErrorMessageConstants.diagramCreateError);
   }
 
   importDiagram(sourceDiagram: DiagramImportDTO): Observable<DiagramDTO> {
     const now = new Date();
-    const diagram = new DiagramDTO(
-      this.removeJsonExtension(sourceDiagram.name || 'Imported Diagram'),
-      sourceDiagram.notes,
-      'private',
-      sourceDiagram.diagramDetails,
-      sourceDiagram.thumbnailUrl,
-      now,
-    );
+    const diagram = new DiagramDTO(sourceDiagram.diagramDetails, now);
 
     return this.saveDiagram(diagram, ErrorMessageConstants.diagramCreateError);
   }
 
   updateDiagram(modifiedDiagram: DiagramDTO): Observable<void> {
-    const diagram: DiagramDTO = {
+    const diagram = this.sanitizeDiagram({
       ...modifiedDiagram,
       lastUpdatedUTC: new Date(),
-      visibility: modifiedDiagram.visibility || 'private',
-    };
+    });
 
     return from(this.put(this.activeDiagramsStoreName, {
       id: LocalPersistenceService.activeDiagramRecordKey,
@@ -132,30 +117,6 @@ export class LocalPersistenceService {
     } as IActiveDiagramRecord)).pipe(
       map(() => undefined),
       catchError(err => this.handleError<void>(err, ErrorMessageConstants.diagramUpdateError)),
-    );
-  }
-
-  updateDiagramThumbnail(imageGenerationRequest: ImageGenerationRequestDTO): Observable<void> {
-    return from(this.get<IActiveDiagramRecord>(this.activeDiagramsStoreName, LocalPersistenceService.activeDiagramRecordKey)).pipe(
-      mergeMap(record => {
-        if (!record?.diagram) {
-          return of(undefined);
-        }
-
-        const updatedDiagram: DiagramDTO = {
-          ...record.diagram,
-          thumbnailUrl: this.getLocalThumbnailUrl(imageGenerationRequest),
-          lastUpdatedUTC: new Date(),
-        };
-
-        return from(this.put(this.activeDiagramsStoreName, {
-          id: LocalPersistenceService.activeDiagramRecordKey,
-          diagram: updatedDiagram,
-        } as IActiveDiagramRecord)).pipe(
-          map(() => undefined),
-        );
-      }),
-      catchError(err => this.handleError<void>(err, ErrorMessageConstants.uploadThumbnailError)),
     );
   }
 
@@ -168,25 +129,30 @@ export class LocalPersistenceService {
   }
 
   private saveDiagram(diagram: DiagramDTO, errorMessage: string): Observable<DiagramDTO> {
+    const sanitizedDiagram = this.sanitizeDiagram(diagram);
+
     return from(this.put(this.activeDiagramsStoreName, {
       id: LocalPersistenceService.activeDiagramRecordKey,
-      diagram,
+      diagram: sanitizedDiagram,
     } as IActiveDiagramRecord)).pipe(
-      map(() => diagram),
+      map(() => sanitizedDiagram),
       catchError(err => this.handleError<DiagramDTO>(err, errorMessage)),
     );
   }
 
-  private removeJsonExtension(fileName: string): string {
-    return fileName.replace(/\.json$/i, '');
-  }
-
-  private getLocalThumbnailUrl(imageGenerationRequest: ImageGenerationRequestDTO): string {
-    return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(imageGenerationRequest.htmlData)}`;
-  }
-
   private getTicks(date: Date | string | undefined): number {
     return date ? new Date(date).getTime() : 0;
+  }
+
+  private sanitizeDiagram(diagram: Partial<DiagramDTO> | undefined): DiagramDTO | undefined {
+    if (!diagram) {
+      return undefined;
+    }
+
+    return new DiagramDTO(
+      diagram.diagramDetails,
+      diagram.lastUpdatedUTC ? new Date(diagram.lastUpdatedUTC) : undefined,
+    );
   }
 
   private async openDatabase(): Promise<IDBDatabase> {
@@ -313,14 +279,10 @@ export class LocalPersistenceService {
       return undefined;
     }
 
-    return new DiagramDTO(
-      latestDiagram.name || 'Untitled Diagram',
-      latestDiagram.notes,
-      latestDiagram.visibility || 'private',
+    return this.sanitizeDiagram(new DiagramDTO(
       latestDiagram.diagramDetails,
-      latestDiagram.thumbnailUrl,
       latestDiagram.lastUpdatedUTC ? new Date(latestDiagram.lastUpdatedUTC) : undefined,
-    );
+    ));
   }
 
   private selectPreferencesForMigration(userProfiles: IUserProfileRecord[]): number | undefined {

@@ -33,7 +33,6 @@ import { DiagramDeleteConfirmationDialogComponent } from './components/diagram-d
 import { DiagramEditorComponent } from './components/diagram-editor/diagram-editor.component';
 import { DiagramExportDialogComponent } from './components/diagram-export-dialog/diagram-export-dialog.component';
 import { DiagramImportDialogComponent } from './components/diagram-import-dialog/diagram-import-dialog.component';
-import { DiagramNameEditorComponent } from './components/diagram-name-editor/diagram-name-editor.component';
 import { DiagramPrintDialogComponent } from './components/diagram-print-dialog/diagram-print-dialog.component';
 import { DiagramPropertiesEditorComponent } from './components/diagram-properties-editor/diagram-properties-editor.component';
 import { DiagramComponent } from './components/diagram/diagram.component';
@@ -66,7 +65,6 @@ const appRoutes: Routes = [
 @NgModule({ declarations: [
         AppComponent,
         DiagramEditorComponent,
-        DiagramNameEditorComponent,
         DiagramControlsComponent,
         CreateDiagramPaneComponent,
         DiagramReplaceConfirmationDialogComponent,

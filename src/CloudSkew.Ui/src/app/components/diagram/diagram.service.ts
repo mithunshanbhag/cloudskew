@@ -10,7 +10,6 @@ export type DiagramRequestArgs = IDiagramAddSymbolRequestArgs
   | IDiagramSaveRequestArgs
   | IDiagramExportRequestArgs
   | IDiagramPrintRequestArgs
-  | IDiagramUploadThumbnailRequestArgs
   | IDiagramZoomRequestArgs
   | IDiagramUndoRedoRequestArgs
   | IDiagramLockRequestArgs
@@ -45,10 +44,6 @@ export interface IDiagramExportRequestArgs {
 
 export interface IDiagramPrintRequestArgs {
   kind: 'IDiagramPrintRequestArgs';
-}
-
-export interface IDiagramUploadThumbnailRequestArgs {
-  kind: 'IDiagramUploadThumbnailRequestArgs';
 }
 
 export interface IDiagramZoomRequestArgs {

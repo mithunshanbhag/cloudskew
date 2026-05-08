@@ -4,9 +4,6 @@ export class UIConstants {
     public static readonly paletteGridControlSymbolImageWidth = '30px';
     public static readonly paletteGridControlSymbolInfoGlyphWidth = '30px';
 
-    // diagram name editor control
-    public static readonly visibleWidthInChars = 30;
-
     // diagram control page settings
     public static readonly diagramControlPageHeight = 793; // A4 size
     public static readonly diagramControlPageWidth = 1112; // A4 size

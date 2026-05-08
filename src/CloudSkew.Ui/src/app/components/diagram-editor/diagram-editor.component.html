@@ -7,15 +7,12 @@
 
   <!-- the main area -->
   @if ((this.diagram$|async); as diagram) {
-    <div class="diagram-editor-content">
-      <!-- the nav bar -->
-      <div class="diagram-editor-navbar">
-        <!-- control to rename the diagram -->
-        <app-diagram-name-editor [diagram]="diagram">
-        </app-diagram-name-editor>
-        <!-- control for all diagram actions (save, zoom, export etc) -->
-        <app-diagram-controls (deleteButtonClick)="onDiagramDeleteButtonClick(diagram)"
-          (exportButtonClick)="onDiagramExportButtonClick(diagram)"
+      <div class="diagram-editor-content">
+        <!-- the nav bar -->
+        <div class="diagram-editor-navbar">
+          <!-- control for all diagram actions (save, zoom, export etc) -->
+          <app-diagram-controls (deleteButtonClick)="onDiagramDeleteButtonClick(diagram)"
+            (exportButtonClick)="onDiagramExportButtonClick(diagram)"
           (printButtonClick)="onDiagramPrintButtonClick(diagram)">
         </app-diagram-controls>
       </div>
