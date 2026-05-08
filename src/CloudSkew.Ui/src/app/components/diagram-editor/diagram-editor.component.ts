@@ -1,17 +1,12 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { Observable, of, Subject } from 'rxjs';
-import { filter, map, mergeMap, takeUntil } from 'rxjs/operators';
-import { AnonymousUserConstants } from 'src/app/constants/anonymous-user-constants';
-import { NewUserConstants } from 'src/app/constants/new-user-constants';
+import { EMPTY, Observable, of, Subject } from 'rxjs';
+import { catchError, filter, takeUntil, tap } from 'rxjs/operators';
 import { SymbolFamilyConstants } from 'src/app/constants/symbol-family-constants';
 import { UIConstants } from 'src/app/constants/ui-constants';
-import { UserProfileDTO } from 'src/app/models/dto/userProfileDTO';
 import { DiagramDTO } from '../../models/dto/diagramDTO';
-import { APIService } from '../../services/api.service';
 import { ActiveDiagramService } from '../../services/active-diagram.service';
-import { SessionService } from '../../services/session.service';
+import { LocalPersistenceService } from '../../services/local-persistence.service';
 import { DiagramControlsService } from '../diagram-controls/diagram-controls.service';
 import { DiagramDeleteConfirmationDialogComponent } from '../diagram-delete-confirmation-dialog/diagram-delete-confirmation-dialog.component';
 import { DiagramExportDialogComponent } from '../diagram-export-dialog/diagram-export-dialog.component';
@@ -20,10 +15,10 @@ import { DiagramService, IDiagramExportRequestArgs, IDiagramPrintRequestArgs } f
 import { IUserProfileChangedEventArgs, StatusbarService } from '../statusbar/statusbar.service';
 
 @Component({
-    selector: 'app-diagram-editor',
-    templateUrl: './diagram-editor.component.html',
-    styleUrls: ['./diagram-editor.component.css'],
-    standalone: false
+  selector: 'app-diagram-editor',
+  templateUrl: './diagram-editor.component.html',
+  styleUrls: ['./diagram-editor.component.css'],
+  standalone: false
 })
 export class DiagramEditorComponent implements OnInit, OnDestroy {
 
@@ -35,11 +30,10 @@ export class DiagramEditorComponent implements OnInit, OnDestroy {
 
   constructor(
     private activeDiagramService: ActiveDiagramService,
-    private apiService: APIService,
     private diagramService: DiagramService,
     private diagramControlsService: DiagramControlsService,
     private dialog: MatDialog,
-    private sessionService: SessionService,
+    private localPersistenceService: LocalPersistenceService,
     private statusbarService: StatusbarService,
   ) {
     this.diagram$ = this.activeDiagramService.activeDiagram$
@@ -108,15 +102,10 @@ export class DiagramEditorComponent implements OnInit, OnDestroy {
   //#region private helper methods
 
   private initialize() {
-    this.apiService.diagramGetAsync(this.sessionService.user)
-      .pipe(takeUntil(this.onDestroy$))
+    this.localPersistenceService.loadOrCreateActiveDiagram()
       .pipe(
-        mergeMap(apiResponse => (!apiResponse.error && !apiResponse.dto)
-          ? this.apiService.diagramCreateBlankAsync(this.sessionService.user)
-          : of(apiResponse)
-        ),
-        filter(apiResponse => !apiResponse.error),
-        map(apiResponse => apiResponse.dto),
+        takeUntil(this.onDestroy$),
+        catchError(() => EMPTY),
       )
       .subscribe(dto => this.activeDiagramService.setActiveDiagram(dto));
   }
@@ -125,53 +114,17 @@ export class DiagramEditorComponent implements OnInit, OnDestroy {
   private processAnonymousUserProfile() {
     window.location.hash = ''; // clear the hash fragment from the address bar
 
-    this.sessionService.user = AnonymousUserConstants.emailMD5;
-    this.sessionService.preferences = SymbolFamilyConstants.Default;
-
-    this.apiService.userProfileGetAsync(AnonymousUserConstants.emailMD5)
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe(apiResponse => {
-        if (apiResponse.dto) {
-          this.sessionService.preferences = apiResponse.dto.preferences;
-          const modifiedUserProfile = new UserProfileDTO(
-            apiResponse.dto.subscriptionName,
-            AnonymousUserConstants.email,
-            AnonymousUserConstants.emailMD5,
-            this.sessionService.preferences,
-            true,
-            AnonymousUserConstants.displayName,
-            '',
-            new Date(),
-          );
-          this.apiService.userProfileUpdateAsync(AnonymousUserConstants.emailMD5, modifiedUserProfile)
-            .pipe(takeUntil(this.onDestroy$))
-            .subscribe(() => this.initialize());
-          this.statusbarService.request({
-            kind: 'IUserProfileChangedEventArgs',
-            userProfile: modifiedUserProfile,
-          } as IUserProfileChangedEventArgs);
-        } else {
-          if (apiResponse.error instanceof HttpErrorResponse && apiResponse.error.status === 404) {
-            const newUserProfile = new UserProfileDTO(
-              NewUserConstants.subscriptionName,
-              AnonymousUserConstants.email,
-              AnonymousUserConstants.emailMD5,
-              this.sessionService.preferences,
-              true,
-              AnonymousUserConstants.displayName,
-              '',
-              new Date(),
-            );
-            this.apiService.userProfileCreateAsync(newUserProfile)
-              .pipe(takeUntil(this.onDestroy$))
-              .subscribe(() => this.initialize());
-            this.statusbarService.request({
-              kind: 'IUserProfileChangedEventArgs',
-              userProfile: newUserProfile,
-            } as IUserProfileChangedEventArgs);
-          }
-        }
-      });
+    this.localPersistenceService.setCurrentPreferences(SymbolFamilyConstants.Default);
+    this.localPersistenceService.ensureAnonymousUserProfile()
+      .pipe(
+        takeUntil(this.onDestroy$),
+        tap(userProfile => this.statusbarService.request({
+          kind: 'IUserProfileChangedEventArgs',
+          userProfile,
+        } as IUserProfileChangedEventArgs)),
+        catchError(() => of(undefined)),
+      )
+      .subscribe(() => this.initialize());
 
   }
 
@@ -182,11 +135,10 @@ export class DiagramEditorComponent implements OnInit, OnDestroy {
       deleteInProgress: true,
     });
 
-    this.apiService.diagramCreateBlankAsync(diagram.emailMD5)
+    this.localPersistenceService.createBlankDiagram()
       .pipe(
-        filter(apiResponse => !apiResponse.error),
-        map(apiResponse => apiResponse.dto),
-        takeUntil(this.onDestroy$)
+        takeUntil(this.onDestroy$),
+        catchError(() => EMPTY),
       )
       .subscribe(dto => {
         this.diagramControlsService.request({

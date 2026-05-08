@@ -6,7 +6,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { HeaderConstants } from 'src/app/constants/header-constants';
 import { UrlConstants } from 'src/app/constants/url-constants';
-import { SessionService } from 'src/app/services/session.service';
+import { LocalPersistenceService } from 'src/app/services/local-persistence.service';
 import { Md5 } from 'ts-md5';
 
 @Component({
@@ -36,7 +36,7 @@ export class ImageUploadDialogComponent implements OnInit, OnDestroy {
       }),
   };
   uploaderAsyncSettings: AsyncSettingsModel = {
-    saveUrl: `${UrlConstants.webAPIPublicUrl}/users/${this.sessionService.user}/customimages`,
+    saveUrl: `${UrlConstants.webAPIPublicUrl}/users/${this.localPersistenceService.user}/customimages`,
   };
   uploaderAllowedExtensions = '.jpg, .jpeg, .png';
   uploaderMinFileSizeBytes = 1;
@@ -46,7 +46,7 @@ export class ImageUploadDialogComponent implements OnInit, OnDestroy {
 
   constructor(
     private dialogRef: MatDialogRef<ImageUploadDialogComponent>,
-    private sessionService: SessionService,
+    private localPersistenceService: LocalPersistenceService,
   ) { }
 
   ngOnInit() {

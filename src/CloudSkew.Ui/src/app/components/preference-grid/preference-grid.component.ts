@@ -1,12 +1,11 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ChangeEventArgs } from '@syncfusion/ej2-angular-buttons';
 import { GridComponent, GroupSettingsModel, SortDescriptorModel, SortSettingsModel } from '@syncfusion/ej2-angular-grids';
-import { Subject } from 'rxjs';
-import { debounceTime, filter, map, takeUntil } from 'rxjs/operators';
+import { EMPTY, Subject } from 'rxjs';
+import { catchError, debounceTime, switchMap, takeUntil } from 'rxjs/operators';
 import { IPreferenceGridItem } from 'src/app/components/preference-grid/preference-grid-item';
 import { SymbolFamilyConstants } from 'src/app/constants/symbol-family-constants';
-import { APIService } from 'src/app/services/api.service';
-import { SessionService } from 'src/app/services/session.service';
+import { LocalPersistenceService } from 'src/app/services/local-persistence.service';
 import { SymbolFamilyDefinitions } from '../../constants/symbol-family-definitions';
 import { PreferenceService } from './preference.service';
 
@@ -43,9 +42,8 @@ export class PreferenceGridComponent implements OnInit, OnDestroy {
   //#endregion diagram selector grid
 
   constructor(
-    private apiService: APIService,
+    private localPersistenceService: LocalPersistenceService,
     private preferenceService: PreferenceService,
-    public sessionService: SessionService,
   ) {
   }
 
@@ -53,17 +51,12 @@ export class PreferenceGridComponent implements OnInit, OnDestroy {
     this.preferenceService.requestFeed$
       .pipe(
         debounceTime(1000),
-        takeUntil(this.onDestroy$)
+        switchMap(preferences => this.localPersistenceService.updatePreferences(preferences).pipe(
+          catchError(() => EMPTY),
+        )),
+        takeUntil(this.onDestroy$),
       )
-      .subscribe(preferences => {
-        this.apiService.userProfileUpdatePreferencesAsync(this.sessionService.user, preferences)
-          .pipe(
-            filter(apiResponse => !apiResponse.error),
-            map(apiResponse => apiResponse.dto),
-            takeUntil(this.onDestroy$)
-          )
-          .subscribe(() => this.preferenceService.eventFeed$.next());
-      });
+      .subscribe();
   }
 
   ngOnDestroy() {
@@ -74,7 +67,7 @@ export class PreferenceGridComponent implements OnInit, OnDestroy {
   //#region callbacks
 
   isChecked(FamilyId: SymbolFamilyConstants) {
-    return (this.sessionService.preferences & FamilyId);
+    return (this.localPersistenceService.preferences & FamilyId) !== 0;
   }
 
   onPreferenceGridControlCreated() {
@@ -89,11 +82,12 @@ export class PreferenceGridComponent implements OnInit, OnDestroy {
   }
 
   onPreferenceGridControlDataItemCheckboxChange(preferenceItem: IPreferenceGridItem, args: ChangeEventArgs) {
-    this.sessionService.preferences = args.checked
-      ? this.sessionService.preferences | preferenceItem.id
-      : this.sessionService.preferences & ~preferenceItem.id;
+    const preferences = args.checked
+      ? this.localPersistenceService.preferences | preferenceItem.id
+      : this.localPersistenceService.preferences & ~preferenceItem.id;
 
-    this.preferenceService.request(this.sessionService.preferences);
+    this.localPersistenceService.setCurrentPreferences(preferences);
+    this.preferenceService.request(preferences);
   }
 
   //#endregion callbacks

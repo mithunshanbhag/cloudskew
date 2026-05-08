@@ -14,9 +14,8 @@ import { SymbolIdConstants } from 'src/app/constants/symbol-id-constants';
 import { UIConstants } from 'src/app/constants/ui-constants';
 import { WarningMessageConstants } from 'src/app/constants/warning-message-constants';
 import { ISymbolFamilyDefinition } from 'src/app/interfaces/symbol-family-definition';
-import { SessionService } from 'src/app/services/session.service';
+import { LocalPersistenceService } from 'src/app/services/local-persistence.service';
 import { IResourceDocumentationRequest } from '../../interfaces/resource-documentation-request';
-import { PreferenceService } from '../preference-grid/preference.service';
 import { ResourceDocumentationDialogComponent } from '../resource-documentation-dialog/resource-documentation-dialog.component';
 import { SidebarService } from '../sidebar/sidebar.service';
 import { SymbolFamilyDefinitions } from '../../constants/symbol-family-definitions';
@@ -79,9 +78,8 @@ export class PaletteGridComponent implements OnInit, OnDestroy {
 
   constructor(
     private diagramService: DiagramService,
-    private preferenceService: PreferenceService,
+    private localPersistenceService: LocalPersistenceService,
     private resourceDocumentationDialog: MatDialog,
-    private sessionService: SessionService,
     private sidebarService: SidebarService,
   ) {
   }
@@ -96,7 +94,7 @@ export class PaletteGridComponent implements OnInit, OnDestroy {
       )
       .subscribe(searchText => this.paletteGridControl.search(searchText));
 
-    this.preferenceService.eventFeed$
+    this.localPersistenceService.preferences$
       .pipe(takeUntil(this.onDestroy$))
       .subscribe(() => this.initialize());
   }
@@ -196,7 +194,7 @@ export class PaletteGridComponent implements OnInit, OnDestroy {
   }
 
   private isEnabled(symbolFamily: ISymbolFamilyDefinition): boolean {
-    return ((this.sessionService.preferences & symbolFamily.id as number) !== 0);
+    return ((this.localPersistenceService.preferences & symbolFamily.id as number) !== 0);
   }
 
   //#endregion private helper methods

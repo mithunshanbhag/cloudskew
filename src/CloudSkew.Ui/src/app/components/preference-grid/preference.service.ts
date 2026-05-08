@@ -7,7 +7,6 @@ import { Subject } from 'rxjs';
 export class PreferenceService {
 
   requestFeed$: Subject<number> = new Subject<number>();
-  eventFeed$: Subject<void> = new Subject<void>();
 
   constructor() { }
 

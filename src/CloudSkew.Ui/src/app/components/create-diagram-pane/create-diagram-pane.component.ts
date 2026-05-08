@@ -1,20 +1,19 @@
 import { Component, OnDestroy } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { Subject } from 'rxjs';
-import { filter, map, takeUntil } from 'rxjs/operators';
+import { EMPTY, Subject } from 'rxjs';
+import { catchError, filter, takeUntil } from 'rxjs/operators';
 import { UIConstants } from 'src/app/constants/ui-constants';
 import { DiagramImportDTO } from 'src/app/models/dto/diagramImportDTO';
-import { APIService } from 'src/app/services/api.service';
 import { ActiveDiagramService } from 'src/app/services/active-diagram.service';
-import { SessionService } from 'src/app/services/session.service';
+import { LocalPersistenceService } from 'src/app/services/local-persistence.service';
 import { DiagramImportDialogComponent } from '../diagram-import-dialog/diagram-import-dialog.component';
 import { DiagramReplaceConfirmationDialogComponent } from '../diagram-replace-confirmation-dialog/diagram-replace-confirmation-dialog.component';
 
 @Component({
-    selector: 'app-create-diagram-pane',
-    templateUrl: './create-diagram-pane.component.html',
-    styleUrls: ['./create-diagram-pane.component.css'],
-    standalone: false
+  selector: 'app-create-diagram-pane',
+  templateUrl: './create-diagram-pane.component.html',
+  styleUrls: ['./create-diagram-pane.component.css'],
+  standalone: false
 })
 export class CreateDiagramPaneComponent implements OnDestroy {
 
@@ -22,9 +21,8 @@ export class CreateDiagramPaneComponent implements OnDestroy {
 
   constructor(
     private activeDiagramService: ActiveDiagramService,
-    private apiService: APIService,
     private dialog: MatDialog,
-    private sessionService: SessionService,
+    private localPersistenceService: LocalPersistenceService,
   ) {
   }
 
@@ -50,11 +48,10 @@ export class CreateDiagramPaneComponent implements OnDestroy {
   }
 
   private createBlankDiagram() {
-    this.apiService.diagramCreateBlankAsync(this.sessionService.user)
+    this.localPersistenceService.createBlankDiagram()
       .pipe(
-        filter(apiResponse => !apiResponse.error),
-        map(apiResponse => apiResponse.dto),
         takeUntil(this.onDestroy$),
+        catchError(() => EMPTY),
       )
       .subscribe(dto => this.activeDiagramService.setActiveDiagram(dto));
   }
@@ -73,11 +70,10 @@ export class CreateDiagramPaneComponent implements OnDestroy {
   }
 
   private importDiagram(sourceDiagram: DiagramImportDTO) {
-    this.apiService.diagramImportAsync(this.sessionService.user, sourceDiagram)
+    this.localPersistenceService.importDiagram(sourceDiagram)
       .pipe(
-        filter(apiResponse => !apiResponse.error),
-        map(apiResponse => apiResponse.dto),
         takeUntil(this.onDestroy$),
+        catchError(() => EMPTY),
       )
       .subscribe(dto => this.activeDiagramService.setActiveDiagram(dto));
   }
