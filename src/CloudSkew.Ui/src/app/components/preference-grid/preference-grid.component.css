@@ -2,8 +2,46 @@
     min-height: 420px;
 }
 
+.preferenceChecklistWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 2px 2px 8px;
+}
+
 .preferenceGridDialogWrapper {
     height: 420px;
     max-height: 60vh;
     overflow: auto;
+    padding-right: 4px;
+}
+
+.preferenceChecklistGroup {
+    border-top: 1px solid #e2e8f0;
+    padding-top: 12px;
+}
+
+.preferenceChecklistGroup:first-child {
+    border-top: none;
+    padding-top: 0;
+}
+
+.preferenceChecklistGroupTitle {
+    margin: 0 0 8px;
+    color: #64748b;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.preferenceChecklistItem {
+    display: block;
+    min-height: 34px;
+}
+
+:host ::ng-deep .preferenceChecklistItem .mdc-label {
+    color: #0f172a;
+    font-size: 13px;
+    line-height: 1.35;
 }

@@ -404,7 +404,7 @@ The next pass should keep the same editor variants, data fields, and control beh
 | Export options dialog         | `250px`                            | Export image options.                                                                                                     |
 | Print options dialog          | `300px`                            | Print options.                                                                                                            |
 | Import options dialog         | `600px`                            | Diagram import flow.                                                                                                      |
-| Symbol preferences dialog     | `360px`                            | Add/remove symbol family checkbox flow for AWS, Azure, GCP, and other symbol sets.                                        |
+| Symbol preferences dialog     | `360px`                            | Add/remove symbol family flow for AWS, Azure, GCP, and other symbol sets using grouped Angular Material checkboxes.       |
 | Image upload dialog           | `600px`                            | Local JPG/PNG image upload flow.                                                                                          |
 | Resource documentation dialog | `350px`                            | Shows documentation details for palette/native resources.                                                                 |
 | Dialog title                  | Roboto Mono, `18px`                | `.windowHeaderText`.                                                                                                      |
@@ -434,6 +434,7 @@ Dialogs should keep their existing titles, messages, action labels, and control 
 | Buttons | Standardize actions to `34px` to `36px` height with `8px` to `10px` radius. Default buttons should be neutral; destructive actions may use a restrained red emphasis, but only on the primary destructive action itself. |
 | Icons | Optional dialog icons should be small, quiet, and single-purpose. Avoid icon tiles, alert cards, or any extra decorative treatment that adds weight. |
 | Radios and checkboxes | Style selection controls with cleaner spacing, clearer label alignment, and subtle selected states, but keep the structure simple and compact. |
+| Symbol-family checklist rows | For Add/Remove Symbols, prefer Angular Material `mat-checkbox` rows over Syncfusion checkbox controls: one checkbox + one label per row, grouped with quiet section headers and subtle dividers. Keep the interaction model unchanged (toggle families on/off). |
 | File input and upload | Keep the file picker minimal: a bordered control row, neutral background, and consistent typography. Do not introduce dropzones, chips, badges, or extra instructional labels beyond the copy already present in the implementation. |
 | Links and reference lists | Keep links and grouped rows visually tidy with subtle spacing and muted dividers, without adding extra labels or explanatory text. |
 | Helper and validation text | Retain only the existing helper or validation copy. Improve clarity through font size, weight, color, and spacing rather than by adding new wording. |
@@ -446,7 +447,7 @@ Dialogs should keep their existing titles, messages, action labels, and control 
 | Compact destructive | Delete and replace/reset flows should stay compact and visually quiet, using only the existing title, message, and two actions. Recommended width: `360px` to `400px`. |
 | Compact choice | Export and print flows should keep their current option content, but use cleaner vertical rhythm and lighter selection styling. Recommended width: `320px` to `360px`. |
 | Extended file input | Import JSON and image upload flows should remain wider (`560px` to `600px`) but visually sparse: title, existing helper text, input control, and footer only. |
-| Selection/reference | Symbol preferences and resource documentation dialogs should keep their existing content model and use spacing, typography, and dividers for structure rather than new UI chrome. |
+| Selection/reference | Symbol preferences and resource documentation dialogs should keep their existing content model and use spacing, typography, and dividers for structure rather than new UI chrome. For Add/Remove Symbols specifically, keep the same family list but render it as grouped Material checkbox rows aligned with the shared dialog shell. |
 
 ##### Notification Treatment
 
@@ -460,6 +461,7 @@ Dialogs should keep their existing titles, messages, action labels, and control 
 | ------ | ---- | ------- |
 | Compact confirmation dialog | `docs/ui-mockups/CloudSkewUiDialogConfirmation/` | Shows the intended minimal shell, restrained destructive styling, and unchanged reset/replace confirmation copy. |
 | Extended file-input dialog | `docs/ui-mockups/CloudSkewUiDialogImport/` | Shows the intended minimal shell, unchanged import copy, and a simplified file-input treatment for import/upload workflows. |
+| Symbol preferences dialog | `docs/ui-mockups/CloudSkewUiDialogSymbolPreferences/` | Shows the intended Add/Remove Symbols treatment with the shared dialog shell and grouped Material-style checkbox rows. |
 
 ### Iconography
 

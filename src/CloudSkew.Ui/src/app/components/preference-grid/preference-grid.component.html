@@ -1,37 +1,12 @@
 <div class="sidebarWrapper" [class.preferenceGridDialogMode]="this.dialogMode">
-
-    <div class="sidebarGridControlWrapper" [class.preferenceGridDialogWrapper]="this.dialogMode">
-        <ejs-grid #preferenceGridControl class="sidebarGridControl" [dataSource]="this.data"
-            [allowGrouping]="this.allowGrouping" [groupSettings]="this.groupSettingsModel"
-            [sortSettings]="this.sortSettingsModel" [allowSorting]="this.allowSorting"
-            (created)="this.onPreferenceGridControlCreated()">
-
-            <e-columns>
-                <!-- this fake column exists only so that we can group by this fake column and achieve visual consistency 
-                with the palette grid (in terms of column header etc). -->
-                <e-column field="fakeColumnForGroupingPurposes" [visible]=false defaultValue=1>
-                </e-column>
-
-                <e-column field="displayName" textAlign="Left" [customAttributes]="this.customAttribute">
-                    <!-- the template reference variable name '#template' is dictated by the syncfusion control -->
-                    <ng-template #template let-columnData>
-                        <ejs-checkbox label={{columnData.displayName|ellipsis:45}}
-                            [checked]="this.isChecked(columnData.id)" [name]="columnData.id"
-                            (change)="this.onPreferenceGridControlDataItemCheckboxChange(columnData, $event)">
-                        </ejs-checkbox>
-                    </ng-template>
-                    <!-- documentation for the 'captionTemplate' (needed to customize the group header) field is very sparse. -->
-                    <!-- https://www.syncfusion.com/kb/5197/how-to-customize-the-group-header-caption-in-grid -->
-                    <!-- https://www.syncfusion.com/forums/140627/format-grouping-header-caption -->
-                    <!-- note: using 'title' instead of 'matTooltip' in grouped header as it causes rendering issues otherwise. -->
-                    <ng-template #groupSettingsCaptionTemplate let-groupData>
-                        <span title="{{this.groupedColumnHeaderText}}">{{this.groupedColumnHeaderText}}</span>
-                    </ng-template>
-                </e-column>
-
-            </e-columns>
-
-        </ejs-grid>
+    <div class="preferenceChecklistWrapper" [class.preferenceGridDialogWrapper]="this.dialogMode">
+        <section class="preferenceChecklistGroup" *ngFor="let preferenceGroup of this.preferenceGroups">
+            <h3 class="preferenceChecklistGroupTitle">{{ preferenceGroup.title }}</h3>
+            <mat-checkbox *ngFor="let preferenceItem of preferenceGroup.items" class="preferenceChecklistItem"
+                [checked]="this.isChecked(preferenceItem.id)"
+                (change)="this.onPreferenceItemCheckboxChange(preferenceItem, $event)">
+                {{ preferenceItem.displayName }}
+            </mat-checkbox>
+        </section>
     </div>
-
 </div>

@@ -1,6 +1,5 @@
-import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ChangeEventArgs } from '@syncfusion/ej2-angular-buttons';
-import { GridComponent, GroupSettingsModel, SortDescriptorModel, SortSettingsModel } from '@syncfusion/ej2-angular-grids';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 import { EMPTY, Subject } from 'rxjs';
 import { catchError, debounceTime, switchMap, takeUntil } from 'rxjs/operators';
 import { IPreferenceGridItem } from 'src/app/components/preference-grid/preference-grid-item';
@@ -9,6 +8,11 @@ import { LocalPersistenceService } from 'src/app/services/local-persistence.serv
 import { SymbolFamilyDefinitions } from '../../constants/symbol-family-definitions';
 import { PreferenceService } from './preference.service';
 
+interface IPreferenceGroup {
+  title: string;
+  items: IPreferenceGridItem[];
+}
+
 @Component({
     selector: 'app-preference-grid',
     templateUrl: './preference-grid.component.html',
@@ -16,32 +20,27 @@ import { PreferenceService } from './preference.service';
     standalone: false
 })
 export class PreferenceGridComponent implements OnInit, OnDestroy {
-
-  //
-  private onDestroy$: Subject<void> = new Subject<void>();
+  private readonly onDestroy$ = new Subject<void>();
+  private readonly cloudProviderFamilyIds = new Set<SymbolFamilyConstants>([
+    SymbolFamilyConstants.AWS,
+    SymbolFamilyConstants.Azure,
+    SymbolFamilyConstants.GCP,
+    SymbolFamilyConstants.IBM,
+    SymbolFamilyConstants.Oracle,
+    SymbolFamilyConstants.DigitalOcean,
+    SymbolFamilyConstants.Alibaba,
+  ]);
+  private readonly platformAndToolFamilyIds = new Set<SymbolFamilyConstants>([
+    SymbolFamilyConstants.K8s_CNCF_Ecosystem,
+    SymbolFamilyConstants.Elastic,
+    SymbolFamilyConstants.VMWare,
+    SymbolFamilyConstants.FontAwesome,
+    SymbolFamilyConstants.HashiCorp,
+    SymbolFamilyConstants.Cloudflare,
+  ]);
 
   @Input() dialogMode = false;
-
-  //#region diagram selector grid
-  @ViewChild('preferenceGridControl') control: GridComponent;
-  allowGrouping = true;
-  groupSettingsModel: GroupSettingsModel = {
-    columns: ['fakeColumnForGroupingPurposes'],
-    showDropArea: false,
-  };
-  groupedColumnHeaderText = 'Add/Remove Symbols';
-  allowSorting: true;
-  sortSettingsModel: SortSettingsModel = { // @todo: fix the sorting later.
-    columns: [
-      { field: 'displayName', direction: 'Ascending', }
-    ] as SortDescriptorModel[],
-  };
-  data: IPreferenceGridItem[] = [];
-  // recommended way to style syncfusion grid columns:
-  // https://ej2.syncfusion.com/angular/documentation/grid/cell/#custom-attributes
-  // https://ej2.syncfusion.com/angular/documentation/grid/how-to/customize-column-styles/
-  customAttribute: any = { class: 'sidebarGridControlColumnCSS' };
-  //#endregion diagram selector grid
+  preferenceGroups: IPreferenceGroup[] = [];
 
   constructor(
     private localPersistenceService: LocalPersistenceService,
@@ -50,6 +49,8 @@ export class PreferenceGridComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.initializePreferenceGroups();
+
     this.preferenceService.requestFeed$
       .pipe(
         debounceTime(1000),
@@ -72,18 +73,7 @@ export class PreferenceGridComponent implements OnInit, OnDestroy {
     return (this.localPersistenceService.preferences & FamilyId) !== 0;
   }
 
-  onPreferenceGridControlCreated() {
-    SymbolFamilyDefinitions.forEach(symbolFamilyDefinition => {
-      if (symbolFamilyDefinition.id !== SymbolFamilyConstants.General) { // skip the 'General' symbol family
-        this.data.push({
-          id: symbolFamilyDefinition.id,
-          displayName: symbolFamilyDefinition.displayName,
-        });
-      }
-    });
-  }
-
-  onPreferenceGridControlDataItemCheckboxChange(preferenceItem: IPreferenceGridItem, args: ChangeEventArgs) {
+  onPreferenceItemCheckboxChange(preferenceItem: IPreferenceGridItem, args: MatCheckboxChange) {
     const preferences = args.checked
       ? this.localPersistenceService.preferences | preferenceItem.id
       : this.localPersistenceService.preferences & ~preferenceItem.id;
@@ -92,5 +82,30 @@ export class PreferenceGridComponent implements OnInit, OnDestroy {
     this.preferenceService.request(preferences);
   }
 
-  //#endregion callbacks
+  private initializePreferenceGroups() {
+    const preferenceItems = SymbolFamilyDefinitions
+      .filter(symbolFamilyDefinition => symbolFamilyDefinition.id !== SymbolFamilyConstants.General)
+      .map(symbolFamilyDefinition => ({
+        id: symbolFamilyDefinition.id,
+        displayName: symbolFamilyDefinition.displayName,
+      } satisfies IPreferenceGridItem))
+      .sort((left, right) => left.displayName.localeCompare(right.displayName));
+
+    const cloudProviderItems = preferenceItems.filter(item => this.cloudProviderFamilyIds.has(item.id));
+    const platformAndToolItems = preferenceItems.filter(item => this.platformAndToolFamilyIds.has(item.id));
+    const otherItems = preferenceItems.filter(item =>
+      !this.cloudProviderFamilyIds.has(item.id) && !this.platformAndToolFamilyIds.has(item.id));
+
+    this.preferenceGroups = [
+      { title: 'Cloud providers', items: cloudProviderItems },
+      { title: 'Platforms and tools', items: platformAndToolItems },
+    ];
+
+    if (otherItems.length > 0) {
+      this.preferenceGroups.push({
+        title: 'Other',
+        items: otherItems,
+      });
+    }
+  }
 }

@@ -20,7 +20,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { CheckBoxModule } from '@syncfusion/ej2-angular-buttons';
 import { ConnectorBridgingService, DiagramContextMenuService, DiagramModule, PrintAndExportService, SnappingService, UndoRedoService } from '@syncfusion/ej2-angular-diagrams';
 import { GridModule, GroupService, SearchService, SortService } from '@syncfusion/ej2-angular-grids';
 import { TextBoxModule, UploaderModule } from '@syncfusion/ej2-angular-inputs';
@@ -94,7 +93,6 @@ const appRoutes: Routes = [
     ],
     bootstrap: [AppComponent], imports: [BrowserAnimationsModule,
         BrowserModule,
-        CheckBoxModule,
         ClipboardModule,
         DiagramModule,
         FontAwesomeModule,
