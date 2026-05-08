@@ -38,7 +38,6 @@ import { DiagramPrintDialogComponent } from './components/diagram-print-dialog/d
 import { DiagramPropertiesEditorComponent } from './components/diagram-properties-editor/diagram-properties-editor.component';
 import { DiagramComponent } from './components/diagram/diagram.component';
 import { DiagramReplaceConfirmationDialogComponent } from './components/diagram-replace-confirmation-dialog/diagram-replace-confirmation-dialog.component';
-import { ExtensionGridComponent } from './components/extension-grid/extension-grid.component';
 import { GroupPropertiesEditorComponent } from './components/group-properties-editor/group-properties-editor.component';
 import { ImagePropertiesEditorComponent } from './components/image-properties-editor/image-properties-editor.component';
 import { ImageUploadDialogComponent } from './components/image-upload-dialog/image-upload-dialog.component';
@@ -54,7 +53,6 @@ import { StatusbarComponent } from './components/statusbar/statusbar.component';
 import { TextPropertiesEditorComponent } from './components/text-properties-editor/text-properties-editor.component';
 import { PropertiesEditorComponent } from './components/visual-properties-editor/visual-properties-editor.component';
 import { EllipsisPipe } from './pipes/ellipsis.pipe';
-import { SanitizeHtmlPipe } from './pipes/sanitize-html.pipe';
 import { DialogProvider } from './services/dialog.service';
 import { ErrorHandlerProvider } from './services/global-error-handler.service';
 import { NotificationService } from './services/notification.service';
@@ -86,8 +84,6 @@ const appRoutes: Routes = [
         SidebarComponent,
         EllipsisPipe,
         DiagramPrintDialogComponent,
-        SanitizeHtmlPipe,
-        ExtensionGridComponent,
         PropertiesbarComponent,
         ImageUploadDialogComponent,
         ImagePropertiesEditorComponent,
