@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CloudSkew UI Property Editor Shell Mockup</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@500&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,500,0,0" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="mockup-page">
+    <section class="workspace-frame">
+      <div class="workspace-topbar">
+        <div class="workspace-title">CloudSkew property editor refresh</div>
+        <div class="workspace-caption">Shell and shared control treatment</div>
+      </div>
+
+      <div class="workspace-body">
+        <section class="canvas-surface" aria-hidden="true">
+          <div class="canvas-placeholder">Diagram canvas placeholder</div>
+        </section>
+
+        <aside class="property-rail" aria-label="Shape property editor">
+          <article class="editor-card">
+            <header class="editor-header">
+              <div class="editor-heading">
+                <div class="editor-kicker">Selection</div>
+                <h1>Shape</h1>
+                <p>Rectangle node</p>
+              </div>
+
+              <button class="state-pill" type="button">
+                <span class="material-symbols-outlined" aria-hidden="true">lock_open</span>
+                Unlocked
+              </button>
+            </header>
+
+            <div class="tab-strip" role="tablist" aria-label="Shape editor sections">
+              <button class="tab-button is-active" type="button" role="tab" aria-selected="true">Style</button>
+              <button class="tab-button" type="button" role="tab" aria-selected="false">Text</button>
+            </div>
+
+            <section class="property-group" aria-label="Fill settings">
+              <div class="group-title">Fill</div>
+
+              <div class="property-row">
+                <div class="property-copy">
+                  <div class="property-label">Color</div>
+                  <div class="property-meta mono">#B3E5FC</div>
+                </div>
+
+                <label class="swatch-shell" aria-label="Fill color">
+                  <input type="color" value="#b3e5fc">
+                </label>
+              </div>
+
+              <div class="property-row property-row-stack">
+                <div class="property-row-heading">
+                  <div class="property-copy">
+                    <div class="property-label">Opacity</div>
+                    <div class="property-help">Transparent to solid</div>
+                  </div>
+                  <span class="value-pill mono">72%</span>
+                </div>
+
+                <input class="range-input" type="range" min="0" max="100" value="72">
+              </div>
+            </section>
+
+            <section class="property-group" aria-label="Border settings">
+              <div class="group-title">Border</div>
+
+              <div class="property-row">
+                <div class="property-copy">
+                  <div class="property-label">Color</div>
+                  <div class="property-meta mono">#0F172A</div>
+                </div>
+
+                <label class="swatch-shell" aria-label="Border color">
+                  <input type="color" value="#0f172a">
+                </label>
+              </div>
+
+              <div class="property-row property-row-stack">
+                <div class="property-row-heading">
+                  <div class="property-copy">
+                    <div class="property-label">Style</div>
+                    <div class="property-help">Stroke pattern</div>
+                  </div>
+                </div>
+
+                <div class="toggle-group" role="group" aria-label="Border style">
+                  <button class="toggle-button is-active" type="button" aria-label="Solid border">
+                    <span class="material-symbols-outlined" aria-hidden="true">horizontal_rule</span>
+                  </button>
+                  <button class="toggle-button" type="button" aria-label="Dashed border">
+                    <span class="material-symbols-outlined" aria-hidden="true">linear_scale</span>
+                  </button>
+                  <button class="toggle-button" type="button" aria-label="Dotted border">
+                    <span class="material-symbols-outlined" aria-hidden="true">more_horiz</span>
+                  </button>
+                </div>
+              </div>
+
+              <div class="property-row property-row-stack">
+                <div class="property-row-heading">
+                  <div class="property-copy">
+                    <div class="property-label">Width</div>
+                    <div class="property-help">Stroke thickness</div>
+                  </div>
+                  <span class="value-pill mono">2 px</span>
+                </div>
+
+                <input class="range-input" type="range" min="1" max="8" value="2">
+              </div>
+            </section>
+
+            <section class="property-group" aria-label="Miscellaneous settings">
+              <div class="group-title">Miscellaneous</div>
+
+              <div class="property-row">
+                <div class="property-copy">
+                  <div class="property-label">Lock aspect ratio</div>
+                  <div class="property-help">Preserve width and height proportion</div>
+                </div>
+
+                <label class="switch" aria-label="Lock aspect ratio">
+                  <input type="checkbox" checked>
+                  <span class="switch-track"></span>
+                </label>
+              </div>
+
+              <div class="metadata-grid" aria-label="Read-only metadata">
+                <div class="metadata-chip">
+                  <span class="chip-label">Dimensions</span>
+                  <span class="chip-value mono">W 240 H 120</span>
+                </div>
+                <div class="metadata-chip">
+                  <span class="chip-label">Z-index</span>
+                  <span class="chip-value mono">14</span>
+                </div>
+                <div class="metadata-chip metadata-chip-wide">
+                  <span class="chip-label">Id</span>
+                  <span class="chip-value mono">shape-node-0137</span>
+                </div>
+              </div>
+            </section>
+          </article>
+        </aside>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

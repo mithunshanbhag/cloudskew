@@ -1,4 +1,3 @@
-.dropdown-panel-style, mat-select {
-    font-size: 11px !important;
-    text-align: right !important;
+.dropdown-panel-style .mdc-list-item__primary-text {
+    font-size: 12px;
 }

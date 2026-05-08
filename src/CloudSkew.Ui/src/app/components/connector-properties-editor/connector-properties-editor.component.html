@@ -1,32 +1,37 @@
 <div class="propertyWindowSplitterWrapper">
 
   <div class="propertyWindowSplitterHeadlineWrapper">
-    <div class="propertyWindowSplitterHeadline">CONNECTOR</div>
+    <div class="propertyWindowSplitterHeadline">Connector</div>
     <div>
       @if (this.isLocked()) {
-        <button class="btn" matTooltip="connector locked (click to unlock)"
+        <button type="button" class="btn" aria-label="Unlock connector" matTooltip="connector locked (click to unlock)"
           (click)="this.unlock()">
           <fa-icon class="color-success" [icon]="this.faLockedIcon"></fa-icon>
+          <span class="propertyWindowStateText">Locked</span>
         </button>
       }
       @if (!this.isLocked()) {
-        <button class="btn" matTooltip="connector unlocked (click to lock)"
+        <button type="button" class="btn" aria-label="Lock connector" matTooltip="connector unlocked (click to lock)"
           (click)="this.lock()">
           <fa-icon class="color-warning" [icon]="this.faUnlockedIcon"></fa-icon>
+          <span class="propertyWindowStateText">Unlocked</span>
         </button>
       }
     </div>
   </div>
 
-  @if (!this.isLocked()) {
-    <div>
-      <mat-tab-group dynamicHeight="true" animationDuration="0ms" [disablePagination]="true" [disableRipple]="true">
-        <mat-tab label="STYLE">
-          <!-- The 'shape' section -->
+  <div class="propertyWindowPaneContent" [class.propertyWindowPaneContentLocked]="this.isLocked()"
+    [attr.inert]="this.isLocked() ? '' : null" [attr.aria-disabled]="this.isLocked()">
+    <mat-tab-group dynamicHeight="true" animationDuration="0ms" [disablePagination]="true" [disableRipple]="true">
+      <mat-tab label="Style">
+        <section class="propertyWindowPaneGroup">
           <div class="propertyWindowPaneHeader">Shape</div>
           <div class="propertyWindowPaneItem">
-            <span class="propertyWindowPaneItemText">Source</span>
-            <mat-select [(ngModel)]="this.activeConnector.sourceDecorator.shape" [disableOptionCentering]="true"
+            <div class="propertyWindowPaneLabelStack">
+              <span class="propertyWindowPaneItemLabel">Source</span>
+              <span class="propertyWindowPaneItemMeta propertyWindowPaneItemMono">{{this.activeConnector.sourceDecorator.shape}}</span>
+            </div>
+            <mat-select aria-label="Connector source shape" [(ngModel)]="this.activeConnector.sourceDecorator.shape" [disableOptionCentering]="true"
               [disableRipple]="true" panelClass="dropdown-panel-style">
               @for (shapeOption of this.shapeOptions; track shapeOption) {
                 <mat-option [value]="shapeOption">
@@ -35,8 +40,11 @@
             </mat-select>
           </div>
           <div class="propertyWindowPaneItem">
-            <span class="propertyWindowPaneItemText">Target</span>
-            <mat-select [(ngModel)]="this.activeConnector.targetDecorator.shape" [disableOptionCentering]="true"
+            <div class="propertyWindowPaneLabelStack">
+              <span class="propertyWindowPaneItemLabel">Target</span>
+              <span class="propertyWindowPaneItemMeta propertyWindowPaneItemMono">{{this.activeConnector.targetDecorator.shape}}</span>
+            </div>
+            <mat-select aria-label="Connector target shape" [(ngModel)]="this.activeConnector.targetDecorator.shape" [disableOptionCentering]="true"
               [disableRipple]="true" panelClass="dropdown-panel-style">
               @for (shapeOption of this.shapeOptions; track shapeOption) {
                 <mat-option [value]="shapeOption">
@@ -44,129 +52,187 @@
               }
             </mat-select>
           </div>
-          <mat-divider></mat-divider>
-          <!-- The 'style' section -->
-          <div class="propertyWindowPaneHeader">Line Style</div>
+        </section>
+
+        <section class="propertyWindowPaneGroup">
+          <div class="propertyWindowPaneHeader">Line style</div>
           <div class="propertyWindowPaneItem">
-            <span class="propertyWindowPaneItemText">Color: {{this.fillColor|uppercase}}</span>
-            <input type="color" [(ngModel)]="this.fillColor" />
+            <div class="propertyWindowPaneLabelStack">
+              <span class="propertyWindowPaneItemLabel">Color</span>
+              <span class="propertyWindowPaneItemMeta propertyWindowPaneItemMono">{{this.fillColor|uppercase}}</span>
+            </div>
+            <label class="propertyWindowPaneColorSwatch">
+              <input type="color" aria-label="Connector line color" [(ngModel)]="this.fillColor" />
+            </label>
           </div>
-          <div class="propertyWindowPaneItem">
-            <span class="propertyWindowPaneItemText">Style</span>
+          <div class="propertyWindowPaneItem propertyWindowPaneItemStack">
+            <div class="propertyWindowPaneItemHeading">
+              <div class="propertyWindowPaneLabelStack">
+                <span class="propertyWindowPaneItemLabel">Style</span>
+              </div>
+            </div>
             <mat-button-toggle-group [(ngModel)]="this.activeConnector.style.strokeDashArray">
-              <mat-button-toggle [value]="this.styleSolid" matTooltip="Solid" [disableRipple]="true">
+              <mat-button-toggle aria-label="Solid connector line" [value]="this.styleSolid" matTooltip="Solid" [disableRipple]="true">
                 <mat-icon fontSet="material-icons-outlined">horizontal_rule</mat-icon>
               </mat-button-toggle>
-              <mat-button-toggle [value]="this.styleDashed" matTooltip="Dashed" [disableRipple]="true">
+              <mat-button-toggle aria-label="Dashed connector line" [value]="this.styleDashed" matTooltip="Dashed" [disableRipple]="true">
                 <mat-icon fontSet="material-icons-outlined">linear_scale</mat-icon>
               </mat-button-toggle>
-              <mat-button-toggle [value]="this.styleDotted" matTooltip="Dotted" [disableRipple]="true">
+              <mat-button-toggle aria-label="Dotted connector line" [value]="this.styleDotted" matTooltip="Dotted" [disableRipple]="true">
                 <mat-icon fontSet="material-icons-outlined">more_horiz</mat-icon>
               </mat-button-toggle>
             </mat-button-toggle-group>
           </div>
-          <div class="propertyWindowPaneItem">
-            <span class="propertyWindowPaneItemText">Width:
-            {{this.activeConnector.style.strokeWidth}}</span>
+          <div class="propertyWindowPaneItem propertyWindowPaneItemStack">
+            <div class="propertyWindowPaneItemHeading">
+              <div class="propertyWindowPaneLabelStack">
+                <span class="propertyWindowPaneItemLabel">Width</span>
+              </div>
+              <span class="propertyWindowPaneValuePill propertyWindowPaneItemMono">{{this.activeConnector.style.strokeWidth}} px</span>
+            </div>
             <mat-slider color="primary" [min]="this.widthSliderMin" [max]="this.widthSliderMax"
-              [step]="this.widthSliderStep" #ngSlider><input matSliderThumb [value]="this.activeConnector.style.strokeWidth" (input)="this.onWidthChange({source: ngSliderThumb, parent: ngSlider, value: ngSliderThumb.value})" #ngSliderThumb="matSliderThumb" />
+              [step]="this.widthSliderStep" #ngSlider>
+              <input matSliderThumb aria-label="Connector line width" [value]="this.activeConnector.style.strokeWidth"
+                (input)="this.onWidthChange({source: ngSliderThumb, parent: ngSlider, value: ngSliderThumb.value})"
+                #ngSliderThumb="matSliderThumb" />
             </mat-slider>
           </div>
-          <div class="propertyWindowPaneItem">
-            <span class="propertyWindowPaneItemText">Opacity:
-            {{this.activeConnector.style.opacity|percent}}</span>
+          <div class="propertyWindowPaneItem propertyWindowPaneItemStack">
+            <div class="propertyWindowPaneItemHeading">
+              <div class="propertyWindowPaneLabelStack">
+                <span class="propertyWindowPaneItemLabel">Opacity</span>
+              </div>
+              <span class="propertyWindowPaneValuePill propertyWindowPaneItemMono">{{this.activeConnector.style.opacity|percent}}</span>
+            </div>
             <mat-slider color="primary" [min]="this.opacitySliderMin" [max]="this.opacitySliderMax"
-              [step]="this.opacitySliderStep" #ngSlider><input matSliderThumb [value]="this.activeConnector.style.opacity" (input)="this.onOpacityChange({source: ngSliderThumb, parent: ngSlider, value: ngSliderThumb.value})" #ngSliderThumb="matSliderThumb" />
+              [step]="this.opacitySliderStep" #ngSlider>
+              <input matSliderThumb aria-label="Connector opacity" [value]="this.activeConnector.style.opacity"
+                (input)="this.onOpacityChange({source: ngSliderThumb, parent: ngSlider, value: ngSliderThumb.value})"
+                #ngSliderThumb="matSliderThumb" />
             </mat-slider>
           </div>
-          <mat-divider></mat-divider>
-          <!-- the 'miscellaneous' section -->
+        </section>
+
+        <section class="propertyWindowPaneGroup">
           <div class="propertyWindowPaneHeader">Miscellaneous</div>
+          <div class="propertyWindowPaneMetadataGrid">
+            <div class="propertyWindowPaneMetadataChip">
+              <span class="propertyWindowPaneMetadataLabel">Z-index</span>
+              <span class="propertyWindowPaneMetadataValue propertyWindowPaneItemMono">{{this.activeConnector.zIndex}}</span>
+            </div>
+            <div class="propertyWindowPaneMetadataChip propertyWindowPaneMetadataChipWide">
+              <span class="propertyWindowPaneMetadataLabel">Id</span>
+              <span class="propertyWindowPaneMetadataValue propertyWindowPaneItemMono">{{this.activeConnector.id}}</span>
+            </div>
+          </div>
+        </section>
+      </mat-tab>
+      <mat-tab label="Text"
+        [disabled]="this.activeConnector.annotations.length === 0 || this.activeConnector.annotations[0].content === ''">
+        <section class="propertyWindowPaneGroup">
+          <div class="propertyWindowPaneHeader">Text</div>
           <div class="propertyWindowPaneItem">
-            <span class="propertyWindowPaneItemText">Z-Index</span>
-            <span class="propertyWindowPaneItemText">{{this.activeConnector.zIndex}}</span>
+            <div class="propertyWindowPaneLabelStack">
+              <span class="propertyWindowPaneItemLabel">Color</span>
+              <span class="propertyWindowPaneItemMeta propertyWindowPaneItemMono">{{this.annotationTextColor|uppercase}}</span>
+            </div>
+            <label class="propertyWindowPaneColorSwatch">
+              <input type="color" aria-label="Connector annotation text color" [(ngModel)]="this.annotationTextColor" />
+            </label>
           </div>
           <div class="propertyWindowPaneItem">
-            <span class="propertyWindowPaneItemText">Id</span>
-            <span class="propertyWindowPaneItemText">{{this.activeConnector.id}}</span>
+            <div class="propertyWindowPaneLabelStack">
+              <span class="propertyWindowPaneItemLabel">Background</span>
+              <span class="propertyWindowPaneItemMeta propertyWindowPaneItemMono">{{this.annotationBackgroundColor|uppercase}}</span>
+            </div>
+            <label class="propertyWindowPaneColorSwatch">
+              <input type="color" aria-label="Connector annotation background color" [(ngModel)]="this.annotationBackgroundColor" />
+            </label>
           </div>
-        </mat-tab>
-        <mat-tab label="TEXT"
-          [disabled]="this.activeConnector.annotations.length === 0 || this.activeConnector.annotations[0].content === ''">
-          <!-- the 'label/annotation' section -->
-          <div class="propertyWindowPaneItem">
-            <span class="propertyWindowPaneItemText">Color: {{this.annotationTextColor|uppercase}}</span>
-            <input type="color" [(ngModel)]="this.annotationTextColor" />
-          </div>
-          <div class="propertyWindowPaneItem">
-            <span class="propertyWindowPaneItemText">Background:
-            {{this.annotationBackgroundColor|uppercase}}</span>
-            <input type="color" [(ngModel)]="this.annotationBackgroundColor" />
-          </div>
-          <div class="propertyWindowPaneItem">
-            <span class="propertyWindowPaneItemText">Styling</span>
+          <div class="propertyWindowPaneItem propertyWindowPaneItemStack">
+            <div class="propertyWindowPaneItemHeading">
+              <div class="propertyWindowPaneLabelStack">
+                <span class="propertyWindowPaneItemLabel">Styling</span>
+              </div>
+            </div>
             <mat-button-toggle-group multiple>
-              <mat-button-toggle matTooltip="Bold" [checked]="this.isAnnotationTextBold"
+              <mat-button-toggle aria-label="Bold connector annotation text" matTooltip="Bold" [checked]="this.isAnnotationTextBold"
                 [disableRipple]="true" (click)="this.onAnnotationBoldButtonClick()">
                 <mat-icon fontSet="material-icons-outlined">format_bold</mat-icon>
               </mat-button-toggle>
-              <mat-button-toggle matTooltip="Italic" [checked]="this.isAnnotationTextItalic"
+              <mat-button-toggle aria-label="Italic connector annotation text" matTooltip="Italic" [checked]="this.isAnnotationTextItalic"
                 [disableRipple]="true" (click)="this.onAnnotationItalicButtonClick()">
                 <mat-icon fontSet="material-icons-outlined">format_italic</mat-icon>
               </mat-button-toggle>
             </mat-button-toggle-group>
           </div>
-          <div class="propertyWindowPaneItem">
-            <span class="propertyWindowPaneItemText">Decoration</span>
+          <div class="propertyWindowPaneItem propertyWindowPaneItemStack">
+            <div class="propertyWindowPaneItemHeading">
+              <div class="propertyWindowPaneLabelStack">
+                <span class="propertyWindowPaneItemLabel">Decoration</span>
+              </div>
+            </div>
             <mat-button-toggle-group [(ngModel)]="this.annotationTextDecoration">
-              <mat-button-toggle [value]="this.annotationDecorationUnderLine"
+              <mat-button-toggle aria-label="Underline connector annotation text" [value]="this.annotationDecorationUnderLine"
                 [matTooltip]="this.annotationDecorationUnderLine" [disableRipple]="true">
                 <mat-icon fontSet="material-icons-outlined">format_underlined</mat-icon>
               </mat-button-toggle>
-              <mat-button-toggle [value]="this.annotationDecorationLineThrough"
+              <mat-button-toggle aria-label="Strikethrough connector annotation text" [value]="this.annotationDecorationLineThrough"
                 [matTooltip]="this.annotationDecorationLineThrough" [disableRipple]="true">
                 <mat-icon fontSet="material-icons-outlined">format_strikethrough</mat-icon>
               </mat-button-toggle>
-              <mat-button-toggle [value]="this.annotationDecorationOverLine"
+              <mat-button-toggle aria-label="Overline connector annotation text" [value]="this.annotationDecorationOverLine"
                 [matTooltip]="this.annotationDecorationOverLine" [disableRipple]="true">
                 <mat-icon fontSet="material-icons-outlined">format_overline</mat-icon>
               </mat-button-toggle>
-              <mat-button-toggle [value]="this.annotationDecorationNone"
+              <mat-button-toggle aria-label="Clear connector annotation decoration" [value]="this.annotationDecorationNone"
                 [matTooltip]="this.annotationDecorationNone" [disableRipple]="true">
                 <mat-icon fontSet="material-icons-outlined">title</mat-icon>
               </mat-button-toggle>
             </mat-button-toggle-group>
           </div>
-          <div class="propertyWindowPaneItem">
-            <span class="propertyWindowPaneItemText">Alignment</span>
+          <div class="propertyWindowPaneItem propertyWindowPaneItemStack">
+            <div class="propertyWindowPaneItemHeading">
+              <div class="propertyWindowPaneLabelStack">
+                <span class="propertyWindowPaneItemLabel">Alignment</span>
+              </div>
+            </div>
             <mat-button-toggle-group [(ngModel)]="this.annotationTextAlignment">
-              <mat-button-toggle [value]="this.annotationAlignmentLeft"
+              <mat-button-toggle aria-label="Align connector annotation left" [value]="this.annotationAlignmentLeft"
                 [matTooltip]="this.annotationAlignmentLeft" [disableRipple]="true">
                 <mat-icon fontSet="material-icons-outlined">format_align_left</mat-icon>
               </mat-button-toggle>
-              <mat-button-toggle [value]="this.annotationAlignmentCenter"
+              <mat-button-toggle aria-label="Align connector annotation center" [value]="this.annotationAlignmentCenter"
                 [matTooltip]="this.annotationAlignmentCenter" [disableRipple]="true">
                 <mat-icon fontSet="material-icons-outlined">format_align_center</mat-icon>
               </mat-button-toggle>
-              <mat-button-toggle [value]="this.annotationAlignmentRight"
+              <mat-button-toggle aria-label="Align connector annotation right" [value]="this.annotationAlignmentRight"
                 [matTooltip]="this.annotationAlignmentRight" [disableRipple]="true">
                 <mat-icon fontSet="material-icons-outlined">format_align_right</mat-icon>
               </mat-button-toggle>
-              <mat-button-toggle [value]="this.annotationAlignmentJustify"
+              <mat-button-toggle aria-label="Justify connector annotation text" [value]="this.annotationAlignmentJustify"
                 [matTooltip]="this.annotationAlignmentJustify" [disableRipple]="true">
                 <mat-icon fontSet="material-icons-outlined">format_align_justify</mat-icon>
               </mat-button-toggle>
             </mat-button-toggle-group>
           </div>
-          <div class="propertyWindowPaneItem">
-            <span class="propertyWindowPaneItemText">Size: {{this.annotationFontSize}}</span>
+          <div class="propertyWindowPaneItem propertyWindowPaneItemStack">
+            <div class="propertyWindowPaneItemHeading">
+              <div class="propertyWindowPaneLabelStack">
+                <span class="propertyWindowPaneItemLabel">Size</span>
+              </div>
+              <span class="propertyWindowPaneValuePill propertyWindowPaneItemMono">{{this.annotationFontSize}}</span>
+            </div>
             <mat-slider color="primary" [min]="this.annotationFontSizeSliderMin"
-              [max]="this.annotationFontSizeSliderMax" [step]="this.annotationFontSizeSliderStep" #ngSlider><input matSliderThumb [value]="this.annotationFontSize" (input)="this.onAnnotationFontSizeChange({source: ngSliderThumb, parent: ngSlider, value: ngSliderThumb.value})" #ngSliderThumb="matSliderThumb" />
+              [max]="this.annotationFontSizeSliderMax" [step]="this.annotationFontSizeSliderStep" #ngSlider>
+              <input matSliderThumb aria-label="Connector annotation font size" [value]="this.annotationFontSize"
+                (input)="this.onAnnotationFontSizeChange({source: ngSliderThumb, parent: ngSlider, value: ngSliderThumb.value})"
+                #ngSliderThumb="matSliderThumb" />
             </mat-slider>
           </div>
-        </mat-tab>
-      </mat-tab-group>
-    </div>
-  }
+        </section>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
 
 </div>

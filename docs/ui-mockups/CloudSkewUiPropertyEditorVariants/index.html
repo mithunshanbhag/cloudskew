@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CloudSkew UI Property Editor Variants Mockup</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@500&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,500,0,0" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="mockup-page">
+    <header class="page-header">
+      <div>
+        <p class="page-eyebrow">CloudSkew property editor refresh</p>
+        <h1>Editor variants and control recipes</h1>
+      </div>
+      <p class="page-copy">Connector, text, symbol, multi-selection, and diagram-canvas cards share the same inspector language while keeping their current control types and behaviors.</p>
+    </header>
+
+    <section class="variants-grid">
+      <article class="variant-card">
+        <header class="variant-header">
+          <div>
+            <div class="variant-title">Connector</div>
+            <div class="variant-subtitle">Arrow + line-style controls</div>
+          </div>
+          <span class="status-chip neutral">Locked</span>
+        </header>
+
+        <div class="tab-strip">
+          <button class="tab-button is-active" type="button">Style</button>
+          <button class="tab-button" type="button">Text</button>
+        </div>
+
+        <section class="group-block">
+          <div class="group-title">Decorators</div>
+          <div class="form-row">
+            <div class="row-copy">
+              <div class="row-label">Source</div>
+              <div class="row-meta mono">Arrow</div>
+            </div>
+            <button class="input-shell" type="button">
+              Arrow
+              <span class="material-symbols-outlined" aria-hidden="true">expand_more</span>
+            </button>
+          </div>
+          <div class="form-row">
+            <div class="row-copy">
+              <div class="row-label">Target</div>
+              <div class="row-meta mono">Diamond</div>
+            </div>
+            <button class="input-shell" type="button">
+              Diamond
+              <span class="material-symbols-outlined" aria-hidden="true">expand_more</span>
+            </button>
+          </div>
+        </section>
+
+        <section class="group-block">
+          <div class="group-title">Line style</div>
+          <div class="stack-row">
+            <div class="stack-heading">
+              <div class="row-copy">
+                <div class="row-label">Pattern</div>
+                <div class="row-meta">Shared segmented toggle styling</div>
+              </div>
+            </div>
+            <div class="toggle-group">
+              <button class="toggle-button is-active" type="button" aria-label="Solid line">
+                <span class="material-symbols-outlined" aria-hidden="true">horizontal_rule</span>
+              </button>
+              <button class="toggle-button" type="button" aria-label="Dashed line">
+                <span class="material-symbols-outlined" aria-hidden="true">linear_scale</span>
+              </button>
+              <button class="toggle-button" type="button" aria-label="Dotted line">
+                <span class="material-symbols-outlined" aria-hidden="true">more_horiz</span>
+              </button>
+            </div>
+          </div>
+          <div class="stack-row">
+            <div class="stack-heading">
+              <div class="row-copy">
+                <div class="row-label">Width</div>
+                <div class="row-meta">Same slider shell as shapes and text</div>
+              </div>
+              <span class="value-pill mono">3 px</span>
+            </div>
+            <input class="range-input" type="range" min="1" max="8" value="3">
+          </div>
+        </section>
+      </article>
+
+      <article class="variant-card">
+        <header class="variant-header">
+          <div>
+            <div class="variant-title">Text</div>
+            <div class="variant-subtitle">Typography controls</div>
+          </div>
+          <span class="status-chip warning">Unlocked</span>
+        </header>
+
+        <div class="tab-strip">
+          <button class="tab-button" type="button">Style</button>
+          <button class="tab-button is-active" type="button">Text</button>
+        </div>
+
+        <section class="group-block">
+          <div class="group-title">Formatting</div>
+          <div class="stack-row">
+            <div class="stack-heading">
+              <div class="row-copy">
+                <div class="row-label">Styling</div>
+                <div class="row-meta">Bold and italic share active-state treatment</div>
+              </div>
+            </div>
+            <div class="toggle-group">
+              <button class="toggle-button is-active" type="button" aria-label="Bold text">
+                <span class="material-symbols-outlined" aria-hidden="true">format_bold</span>
+              </button>
+              <button class="toggle-button" type="button" aria-label="Italic text">
+                <span class="material-symbols-outlined" aria-hidden="true">format_italic</span>
+              </button>
+            </div>
+          </div>
+          <div class="stack-row">
+            <div class="stack-heading">
+              <div class="row-copy">
+                <div class="row-label">Alignment</div>
+                <div class="row-meta">Matches annotation and label alignment controls</div>
+              </div>
+            </div>
+            <div class="toggle-group">
+              <button class="toggle-button" type="button" aria-label="Align left">
+                <span class="material-symbols-outlined" aria-hidden="true">format_align_left</span>
+              </button>
+              <button class="toggle-button is-active" type="button" aria-label="Align center">
+                <span class="material-symbols-outlined" aria-hidden="true">format_align_center</span>
+              </button>
+              <button class="toggle-button" type="button" aria-label="Align right">
+                <span class="material-symbols-outlined" aria-hidden="true">format_align_right</span>
+              </button>
+              <button class="toggle-button" type="button" aria-label="Justify text">
+                <span class="material-symbols-outlined" aria-hidden="true">format_align_justify</span>
+              </button>
+            </div>
+          </div>
+          <div class="stack-row">
+            <div class="stack-heading">
+              <div class="row-copy">
+                <div class="row-label">Font size</div>
+                <div class="row-meta">Trailing monospace value pill</div>
+              </div>
+              <span class="value-pill mono">18</span>
+            </div>
+            <input class="range-input" type="range" min="10" max="40" value="18">
+          </div>
+        </section>
+      </article>
+
+      <article class="variant-card">
+        <header class="variant-header">
+          <div>
+            <div class="variant-title">Symbol</div>
+            <div class="variant-subtitle">Style plus reference action</div>
+          </div>
+          <span class="status-chip neutral">Locked</span>
+        </header>
+
+        <section class="group-block">
+          <div class="group-title">Miscellaneous</div>
+          <div class="form-row">
+            <div class="row-copy">
+              <div class="row-label">Lock aspect ratio</div>
+              <div class="row-meta">Binary settings stay compact and aligned</div>
+            </div>
+            <label class="switch">
+              <input type="checkbox" checked>
+              <span class="switch-track"></span>
+            </label>
+          </div>
+          <div class="metadata-list">
+            <span class="meta-chip"><span class="meta-chip-label">Dimensions</span><span class="mono">96 x 96</span></span>
+            <span class="meta-chip"><span class="meta-chip-label">Z-index</span><span class="mono">22</span></span>
+          </div>
+          <button class="secondary-action" type="button">
+            <span class="material-symbols-outlined" aria-hidden="true">description</span>
+            Resource documentation
+          </button>
+        </section>
+      </article>
+
+      <article class="variant-card">
+        <header class="variant-header">
+          <div>
+            <div class="variant-title">Multi selection</div>
+            <div class="variant-subtitle">Alignment and distribution</div>
+          </div>
+          <span class="status-chip accent">5 items</span>
+        </header>
+
+        <section class="group-block">
+          <div class="group-title">Alignment</div>
+          <div class="command-cluster">
+            <button class="command-button" type="button" aria-label="Align vertical top">
+              <span class="material-symbols-outlined" aria-hidden="true">align_vertical_top</span>
+            </button>
+            <button class="command-button is-active" type="button" aria-label="Align vertical center">
+              <span class="material-symbols-outlined" aria-hidden="true">align_vertical_center</span>
+            </button>
+            <button class="command-button" type="button" aria-label="Align vertical bottom">
+              <span class="material-symbols-outlined" aria-hidden="true">align_vertical_bottom</span>
+            </button>
+          </div>
+          <div class="command-cluster">
+            <button class="command-button" type="button" aria-label="Align horizontal left">
+              <span class="material-symbols-outlined" aria-hidden="true">align_horizontal_left</span>
+            </button>
+            <button class="command-button is-active" type="button" aria-label="Align horizontal center">
+              <span class="material-symbols-outlined" aria-hidden="true">align_horizontal_center</span>
+            </button>
+            <button class="command-button" type="button" aria-label="Align horizontal right">
+              <span class="material-symbols-outlined" aria-hidden="true">align_horizontal_right</span>
+            </button>
+          </div>
+        </section>
+
+        <section class="group-block">
+          <div class="group-title">Distribution</div>
+          <div class="command-cluster command-cluster-wide">
+            <button class="command-button" type="button" aria-label="Distribute vertically">
+              <span class="material-symbols-outlined" aria-hidden="true">vertical_distribute</span>
+            </button>
+            <button class="command-button is-active" type="button" aria-label="Distribute horizontally">
+              <span class="material-symbols-outlined" aria-hidden="true">horizontal_distribute</span>
+            </button>
+          </div>
+          <div class="metadata-list">
+            <span class="meta-chip"><span class="meta-chip-label">Element count</span><span class="mono">5</span></span>
+          </div>
+        </section>
+      </article>
+
+      <article class="variant-card">
+        <header class="variant-header">
+          <div>
+            <div class="variant-title">Diagram canvas</div>
+            <div class="variant-subtitle">Settings plus quiet metadata</div>
+          </div>
+          <span class="status-chip neutral">Canvas</span>
+        </header>
+
+        <section class="group-block">
+          <div class="group-title">Page</div>
+          <div class="form-row">
+            <div class="row-copy">
+              <div class="row-label">Show rulers</div>
+              <div class="row-meta">Primary toggle-first layout</div>
+            </div>
+            <label class="switch">
+              <input type="checkbox" checked>
+              <span class="switch-track"></span>
+            </label>
+          </div>
+          <div class="form-row">
+            <div class="row-copy">
+              <div class="row-label">Show page breaks</div>
+              <div class="row-meta">Same shell as other binary settings</div>
+            </div>
+            <label class="switch">
+              <input type="checkbox">
+              <span class="switch-track off"></span>
+            </label>
+          </div>
+          <div class="form-row">
+            <div class="row-copy">
+              <div class="row-label">Page color</div>
+              <div class="row-meta mono">#FFFFFF</div>
+            </div>
+            <label class="swatch-shell">
+              <input type="color" value="#ffffff">
+            </label>
+          </div>
+        </section>
+
+        <section class="group-block">
+          <div class="group-title">Metrics</div>
+          <div class="metadata-list">
+            <span class="meta-chip"><span class="meta-chip-label">Page size</span><span class="mono">W 1920 H 1080</span></span>
+            <span class="meta-chip"><span class="meta-chip-label">Zoom</span><span class="mono">125%</span></span>
+            <span class="meta-chip"><span class="meta-chip-label">Export</span><span class="mono">W 2560 H 1440</span></span>
+          </div>
+        </section>
+      </article>
+    </section>
+  </main>
+</body>
+</html>

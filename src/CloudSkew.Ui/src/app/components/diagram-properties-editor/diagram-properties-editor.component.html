@@ -1,73 +1,78 @@
 <div class="propertyWindowSplitterWrapper">
 
     <div class="propertyWindowSplitterHeadlineWrapper">
-        <div class="propertyWindowSplitterHeadline">DIAGRAM CANVAS</div>
+        <div class="propertyWindowSplitterHeadline">Diagram canvas</div>
         <div>
-            <button class="btn" disabled>
+            <button type="button" class="btn" aria-label="Diagram canvas summary" disabled>
                 <fa-icon [icon]="this.faCanvasIcon"></fa-icon>
+                <span class="propertyWindowStateText">Canvas</span>
             </button>
         </div>
     </div>
-    <mat-divider></mat-divider>
 
-    <!-- The 'page properties' section -->
-    <div class="propertyWindowPaneHeader">Page</div>
-    <div class="propertyWindowPaneItem">
-        <span class="propertyWindowPaneItemText">Show Rulers</span>
-        <mat-checkbox color="primary" [(ngModel)]="this.activeDiagramComponent.rulerSettings.showRulers"
-            [disableRipple]="true">
-        </mat-checkbox>
-    </div>
-    <div class="propertyWindowPaneItem">
-        <span class="propertyWindowPaneItemText">Show Page Breaks</span>
-        <mat-checkbox color="primary" [(ngModel)]="this.activeDiagramComponent.pageSettings.showPageBreaks"
-            [disableRipple]="true">
-        </mat-checkbox>
-    </div>
-    <div class="propertyWindowPaneItem">
-        <span class="propertyWindowPaneItemText">Color: {{this.pageColor|uppercase}}</span>
-        <input type="color" [(ngModel)]="this.pageColor" />
-    </div>
-    <div class="propertyWindowPaneItem">
-        <span class="propertyWindowPaneItemText">Page Size</span>
-        <span class="propertyWindowPaneItemText">
-            W: {{this.activeDiagramComponent.pageSettings.width|number:'1.0-0'}}
-            H: {{this.activeDiagramComponent.pageSettings.height|number:'1.0-0'}}
-        </span>
-    </div>
-    <div class="propertyWindowPaneItem">
-        <span class="propertyWindowPaneItemText">Orientation</span>
-        <span class="propertyWindowPaneItemText">{{this.activeDiagramComponent.pageSettings.orientation}}</span>
-    </div>
-    <mat-divider></mat-divider>
+    <section class="propertyWindowPaneGroup">
+        <div class="propertyWindowPaneHeader">Page</div>
+        <div class="propertyWindowPaneItem propertyWindowPaneItemCheckbox">
+            <div class="propertyWindowPaneLabelStack">
+                <span class="propertyWindowPaneItemLabel">Show rulers</span>
+            </div>
+            <mat-checkbox aria-label="Show diagram rulers" color="primary" [(ngModel)]="this.activeDiagramComponent.rulerSettings.showRulers"
+                [disableRipple]="true">
+            </mat-checkbox>
+        </div>
+        <div class="propertyWindowPaneItem propertyWindowPaneItemCheckbox">
+            <div class="propertyWindowPaneLabelStack">
+                <span class="propertyWindowPaneItemLabel">Show page breaks</span>
+            </div>
+            <mat-checkbox aria-label="Show diagram page breaks" color="primary" [(ngModel)]="this.activeDiagramComponent.pageSettings.showPageBreaks"
+                [disableRipple]="true">
+            </mat-checkbox>
+        </div>
+        <div class="propertyWindowPaneItem">
+            <div class="propertyWindowPaneLabelStack">
+                <span class="propertyWindowPaneItemLabel">Color</span>
+                <span class="propertyWindowPaneItemMeta propertyWindowPaneItemMono">{{this.pageColor|uppercase}}</span>
+            </div>
+            <label class="propertyWindowPaneColorSwatch">
+                <input type="color" aria-label="Diagram page color" [(ngModel)]="this.pageColor" />
+            </label>
+        </div>
+    </section>
 
-    <!-- the 'miscellaneous' section -->
-    <div class="propertyWindowPaneHeader">Miscellaneous</div>
-    <div class="propertyWindowPaneItem">
-        <span class="propertyWindowPaneItemText">Zoom</span>
-        <span
-            class="propertyWindowPaneItemText">{{this.activeDiagramComponent.scrollSettings.currentZoom|percent}}</span>
-    </div>
-    <div class="propertyWindowPaneItem">
-        <span class="propertyWindowPaneItemText">Scroll Offsets</span>
-        <span class="propertyWindowPaneItemText">
-            H: {{this.activeDiagramComponent.scrollSettings.horizontalOffset|number:'1.0-0'}}
-            V: {{this.activeDiagramComponent.scrollSettings.verticalOffset|number:'1.0-0'}}
-        </span>
-    </div>
-    <div class="propertyWindowPaneItem">
-        <span class="propertyWindowPaneItemText">Viewport Size</span>
-        <span class="propertyWindowPaneItemText">
-            W: {{this.activeDiagramComponent.scrollSettings.viewPortWidth|number:'1.0-0'}}
-            H: {{this.activeDiagramComponent.scrollSettings.viewPortHeight|number:'1.0-0'}}
-        </span>
-    </div>
-    <div class="propertyWindowPaneItem">
-        <span class="propertyWindowPaneItemText">Export Size</span>
-        <span class="propertyWindowPaneItemText">
-            W: {{this.activeDiagramComponent.scroller.getPageBounds().width|number:'1.0-0'}}
-            H: {{this.activeDiagramComponent.scroller.getPageBounds().height|number:'1.0-0'}}
-        </span>
-    </div>
+    <section class="propertyWindowPaneGroup">
+        <div class="propertyWindowPaneHeader">Metrics</div>
+        <div class="propertyWindowPaneMetadataGrid">
+            <div class="propertyWindowPaneMetadataChip">
+                <span class="propertyWindowPaneMetadataLabel">Page size</span>
+                <span class="propertyWindowPaneMetadataValue propertyWindowPaneItemMono">W {{this.activeDiagramComponent.pageSettings.width|number:'1.0-0'}} H {{this.activeDiagramComponent.pageSettings.height|number:'1.0-0'}}</span>
+            </div>
+            <div class="propertyWindowPaneMetadataChip">
+                <span class="propertyWindowPaneMetadataLabel">Orientation</span>
+                <span class="propertyWindowPaneMetadataValue propertyWindowPaneItemMono">{{this.activeDiagramComponent.pageSettings.orientation}}</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="propertyWindowPaneGroup">
+        <div class="propertyWindowPaneHeader">Miscellaneous</div>
+        <div class="propertyWindowPaneMetadataGrid">
+            <div class="propertyWindowPaneMetadataChip">
+                <span class="propertyWindowPaneMetadataLabel">Zoom</span>
+                <span class="propertyWindowPaneMetadataValue propertyWindowPaneItemMono">{{this.activeDiagramComponent.scrollSettings.currentZoom|percent}}</span>
+            </div>
+            <div class="propertyWindowPaneMetadataChip">
+                <span class="propertyWindowPaneMetadataLabel">Scroll offsets</span>
+                <span class="propertyWindowPaneMetadataValue propertyWindowPaneItemMono">H {{this.activeDiagramComponent.scrollSettings.horizontalOffset|number:'1.0-0'}} V {{this.activeDiagramComponent.scrollSettings.verticalOffset|number:'1.0-0'}}</span>
+            </div>
+            <div class="propertyWindowPaneMetadataChip">
+                <span class="propertyWindowPaneMetadataLabel">Viewport size</span>
+                <span class="propertyWindowPaneMetadataValue propertyWindowPaneItemMono">W {{this.activeDiagramComponent.scrollSettings.viewPortWidth|number:'1.0-0'}} H {{this.activeDiagramComponent.scrollSettings.viewPortHeight|number:'1.0-0'}}</span>
+            </div>
+            <div class="propertyWindowPaneMetadataChip">
+                <span class="propertyWindowPaneMetadataLabel">Export size</span>
+                <span class="propertyWindowPaneMetadataValue propertyWindowPaneItemMono">W {{this.activeDiagramComponent.scroller.getPageBounds().width|number:'1.0-0'}} H {{this.activeDiagramComponent.scroller.getPageBounds().height|number:'1.0-0'}}</span>
+            </div>
+        </div>
+    </section>
 
 </div>

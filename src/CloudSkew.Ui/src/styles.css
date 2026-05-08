@@ -183,87 +183,473 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 /* ***** Properties Window ***** */
 /* ***************************** */
 .propertyWindowSplitterWrapper {
-    border: 1px solid rgb(224, 224, 224) /* color code matches border color of splitter, sidebar etc */
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin: 16px;
+    padding: 16px;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    background: #ffffff;
+    box-shadow: 0 10px 26px rgba(15, 23, 42, 0.08);
 }
-/* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. 
-*/
-.propertyWindowSplitterWrapper .mat-tab-label {
-    padding: 0px;
-    width: 50%;
-    min-width: 50%;
-    max-width: 50%;
-    font-family: "Roboto Mono",sans-serif;
-    font-size: 13px;
-    font-weight: bold;
+.propertyWindowSplitterWrapper > div:not(.propertyWindowSplitterHeadlineWrapper) {
+    width: 100%;
+}
+.propertyWindowSplitterWrapper mat-divider {
+    display: none;
+}
+.propertyWindowSplitterWrapper .mat-mdc-tab-group {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+.propertyWindowSplitterWrapper .mat-mdc-tab-header {
+    position: sticky;
+    top: 48px;
+    z-index: 1;
+    margin-bottom: 0;
+    padding: 4px;
+    border-bottom: none;
+    border-radius: 12px;
+    background: #f1f5f9;
+}
+.propertyWindowSplitterWrapper .mat-mdc-tab-label-container {
+    border-top: none;
+}
+.propertyWindowSplitterWrapper .mat-mdc-tab-labels {
+    gap: 4px;
+}
+.propertyWindowSplitterWrapper .mat-mdc-tab {
+    min-width: 0;
+    flex: 1 1 0;
+    height: 32px;
+    padding: 0;
+    border-radius: 10px;
+}
+.propertyWindowSplitterWrapper .mat-mdc-tab .mdc-tab-indicator {
+    display: none;
+}
+.propertyWindowSplitterWrapper .mat-mdc-tab .mdc-tab__content {
+    justify-content: center;
+}
+.propertyWindowSplitterWrapper .mat-mdc-tab .mdc-tab__text-label {
+    color: #475569;
+    font-family: "Open Sans",sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+.propertyWindowSplitterWrapper .mat-mdc-tab.mdc-tab--active {
+    background: #ffffff;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
+}
+.propertyWindowSplitterWrapper .mat-mdc-tab.mdc-tab--active .mdc-tab__text-label {
+    color: #0f172a;
+}
+.propertyWindowSplitterWrapper .mat-mdc-tab.mdc-tab--disabled .mdc-tab__text-label {
+    color: #94a3b8;
+}
+.propertyWindowSplitterWrapper .mat-mdc-tab-body-content {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    overflow: hidden;
+    padding-top: 2px;
 }
 .propertyWindowSplitterHeadlineWrapper {
+    position: sticky;
+    top: 0;
+    z-index: 2;
     display: flex;
     justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    padding-bottom: 2px;
+    background: #ffffff;
+}
+.propertyWindowSplitterHeadlineWrapper > div:last-child {
+    display: flex;
+    justify-content: flex-end;
     align-items: center;
 }
 .propertyWindowSplitterHeadlineWrapper .btn .color-success {
-    color: green;
+    color: #0f766e;
 }
 .propertyWindowSplitterHeadlineWrapper .btn .color-warning {
-    color: orange;
+    color: #b45309;
+}
+.propertyWindowSplitterHeadlineWrapper .btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    min-height: 32px;
+    padding: 0 10px;
+    border: 1px solid #dbe4ee;
+    border-radius: 999px;
+    background: #f8fafc;
+    color: #475569;
+    font-family: "Open Sans",sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+}
+.propertyWindowSplitterHeadlineWrapper .btn:focus-visible,
+.propertyWindowPaneSecondaryAction:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(20, 184, 166, 0.45);
+}
+.propertyWindowSplitterHeadlineWrapper .btn:hover {
+    background: #f1f5f9;
+}
+.propertyWindowSplitterHeadlineWrapper .btn:disabled {
+    opacity: 1;
+    cursor: default;
+    color: #64748b;
+}
+.propertyWindowSplitterHeadlineWrapper .btn:has(.color-success) {
+    border-color: rgba(20, 184, 166, 0.18);
+    background: rgba(20, 184, 166, 0.12);
+    color: #0f766e;
+}
+.propertyWindowSplitterHeadlineWrapper .btn:has(.color-warning) {
+    border-color: rgba(245, 158, 11, 0.18);
+    background: rgba(245, 158, 11, 0.14);
+    color: #b45309;
+}
+.propertyWindowSplitterHeadlineWrapper .btn .svg-inline--fa {
+    font-size: 14px;
+}
+.propertyWindowStateText {
+    line-height: 1;
+    white-space: nowrap;
 }
 .propertyWindowSplitterHeadline {
-    font-family: "Roboto Mono",sans-serif;
-    font-weight: bold;
-    font-size: 14px;
+    color: #0f172a;
+    font-family: "Open Sans",sans-serif;
+    font-weight: 700;
+    font-size: 15px;
     text-align: left;
-    padding-left: 5px;
+    line-height: 1.2;
+}
+.propertyWindowPaneContent {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+.propertyWindowPaneContentLocked {
+    opacity: 0.6;
+    filter: saturate(0.85);
+}
+.propertyWindowPaneGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 14px;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    background: linear-gradient(180deg, #ffffff, #fbfdff);
 }
 .propertyWindowPaneHeader {
+    color: #475569;
     font-family: "Open Sans",sans-serif;
-    font-weight: bold;
+    font-weight: 700;
     font-size: 12px;
     text-align: left;
-    margin: 5px 0px 0px 5px;
+    margin: 0;
 }
 .propertyWindowPaneItem {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 5px 15px 5px 5px; /* 15px needed to accommodate the checkbox ripple on hover */
-    min-height: 40px; /* else controls appear too vertically squished */
+    gap: 12px;
+    padding: 0;
+    min-height: 44px;
 }
-.propertyWindowPaneItemText {
+.propertyWindowPaneItemStack {
+    align-items: stretch;
+    flex-direction: column;
+}
+.propertyWindowPaneItemHeading {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+}
+.propertyWindowPaneLabelStack {
+    min-width: 0;
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.propertyWindowPaneItemLabel {
+    color: #0f172a;
+    font-family: "Open Sans",sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.25;
+}
+.propertyWindowPaneItemMeta,
+.propertyWindowPaneItemHelp {
+    color: #64748b;
     font-family: "Open Sans",sans-serif;
     font-size: 11px;
+    font-weight: 600;
+    line-height: 1.35;
 }
-.propertyWindowPaneItemControlWrapper {
-    width: 120px;
-}
-.propertyWindowPaneItem .btn {
+.propertyWindowPaneItemMono {
     font-family: "Roboto Mono",sans-serif;
 }
-/* TODO(mdc-migration): The following rule targets internal classes of slider that may no longer apply for the MDC version. 
-*/
-.propertyWindowPaneItem .mat-slider-horizontal {
-    min-width: 100px;
-    padding: 0px;
+.propertyWindowPaneValuePill {
+    display: inline-flex;
+    align-items: center;
+    min-height: 24px;
+    padding: 0 8px;
+    border-radius: 999px;
+    background: #f1f5f9;
+    color: #334155;
+    font-size: 11px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+.propertyWindowPaneItemText {
+    color: #0f172a;
+    font-family: "Open Sans",sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.35;
+}
+.propertyWindowPaneItem > .propertyWindowPaneItemText:last-child {
+    display: inline-flex;
+    align-items: center;
+    min-height: 24px;
+    padding: 0 8px;
+    border-radius: 999px;
+    background: #f1f5f9;
+    color: #334155;
+    font-family: "Roboto Mono",sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    text-align: right;
+}
+.propertyWindowPaneItemControlWrapper {
+    width: 100%;
+}
+.propertyWindowPaneItem .btn {
+    font-family: "Open Sans",sans-serif;
+}
+.propertyWindowPaneColorSwatch {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    overflow: hidden;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    background: #ffffff;
 }
 .propertyWindowPaneItem input[type=color] {
-    padding: 0px;
-    width: 30px;
+    width: 100%;
+    height: 100%;
+    padding: 0;
     border: none;
+    background: transparent;
+    cursor: pointer;
 }
-/* TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version. 
-*/
+.propertyWindowPaneItem input[type=color]::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+.propertyWindowPaneItem input[type=color]::-webkit-color-swatch {
+    border: none;
+    border-radius: 7px;
+}
+.propertyWindowPaneItem .mat-mdc-slider {
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+    --mdc-slider-active-track-color: #14b8a6;
+    --mdc-slider-focus-active-track-color: #14b8a6;
+    --mdc-slider-hover-active-track-color: #14b8a6;
+    --mdc-slider-handle-color: #14b8a6;
+    --mdc-slider-focus-handle-color: #14b8a6;
+    --mdc-slider-hover-handle-color: #14b8a6;
+    --mdc-slider-inactive-track-color: #cbd5e1;
+    --mdc-slider-with-tick-marks-inactive-container-color: #cbd5e1;
+    --mdc-slider-with-tick-marks-active-container-color: #14b8a6;
+}
+.propertyWindowPaneItem mat-select {
+    display: inline-flex;
+    align-items: center;
+    min-height: 36px;
+    min-width: 124px;
+    padding: 0 12px;
+    border: 1px solid #dbe4ee;
+    border-radius: 10px;
+    background: #ffffff;
+    color: #0f172a;
+    font-family: "Open Sans",sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+}
+.propertyWindowPaneItem mat-select .mat-mdc-select-trigger {
+    align-items: center;
+    gap: 8px;
+}
+.propertyWindowPaneItem mat-select .mat-mdc-select-value-text,
+.propertyWindowPaneItem mat-select .mat-mdc-select-placeholder {
+    color: inherit;
+    font: inherit;
+}
+.propertyWindowPaneItem mat-select .mat-mdc-select-arrow {
+    color: #64748b;
+}
+.propertyWindowPaneItem .mat-button-toggle-group {
+    gap: 4px;
+    padding: 4px;
+    border: none;
+    border-radius: 12px;
+    background: #f1f5f9;
+    align-self: flex-start;
+}
+.propertyWindowPaneItem .mat-button-toggle {
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+}
 .propertyWindowPaneItem .mat-button-toggle-appearance-standard .mat-button-toggle-label-content {
-    /* HACK to ensure that the material icons stay centered in parent button */
     display: flex;
     justify-content: center;
     align-items: center;
-
-    /* HACK to ensure correct sizing & alignment of icons, after much trial & error */
-    /* additional details: https://stackoverflow.com/a/70600372 */
-    height: 26px;
-    padding: 2px 2px;
+    height: 32px;
+    padding: 0 8px;
+    line-height: 32px;
+}
+.propertyWindowPaneItem .mat-button-toggle-checked {
+    background: rgba(20, 184, 166, 0.12);
+    color: #0f766e;
 }
 .propertyWindowPaneItem mat-icon {
-    color: #616161; /* matches with material primary color (see custom-theme.scss file for details) */
+    color: inherit;
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+}
+.propertyWindowPaneItemCheckbox .mat-mdc-checkbox {
+    margin: 0;
+    flex: 0 0 auto;
+}
+.propertyWindowPaneItemCheckbox .mat-mdc-checkbox .mdc-checkbox {
+    width: 42px;
+    height: 24px;
+    padding: 0;
+}
+.propertyWindowPaneItemCheckbox .mat-mdc-checkbox .mat-mdc-checkbox-touch-target,
+.propertyWindowPaneItemCheckbox .mat-mdc-checkbox .mdc-checkbox__native-control {
+    top: 0;
+    left: 0;
+    width: 42px;
+    height: 24px;
+}
+.propertyWindowPaneItemCheckbox .mat-mdc-checkbox .mdc-checkbox__background {
+    position: relative;
+    inset: 0;
+    width: 42px;
+    height: 24px;
+    border: none !important;
+    border-radius: 999px;
+    background: rgba(148, 163, 184, 0.24);
+    transform: none !important;
+}
+.propertyWindowPaneItemCheckbox .mat-mdc-checkbox .mdc-checkbox__background::after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 18px;
+    height: 18px;
+    border-radius: 999px;
+    background: #94a3b8;
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.18);
+    transition: transform 150ms ease, background-color 150ms ease;
+}
+.propertyWindowPaneItemCheckbox .mat-mdc-checkbox.mat-mdc-checkbox-checked .mdc-checkbox__background,
+.propertyWindowPaneItemCheckbox .mat-mdc-checkbox .mdc-checkbox--selected .mdc-checkbox__background {
+    background: rgba(20, 184, 166, 0.18);
+}
+.propertyWindowPaneItemCheckbox .mat-mdc-checkbox.mat-mdc-checkbox-checked .mdc-checkbox__background::after,
+.propertyWindowPaneItemCheckbox .mat-mdc-checkbox .mdc-checkbox--selected .mdc-checkbox__background::after {
+    transform: translateX(18px);
+    background: #14b8a6;
+}
+.propertyWindowPaneItemCheckbox .mat-mdc-checkbox .mdc-checkbox__checkmark,
+.propertyWindowPaneItemCheckbox .mat-mdc-checkbox .mdc-checkbox__mixedmark,
+.propertyWindowPaneItemCheckbox .mat-mdc-checkbox .mat-mdc-checkbox-ripple,
+.propertyWindowPaneItemCheckbox .mat-mdc-checkbox .mdc-checkbox__ripple {
+    display: none;
+}
+.propertyWindowPaneMetadataGrid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.propertyWindowPaneMetadataChip {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: #f1f5f9;
+}
+.propertyWindowPaneMetadataChipWide {
+    flex-basis: 100%;
+}
+.propertyWindowPaneMetadataLabel {
+    color: #64748b;
+    font-family: "Open Sans",sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+.propertyWindowPaneMetadataValue {
+    color: #0f172a;
+    font-size: 12px;
+    font-weight: 500;
+}
+.propertyWindowPaneSecondaryAction {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 36px;
+    padding: 0 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    background: #ffffff;
+    color: #0f172a;
+    font-family: "Open Sans",sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+}
+.propertyWindowPaneSecondaryAction fa-icon {
+    color: #64748b;
+}
+.dropdown-panel-style.mat-mdc-select-panel {
+    padding: 8px;
+    border: 1px solid #dbe4ee;
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: 0 20px 40px rgba(15, 23, 42, 0.14);
+}
+.dropdown-panel-style .mat-mdc-option {
+    min-height: 36px;
+    border-radius: 8px;
+}
+.dropdown-panel-style .mat-mdc-option .mdc-list-item__primary-text {
+    font-family: "Open Sans",sans-serif;
+    font-size: 12px;
+    font-weight: 600;
 }
 
 /* ***** Sidebar Control ***** */
@@ -327,17 +713,22 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 /* ***** Propertiesbar Control ***** */
 /* ********************************* */
 .propertiesbarControl {
-    background-color: white;
+    height: 100%;
+    background: #f8fafc;
+    border-left: 1px solid #dbe4ee;
+    box-shadow: inset 8px 0 18px rgba(15, 23, 42, 0.03);
 }
 .propertiesbarControl .sidebar-item {
-    text-align: center;
-    font-size: 16px;
+    display: block;
+    height: 100%;
+    text-align: left;
+    font-size: inherit;
 }
 .propertiesbarControl .btn:focus { /* prevent the glow/halo around bootstrap buttons immediately after clicking */
     box-shadow: none; 
 }
 .propertiesbarControl .btn:hover {
-    background-color: whitesmoke;
+    background-color: transparent;
 }
 
 /* ***** SnackBar ***** */

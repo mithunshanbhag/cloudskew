@@ -1,4 +1,8 @@
 .diagram-editor {
+    --diagram-editor-sidebar-width: 240px;
+    --diagram-editor-propertiesbar-width: 280px;
+    --diagram-editor-chrome-height: 88px;
+
     /* container for horizontal flexbox items */
     display: flex;
     flex-direction: row;
@@ -60,11 +64,11 @@
 .diagram-editor-maincontent {
     /* vertical flexbox item */
     /* flex-grow: 1; */
-    flex-basis: calc(100vh - 88px);
+    flex-basis: calc(100vh - var(--diagram-editor-chrome-height));
 
     /* dimensions */
     width: 100vw;
-    height: calc(100vh - 88px);
+    height: calc(100vh - var(--diagram-editor-chrome-height));
 
     /* container for horizontal flexbox items */
     display: flex;
@@ -75,15 +79,15 @@
 
 .diagram-editor-sidebar {
     /* horizontal flexbox item */
-    flex-basis: 240px;
+    flex-basis: var(--diagram-editor-sidebar-width);
 
     /* dimensions */
     /* overflow: auto is already used for the grid css, hence not needed here. */
     /* also using overflow: auto again here was causing some maxstack errors (in console). So removed it. */
-    width: 240px;
-    min-width: 240px;
-    max-width: 240px;
-    height: calc(100vh - 88px);
+    width: var(--diagram-editor-sidebar-width);
+    min-width: var(--diagram-editor-sidebar-width);
+    max-width: var(--diagram-editor-sidebar-width);
+    height: calc(100vh - var(--diagram-editor-chrome-height));
 
     /* margin, padding etc */
     padding: 0 5px;
@@ -92,25 +96,25 @@
 .diagram-editor-diagram {
     /* horizontal flexbox item */
     /* flex-grow: 1; */
-    flex-basis: calc(100vw - 460px);
+    flex-basis: calc(100vw - (var(--diagram-editor-sidebar-width) + var(--diagram-editor-propertiesbar-width)));
 
     /* dimensions */
-    width: calc(100vw - 460px);
-    height: calc(100vh - 88px);
+    width: calc(100vw - (var(--diagram-editor-sidebar-width) + var(--diagram-editor-propertiesbar-width)));
+    height: calc(100vh - var(--diagram-editor-chrome-height));
     overflow: auto; /* needed for scrollbar */
 }
 
 .diagram-editor-propertiesbar {
     /* horizontal flexbox item */
-    flex-basis: 220px;
+    flex-basis: var(--diagram-editor-propertiesbar-width);
 
     /* dimensions */
-    width: 220px;
-    min-width: 220px;
-    max-width: 220px;
-    height: calc(100vh - 88px);
+    width: var(--diagram-editor-propertiesbar-width);
+    min-width: var(--diagram-editor-propertiesbar-width);
+    max-width: var(--diagram-editor-propertiesbar-width);
+    height: calc(100vh - var(--diagram-editor-chrome-height));
     overflow: auto; /* needed for scrollbar */
 
     /* margin, padding etc */
-    padding: 0 5px;
+    padding: 0;
 }

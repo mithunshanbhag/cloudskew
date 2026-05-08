@@ -297,6 +297,58 @@ The next pass should keep the same functional controls and menu destinations, bu
 | Lock indicators        | Font Awesome lock/unlock icons; green means locked, orange means unlocked.                                 |
 | Group/canvas glyphs    | Font Awesome object-group and border-all icons.                                                            |
 
+#### Intended Design Refresh
+
+The next pass should keep the same editor variants, data fields, and control behavior, but restyle the right-side inspector into a cleaner, calmer property rail. The design direction should feel closer to a compact MudBlazor-style inspector: better spacing, clearer grouping, more deliberate icon usage, lighter typography, and less visual noise from borders and legacy success/warning colors.
+
+##### Shared Properties Rail
+
+| Area | Intended design change |
+| ---- | ---------------------- |
+| Surface | Evolve the property bar from a plain `220px` strip into a more intentional inspector rail: target `280px` desktop width, `16px` inner padding, `#f8fafc` background, `1px` left border `#dbe4ee`, and a subtle inset shadow so it reads as a separate editing surface without competing with the canvas. |
+| Scroll behavior | Keep the rail vertically scrollable, but make the editor header and tab strip feel pinned to the top of the selected editor card so the current editing context stays visible as the user moves through longer forms. |
+| Editor shell | Each active editor should sit inside a rounded `14px` card with a white background, `1px` border `#e2e8f0`, and restrained shadow. Avoid the current hard splitter box treatment around every block. |
+| Editor header | Replace the dense uppercase header row with a calmer inspector header: left-aligned type label plus optional secondary subtitle, right-aligned state/action affordance, `14px` to `15px` semibold title text, and `12px` muted metadata copy. The header should use `16px` top/bottom padding and establish the editor identity before the controls begin. |
+| Lock state treatment | Keep lock/unlock behavior unchanged, but replace green/orange-only icon emphasis with a compact state pill or icon button inside the header. Locked should read as neutral/teal, unlocked may use soft amber when attention is needed, and destructive emphasis should remain reserved for delete-only actions elsewhere in the app. |
+| Tabs | Restyle `STYLE` / `TEXT` and similar tabs as a segmented control with `32px` height, `10px` radius, subtle neutral background, and a filled active segment. Tab labels should use sentence case or short uppercase labels at `12px` to `13px` semibold, not large mono labels. |
+| Section grouping | Replace heavy divider-driven sections with spaced content groups. Each group should use `12px` to `14px` vertical rhythm, a compact section title, and optional soft container treatment for controls that belong together. |
+| Typography | Use `Inter`, `Open Sans`, or equivalent UI sans-serif for visible labels, section titles, helper text, and button labels. Reserve `Roboto Mono` for technical readouts such as ids, dimensions, z-index values, numeric slider values, and similar metadata. |
+| Spacing rhythm | Increase row breathing room to a consistent `44px` minimum for interactive rows, with tighter `8px` gaps inside compound controls. The inspector should feel dense but not cramped. |
+| Accessibility | Preserve clear focus indication, keep visible controls at least `32px` tall with `44px` touch targets through padding, and ensure muted text still maintains adequate contrast against the light panel surfaces. |
+
+##### Shared Control Treatment
+
+| Area | Intended design change |
+| ---- | ---------------------- |
+| Row layout | Standardize rows into a two-column inspector pattern: label/value content on the left and the primary control on the right. Rows with sliders or longer tool groups may stack into a label row above the control while still maintaining the same spacing language. |
+| Labels and values | Present row labels in `12px` to `13px` semibold UI text with muted secondary values beneath or beside them when helpful. Hex values, ids, sizes, and counts should use `11px` to `12px` `Roboto Mono` badges or inline value pills. |
+| Color inputs | Keep native color input behavior, but wrap the swatch in a `32px` rounded shell with a thin border and pair it with a visible hex value so the control reads as deliberate rather than browser-default. |
+| Sliders | Pair each slider with a trailing numeric badge and use more consistent spacing between the label, track, and value. The current functionality and ranges stay the same; only the shell, spacing, and value presentation change. |
+| Toggle groups | Restyle icon toggle groups for border styles, text styling, decoration, alignment, and distribution as `32px` high segmented controls with `8px` radius, `18px` icons, light neutral background, and teal-tinted active states. |
+| Selects and dropdowns | Use the same rounded input shell for connector source/target selects and any future dropdowns: `36px` height, white background, `1px` border `#dbe4ee`, left-aligned text, and a quieter caret treatment. |
+| Checkboxes | Keep current checkbox behavior but align labels and controls more cleanly, with the checkbox aligned to the row baseline and enough spacing that binary settings do not feel squeezed. |
+| Read-only metadata | Treat id, dimensions, z-index, zoom, viewport size, and element counts as read-only metadata rows using subdued surface chips instead of plain text pairs. These rows should scan quickly and feel secondary to editable controls. |
+| Secondary actions | Actions such as Resource Documentation should use a compact secondary button with icon + label, matching the dialog and menu refresh language rather than raw Bootstrap button styling. |
+| Icons | Prefer Material Symbols Outlined for active editor controls and row-leading glyphs. Keep Font Awesome only where there is already a strong semantic dependency, such as group/canvas identity or resource-doc info affordances. |
+
+##### Editor Family Mapping
+
+| Editor family | Intended treatment |
+| ------------- | ------------------ |
+| Basic shape / image / native symbol | Use the same shared shell and section rhythm for Fill, Border, Style, and Miscellaneous rows. Shape-like editors should look like siblings, with the only visual differences being the sections that are present and whether a documentation action row is shown. |
+| Connector | Keep connector editors visually closest to shape editors, but give Source and Target select rows equal visual weight with the line-style controls. Text annotation controls should feel identical to text-editor controls so the connector label experience does not look like a separate design system. |
+| Text | Make the text editor the reference treatment for typography controls: color rows, style toggles, decoration, alignment, and font-size slider should feel especially polished because these controls are repeated across other editors. |
+| Group / multi-selection | Present alignment and distribution commands as wider tool clusters with consistent icon sizing and more balanced button spacing. These editors should feel action-oriented rather than form-oriented, with read-only counts and dimensions clearly separated below the action groups. |
+| Diagram canvas | Treat the canvas inspector as a settings panel: page toggles first, page metrics second, viewport/export metadata last. Read-only metrics should use quieter metadata chips so the editable toggles remain the primary focus. |
+| Empty and disabled states | Disabled tabs and controls should stay visible but muted, using lighter foreground and reduced contrast rather than disappearing. This keeps the available editor structure understandable even when a specific section is temporarily inactive. |
+
+##### Reference Mockups
+
+| Mockup | Path | Purpose |
+| ------ | ---- | ------- |
+| Property editor shell | `docs/ui-mockups/CloudSkewUiPropertyEditorShell/` | Shows the intended right-rail shell, header, tabs, grouped rows, sliders, toggles, color input treatment, and metadata chips for the main shape-style editing flow. |
+| Property editor variants | `docs/ui-mockups/CloudSkewUiPropertyEditorVariants/` | Shows the intended treatment for connector, text, group/multi-selection, and diagram-canvas editors so the shared design language stays consistent across the different editor families. |
+
 ### Dialogs, Notifications, And Feedback
 
 | Surface                       | Width or style                     | Details                                                                                                                   |

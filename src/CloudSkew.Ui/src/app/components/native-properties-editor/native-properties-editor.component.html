@@ -1,144 +1,189 @@
 <div class="propertyWindowSplitterWrapper">
 
   <div class="propertyWindowSplitterHeadlineWrapper">
-    <div class="propertyWindowSplitterHeadline">SYMBOL</div>
+    <div class="propertyWindowSplitterHeadline">Symbol</div>
     <div>
       @if (this.isLocked()) {
-        <button class="btn" matTooltip="symbol locked (click to unlock)"
+        <button type="button" class="btn" aria-label="Unlock symbol" matTooltip="symbol locked (click to unlock)"
           (click)="this.unlock()">
           <fa-icon class="color-success" [icon]="this.faLockedIcon"></fa-icon>
+          <span class="propertyWindowStateText">Locked</span>
         </button>
       }
       @if (!this.isLocked()) {
-        <button class="btn" matTooltip="symbol unlocked (click to lock)"
+        <button type="button" class="btn" aria-label="Lock symbol" matTooltip="symbol unlocked (click to lock)"
           (click)="this.lock()">
           <fa-icon class="color-warning" [icon]="this.faUnlockedIcon"></fa-icon>
+          <span class="propertyWindowStateText">Unlocked</span>
         </button>
       }
     </div>
   </div>
 
-  @if (!this.isLocked()) {
-    <div>
-      <mat-tab-group dynamicHeight="true" animationDuration="0ms" [disablePagination]="true" [disableRipple]="true">
-        <mat-tab label="STYLE">
-          <!-- The 'style' section -->
+  <div class="propertyWindowPaneContent" [class.propertyWindowPaneContentLocked]="this.isLocked()"
+    [attr.inert]="this.isLocked() ? '' : null" [attr.aria-disabled]="this.isLocked()">
+    <mat-tab-group dynamicHeight="true" animationDuration="0ms" [disablePagination]="true" [disableRipple]="true">
+      <mat-tab label="Style">
+        <section class="propertyWindowPaneGroup">
           <div class="propertyWindowPaneHeader">Style</div>
-          <div class="propertyWindowPaneItem">
-            <span class="propertyWindowPaneItemText">Opacity:
-            {{this.activeNativeSymbol.style.opacity|percent}}</span>
+          <div class="propertyWindowPaneItem propertyWindowPaneItemStack">
+            <div class="propertyWindowPaneItemHeading">
+              <div class="propertyWindowPaneLabelStack">
+                <span class="propertyWindowPaneItemLabel">Opacity</span>
+              </div>
+              <span class="propertyWindowPaneValuePill propertyWindowPaneItemMono">{{this.activeNativeSymbol.style.opacity|percent}}</span>
+            </div>
             <mat-slider color="primary" [min]="this.opacitySliderMin" [max]="this.opacitySliderMax"
-              [step]="this.opacitySliderStep" #ngSlider><input matSliderThumb [value]="this.activeNativeSymbol.style.opacity" (input)="this.onOpacityChange({source: ngSliderThumb, parent: ngSlider, value: ngSliderThumb.value})" #ngSliderThumb="matSliderThumb" />
+              [step]="this.opacitySliderStep" #ngSlider>
+              <input matSliderThumb aria-label="Symbol opacity" [value]="this.activeNativeSymbol.style.opacity"
+                (input)="this.onOpacityChange({source: ngSliderThumb, parent: ngSlider, value: ngSliderThumb.value})"
+                #ngSliderThumb="matSliderThumb" />
             </mat-slider>
           </div>
-          <mat-divider></mat-divider>
-          <!-- the 'miscellaneous' section -->
+        </section>
+
+        <section class="propertyWindowPaneGroup">
           <div class="propertyWindowPaneHeader">Miscellaneous</div>
-          <div class="propertyWindowPaneItem">
-            <span class="propertyWindowPaneItemText">Lock Aspect Ratio</span>
-            <mat-checkbox color="primary" [checked]="this.isSymbolAspectRatioLocked" [disableRipple]="true"
-            (change)="this.onSymbolAspectRatioLockChange($event)"></mat-checkbox>
+          <div class="propertyWindowPaneItem propertyWindowPaneItemCheckbox">
+            <div class="propertyWindowPaneLabelStack">
+              <span class="propertyWindowPaneItemLabel">Lock aspect ratio</span>
+            </div>
+            <mat-checkbox aria-label="Lock symbol aspect ratio" color="primary" [checked]="this.isSymbolAspectRatioLocked"
+              [disableRipple]="true" (change)="this.onSymbolAspectRatioLockChange($event)"></mat-checkbox>
           </div>
-          <div class="propertyWindowPaneItem">
-            <span class="propertyWindowPaneItemText">Id</span>
-            <span class="propertyWindowPaneItemText">{{this.activeNativeSymbol.id}}</span>
+          <div class="propertyWindowPaneMetadataGrid">
+            <div class="propertyWindowPaneMetadataChip">
+              <span class="propertyWindowPaneMetadataLabel">Dimensions</span>
+              <span class="propertyWindowPaneMetadataValue propertyWindowPaneItemMono">W {{this.activeNativeSymbol.width.toFixed(0) }} H {{this.activeNativeSymbol.height.toFixed(0) }}</span>
+            </div>
+            <div class="propertyWindowPaneMetadataChip">
+              <span class="propertyWindowPaneMetadataLabel">Z-index</span>
+              <span class="propertyWindowPaneMetadataValue propertyWindowPaneItemMono">{{this.activeNativeSymbol.zIndex}}</span>
+            </div>
+            <div class="propertyWindowPaneMetadataChip propertyWindowPaneMetadataChipWide">
+              <span class="propertyWindowPaneMetadataLabel">Id</span>
+              <span class="propertyWindowPaneMetadataValue propertyWindowPaneItemMono">{{this.activeNativeSymbol.id}}</span>
+            </div>
           </div>
-          <div class="propertyWindowPaneItem">
-            <span class="propertyWindowPaneItemText">Z-Index</span>
-            <span class="propertyWindowPaneItemText">{{this.activeNativeSymbol.zIndex}}</span>
-          </div>
-          <div class="propertyWindowPaneItem">
-            <span class="propertyWindowPaneItemText">Dimensions</span>
-            <span class="propertyWindowPaneItemText">W: {{this.activeNativeSymbol.width.toFixed(0) }} H:
-            {{this.activeNativeSymbol.height.toFixed(0) }}</span>
-          </div>
-          <!-- the change to inject 'hasDocs' property into the metadata was done on 6/12/2020 -->
-          <!-- older diagrams will not have this property in the symbol metadata. -->
           @if (this.symbolMetadata?.hasDocs) {
             <div class="propertyWindowPaneItem">
-              <span class="propertyWindowPaneItemText">Resource Documentation</span>
-              <button class="btn btn-light btn-outline-dark btn-sm"
+              <div class="propertyWindowPaneLabelStack">
+                <span class="propertyWindowPaneItemLabel">Resource documentation</span>
+              </div>
+              <button type="button" class="btn propertyWindowPaneSecondaryAction" aria-label="Open resource documentation"
                 (click)="this.onResourceDocumentationInfoGlyphClick()">
                 <fa-icon [icon]="this.faInfoIcon"></fa-icon>
+                <span>Open</span>
               </button>
             </div>
           }
-        </mat-tab>
-        <mat-tab label="TEXT"
-          [disabled]="this.activeNativeSymbol.annotations.length === 0 || this.activeNativeSymbol.annotations[0].content === ''">
-          <!-- the 'label/annotation' section -->
+        </section>
+      </mat-tab>
+      <mat-tab label="Text"
+        [disabled]="this.activeNativeSymbol.annotations.length === 0 || this.activeNativeSymbol.annotations[0].content === ''">
+        <section class="propertyWindowPaneGroup">
+          <div class="propertyWindowPaneHeader">Text</div>
           <div class="propertyWindowPaneItem">
-            <span class="propertyWindowPaneItemText">Color: {{this.annotationTextColor|uppercase}}</span>
-            <input type="color" [(ngModel)]="this.annotationTextColor" />
+            <div class="propertyWindowPaneLabelStack">
+              <span class="propertyWindowPaneItemLabel">Color</span>
+              <span class="propertyWindowPaneItemMeta propertyWindowPaneItemMono">{{this.annotationTextColor|uppercase}}</span>
+            </div>
+            <label class="propertyWindowPaneColorSwatch">
+              <input type="color" aria-label="Symbol annotation text color" [(ngModel)]="this.annotationTextColor" />
+            </label>
           </div>
           <div class="propertyWindowPaneItem">
-            <span class="propertyWindowPaneItemText">Background:
-            {{this.annotationBackgroundColor|uppercase}}</span>
-            <input type="color" [(ngModel)]="this.annotationBackgroundColor" />
+            <div class="propertyWindowPaneLabelStack">
+              <span class="propertyWindowPaneItemLabel">Background</span>
+              <span class="propertyWindowPaneItemMeta propertyWindowPaneItemMono">{{this.annotationBackgroundColor|uppercase}}</span>
+            </div>
+            <label class="propertyWindowPaneColorSwatch">
+              <input type="color" aria-label="Symbol annotation background color" [(ngModel)]="this.annotationBackgroundColor" />
+            </label>
           </div>
-          <div class="propertyWindowPaneItem">
-            <span class="propertyWindowPaneItemText">Styling</span>
+          <div class="propertyWindowPaneItem propertyWindowPaneItemStack">
+            <div class="propertyWindowPaneItemHeading">
+              <div class="propertyWindowPaneLabelStack">
+                <span class="propertyWindowPaneItemLabel">Styling</span>
+              </div>
+            </div>
             <mat-button-toggle-group multiple>
-              <mat-button-toggle matTooltip="Bold" [checked]="this.isAnnotationTextBold"
+              <mat-button-toggle aria-label="Bold symbol annotation text" matTooltip="Bold" [checked]="this.isAnnotationTextBold"
                 [disableRipple]="true" (click)="this.onAnnotationBoldButtonClick()">
                 <mat-icon fontSet="material-icons-outlined">format_bold</mat-icon>
               </mat-button-toggle>
-              <mat-button-toggle matTooltip="Italic" [checked]="this.isAnnotationTextItalic"
+              <mat-button-toggle aria-label="Italic symbol annotation text" matTooltip="Italic" [checked]="this.isAnnotationTextItalic"
                 [disableRipple]="true" (click)="this.onAnnotationItalicButtonClick()">
                 <mat-icon fontSet="material-icons-outlined">format_italic</mat-icon>
               </mat-button-toggle>
             </mat-button-toggle-group>
           </div>
-          <div class="propertyWindowPaneItem">
-            <span class="propertyWindowPaneItemText">Decoration</span>
+          <div class="propertyWindowPaneItem propertyWindowPaneItemStack">
+            <div class="propertyWindowPaneItemHeading">
+              <div class="propertyWindowPaneLabelStack">
+                <span class="propertyWindowPaneItemLabel">Decoration</span>
+              </div>
+            </div>
             <mat-button-toggle-group [(ngModel)]="this.annotationTextDecoration">
-              <mat-button-toggle [value]="this.annotationDecorationUnderLine"
+              <mat-button-toggle aria-label="Underline symbol annotation text" [value]="this.annotationDecorationUnderLine"
                 [matTooltip]="this.annotationDecorationUnderLine" [disableRipple]="true">
                 <mat-icon fontSet="material-icons-outlined">format_underlined</mat-icon>
               </mat-button-toggle>
-              <mat-button-toggle [value]="this.annotationDecorationLineThrough"
+              <mat-button-toggle aria-label="Strikethrough symbol annotation text" [value]="this.annotationDecorationLineThrough"
                 [matTooltip]="this.annotationDecorationLineThrough" [disableRipple]="true">
                 <mat-icon fontSet="material-icons-outlined">format_strikethrough</mat-icon>
               </mat-button-toggle>
-              <mat-button-toggle [value]="this.annotationDecorationOverLine"
+              <mat-button-toggle aria-label="Overline symbol annotation text" [value]="this.annotationDecorationOverLine"
                 [matTooltip]="this.annotationDecorationOverLine" [disableRipple]="true">
                 <mat-icon fontSet="material-icons-outlined">format_overline</mat-icon>
               </mat-button-toggle>
-              <mat-button-toggle [value]="this.annotationDecorationNone"
+              <mat-button-toggle aria-label="Clear symbol annotation decoration" [value]="this.annotationDecorationNone"
                 [matTooltip]="this.annotationDecorationNone" [disableRipple]="true">
                 <mat-icon fontSet="material-icons-outlined">title</mat-icon>
               </mat-button-toggle>
             </mat-button-toggle-group>
           </div>
-          <div class="propertyWindowPaneItem">
-            <span class="propertyWindowPaneItemText">Alignment</span>
+          <div class="propertyWindowPaneItem propertyWindowPaneItemStack">
+            <div class="propertyWindowPaneItemHeading">
+              <div class="propertyWindowPaneLabelStack">
+                <span class="propertyWindowPaneItemLabel">Alignment</span>
+              </div>
+            </div>
             <mat-button-toggle-group [(ngModel)]="this.annotationTextAlignment">
-              <mat-button-toggle [value]="this.annotationAlignmentLeft"
+              <mat-button-toggle aria-label="Align symbol annotation left" [value]="this.annotationAlignmentLeft"
                 [matTooltip]="this.annotationAlignmentLeft" [disableRipple]="true">
                 <mat-icon fontSet="material-icons-outlined">format_align_left</mat-icon>
               </mat-button-toggle>
-              <mat-button-toggle [value]="this.annotationAlignmentCenter"
+              <mat-button-toggle aria-label="Align symbol annotation center" [value]="this.annotationAlignmentCenter"
                 [matTooltip]="this.annotationAlignmentCenter" [disableRipple]="true">
                 <mat-icon fontSet="material-icons-outlined">format_align_center</mat-icon>
               </mat-button-toggle>
-              <mat-button-toggle [value]="this.annotationAlignmentRight"
+              <mat-button-toggle aria-label="Align symbol annotation right" [value]="this.annotationAlignmentRight"
                 [matTooltip]="this.annotationAlignmentRight" [disableRipple]="true">
                 <mat-icon fontSet="material-icons-outlined">format_align_right</mat-icon>
               </mat-button-toggle>
-              <mat-button-toggle [value]="this.annotationAlignmentJustify"
+              <mat-button-toggle aria-label="Justify symbol annotation text" [value]="this.annotationAlignmentJustify"
                 [matTooltip]="this.annotationAlignmentJustify" [disableRipple]="true">
                 <mat-icon fontSet="material-icons-outlined">format_align_justify</mat-icon>
               </mat-button-toggle>
             </mat-button-toggle-group>
           </div>
-          <div class="propertyWindowPaneItem">
-            <span class="propertyWindowPaneItemText">Size: {{this.annotationFontSize}}</span>
+          <div class="propertyWindowPaneItem propertyWindowPaneItemStack">
+            <div class="propertyWindowPaneItemHeading">
+              <div class="propertyWindowPaneLabelStack">
+                <span class="propertyWindowPaneItemLabel">Size</span>
+              </div>
+              <span class="propertyWindowPaneValuePill propertyWindowPaneItemMono">{{this.annotationFontSize}}</span>
+            </div>
             <mat-slider color="primary" [min]="this.annotationFontSizeSliderMin"
-              [max]="this.annotationFontSizeSliderMax" [step]="this.annotationFontSizeSliderStep" #ngSlider><input matSliderThumb [value]="this.annotationFontSize" (input)="onAnnotationFontSizeChange({source: ngSliderThumb, parent: ngSlider, value: ngSliderThumb.value})" #ngSliderThumb="matSliderThumb" />
+              [max]="this.annotationFontSizeSliderMax" [step]="this.annotationFontSizeSliderStep" #ngSlider>
+              <input matSliderThumb aria-label="Symbol annotation font size" [value]="this.annotationFontSize"
+                (input)="onAnnotationFontSizeChange({source: ngSliderThumb, parent: ngSlider, value: ngSliderThumb.value})"
+                #ngSliderThumb="matSliderThumb" />
             </mat-slider>
           </div>
-        </mat-tab>
-      </mat-tab-group>
-    </div>
-  }
+        </section>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
 </div>

@@ -1,74 +1,89 @@
 <div class="propertyWindowSplitterWrapper">
 
     <div class="propertyWindowSplitterHeadlineWrapper">
-        <div class="propertyWindowSplitterHeadline">MULTI SELECTION</div>
+        <div class="propertyWindowSplitterHeadline">Multi selection</div>
         <div>
-            <button class="btn" disabled>
+            <button type="button" class="btn" aria-label="Multi-selection summary" disabled>
                 <fa-icon [icon]="this.faGroupIcon"></fa-icon>
+                <span class="propertyWindowStateText">{{this.activeMultiSelection.length}} items</span>
             </button>
         </div>
     </div>
-    <mat-divider></mat-divider>
 
-    <!-- the 'alignment' section -->
-    <div class="propertyWindowPaneHeader">Alignment</div>
-    <div class="propertyWindowPaneItem">
-        <span class="propertyWindowPaneItemText">Vertical</span>
-        <mat-button-toggle-group (change)="onAlignmentChange($event)">
-            <mat-button-toggle matTooltip="Align Vertical Top" [disableRipple]="true" [value]="this.alignVerticalTop">
-                <mat-icon fontSet="material-icons-outlined">align_vertical_top</mat-icon>
-            </mat-button-toggle>
-            <mat-button-toggle matTooltip="Align Vertical Center" [disableRipple]="true"
-                [value]="this.alignVerticalCenter">
-                <mat-icon fontSet="material-icons-outlined">align_vertical_center</mat-icon>
-            </mat-button-toggle>
-            <mat-button-toggle matTooltip="Align Vertical Bottom" [disableRipple]="true"
-                [value]="this.alignVerticalBottom">
-                <mat-icon fontSet="material-icons-outlined">align_vertical_bottom</mat-icon>
-            </mat-button-toggle>
-        </mat-button-toggle-group>
-    </div>
-    <div class="propertyWindowPaneItem">
-        <span class="propertyWindowPaneItemText">Horizontal</span>
-        <mat-button-toggle-group (change)="onAlignmentChange($event)">
-            <mat-button-toggle matTooltip="Align Horizontal Left" [disableRipple]="true"
-                [value]="this.alignHorizontalLeft">
-                <mat-icon fontSet="material-icons-outlined">align_horizontal_left</mat-icon>
-            </mat-button-toggle>
-            <mat-button-toggle matTooltip="Align Horizontal Center" [disableRipple]="true"
-                [value]="this.alignHorizontalCenter">
-                <mat-icon fontSet="material-icons-outlined">align_horizontal_center</mat-icon>
-            </mat-button-toggle>
-            <mat-button-toggle matTooltip="Align Horizontal Right" [disableRipple]="true"
-                [value]="this.alignHorizontalRight">
-                <mat-icon fontSet="material-icons-outlined">align_horizontal_right</mat-icon>
-            </mat-button-toggle>
-        </mat-button-toggle-group>
-    </div>
-    <mat-divider></mat-divider>
+    <section class="propertyWindowPaneGroup">
+        <div class="propertyWindowPaneHeader">Alignment</div>
+        <div class="propertyWindowPaneItem propertyWindowPaneItemStack">
+            <div class="propertyWindowPaneItemHeading">
+                <div class="propertyWindowPaneLabelStack">
+                    <span class="propertyWindowPaneItemLabel">Vertical</span>
+                </div>
+            </div>
+            <mat-button-toggle-group (change)="onAlignmentChange($event)">
+                <mat-button-toggle aria-label="Align selection vertically to top" matTooltip="Align Vertical Top" [disableRipple]="true" [value]="this.alignVerticalTop">
+                    <mat-icon fontSet="material-icons-outlined">align_vertical_top</mat-icon>
+                </mat-button-toggle>
+                <mat-button-toggle aria-label="Align selection vertically to center" matTooltip="Align Vertical Center" [disableRipple]="true"
+                    [value]="this.alignVerticalCenter">
+                    <mat-icon fontSet="material-icons-outlined">align_vertical_center</mat-icon>
+                </mat-button-toggle>
+                <mat-button-toggle aria-label="Align selection vertically to bottom" matTooltip="Align Vertical Bottom" [disableRipple]="true"
+                    [value]="this.alignVerticalBottom">
+                    <mat-icon fontSet="material-icons-outlined">align_vertical_bottom</mat-icon>
+                </mat-button-toggle>
+            </mat-button-toggle-group>
+        </div>
+        <div class="propertyWindowPaneItem propertyWindowPaneItemStack">
+            <div class="propertyWindowPaneItemHeading">
+                <div class="propertyWindowPaneLabelStack">
+                    <span class="propertyWindowPaneItemLabel">Horizontal</span>
+                </div>
+            </div>
+            <mat-button-toggle-group (change)="onAlignmentChange($event)">
+                <mat-button-toggle aria-label="Align selection horizontally to left" matTooltip="Align Horizontal Left" [disableRipple]="true"
+                    [value]="this.alignHorizontalLeft">
+                    <mat-icon fontSet="material-icons-outlined">align_horizontal_left</mat-icon>
+                </mat-button-toggle>
+                <mat-button-toggle aria-label="Align selection horizontally to center" matTooltip="Align Horizontal Center" [disableRipple]="true"
+                    [value]="this.alignHorizontalCenter">
+                    <mat-icon fontSet="material-icons-outlined">align_horizontal_center</mat-icon>
+                </mat-button-toggle>
+                <mat-button-toggle aria-label="Align selection horizontally to right" matTooltip="Align Horizontal Right" [disableRipple]="true"
+                    [value]="this.alignHorizontalRight">
+                    <mat-icon fontSet="material-icons-outlined">align_horizontal_right</mat-icon>
+                </mat-button-toggle>
+            </mat-button-toggle-group>
+        </div>
+    </section>
 
-    <!-- the 'distribution' section -->
-    <div class="propertyWindowPaneHeader">Distribution</div>
-    <div class="propertyWindowPaneItem">
-        <span class="propertyWindowPaneItemText">Distribution</span>
-        <mat-button-toggle-group (change)="onDistributionChange($event)">
-            <mat-button-toggle matTooltip="Distribute Vertically" [disableRipple]="true"
-                [value]="this.distributeVertically">
-                <mat-icon fontSet="material-icons-outlined">vertical_distribute</mat-icon>
-            </mat-button-toggle>
-            <mat-button-toggle matTooltip="Distribute Horizontally" [disableRipple]="true"
-                [value]="this.distributeHorizontally">
-                <mat-icon fontSet="material-icons-outlined">horizontal_distribute</mat-icon>
-            </mat-button-toggle>
-        </mat-button-toggle-group>
-    </div>
-    <mat-divider></mat-divider>
+    <section class="propertyWindowPaneGroup">
+        <div class="propertyWindowPaneHeader">Distribution</div>
+        <div class="propertyWindowPaneItem propertyWindowPaneItemStack">
+            <div class="propertyWindowPaneItemHeading">
+                <div class="propertyWindowPaneLabelStack">
+                    <span class="propertyWindowPaneItemLabel">Distribution</span>
+                </div>
+            </div>
+            <mat-button-toggle-group (change)="onDistributionChange($event)">
+                <mat-button-toggle aria-label="Distribute selection vertically" matTooltip="Distribute Vertically" [disableRipple]="true"
+                    [value]="this.distributeVertically">
+                    <mat-icon fontSet="material-icons-outlined">vertical_distribute</mat-icon>
+                </mat-button-toggle>
+                <mat-button-toggle aria-label="Distribute selection horizontally" matTooltip="Distribute Horizontally" [disableRipple]="true"
+                    [value]="this.distributeHorizontally">
+                    <mat-icon fontSet="material-icons-outlined">horizontal_distribute</mat-icon>
+                </mat-button-toggle>
+            </mat-button-toggle-group>
+        </div>
+    </section>
 
-    <!-- the 'miscellaneous' section -->
-    <div class="propertyWindowPaneHeader">Miscellaneous</div>
-    <div class="propertyWindowPaneItem">
-        <span class="propertyWindowPaneItemText">Element Count</span>
-        <span class="propertyWindowPaneItemText">{{this.activeMultiSelection.length}}</span>
-    </div>
+    <section class="propertyWindowPaneGroup">
+        <div class="propertyWindowPaneHeader">Miscellaneous</div>
+        <div class="propertyWindowPaneMetadataGrid">
+            <div class="propertyWindowPaneMetadataChip">
+                <span class="propertyWindowPaneMetadataLabel">Element count</span>
+                <span class="propertyWindowPaneMetadataValue propertyWindowPaneItemMono">{{this.activeMultiSelection.length}}</span>
+            </div>
+        </div>
+    </section>
 
 </div>
