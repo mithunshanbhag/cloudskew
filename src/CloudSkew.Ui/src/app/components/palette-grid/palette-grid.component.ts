@@ -141,6 +141,7 @@ export class PaletteGridComponent implements OnInit, OnDestroy {
         symbolGroupId: args.groupId,
         symbolFamilyId: args.familyId,
       } as IResourceDocumentationRequest,
+      width: UIConstants.resourceDocumentationDialogWidth,
     } as MatDialogConfig<IResourceDocumentationRequest>);
   }
 

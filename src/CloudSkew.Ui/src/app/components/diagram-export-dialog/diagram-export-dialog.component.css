@@ -1,19 +1,33 @@
 .diagram-export-options-dialog-content {
-    margin: 5px 5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 40px;
+    margin: 0 0 10px;
+    padding: 0 12px;
+    border: 1px solid #dbe4ee;
+    border-radius: 10px;
+    background: #f8fafc;
 }
 .diagram-export-options-dialog-content input {
-    vertical-align: middle;
-    margin: 0 0;
+    flex: 0 0 auto;
+    margin: 0;
+    accent-color: #14b8a6;
 }
 .diagram-export-options-dialog-content label {
-    font-family: "Roboto Mono",sans-serif;
+    color: #0f172a;
+    font-family: "Open Sans",sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.4;
     vertical-align: middle;
-    margin: 0 5px;
+    margin: 0;
 }
 .diagram-export-options-validator-messages {
-    margin-top: 5px;
-    margin-bottom: 15px;
-    font-size: 9px;
-    font-style: italic;
-    color: red;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    color: #dc2626;
+    font-family: "Open Sans",sans-serif;
+    font-size: 12px;
+    line-height: 1.4;
 }

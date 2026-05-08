@@ -313,6 +313,56 @@ The next pass should keep the same functional controls and menu destinations, bu
 | Dialog content                | Open Sans, `12px`, centered        | `.windowContent`.                                                                                                         |
 | Snackbars                     | 30-second duration, Dismiss action | Warning, error, and success panel classes are defined in `src/styles.css`; info uses the default Material snackbar panel. |
 
+#### Intended Design Refresh
+
+Dialogs should keep their existing titles, messages, action labels, and control content exactly as they are today. The refresh is visual only: simpler spacing, calmer color, lighter typography, and a more minimal modal shell.
+
+##### Shared Dialog Shell
+
+| Area | Intended design change |
+| ---- | ---------------------- |
+| Placement | Center dialogs in the viewport with a soft dark backdrop (`rgba(15, 23, 42, 0.42)`) and comfortable inset spacing. The dialog itself should remain the focal point. |
+| Container | Use a plain white surface with `12px` to `14px` radius, a subtle neutral border (`#e2e8f0`), and a restrained shadow so the dialog feels clean rather than dramatic. |
+| Header | Keep the title simple and unadorned. Use a UI sans-serif (`Inter`, `Open Sans`, or equivalent) at `16px` to `18px`, semibold, with no eyebrow label, badge, or decorative copy. |
+| Body | Use left-aligned content with `13px` body text, normal weight, muted slate foreground (`#475569`), and modest spacing. Do not add any new helper paragraphs, summary cards, or metadata blocks. |
+| Footer | Keep actions on a quiet footer row with `12px` gaps, a subtle top divider only when needed, and stable button sizing so progress states do not shift layout. |
+| Scrolling | Cap taller dialogs around `80vh` and keep overflow inside the content area only. |
+| Motion | If motion is used, keep it subtle and fast; the dialog should feel immediate and lightweight. |
+
+##### Dialog Controls And Content Patterns
+
+| Area | Intended design change |
+| ---- | ---------------------- |
+| Buttons | Standardize actions to `34px` to `36px` height with `8px` to `10px` radius. Default buttons should be neutral; destructive actions may use a restrained red emphasis, but only on the primary destructive action itself. |
+| Icons | Optional dialog icons should be small, quiet, and single-purpose. Avoid icon tiles, alert cards, or any extra decorative treatment that adds weight. |
+| Radios and checkboxes | Style selection controls with cleaner spacing, clearer label alignment, and subtle selected states, but keep the structure simple and compact. |
+| File input and upload | Keep the file picker minimal: a bordered control row, neutral background, and consistent typography. Do not introduce dropzones, chips, badges, or extra instructional labels beyond the copy already present in the implementation. |
+| Links and reference lists | Keep links and grouped rows visually tidy with subtle spacing and muted dividers, without adding extra labels or explanatory text. |
+| Helper and validation text | Retain only the existing helper or validation copy. Improve clarity through font size, weight, color, and spacing rather than by adding new wording. |
+| Progress treatment | Keep export, print, and destructive action spinners inside the same button frame so the action bar stays stable while work is in progress. |
+
+##### Dialog Family Mapping
+
+| Dialog family | Intended treatment |
+| ------------- | ------------------ |
+| Compact destructive | Delete and replace/reset flows should stay compact and visually quiet, using only the existing title, message, and two actions. Recommended width: `360px` to `400px`. |
+| Compact choice | Export and print flows should keep their current option content, but use cleaner vertical rhythm and lighter selection styling. Recommended width: `320px` to `360px`. |
+| Extended file input | Import JSON and image upload flows should remain wider (`560px` to `600px`) but visually sparse: title, existing helper text, input control, and footer only. |
+| Selection/reference | Symbol preferences and resource documentation dialogs should keep their existing content model and use spacing, typography, and dividers for structure rather than new UI chrome. |
+
+##### Notification Treatment
+
+| Surface | Intended design change |
+| ------- | ---------------------- |
+| Snackbars | Keep the existing warning/error/success categories, but use slightly softer surfaces and cleaner typography so they feel related to the dialog refresh without becoming visually busy. |
+
+##### Reference Mockups
+
+| Mockup | Path | Purpose |
+| ------ | ---- | ------- |
+| Compact confirmation dialog | `docs/ui-mockups/CloudSkewUiDialogConfirmation/` | Shows the intended minimal shell, restrained destructive styling, and unchanged reset/replace confirmation copy. |
+| Extended file-input dialog | `docs/ui-mockups/CloudSkewUiDialogImport/` | Shows the intended minimal shell, unchanged import copy, and a simplified file-input treatment for import/upload workflows. |
+
 ### Iconography
 
 | Icon system              | Usage                                                                                                                                                                                                           |

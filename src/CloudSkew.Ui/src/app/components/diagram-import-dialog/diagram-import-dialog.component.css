@@ -1,4 +1,6 @@
-input[type="file"] {
-    width: 100%;
-    font-family: "Open Sans",sans-serif;
+.dialogControlRow {
+    padding: 14px 16px;
+    border: 1px solid #dbe4ee;
+    border-radius: 10px;
+    background: #f8fafc;
 }

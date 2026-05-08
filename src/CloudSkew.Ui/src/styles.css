@@ -14,23 +14,170 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 /* *********************************** */
 .defaultFlexbox {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
-    font-family: "Roboto Mono",sans-serif;
+    gap: 10px;
+    font-family: "Open Sans",sans-serif;
 }
 
-/* ***** Dialog Header, Content & Footer ***** */
-/* ******************************************* */
-.e-dlg-header .windowHeaderText, .windowHeaderText { /* usage: use with <span> tag */
-    font-family: "Roboto Mono",sans-serif;
-    font-size: 18px;
+/* ***** Angular Material Dialogs ***** */
+/* ************************************ */
+.cloudskew-dialog-backdrop.cdk-overlay-backdrop.cdk-overlay-backdrop-showing {
+    background: rgba(15, 23, 42, 0.42);
 }
-.e-dlg-content .windowContent, .windowContent {
+
+.cloudskew-dialog-panel .mat-mdc-dialog-container .mdc-dialog__surface {
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    background: #ffffff;
+    box-shadow: 0 18px 48px rgba(15, 23, 42, 0.16);
+    overflow: hidden;
+}
+
+.cloudskew-dialog-panel .mat-mdc-dialog-title.windowHeaderText,
+.e-dlg-header .windowHeaderText,
+.windowHeaderText { /* usage: use with <span> tag */
+    display: block;
+    margin: 0;
+    padding: 22px 24px 8px;
+    color: #0f172a;
+    font-family: "Open Sans",sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 1.3;
+}
+
+.cloudskew-dialog-panel .mat-mdc-dialog-content,
+.e-dlg-content .windowContent,
+.windowContent {
+    color: #475569;
+    font-family: "Open Sans",sans-serif;
+    font-size: 13px;
+    line-height: 1.55;
+}
+
+.cloudskew-dialog-panel .mat-mdc-dialog-content {
+    margin: 0;
+    padding: 0 24px 22px;
+}
+
+.windowContent {
+    margin: 0;
+    text-align: left;
+}
+
+.windowContent + .windowContent {
+    margin-top: 14px;
+}
+
+.windowContent span {
+    display: block;
+}
+
+.cloudskew-dialog-panel .mat-mdc-dialog-actions.defaultFlexbox {
+    min-height: 0;
+    margin: 0;
+    padding: 14px 24px 20px;
+    border-top: 1px solid #e2e8f0;
+    background: #ffffff;
+}
+
+.cloudskew-dialog-panel .mat-mdc-dialog-actions .mat-mdc-outlined-button.mat-mdc-button-base {
+    min-width: 88px;
+    height: 36px;
+    padding: 0 14px;
+    border-color: #dbe4ee;
+    border-radius: 9px;
+    background: #f8fafc;
+    color: #0f172a;
     font-family: "Open Sans",sans-serif;
     font-size: 12px;
-    vertical-align: middle;
-    text-align: center; 
-    margin: 20px auto; 
+    font-weight: 600;
+    letter-spacing: 0.04em;
+}
+
+.cloudskew-dialog-panel .mat-mdc-dialog-actions .mat-mdc-outlined-button.mat-warn {
+    border-color: rgba(220, 38, 38, 0.18);
+    background: #fef2f2;
+    color: #dc2626;
+}
+
+.cloudskew-dialog-panel .mat-mdc-dialog-actions .mat-mdc-outlined-button.mat-mdc-button-disabled {
+    opacity: 0.6;
+}
+
+.cloudskew-dialog-panel .mat-mdc-dialog-actions .mat-mdc-outlined-button .mdc-button__label {
+    font: inherit;
+}
+
+.cloudskew-dialog-panel input[type=file] {
+    width: 100%;
+    color: #0f172a;
+    font-family: "Open Sans",sans-serif;
+    font-size: 13px;
+}
+
+.cloudskew-dialog-panel input[type=file]::file-selector-button {
+    height: 32px;
+    margin-right: 12px;
+    padding: 0 12px;
+    border: 1px solid rgba(20, 184, 166, 0.2);
+    border-radius: 8px;
+    background: rgba(20, 184, 166, 0.08);
+    color: #0f766e;
+    font-family: "Open Sans",sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.cloudskew-dialog-panel ejs-uploader .e-upload {
+    display: block;
+    padding: 14px 16px;
+    border: 1px solid #dbe4ee;
+    border-radius: 10px;
+    background: #f8fafc;
+}
+
+.cloudskew-dialog-panel ejs-uploader .e-upload .e-file-select,
+.cloudskew-dialog-panel ejs-uploader .e-upload .e-file-drop { /* hide the drop area */
+    display: none;
+}
+
+.cloudskew-dialog-panel ejs-uploader span.e-file-container {
+    font-family: "Open Sans",sans-serif;
+}
+
+.cloudskew-dialog-panel ejs-uploader.e-control .e-upload-files .e-file-container .e-progress-inner-wrap .e-upload-progress {
+    background: #14b8a6;
+}
+
+.cloudskew-dialog-panel ejs-uploader button.e-css.e-btn {
+    padding: 0;
+    border: 0;
+    margin: 0;
+    box-shadow: none;
+    background: none;
+}
+
+.cloudskew-dialog-panel ejs-uploader span.e-icons.e-file-abort-btn,
+.cloudskew-dialog-panel ejs-uploader span.e-icons.e-file-delete-btn {
+    visibility: hidden;
+}
+
+.cloudskew-dialog-panel .dialog-file-select-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 32px;
+    padding: 0 12px;
+    border: 1px solid rgba(20, 184, 166, 0.2);
+    border-radius: 8px;
+    background: rgba(20, 184, 166, 0.08);
+    color: #0f766e;
+    font-family: "Open Sans",sans-serif;
+    font-size: 12px;
+    font-weight: 600;
 }
 
 /* ***** Properties Window ***** */
@@ -196,16 +343,16 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 /* ***** SnackBar ***** */
 /* ******************** */
 .snack-bar-warning {
-    color: black;
-    background-color: rgb(139, 122, 91);
+    color: #422006;
+    background-color: #fef3c7;
 }
 .snack-bar-error {
-    color: black;
-    background-color: rgb(226, 139, 139);
+    color: #7f1d1d;
+    background-color: #fee2e2;
 }
 .snack-bar-success {
-    color: black;
-    background-color: rgb(58, 129, 58);
+    color: #14532d;
+    background-color: #dcfce7;
 }
 
 /* ***** Diagram Control Menus ***** */

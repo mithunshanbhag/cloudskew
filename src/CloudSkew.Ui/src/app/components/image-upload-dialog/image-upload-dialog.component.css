@@ -1,27 +1,3 @@
-
-ejs-uploader .e-upload .e-file-select, .e-upload .e-file-drop { /* hide the drop area */
-    display: none;
-}
-
-ejs-uploader span.e-file-container { /* all text in upload control should have similar styling */
-    font-family: "Open Sans",sans-serif;
-}
-
-ejs-uploader.e-control .e-upload-files .e-file-container .e-progress-inner-wrap .e-upload-progress { /* progress bar color */
-    background: black;
-}
-
-ejs-uploader button.e-css.e-btn { /* hide control's built-in button styling (since we want to use bootstrap buttons) */
+.dialogControlRow {
     padding: 0;
-    border: 0;
-    margin: 0;
-    box-shadow: none;
-    background: none;
-}
-
-ejs-uploader span.e-icons.e-file-abort-btn { /* hide the 'abort' button (displayed while upload is in progress) */
-    visibility: hidden;
-}
-ejs-uploader span.e-icons.e-file-delete-btn { /* hide the 'remove' button (displayed after successful upload) */
-    visibility: hidden;
 }

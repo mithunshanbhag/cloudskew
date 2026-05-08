@@ -36,7 +36,7 @@ export class ImageUploadDialogComponent implements OnInit, OnDestroy {
       'span',
       {
         innerHTML: 'BROWSE',
-        className: 'btn btn-sm btn-outline-dark',
+        className: 'dialog-file-select-button',
       }),
   };
   uploaderAllowedExtensions = '.jpg, .jpeg, .png';

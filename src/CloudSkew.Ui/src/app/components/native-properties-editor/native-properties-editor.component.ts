@@ -6,6 +6,7 @@ import { faEllipsisH, faLock, faUnlock } from '@fortawesome/free-solid-svg-icons
 import { TextAlign, TextDecoration, TextStyleModel } from '@syncfusion/ej2-angular-diagrams';
 import { NodeModel } from '@syncfusion/ej2-diagrams';
 import { ISymbolMetadata } from 'src/app/interfaces/symbol-metadata';
+import { UIConstants } from 'src/app/constants/ui-constants';
 import { SymbolHelper } from 'src/app/utilities/symbol-helper';
 import { IResourceDocumentationRequest } from '../../interfaces/resource-documentation-request';
 import { ResourceDocumentationDialogComponent } from '../resource-documentation-dialog/resource-documentation-dialog.component';
@@ -141,6 +142,7 @@ export class NativePropertiesEditorComponent {
         symbolGroupId: symbolMetadata.symbolGroupId,
         symbolFamilyId: symbolMetadata.symbolFamilyId,
       } as IResourceDocumentationRequest,
+      width: UIConstants.resourceDocumentationDialogWidth,
     } as MatDialogConfig<IResourceDocumentationRequest>);
   }
 

@@ -18,28 +18,28 @@ export class UIConstants {
     public static readonly diagramControlSymbolDefaultOffsetY = 50;
 
     // diagram delete confirmation dialog
-    public static readonly diagramDeleteConfirmationDialogWidth = '300px';
+    public static readonly diagramDeleteConfirmationDialogWidth = '380px';
 
     // diagram export options dialog
-    public static readonly diagramExportOptionsDialogWidth = '250px';
+    public static readonly diagramExportOptionsDialogWidth = '340px';
 
     // diagram import options dialog
-    public static readonly diagramImportOptionsDialogWidth = '600px';
+    public static readonly diagramImportOptionsDialogWidth = '580px';
 
     // diagram print options dialog
-    public static readonly diagramPrintOptionsDialogWidth = '300px';
+    public static readonly diagramPrintOptionsDialogWidth = '340px';
 
     // diagram replacement confirmation dialog
-    public static readonly diagramReplaceConfirmationDialogWidth = '350px';
+    public static readonly diagramReplaceConfirmationDialogWidth = '400px';
 
     // image upload options dialog
-    public static readonly imageUploadOptionsDialogWidth = '600px';
+    public static readonly imageUploadOptionsDialogWidth = '580px';
 
     // resource documentation dialog
-    public static readonly resourceDocumentationDialogWidth = '350px';
+    public static readonly resourceDocumentationDialogWidth = '420px';
 
     // symbol preferences dialog
-    public static readonly symbolPreferencesDialogWidth = '360px';
+    public static readonly symbolPreferencesDialogWidth = '420px';
 
     // thumbnail preview image
     // note: the width and height are actually in pixels, but the 'px' is not
