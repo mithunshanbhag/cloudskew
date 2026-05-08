@@ -10,8 +10,7 @@
     "start": "node --max_old_space_size=8000 ./node_modules/@angular/cli/bin/ng serve",
     "build": "node --max_old_space_size=8000 ./node_modules/@angular/cli/bin/ng build",
     "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e"
+    "lint": "ng lint"
   },
   "private": true,
   "dependencies": {
@@ -53,19 +52,16 @@
     "@angular/language-service": "^21.2.12",
     "@eslint/js": "^10.0.1",
     "@types/jasmine": "^6.0.0",
-    "@types/jasminewd2": "^2.0.13",
     "@typescript-eslint/eslint-plugin": "^8.59.2",
     "@typescript-eslint/parser": "^8.59.2",
     "angular-eslint": "^21.3.1",
     "eslint": "^10.3.0",
     "jasmine-core": "^6.2.0",
-    "jasmine-spec-reporter": "~7.0.0",
     "karma": "^6.3.9",
     "karma-chrome-launcher": "^3.2.0",
     "karma-coverage-istanbul-reporter": "~3.0.2",
     "karma-jasmine": "^5.1.0",
     "karma-jasmine-html-reporter": "^2.2.0",
-    "protractor": "~7.0.0",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.59.2"
   }

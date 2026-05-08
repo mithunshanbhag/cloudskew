@@ -14,3 +14,5 @@
 - `src\CloudSkew.Ui\` no longer supports the obsolete per-diagram attached document editor; `documentDetails` flow and the Syncfusion rich text editor dependency were removed, while the separate Resource Documentation popups remain.
 - The `CloudSkew.Ui` app builds and lints successfully from `src\CloudSkew.Ui\` with `npm run build` and `npm run lint`.
 - `src\CloudSkew.Ui\` now uses a single active-diagram model: the My Diagrams sidebar is gone, `/editor/:id` is removed, IndexedDB keeps one active diagram record, create/import confirm before replacing it, and delete resets the current canvas to a blank diagram.
+- `src\CloudSkew.Landing\` no longer keeps the obsolete Express Universal scaffold; prerendering uses `src\main.server.ts` and `AppServerModule`, while the old `server.ts`, `tsconfig.server.json`, and broken `run.local.sh` were removed.
+- `src\CloudSkew.Ui\` no longer includes the legacy Protractor scaffold; the tracked `e2e\` folder, `ng e2e` target, and Protractor-only devDependencies were removed, so validation there is `npm run build` and `npm run lint`.
