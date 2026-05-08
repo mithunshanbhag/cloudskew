@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 
 //
-export type SidebarType = 'none' | 'palette' | 'create' | 'diagram' | 'extension' | 'preference';
+export type SidebarType = 'none' | 'palette' | 'create' | 'extension' | 'preference';
 
 
 @Injectable({

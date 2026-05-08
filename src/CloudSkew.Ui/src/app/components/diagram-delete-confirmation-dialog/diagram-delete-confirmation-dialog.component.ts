@@ -1,6 +1,4 @@
-import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { DiagramDTO } from 'src/app/models/dto/diagramDTO';
+import { Component } from '@angular/core';
 
 @Component({
     selector: 'app-diagram-delete-confirmation-dialog',
@@ -8,9 +6,4 @@ import { DiagramDTO } from 'src/app/models/dto/diagramDTO';
     styles: [],
     standalone: false
 })
-export class DiagramDeleteConfirmationDialogComponent {
-
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public diagram: DiagramDTO,
-  ) { }
-}
+export class DiagramDeleteConfirmationDialogComponent { }

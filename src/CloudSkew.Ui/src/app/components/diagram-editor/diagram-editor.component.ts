@@ -1,17 +1,16 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, of, Subject } from 'rxjs';
-import { filter, map, mergeMap, takeUntil, tap } from 'rxjs/operators';
+import { filter, map, mergeMap, takeUntil } from 'rxjs/operators';
 import { AnonymousUserConstants } from 'src/app/constants/anonymous-user-constants';
 import { NewUserConstants } from 'src/app/constants/new-user-constants';
-import { RouteConstants } from 'src/app/constants/route-constants';
 import { SymbolFamilyConstants } from 'src/app/constants/symbol-family-constants';
 import { UIConstants } from 'src/app/constants/ui-constants';
 import { UserProfileDTO } from 'src/app/models/dto/userProfileDTO';
 import { DiagramDTO } from '../../models/dto/diagramDTO';
 import { APIService } from '../../services/api.service';
+import { ActiveDiagramService } from '../../services/active-diagram.service';
 import { SessionService } from '../../services/session.service';
 import { DiagramControlsService } from '../diagram-controls/diagram-controls.service';
 import { DiagramDeleteConfirmationDialogComponent } from '../diagram-delete-confirmation-dialog/diagram-delete-confirmation-dialog.component';
@@ -29,21 +28,22 @@ import { IUserProfileChangedEventArgs, StatusbarService } from '../statusbar/sta
 export class DiagramEditorComponent implements OnInit, OnDestroy {
 
   //
-  diagram$: Observable<DiagramDTO> = new Observable<DiagramDTO>();
+  diagram$: Observable<DiagramDTO>;
 
   //
   private onDestroy$: Subject<void> = new Subject<void>();
 
   constructor(
+    private activeDiagramService: ActiveDiagramService,
     private apiService: APIService,
     private diagramService: DiagramService,
     private diagramControlsService: DiagramControlsService,
     private dialog: MatDialog,
-    private route: ActivatedRoute,
-    private router: Router,
     private sessionService: SessionService,
     private statusbarService: StatusbarService,
   ) {
+    this.diagram$ = this.activeDiagramService.activeDiagram$
+      .pipe(filter((diagram): diagram is DiagramDTO => !!diagram));
   }
 
   ngOnInit() {
@@ -59,9 +59,8 @@ export class DiagramEditorComponent implements OnInit, OnDestroy {
 
   onDiagramDeleteButtonClick(diagram: DiagramDTO) {
     const dialogRef = this.dialog.open(DiagramDeleteConfirmationDialogComponent, {
-      data: diagram,
       width: UIConstants.diagramDeleteConfirmationDialogWidth,
-    } as MatDialogConfig<DiagramDTO>);
+    } as MatDialogConfig);
 
     dialogRef.afterClosed()
       .pipe(
@@ -109,36 +108,17 @@ export class DiagramEditorComponent implements OnInit, OnDestroy {
   //#region private helper methods
 
   private initialize() {
-    this.route.paramMap
+    this.apiService.diagramGetAsync(this.sessionService.user)
       .pipe(takeUntil(this.onDestroy$))
-      .subscribe(params => {
-        const id = params.get('id');
-        if (id) {
-
-          // if a diagram is specified on route, then fetch it.
-          this.diagram$ = this.apiService.diagramGetAsync(this.sessionService.user, id)
-            .pipe(
-              filter(apiResponse => !apiResponse.error),
-              map(apiResponse => apiResponse.dto),
-            );
-
-        } else {
-
-          // fetch last updated diagram. If none exists, create a new diagram for user
-          this.apiService.diagramGetLastUpdatedAsync(this.sessionService.user)
-            .pipe(
-              mergeMap(apiResponse => (!apiResponse.error && !apiResponse.dto)
-                ? this.apiService.diagramCreateBlankAsync(this.sessionService.user)
-                : of(apiResponse)
-              ),
-              filter(apiResponse => !apiResponse.error),
-              map(apiResponse => apiResponse.dto),
-              takeUntil(this.onDestroy$)
-            )
-            .subscribe(dto => this.router.navigate([RouteConstants.editor, dto.id]));
-
-        }
-      });
+      .pipe(
+        mergeMap(apiResponse => (!apiResponse.error && !apiResponse.dto)
+          ? this.apiService.diagramCreateBlankAsync(this.sessionService.user)
+          : of(apiResponse)
+        ),
+        filter(apiResponse => !apiResponse.error),
+        map(apiResponse => apiResponse.dto),
+      )
+      .subscribe(dto => this.activeDiagramService.setActiveDiagram(dto));
   }
 
 
@@ -202,18 +182,19 @@ export class DiagramEditorComponent implements OnInit, OnDestroy {
       deleteInProgress: true,
     });
 
-    this.apiService.diagramDeleteAsync(diagram.emailMD5, diagram.id)
+    this.apiService.diagramCreateBlankAsync(diagram.emailMD5)
       .pipe(
-        tap(() => this.diagramControlsService.request({
-          kind: 'IDiagramControlsDeleteArgs',
-          deleteInProgress: false,
-        })),
         filter(apiResponse => !apiResponse.error),
         map(apiResponse => apiResponse.dto),
         takeUntil(this.onDestroy$)
       )
-      // a page reload (will automatically fetch next 'last updated' diagram)
-      .subscribe(() => this.router.navigate([RouteConstants.root]));
+      .subscribe(dto => {
+        this.diagramControlsService.request({
+          kind: 'IDiagramControlsDeleteArgs',
+          deleteInProgress: false,
+        });
+        this.activeDiagramService.setActiveDiagram(dto);
+      });
   }
 
   //#endregion private helper methods

@@ -1,7 +1,6 @@
 export class DiagramDTO {
 
     constructor(
-        public id: string,
         public name: string,
         public notes?: string,
         public visibility?: string,

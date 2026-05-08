@@ -6,7 +6,6 @@ import { environment } from '../../environments/environment';
 import { ErrorMessageConstants } from '../constants/error-message-constants';
 import { UrlConstants } from '../constants/url-constants';
 import { APIResponse } from '../interfaces/api-response';
-import { DiagramCompactDTO } from '../models/dto/diagramCompactDTO';
 import { DiagramDTO } from '../models/dto/diagramDTO';
 import { DiagramImportDTO } from '../models/dto/diagramImportDTO';
 import { ImageGenerationRequestDTO } from '../models/dto/imageGenerationRequestDTO';
@@ -89,39 +88,12 @@ export class APIService {
 
   //#region diagrams
 
-  // get last updated diagram
-  diagramGetLastUpdatedAsync(user: string)
+  // get the active diagram for a user
+  diagramGetAsync(user: string)
     : Observable<APIResponse<DiagramDTO>> {
-    return from(this.localApiStorageService.diagramGetLastUpdatedAsync(user)).pipe(
-      map(dto => this.handleOptionalSuccess<DiagramDTO>(dto)),
-      catchError((err, source) => this.handleError<DiagramDTO>(err, ErrorMessageConstants.diagramGetError))
-    );
-  }
-
-  // list all diagrams belonging to a user.
-  diagramsListAsync(user: string)
-    : Observable<APIResponse<DiagramCompactDTO[]>> {
-    return from(this.localApiStorageService.diagramsListAsync(user)).pipe(
-      map(dto => this.handleSuccess<DiagramCompactDTO[]>(dto)),
-      catchError((err, source) => this.handleError<DiagramCompactDTO[]>(err, ErrorMessageConstants.diagramsListError))
-    );
-  }
-
-  // get specific diagram by id.
-  diagramGetAsync(user: string, diagramId: string)
-    : Observable<APIResponse<DiagramDTO>> {
-    return from(this.localApiStorageService.diagramGetAsync(user, diagramId)).pipe(
+    return from(this.localApiStorageService.diagramGetAsync(user)).pipe(
       map(dto => dto ? this.handleSuccess<DiagramDTO>(dto) : this.handleNotFound<DiagramDTO>()),
       catchError((err, source) => this.handleError<DiagramDTO>(err, ErrorMessageConstants.diagramGetError))
-    );
-  }
-
-  // get specific diagram by name.
-  diagramGetByNameAsync(user: string, diagramName: string)
-    : Observable<APIResponse<DiagramCompactDTO>> {
-    return from(this.localApiStorageService.diagramGetByNameAsync(user, diagramName)).pipe(
-      map(dto => dto ? this.handleSuccess<DiagramCompactDTO>(dto) : this.handleNotFound<DiagramCompactDTO>()),
-      catchError((err, source) => this.handleError<DiagramCompactDTO>(err, ErrorMessageConstants.diagramGetError))
     );
   }
 
@@ -144,20 +116,11 @@ export class APIService {
   }
 
   // modify existing diagram
-  diagramUpdateAsync(user: string, existingDiagramId: string, modifiedDiagram: DiagramDTO)
+  diagramUpdateAsync(user: string, modifiedDiagram: DiagramDTO)
     : Observable<APIResponse<null>> {
-    return from(this.localApiStorageService.diagramUpdateAsync(user, existingDiagramId, modifiedDiagram)).pipe(
+    return from(this.localApiStorageService.diagramUpdateAsync(user, modifiedDiagram)).pipe(
       map(() => this.handleSuccess<null>(null)),
       catchError((err, source) => this.handleError<null>(err, ErrorMessageConstants.diagramUpdateError))
-    );
-  }
-
-  // delete existing diagram
-  diagramDeleteAsync(user: string, diagramId: string)
-    : Observable<APIResponse<null>> {
-    return from(this.localApiStorageService.diagramDeleteAsync(user, diagramId)).pipe(
-      map(() => this.handleSuccess<null>(null)),
-      catchError((err, source) => this.handleError<null>(err, ErrorMessageConstants.diagramDeleteError))
     );
   }
 
@@ -176,11 +139,10 @@ export class APIService {
     );
   }
 
-  uploadThumbnailAsync(user: string, diagramId: string, imageGenerationRequest: ImageGenerationRequestDTO)
+  uploadThumbnailAsync(user: string, imageGenerationRequest: ImageGenerationRequestDTO)
     : Observable<APIResponse<null>> {
     return from(this.localApiStorageService.diagramUpdateThumbnailAsync(
       user,
-      diagramId,
       this.getLocalThumbnailUrl(imageGenerationRequest),
     )).pipe(
       map(() => this.handleSuccess<null>(null)),
@@ -226,10 +188,6 @@ export class APIService {
         statusText: 'Not Found',
       })
     };
-  }
-
-  private handleOptionalSuccess<T>(val?: T): APIResponse<T> {
-    return { dto: val };
   }
 
   private handleSuccess<T>(val: T): APIResponse<T> {

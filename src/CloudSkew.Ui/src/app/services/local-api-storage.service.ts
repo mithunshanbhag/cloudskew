@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AnonymousUserConstants } from '../constants/anonymous-user-constants';
 import { NewUserConstants } from '../constants/new-user-constants';
-import { DiagramCompactDTO } from '../models/dto/diagramCompactDTO';
 import { DiagramDTO } from '../models/dto/diagramDTO';
 import { DiagramImportDTO } from '../models/dto/diagramImportDTO';
 import { UserProfileDTO } from '../models/dto/userProfileDTO';
@@ -11,9 +10,10 @@ import { UserProfileDTO } from '../models/dto/userProfileDTO';
 })
 export class LocalApiStorageService {
   private readonly databaseName = 'cloudskew-local';
-  private readonly databaseVersion = 2;
+  private readonly databaseVersion = 3;
   private readonly userProfilesStoreName = 'userProfiles';
-  private readonly diagramsStoreName = 'diagrams';
+  private readonly activeDiagramsStoreName = 'activeDiagrams';
+  private readonly legacyDiagramsStoreName = 'diagrams';
 
   private databasePromise?: Promise<IDBDatabase>;
 
@@ -57,37 +57,15 @@ export class LocalApiStorageService {
     await this.userProfileSaveAsync(profile);
   }
 
-  async diagramGetLastUpdatedAsync(user: string): Promise<DiagramDTO | undefined> {
-    const diagrams = await this.getUserDiagrams(user);
-    return diagrams
-      .sort((left, right) => this.getTicks(right.lastUpdatedUTC) - this.getTicks(left.lastUpdatedUTC))[0];
-  }
-
-  async diagramsListAsync(user: string): Promise<DiagramCompactDTO[]> {
-    const diagrams = await this.getUserDiagrams(user);
-    return diagrams
-      .sort((left, right) => this.getTicks(right.lastUpdatedUTC) - this.getTicks(left.lastUpdatedUTC))
-      .map(diagram => this.toDiagramCompactDTO(diagram));
-  }
-
-  async diagramGetAsync(user: string, diagramId: string): Promise<DiagramDTO | undefined> {
-    const diagram = await this.get<DiagramDTO>(this.diagramsStoreName, diagramId);
+  async diagramGetAsync(user: string): Promise<DiagramDTO | undefined> {
+    const diagram = await this.get<DiagramDTO>(this.activeDiagramsStoreName, user);
     return diagram && diagram.emailMD5 === user ? diagram : undefined;
-  }
-
-  async diagramGetByNameAsync(user: string, diagramName: string): Promise<DiagramCompactDTO | undefined> {
-    const normalizedName = this.normalizeName(diagramName);
-    const diagrams = await this.getUserDiagrams(user);
-    const diagram = diagrams.find(item => this.normalizeName(item.name) === normalizedName);
-    return diagram ? this.toDiagramCompactDTO(diagram) : undefined;
   }
 
   async diagramCreateBlankAsync(user: string): Promise<DiagramDTO> {
     const now = new Date();
-    const diagramName = await this.getUniqueDiagramName(user, 'Untitled Diagram');
     const diagram = new DiagramDTO(
-      this.createId(),
-      diagramName,
+      'Untitled Diagram',
       undefined,
       'private',
       undefined,
@@ -96,16 +74,14 @@ export class LocalApiStorageService {
       user,
     );
 
-    await this.put(this.diagramsStoreName, diagram);
+    await this.put(this.activeDiagramsStoreName, diagram);
     return diagram;
   }
 
   async diagramImportAsync(user: string, sourceDiagram: DiagramImportDTO): Promise<DiagramDTO> {
     const now = new Date();
-    const diagramName = await this.getUniqueDiagramName(user, this.removeJsonExtension(sourceDiagram.name || 'Imported Diagram'));
     const diagram = new DiagramDTO(
-      this.createId(),
-      diagramName,
+      this.removeJsonExtension(sourceDiagram.name || 'Imported Diagram'),
       sourceDiagram.notes,
       'private',
       sourceDiagram.diagramDetails,
@@ -114,95 +90,38 @@ export class LocalApiStorageService {
       user,
     );
 
-    await this.put(this.diagramsStoreName, diagram);
+    await this.put(this.activeDiagramsStoreName, diagram);
     return diagram;
   }
 
-  async diagramUpdateAsync(user: string, existingDiagramId: string, modifiedDiagram: DiagramDTO): Promise<void> {
+  async diagramUpdateAsync(user: string, modifiedDiagram: DiagramDTO): Promise<void> {
     const diagram = {
       ...modifiedDiagram,
-      id: existingDiagramId,
       emailMD5: user,
       lastUpdatedUTC: new Date(),
       visibility: modifiedDiagram.visibility || 'private',
     } as DiagramDTO;
 
-    await this.put(this.diagramsStoreName, diagram);
+    await this.put(this.activeDiagramsStoreName, diagram);
   }
 
-  async diagramDeleteAsync(user: string, diagramId: string): Promise<void> {
-    const diagram = await this.diagramGetAsync(user, diagramId);
-    if (diagram) {
-      await this.delete(this.diagramsStoreName, diagramId);
-    }
-  }
-
-  async diagramUpdateThumbnailAsync(user: string, diagramId: string, thumbnailUrl?: string): Promise<void> {
-    const diagram = await this.diagramGetAsync(user, diagramId);
+  async diagramUpdateThumbnailAsync(user: string, thumbnailUrl?: string): Promise<void> {
+    const diagram = await this.diagramGetAsync(user);
     if (!diagram) {
       return;
     }
 
     diagram.thumbnailUrl = thumbnailUrl || diagram.thumbnailUrl;
     diagram.lastUpdatedUTC = new Date();
-    await this.put(this.diagramsStoreName, diagram);
-  }
-
-  private async getUserDiagrams(user: string): Promise<DiagramDTO[]> {
-    const diagrams = await this.getAll<DiagramDTO>(this.diagramsStoreName);
-    return diagrams.filter(diagram => diagram.emailMD5 === user);
-  }
-
-  private toDiagramCompactDTO(diagram: DiagramDTO): DiagramCompactDTO {
-    return new DiagramCompactDTO(
-      diagram.id,
-      diagram.name,
-      diagram.notes,
-      diagram.visibility,
-      diagram.thumbnailUrl,
-      diagram.lastUpdatedUTC,
-      diagram.emailMD5,
-    );
-  }
-
-  private async getUniqueDiagramName(user: string, requestedName: string): Promise<string> {
-    const existingNames = (await this.getUserDiagrams(user)).map(diagram => this.normalizeName(diagram.name));
-    return this.getUniqueName(requestedName, existingNames);
-  }
-
-  private getUniqueName(requestedName: string, existingNames: string[]): string {
-    const baseName = (requestedName || 'Untitled Diagram').trim();
-    let candidate = baseName;
-    let suffix = 2;
-
-    while (existingNames.includes(this.normalizeName(candidate))) {
-      candidate = `${baseName} ${suffix}`;
-      suffix++;
-    }
-
-    return candidate;
+    await this.put(this.activeDiagramsStoreName, diagram);
   }
 
   private removeJsonExtension(fileName: string): string {
     return fileName.replace(/\.json$/i, '');
   }
 
-  private normalizeName(name: string): string {
-    return (name || '').trim().toLocaleLowerCase();
-  }
-
   private getTicks(date: Date | string | undefined): number {
     return date ? new Date(date).getTime() : 0;
-  }
-
-  private createId(): string {
-    return crypto.randomUUID
-      ? crypto.randomUUID()
-      : 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, token => {
-        const random = Math.random() * 16 | 0;
-        const value = token === 'x' ? random : (random & 0x3 | 0x8);
-        return value.toString(16);
-      });
   }
 
   private async openDatabase(): Promise<IDBDatabase> {
@@ -212,8 +131,26 @@ export class LocalApiStorageService {
 
         request.onupgradeneeded = () => {
           const database = request.result;
+          const transaction = request.transaction;
           this.createStore(database, this.userProfilesStoreName, 'emailMD5');
-          this.createStore(database, this.diagramsStoreName, 'id');
+
+          if (database.objectStoreNames.contains(this.legacyDiagramsStoreName) && transaction) {
+            const legacyStore = transaction.objectStore(this.legacyDiagramsStoreName);
+            const getAllRequest = legacyStore.getAll();
+
+            getAllRequest.onsuccess = () => {
+              const migratedDiagram = this.selectDiagramForMigration(getAllRequest.result as ILegacyDiagramRecord[]);
+              database.deleteObjectStore(this.legacyDiagramsStoreName);
+              this.createStore(database, this.activeDiagramsStoreName, 'emailMD5');
+
+              if (migratedDiagram) {
+                transaction.objectStore(this.activeDiagramsStoreName).put(migratedDiagram);
+              }
+            };
+          } else {
+            this.createStore(database, this.activeDiagramsStoreName, 'emailMD5');
+          }
+
           if (database.objectStoreNames.contains('templates')) {
             database.deleteObjectStore('templates');
           }
@@ -234,6 +171,25 @@ export class LocalApiStorageService {
     }
   }
 
+  private selectDiagramForMigration(diagrams: ILegacyDiagramRecord[]): DiagramDTO | undefined {
+    const latestDiagram = [...diagrams]
+      .sort((left, right) => this.getTicks(right.lastUpdatedUTC) - this.getTicks(left.lastUpdatedUTC))[0];
+
+    if (!latestDiagram) {
+      return undefined;
+    }
+
+    return new DiagramDTO(
+      latestDiagram.name || 'Untitled Diagram',
+      latestDiagram.notes,
+      latestDiagram.visibility || 'private',
+      latestDiagram.diagramDetails,
+      latestDiagram.thumbnailUrl,
+      latestDiagram.lastUpdatedUTC ? new Date(latestDiagram.lastUpdatedUTC) : undefined,
+      latestDiagram.emailMD5 || AnonymousUserConstants.emailMD5,
+    );
+  }
+
   private async get<T>(storeName: string, key: IDBValidKey): Promise<T | undefined> {
     return this.request<T | undefined>(storeName, 'readonly', store => store.get(key));
   }
@@ -244,10 +200,6 @@ export class LocalApiStorageService {
 
   private async put<T>(storeName: string, value: T): Promise<void> {
     await this.request<IDBValidKey>(storeName, 'readwrite', store => store.put(value));
-  }
-
-  private async delete(storeName: string, key: IDBValidKey): Promise<void> {
-    await this.request<undefined>(storeName, 'readwrite', store => store.delete(key));
   }
 
   private async request<T>(
@@ -268,4 +220,15 @@ export class LocalApiStorageService {
       transaction.onabort = () => reject(transaction.error);
     });
   }
+}
+
+interface ILegacyDiagramRecord {
+  id?: string;
+  name?: string;
+  notes?: string;
+  visibility?: string;
+  diagramDetails?: string;
+  thumbnailUrl?: string;
+  lastUpdatedUTC?: Date | string;
+  emailMD5?: string;
 }

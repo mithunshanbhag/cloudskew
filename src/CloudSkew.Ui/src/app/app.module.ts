@@ -30,17 +30,14 @@ import { ConnectorPropertiesEditorComponent } from './components/connector-prope
 import { CreateDiagramPaneComponent } from './components/create-diagram-pane/create-diagram-pane.component';
 import { DiagramControlsComponent } from './components/diagram-controls/diagram-controls.component';
 import { DiagramDeleteConfirmationDialogComponent } from './components/diagram-delete-confirmation-dialog/diagram-delete-confirmation-dialog.component';
-import { DiagramEditorDeactivateGuard } from './components/diagram-editor/diagram-editor-deactivate.guard';
 import { DiagramEditorComponent } from './components/diagram-editor/diagram-editor.component';
 import { DiagramExportDialogComponent } from './components/diagram-export-dialog/diagram-export-dialog.component';
 import { DiagramImportDialogComponent } from './components/diagram-import-dialog/diagram-import-dialog.component';
 import { DiagramNameEditorComponent } from './components/diagram-name-editor/diagram-name-editor.component';
-import { DiagramPreviewComponent } from './components/diagram-preview/diagram-preview.component';
 import { DiagramPrintDialogComponent } from './components/diagram-print-dialog/diagram-print-dialog.component';
 import { DiagramPropertiesEditorComponent } from './components/diagram-properties-editor/diagram-properties-editor.component';
-import { DiagramSelectorConfirmationDialogComponent } from './components/diagram-selector-confirmation-dialog/diagram-selector-confirmation-dialog.component';
-import { DiagramSelectorGridComponent } from './components/diagram-selector-grid/diagram-selector-grid.component';
 import { DiagramComponent } from './components/diagram/diagram.component';
+import { DiagramReplaceConfirmationDialogComponent } from './components/diagram-replace-confirmation-dialog/diagram-replace-confirmation-dialog.component';
 import { ExtensionGridComponent } from './components/extension-grid/extension-grid.component';
 import { GroupPropertiesEditorComponent } from './components/group-properties-editor/group-properties-editor.component';
 import { ImagePropertiesEditorComponent } from './components/image-properties-editor/image-properties-editor.component';
@@ -64,7 +61,6 @@ import { NotificationService } from './services/notification.service';
 
 const appRoutes: Routes = [
   // routes should be ordered from most specific to least specific.
-  { path: 'editor/:id', component: DiagramEditorComponent, canDeactivate: [DiagramEditorDeactivateGuard], },
   { path: '', component: DiagramEditorComponent }, // default route
   { path: '**', redirectTo: '/', }, // wildcard route
 ];
@@ -75,6 +71,7 @@ const appRoutes: Routes = [
         DiagramNameEditorComponent,
         DiagramControlsComponent,
         CreateDiagramPaneComponent,
+        DiagramReplaceConfirmationDialogComponent,
         LoadingBlockComponent,
         DiagramComponent,
         PropertiesEditorComponent,
@@ -87,7 +84,6 @@ const appRoutes: Routes = [
         DiagramDeleteConfirmationDialogComponent,
         ActivitybarComponent,
         SidebarComponent,
-        DiagramSelectorGridComponent,
         EllipsisPipe,
         DiagramPrintDialogComponent,
         SanitizeHtmlPipe,
@@ -101,9 +97,7 @@ const appRoutes: Routes = [
         GroupPropertiesEditorComponent,
         ResourceDocumentationDialogComponent,
         DiagramImportDialogComponent,
-        DiagramPreviewComponent,
         MultiSelectionPropertiesEditorComponent,
-        DiagramSelectorConfirmationDialogComponent,
     ],
     bootstrap: [AppComponent], imports: [BrowserAnimationsModule,
         BrowserModule,

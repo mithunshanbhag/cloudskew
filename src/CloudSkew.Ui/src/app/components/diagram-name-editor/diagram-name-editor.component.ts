@@ -1,13 +1,10 @@
 import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
-import { AbstractControl, AsyncValidatorFn, UntypedFormControl, UntypedFormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { faPencilAlt, faSave, faWindowClose } from '@fortawesome/free-solid-svg-icons';
-import { of, Subject, timer } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 import { UIConstants } from 'src/app/constants/ui-constants';
 import { ValidatorMessageConstants } from 'src/app/constants/validator-message-constants';
 import { DiagramDTO } from 'src/app/models/dto/diagramDTO';
-import { APIService } from 'src/app/services/api.service';
-import { DiagramSelectorGridService } from '../diagram-selector-grid/diagram-selector-grid.service';
 import { DiagramService, IDiagramSaveRequestArgs } from '../diagram/diagram.service';
 
 @Component({
@@ -39,7 +36,6 @@ export class DiagramNameEditorComponent implements OnInit, OnDestroy, OnChanges 
   minlengthValidatorMessage = ValidatorMessageConstants.diagramNameEditorMinlengthValidator;
   maxLengthValidatorMessage = ValidatorMessageConstants.diagramNameEditorMaxLengthValidator;
   patternValidatorMessage = ValidatorMessageConstants.diagramNameEditorPatternValidator;
-  uniqueNameValidatorMessage = ValidatorMessageConstants.diagramNameEditorUniqueNameValidator;
 
   // the reactive form itself
   diagramNameEditorForm = new UntypedFormGroup({
@@ -51,16 +47,11 @@ export class DiagramNameEditorComponent implements OnInit, OnDestroy, OnChanges 
         Validators.maxLength(100),
         Validators.pattern(/[a-zA-Z0-9]+/),
       ],
-      [ // async validators
-        this.uniqueDiagramNameValidator(),
-      ]
     ),
   });
 
   constructor(
-    private apiService: APIService,
     private diagramService: DiagramService,
-    private diagramSelectorGridService: DiagramSelectorGridService,
   ) {
   }
 
@@ -82,7 +73,7 @@ export class DiagramNameEditorComponent implements OnInit, OnDestroy, OnChanges 
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.diagramName && !changes.diagramName.firstChange) {
+    if (changes.diagram && !changes.diagram.firstChange) {
       if (this.diagram.name) {
         this.nameInputControl.reset(this.diagram.name);
         this.isDiagramNameEditable = false;
@@ -107,28 +98,6 @@ export class DiagramNameEditorComponent implements OnInit, OnDestroy, OnChanges 
       force: true,
     } as IDiagramSaveRequestArgs);
 
-    this.diagramSelectorGridService.request(); // refresh the diagram selector grid
-
     this.isDiagramNameEditable = false;
-  }
-
-  uniqueDiagramNameValidator(): AsyncValidatorFn {
-    return (ctrl: AbstractControl) => {
-
-      if (ctrl.value as string === this.diagram.name) {
-        return of(null);
-      }
-
-      return timer(500).pipe(switchMap(() => { // debounce
-        return this.apiService.diagramGetByNameAsync(this.diagram.emailMD5, ctrl.value as string)
-          .pipe(
-            map(apiResponse => {
-              return (apiResponse && apiResponse.dto)
-                ? { 'uniqueDiagramName': true } as ValidationErrors
-                : null;
-            }),
-          );
-      }));
-    };
   }
 }

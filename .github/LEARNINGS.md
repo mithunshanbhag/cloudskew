@@ -13,3 +13,4 @@
 - The blog app lives in `docs\blog\` and uses VuePress 2 RC with npm. CI should run `npm ci` and `npm run docs:build`, then upload `docs\blog\.vuepress\dist\` to the `cloudskew-blog` Azure Static Web App; place `staticwebapp.config.json` under `docs\blog\.vuepress\public\` so VuePress copies it to the artifact root.
 - `src\CloudSkew.Ui\` no longer supports the obsolete per-diagram attached document editor; `documentDetails` flow and the Syncfusion rich text editor dependency were removed, while the separate Resource Documentation popups remain.
 - The `CloudSkew.Ui` app builds and lints successfully from `src\CloudSkew.Ui\` with `npm run build` and `npm run lint`.
+- `src\CloudSkew.Ui\` now uses a single active-diagram model: the My Diagrams sidebar is gone, `/editor/:id` is removed, IndexedDB keeps one active diagram record, create/import confirm before replacing it, and delete resets the current canvas to a blank diagram.

@@ -49,6 +49,7 @@ export class DiagramComponent implements OnInit, OnDestroy, OnChanges {
     x: UIConstants.diagramControlSymbolDefaultOffsetX,
     y: UIConstants.diagramControlSymbolDefaultOffsetY,
   };
+  private isDiagramLoading = false;
 
   //#region diagram settings
   @ViewChild('diagramControl') diagramControl: SyncFusionDiagramComponent;
@@ -242,6 +243,10 @@ export class DiagramComponent implements OnInit, OnDestroy, OnChanges {
     interval(10000)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe(() => {
+        if (this.isDiagramLoading) {
+          return;
+        }
+
         this.diagramService.request({
           kind: 'IDiagramSaveRequestArgs',
           force: false,
@@ -401,41 +406,47 @@ export class DiagramComponent implements OnInit, OnDestroy, OnChanges {
   //#region private methods
 
   private initialize() {
-    this.diagramControl.clear();
+    this.isDiagramLoading = true;
 
-    if (this.diagram) {
-      if (!this.diagram.diagramDetails) {
-        this.diagram.diagramDetails = this.diagramControl.saveDiagram();
+    try {
+      this.diagramControl.clear();
+
+      if (this.diagram) {
+        if (!this.diagram.diagramDetails) {
+          this.diagram.diagramDetails = this.diagramControl.saveDiagram();
+        }
+
+        const updatedDiagramDetails = this.getUpdatedDiagramDetails();
+        this.diagramControl.loadDiagram(updatedDiagramDetails);
+
+        this.setSelectMode();
+
+        this.diagramControl.updateViewPort();
+
+        this.uploadThumbnail();
+
+        this.diagramControlsService.request({
+          kind: 'IDiagramControlsLockArgs',
+          isLocked: DiagramComponentHelper.isLocked(this.diagramControl),
+        });
+
+        this.diagramControlsService.request({
+          kind: 'IDiagramControlsZoomArgs',
+          isZoomInPossible: DiagramComponentHelper.isZoomInPossible(this.diagramControl),
+          isZoomOutPossible: DiagramComponentHelper.isZoomOutPossible(this.diagramControl),
+          isZoomResetPossible: DiagramComponentHelper.isZoomResetPossible(this.diagramControl),
+        });
+
+        // properties bar should display diagram page properties when diagram is unlocked
+        this.visualPropertiesEditorService.request(DiagramComponentHelper.isLocked(this.diagramControl) ? null : this.diagramControl);
+
+        this.statusbarService.request({
+          kind: 'IDiagramZoomChangedEventArgs',
+          value: this.diagramControl.scrollSettings.currentZoom,
+        } as StatusbarEventArgs);
       }
-
-      const updatedDiagramDetails = this.getUpdatedDiagramDetails();
-      this.diagramControl.loadDiagram(updatedDiagramDetails);
-
-      this.setSelectMode();
-
-      this.diagramControl.updateViewPort();
-
-      this.uploadThumbnail();
-
-      this.diagramControlsService.request({
-        kind: 'IDiagramControlsLockArgs',
-        isLocked: DiagramComponentHelper.isLocked(this.diagramControl),
-      });
-
-      this.diagramControlsService.request({
-        kind: 'IDiagramControlsZoomArgs',
-        isZoomInPossible: DiagramComponentHelper.isZoomInPossible(this.diagramControl),
-        isZoomOutPossible: DiagramComponentHelper.isZoomOutPossible(this.diagramControl),
-        isZoomResetPossible: DiagramComponentHelper.isZoomResetPossible(this.diagramControl),
-      });
-
-      // properties bar should display diagram page properties when diagram is unlocked
-      this.visualPropertiesEditorService.request(DiagramComponentHelper.isLocked(this.diagramControl) ? null : this.diagramControl);
-
-      this.statusbarService.request({
-        kind: 'IDiagramZoomChangedEventArgs',
-        value: this.diagramControl.scrollSettings.currentZoom,
-      } as StatusbarEventArgs);
+    } finally {
+      this.isDiagramLoading = false;
     }
   }
 
@@ -581,6 +592,10 @@ export class DiagramComponent implements OnInit, OnDestroy, OnChanges {
   // note: please do not use this method directly to save the diagram. Instead call the request()
   // method on DiagramService
   private save(force: boolean) {
+    if (!this.diagram || this.isDiagramLoading) {
+      return;
+    }
+
     this.diagramControl.dataBind();
     this.diagram.diagramDetails = this.diagramControl.saveDiagram();
 
@@ -590,7 +605,7 @@ export class DiagramComponent implements OnInit, OnDestroy, OnChanges {
     if (force || diagramDtoMd5 !== this.sessionService.lastFlushedDiagramDtoMd5) {
 
       // flush to db
-      this.apiService.diagramUpdateAsync(this.diagram.emailMD5, this.diagram.id, this.diagram)
+      this.apiService.diagramUpdateAsync(this.diagram.emailMD5, this.diagram)
         .pipe(
           filter(apiResponse => !apiResponse.error),
           map(apiResponse => apiResponse.dto),
@@ -767,7 +782,7 @@ export class DiagramComponent implements OnInit, OnDestroy, OnChanges {
 
   private uploadThumbnail() {
     const imageGenerationRequest = DiagramComponentHelper.generateImageGenerationRequest(this.diagramControl, 'JPG'); // using 'JPG' as a default format.
-    this.apiService.uploadThumbnailAsync(this.sessionService.user, this.diagram.id, imageGenerationRequest)
+    this.apiService.uploadThumbnailAsync(this.sessionService.user, imageGenerationRequest)
       .pipe(
         filter(apiResponse => !apiResponse.error),
         map(apiResponse => apiResponse.dto),

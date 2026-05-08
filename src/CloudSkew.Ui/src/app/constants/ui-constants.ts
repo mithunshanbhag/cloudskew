@@ -32,8 +32,8 @@ export class UIConstants {
     // diagram print options dialog
     public static readonly diagramPrintOptionsDialogWidth = '300px';
 
-    // diagram selector confirmation dialog
-    public static readonly diagramSelectorConfirmationDialogWidth = '350px';
+    // diagram replacement confirmation dialog
+    public static readonly diagramReplaceConfirmationDialogWidth = '350px';
 
     // image upload options dialog
     public static readonly imageUploadOptionsDialogWidth = '600px';
