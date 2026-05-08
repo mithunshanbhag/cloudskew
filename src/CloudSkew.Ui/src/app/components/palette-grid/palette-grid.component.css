@@ -19,6 +19,35 @@
     gap: 8px;
 }
 
+.palettePanelFilterButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    padding: 0;
+    border: none;
+    border-radius: 999px;
+    background: transparent;
+    color: #64748b;
+}
+
+.palettePanelFilterButton .mat-icon {
+    width: 16px;
+    height: 16px;
+    font-size: 16px;
+}
+
+.palettePanelFilterButton:hover {
+    background: rgba(20, 184, 166, 0.12);
+    color: #0f766e;
+}
+
+.palettePanelFilterButton:focus-visible {
+    outline: 2px solid #14b8a6;
+    outline-offset: 2px;
+}
+
 .palettePanelTitle {
     margin: 0;
     color: #0f172a;
@@ -58,6 +87,7 @@
 
 .palettePanelDescriptionButton {
     display: block;
+    align-self: flex-start;
     margin: 0;
     padding: 0;
     border: none;
@@ -66,6 +96,7 @@
     font-family: "Open Sans",sans-serif;
     font-size: 12px;
     line-height: 1.4;
+    text-align: left;
     cursor: pointer;
     text-decoration: underline;
     transition: color 160ms ease;

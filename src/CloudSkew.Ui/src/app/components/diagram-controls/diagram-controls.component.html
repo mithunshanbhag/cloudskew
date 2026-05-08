@@ -16,18 +16,7 @@
   </div>
 
   <div class="diagram-controls-groups">
-    <div class="diagram-controls-group" role="group" aria-label="Diagram state">
-      <button
-        mat-icon-button
-        class="diagram-control-button"
-        matTooltip="Add or remove symbols"
-        [disableRipple]="true"
-        (click)="this.onAddRemoveSymbolsButtonClick()">
-        <mat-icon fontSet="material-icons-outlined">filter_alt</mat-icon>
-      </button>
-    </div>
-
-    <div class="diagram-controls-group" role="group" aria-label="Insert commands">
+    <div class="diagram-controls-group diagram-controls-group--offset-start" role="group" aria-label="Insert commands">
       <button
         mat-icon-button
         class="diagram-control-button"
@@ -206,7 +195,7 @@
       }
     </div>
 
-    <div class="diagram-controls-group diagram-controls-group--destructive" role="group" aria-label="Destructive actions">
+    <div class="diagram-controls-group diagram-controls-group--danger-zone diagram-controls-group--offset-danger" role="group" aria-label="Danger zone actions">
       @if (!this.deleteInProgress) {
         <button
           mat-icon-button
@@ -235,7 +224,7 @@
         matTooltip="Import diagram from JSON"
         [disableRipple]="true"
         (click)="this.importButtonClick.emit()">
-        <mat-icon fontSet="material-icons-outlined">upload_file</mat-icon>
+        <mat-icon fontSet="material-icons-outlined">publish</mat-icon>
       </button>
     </div>
   </div>

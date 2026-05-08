@@ -112,6 +112,25 @@ body {
   gap: 8px;
 }
 
+.palette-filter-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-subtle);
+  cursor: default;
+}
+
+.palette-filter-button .material-symbols-outlined {
+  font-size: 16px;
+  font-variation-settings: "FILL" 0, "wght" 500, "GRAD" 0, "opsz" 20;
+}
+
 .palette-header h1 {
   margin: 0;
   font-size: 15px;
@@ -133,6 +152,7 @@ body {
 }
 
 .supporting-copy {
+  align-self: flex-start;
   margin: 0;
   padding: 0;
   border: none;
@@ -141,6 +161,7 @@ body {
   font-size: 12px;
   line-height: 1.45;
   font-family: inherit;
+  text-align: left;
   text-decoration: underline;
   cursor: pointer;
   transition: color 0.2s;

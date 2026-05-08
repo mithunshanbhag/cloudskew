@@ -1,4 +1,5 @@
-import { MatDialog } from '@angular/material/dialog';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DiagramService } from '../diagram/diagram.service';
 import { DiagramControlsComponent } from './diagram-controls.component';
 import { DiagramControlsService } from './diagram-controls.service';
@@ -13,7 +14,6 @@ describe('DiagramControlsComponent', () => {
     component = new DiagramControlsComponent(
       new DiagramControlsService(),
       diagramService,
-      jasmine.createSpyObj<MatDialog>('MatDialog', ['open']),
     );
   });
 
@@ -84,6 +84,40 @@ describe('DiagramControlsComponent', () => {
     component.onPanModeButtonClick();
 
     expect(diagramService.request).not.toHaveBeenCalled();
+  });
+
+  // #endregion
+});
+
+describe('DiagramControlsComponent template', () => {
+  let fixture: ComponentFixture<DiagramControlsComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [DiagramControlsComponent],
+      providers: [
+        DiagramControlsService,
+        { provide: DiagramService, useValue: jasmine.createSpyObj<DiagramService>('DiagramService', ['request']) },
+      ],
+      schemas: [NO_ERRORS_SCHEMA],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(DiagramControlsComponent);
+    fixture.detectChanges();
+  });
+
+  // #region Positive Cases
+
+  it('should keep add/remove symbols out of the top control bar and render a dedicated danger zone group', () => {
+    const host = fixture.nativeElement as HTMLElement;
+    const insertGroup = host.querySelector('[aria-label="Insert commands"]');
+    const dangerZoneGroup = host.querySelector('.diagram-controls-group--danger-zone');
+
+    expect(host.querySelector('[aria-label="Add or remove symbols"]')).toBeNull();
+    expect(dangerZoneGroup).not.toBeNull();
+    expect(host.querySelector('.diagram-controls-group--destructive')).toBeNull();
+    expect(insertGroup?.classList.contains('diagram-controls-group--offset-start')).toBeTrue();
+    expect(dangerZoneGroup?.classList.contains('diagram-controls-group--offset-danger')).toBeTrue();
   });
 
   // #endregion

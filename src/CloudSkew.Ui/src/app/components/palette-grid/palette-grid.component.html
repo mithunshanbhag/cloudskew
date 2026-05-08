@@ -3,6 +3,13 @@
     <div class="palettePanelHeader">
         <div class="palettePanelTitleRow">
             <h2 class="palettePanelTitle">Symbol palette</h2>
+            <button
+                class="palettePanelFilterButton"
+                (click)="this.onAddRemoveSymbolsButtonClick()"
+                matTooltip="Open Add / Remove Symbols dialog"
+                aria-label="Add or remove symbols">
+                <mat-icon fontSet="material-icons-outlined">filter_alt</mat-icon>
+            </button>
             <span class="palettePanelSymbolCount" *ngIf="this.paletteGridControlData.length > 0">{{this.paletteGridControlData.length}}</span>
         </div>
         <button
