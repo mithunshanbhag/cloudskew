@@ -9,9 +9,7 @@ import { NewUserConstants } from 'src/app/constants/new-user-constants';
 import { RouteConstants } from 'src/app/constants/route-constants';
 import { SymbolFamilyConstants } from 'src/app/constants/symbol-family-constants';
 import { UIConstants } from 'src/app/constants/ui-constants';
-import { WellKnownIds } from 'src/app/constants/well-knowns-ids';
 import { UserProfileDTO } from 'src/app/models/dto/userProfileDTO';
-import { NotificationService } from 'src/app/services/notification.service';
 import { DiagramDTO } from '../../models/dto/diagramDTO';
 import { APIService } from '../../services/api.service';
 import { SessionService } from '../../services/session.service';
@@ -19,11 +17,8 @@ import { DiagramControlsService } from '../diagram-controls/diagram-controls.ser
 import { DiagramDeleteConfirmationDialogComponent } from '../diagram-delete-confirmation-dialog/diagram-delete-confirmation-dialog.component';
 import { DiagramExportDialogComponent } from '../diagram-export-dialog/diagram-export-dialog.component';
 import { DiagramPrintDialogComponent } from '../diagram-print-dialog/diagram-print-dialog.component';
-import { DiagramSaveTemplateDialogComponent } from '../diagram-save-template-dialog/diagram-save-template-dialog.component';
 import { DiagramService, IDiagramExportRequestArgs, IDiagramPrintRequestArgs } from '../diagram/diagram.service';
-import { SidebarService } from '../sidebar/sidebar.service';
 import { IUserProfileChangedEventArgs, StatusbarService } from '../statusbar/statusbar.service';
-import { TemplateSelectorGridService } from '../template-selector-grid/template-selector-grid.service';
 
 @Component({
     selector: 'app-diagram-editor',
@@ -43,13 +38,10 @@ export class DiagramEditorComponent implements OnInit, OnDestroy {
     private apiService: APIService,
     private diagramService: DiagramService,
     private diagramControlsService: DiagramControlsService,
-    private templateSelectorGridService: TemplateSelectorGridService,
     private dialog: MatDialog,
-    private notificationService: NotificationService,
     private route: ActivatedRoute,
     private router: Router,
     private sessionService: SessionService,
-    private sidebarService: SidebarService,
     private statusbarService: StatusbarService,
   ) {
   }
@@ -112,20 +104,6 @@ export class DiagramEditorComponent implements OnInit, OnDestroy {
       } as IDiagramPrintRequestArgs));
   }
 
-  onDiagramSaveTemplateButtonClick(diagram: DiagramDTO) {
-    const dialogRef = this.dialog.open(DiagramSaveTemplateDialogComponent, {
-      data: diagram,
-      width: UIConstants.diagramSaveTemplateDialogWidth
-    } as MatDialogConfig<DiagramDTO>);
-
-    dialogRef.afterClosed()
-      .pipe(
-        filter(result => !!result),
-        takeUntil(this.onDestroy$)
-      )
-      .subscribe((result) => this.saveDiagramAsTemplate(diagram, result));
-  }
-
   //#endregion callbacks
 
   //#region private helper methods
@@ -150,8 +128,7 @@ export class DiagramEditorComponent implements OnInit, OnDestroy {
           this.apiService.diagramGetLastUpdatedAsync(this.sessionService.user)
             .pipe(
               mergeMap(apiResponse => (!apiResponse.error && !apiResponse.dto)
-                // well-known Id of 'blank diagram' template
-                ? this.apiService.diagramCreateAsync(this.sessionService.user, WellKnownIds.BlankTemplateId)
+                ? this.apiService.diagramCreateBlankAsync(this.sessionService.user)
                 : of(apiResponse)
               ),
               filter(apiResponse => !apiResponse.error),
@@ -216,39 +193,6 @@ export class DiagramEditorComponent implements OnInit, OnDestroy {
         }
       });
 
-  }
-
-
-  private saveDiagramAsTemplate(diagram: DiagramDTO, templateName: string) {
-    templateName = templateName.trim();
-
-    this.diagramControlsService.request({
-      kind: 'IDiagramControlsExportTemplateArgs',
-      exportTemplateInProgress: true,
-    });
-
-    this.apiService.templateCreateAsync(diagram.emailMD5, diagram, templateName)
-      .pipe(
-        tap(() => this.diagramControlsService.request({
-          kind: 'IDiagramControlsExportTemplateArgs',
-          exportTemplateInProgress: false,
-        })),
-        filter(apiResponse => !apiResponse.error),
-        map(apiResponse => apiResponse.dto),
-        takeUntil(this.onDestroy$),
-      )
-      .subscribe(dto => {
-        this.templateSelectorGridService.request(); // refresh the diagram selector grid
-
-        this.notificationService.request({
-          kind: 'IDiagramNotificationRequestArgs',
-          type: 'success',
-          title: 'Template Created',
-          content: `Template created: ${dto.name}`,
-        });
-
-        this.sidebarService.request('template');
-      });
   }
 
 

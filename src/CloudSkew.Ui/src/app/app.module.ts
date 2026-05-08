@@ -27,6 +27,7 @@ import { AppComponent } from './app.component';
 import { ActivitybarComponent } from './components/activitybar/activitybar.component';
 import { BasicShapePropertiesEditorComponent } from './components/basic-shape-properties-editor/basic-shape-properties-editor.component';
 import { ConnectorPropertiesEditorComponent } from './components/connector-properties-editor/connector-properties-editor.component';
+import { CreateDiagramPaneComponent } from './components/create-diagram-pane/create-diagram-pane.component';
 import { DiagramControlsComponent } from './components/diagram-controls/diagram-controls.component';
 import { DiagramDeleteConfirmationDialogComponent } from './components/diagram-delete-confirmation-dialog/diagram-delete-confirmation-dialog.component';
 import { DiagramEditorDeactivateGuard } from './components/diagram-editor/diagram-editor-deactivate.guard';
@@ -37,7 +38,6 @@ import { DiagramNameEditorComponent } from './components/diagram-name-editor/dia
 import { DiagramPreviewComponent } from './components/diagram-preview/diagram-preview.component';
 import { DiagramPrintDialogComponent } from './components/diagram-print-dialog/diagram-print-dialog.component';
 import { DiagramPropertiesEditorComponent } from './components/diagram-properties-editor/diagram-properties-editor.component';
-import { DiagramSaveTemplateDialogComponent } from './components/diagram-save-template-dialog/diagram-save-template-dialog.component';
 import { DiagramSelectorConfirmationDialogComponent } from './components/diagram-selector-confirmation-dialog/diagram-selector-confirmation-dialog.component';
 import { DiagramSelectorGridComponent } from './components/diagram-selector-grid/diagram-selector-grid.component';
 import { DiagramComponent } from './components/diagram/diagram.component';
@@ -54,11 +54,6 @@ import { PropertiesbarComponent } from './components/propertiesbar/propertiesbar
 import { ResourceDocumentationDialogComponent } from './components/resource-documentation-dialog/resource-documentation-dialog.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { StatusbarComponent } from './components/statusbar/statusbar.component';
-import { TemplatePreviewComponent } from './components/template-preview/template-preview.component';
-import { TemplateSelectorConfirmationDialogComponent } from './components/template-selector-confirmation-dialog/template-selector-confirmation-dialog.component';
-import { TemplateSelectorDeleteDialogComponent } from './components/template-selector-delete-dialog/template-selector-delete-dialog.component';
-import { TemplateSelectorEditDialogComponent } from './components/template-selector-edit-dialog/template-selector-edit-dialog.component';
-import { TemplateSelectorGridComponent } from './components/template-selector-grid/template-selector-grid.component';
 import { TextPropertiesEditorComponent } from './components/text-properties-editor/text-properties-editor.component';
 import { PropertiesEditorComponent } from './components/visual-properties-editor/visual-properties-editor.component';
 import { EllipsisPipe } from './pipes/ellipsis.pipe';
@@ -79,6 +74,7 @@ const appRoutes: Routes = [
         DiagramEditorComponent,
         DiagramNameEditorComponent,
         DiagramControlsComponent,
+        CreateDiagramPaneComponent,
         LoadingBlockComponent,
         DiagramComponent,
         PropertiesEditorComponent,
@@ -92,10 +88,8 @@ const appRoutes: Routes = [
         ActivitybarComponent,
         SidebarComponent,
         DiagramSelectorGridComponent,
-        TemplateSelectorGridComponent,
         EllipsisPipe,
         DiagramPrintDialogComponent,
-        TemplateSelectorConfirmationDialogComponent,
         SanitizeHtmlPipe,
         ExtensionGridComponent,
         PropertiesbarComponent,
@@ -105,15 +99,11 @@ const appRoutes: Routes = [
         StatusbarComponent,
         DiagramPropertiesEditorComponent,
         GroupPropertiesEditorComponent,
-        TemplateSelectorEditDialogComponent,
-        TemplateSelectorDeleteDialogComponent,
-        DiagramSaveTemplateDialogComponent,
         ResourceDocumentationDialogComponent,
         DiagramImportDialogComponent,
         DiagramPreviewComponent,
         MultiSelectionPropertiesEditorComponent,
         DiagramSelectorConfirmationDialogComponent,
-        TemplatePreviewComponent,
     ],
     bootstrap: [AppComponent], imports: [BrowserAnimationsModule,
         BrowserModule,

@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AnonymousUserConstants } from '../constants/anonymous-user-constants';
 import { NewUserConstants } from '../constants/new-user-constants';
-import { WellKnownIds } from '../constants/well-knowns-ids';
 import { DiagramCompactDTO } from '../models/dto/diagramCompactDTO';
 import { DiagramDTO } from '../models/dto/diagramDTO';
-import { TemplateCompactDTO } from '../models/dto/templateCompactDTO';
-import { TemplateDTO } from '../models/dto/templateDTO';
+import { DiagramImportDTO } from '../models/dto/diagramImportDTO';
 import { UserProfileDTO } from '../models/dto/userProfileDTO';
 
 @Injectable({
@@ -13,10 +11,9 @@ import { UserProfileDTO } from '../models/dto/userProfileDTO';
 })
 export class LocalApiStorageService {
   private readonly databaseName = 'cloudskew-local';
-  private readonly databaseVersion = 1;
+  private readonly databaseVersion = 2;
   private readonly userProfilesStoreName = 'userProfiles';
   private readonly diagramsStoreName = 'diagrams';
-  private readonly templatesStoreName = 'templates';
 
   private databasePromise?: Promise<IDBDatabase>;
 
@@ -85,19 +82,16 @@ export class LocalApiStorageService {
     return diagram ? this.toDiagramCompactDTO(diagram) : undefined;
   }
 
-  async diagramCreateAsync(user: string, templateId: string): Promise<DiagramDTO> {
-    const template = templateId === WellKnownIds.BlankTemplateId
-      ? undefined
-      : await this.templateGetAsync(user, templateId);
+  async diagramCreateBlankAsync(user: string): Promise<DiagramDTO> {
     const now = new Date();
-    const diagramName = await this.getUniqueDiagramName(user, template?.name || 'Untitled Diagram');
+    const diagramName = await this.getUniqueDiagramName(user, 'Untitled Diagram');
     const diagram = new DiagramDTO(
       this.createId(),
       diagramName,
-      template?.notes,
+      undefined,
       'private',
-      template?.diagramDetails,
-      template?.thumbnailUrl,
+      undefined,
+      undefined,
       now,
       user,
     );
@@ -106,16 +100,16 @@ export class LocalApiStorageService {
     return diagram;
   }
 
-  async diagramImportAsync(user: string, sourceTemplate: TemplateDTO): Promise<DiagramDTO> {
+  async diagramImportAsync(user: string, sourceDiagram: DiagramImportDTO): Promise<DiagramDTO> {
     const now = new Date();
-    const diagramName = await this.getUniqueDiagramName(user, this.removeJsonExtension(sourceTemplate.name || 'Imported Diagram'));
+    const diagramName = await this.getUniqueDiagramName(user, this.removeJsonExtension(sourceDiagram.name || 'Imported Diagram'));
     const diagram = new DiagramDTO(
       this.createId(),
       diagramName,
-      sourceTemplate.notes,
+      sourceDiagram.notes,
       'private',
-      sourceTemplate.diagramDetails,
-      sourceTemplate.thumbnailUrl,
+      sourceDiagram.diagramDetails,
+      sourceDiagram.thumbnailUrl,
       now,
       user,
     );
@@ -154,75 +148,9 @@ export class LocalApiStorageService {
     await this.put(this.diagramsStoreName, diagram);
   }
 
-  async templatesListAsync(user: string): Promise<TemplateCompactDTO[]> {
-    const templates = await this.getUserTemplates(user);
-    return templates
-      .sort((left, right) => this.getTicks(right.lastUpdatedUTC) - this.getTicks(left.lastUpdatedUTC))
-      .map(template => this.toTemplateCompactDTO(template));
-  }
-
-  async templateGetAsync(user: string, templateId: string): Promise<TemplateDTO | undefined> {
-    const template = await this.get<TemplateDTO>(this.templatesStoreName, templateId);
-    return template && template.emailMD5 === user ? template : undefined;
-  }
-
-  async templateGetByNameAsync(user: string, templateName: string): Promise<TemplateCompactDTO | undefined> {
-    const normalizedName = this.normalizeName(templateName);
-    const templates = await this.getUserTemplates(user);
-    const template = templates.find(item => this.normalizeName(item.name) === normalizedName);
-    return template ? this.toTemplateCompactDTO(template) : undefined;
-  }
-
-  async templateCreateAsync(user: string, sourceDiagram: DiagramDTO, newTemplateName: string): Promise<TemplateDTO> {
-    if (!sourceDiagram) {
-      throw new Error('A source diagram is required to create a template.');
-    }
-
-    const now = new Date();
-    const template = new TemplateDTO(
-      this.createId(),
-      await this.getUniqueTemplateName(user, newTemplateName),
-      sourceDiagram.notes,
-      'private',
-      sourceDiagram.diagramDetails,
-      sourceDiagram.thumbnailUrl,
-      now,
-      user,
-    );
-
-    await this.put(this.templatesStoreName, template);
-    return template;
-  }
-
-  async templateUpdateAsync(user: string, existingTemplateId: string, modifiedTemplate: TemplateCompactDTO): Promise<void> {
-    const existingTemplate = await this.templateGetAsync(user, existingTemplateId);
-    const template = {
-      ...(existingTemplate || {}),
-      ...modifiedTemplate,
-      id: existingTemplateId,
-      emailMD5: user,
-      lastUpdatedUTC: new Date(),
-      visibility: modifiedTemplate.visibility || existingTemplate?.visibility || 'private',
-    } as TemplateDTO;
-
-    await this.put(this.templatesStoreName, template);
-  }
-
-  async templateDeleteAsync(user: string, templateId: string): Promise<void> {
-    const template = await this.templateGetAsync(user, templateId);
-    if (template) {
-      await this.delete(this.templatesStoreName, templateId);
-    }
-  }
-
   private async getUserDiagrams(user: string): Promise<DiagramDTO[]> {
     const diagrams = await this.getAll<DiagramDTO>(this.diagramsStoreName);
     return diagrams.filter(diagram => diagram.emailMD5 === user);
-  }
-
-  private async getUserTemplates(user: string): Promise<TemplateDTO[]> {
-    const templates = await this.getAll<TemplateDTO>(this.templatesStoreName);
-    return templates.filter(template => template.emailMD5 === user);
   }
 
   private toDiagramCompactDTO(diagram: DiagramDTO): DiagramCompactDTO {
@@ -237,25 +165,8 @@ export class LocalApiStorageService {
     );
   }
 
-  private toTemplateCompactDTO(template: TemplateDTO): TemplateCompactDTO {
-    return new TemplateCompactDTO(
-      template.id,
-      template.name,
-      template.notes,
-      template.visibility,
-      template.thumbnailUrl,
-      template.lastUpdatedUTC,
-      template.emailMD5,
-    );
-  }
-
   private async getUniqueDiagramName(user: string, requestedName: string): Promise<string> {
     const existingNames = (await this.getUserDiagrams(user)).map(diagram => this.normalizeName(diagram.name));
-    return this.getUniqueName(requestedName, existingNames);
-  }
-
-  private async getUniqueTemplateName(user: string, requestedName: string): Promise<string> {
-    const existingNames = (await this.getUserTemplates(user)).map(template => this.normalizeName(template.name));
     return this.getUniqueName(requestedName, existingNames);
   }
 
@@ -303,7 +214,9 @@ export class LocalApiStorageService {
           const database = request.result;
           this.createStore(database, this.userProfilesStoreName, 'emailMD5');
           this.createStore(database, this.diagramsStoreName, 'id');
-          this.createStore(database, this.templatesStoreName, 'id');
+          if (database.objectStoreNames.contains('templates')) {
+            database.deleteObjectStore('templates');
+          }
         };
 
         request.onsuccess = () => resolve(request.result);

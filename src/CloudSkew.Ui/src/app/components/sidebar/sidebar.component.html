@@ -3,9 +3,9 @@
     <!-- the symbol palette (palette grid) -->
     <app-palette-grid [hidden]="this.sidebarType !== 'palette'" class="sidebar-item"></app-palette-grid>
 
-    <!-- the diagram-template selector grid -->
-    <app-template-selector-grid [hidden]="this.sidebarType !== 'template'" class="sidebar-item">
-    </app-template-selector-grid>
+    <!-- create new diagram pane -->
+    <app-create-diagram-pane [hidden]="this.sidebarType !== 'create'" class="sidebar-item">
+    </app-create-diagram-pane>
 
     <!-- the diagram selector grid -->
     <!-- note: if we need to dynamically fetch the user's diagrams, then we should consider using *ngIf instead. This will

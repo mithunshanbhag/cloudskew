@@ -8,11 +8,6 @@ export class ErrorMessageConstants {
     public static readonly generateImageError = 'unable to generate image.';
     public static readonly getFileAsStringError = 'unable to fetch file.';
     public static readonly invalidJsonFile = 'unable to parse the json file.';
-    public static readonly templateCreateError = 'unable to create diagram template.';
-    public static readonly templateDeleteError = 'unable to delete diagram template.';
-    public static readonly templateGetError = 'unable to fetch diagram template.';
-    public static readonly templatesListError = 'unable to fetch diagram templates.';
-    public static readonly templateUpdateError = 'unable to save update to diagram template';
     public static readonly uploadThumbnailError = 'unable to upload thumbnail.';
     public static readonly userProfileCreateError = 'unable to create user profile.';
     public static readonly userProfileGetError = 'unable to fetch user profile.';

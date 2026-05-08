@@ -1,12 +1,8 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { AsyncSettingsModel, ButtonsPropsModel, UploaderComponent, UploadingEventArgs } from '@syncfusion/ej2-angular-inputs';
-import { createElement } from '@syncfusion/ej2-base';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { HeaderConstants } from 'src/app/constants/header-constants';
-import { UrlConstants } from 'src/app/constants/url-constants';
-import { SessionService } from 'src/app/services/session.service';
+import { ErrorMessageConstants } from 'src/app/constants/error-message-constants';
+import { DiagramImportDTO } from 'src/app/models/dto/diagramImportDTO';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
     selector: 'app-diagram-import-dialog',
@@ -14,60 +10,46 @@ import { SessionService } from 'src/app/services/session.service';
     styleUrls: ['./diagram-import-dialog.component.css'],
     standalone: false
 })
-export class DiagramImportDialogComponent implements OnInit, OnDestroy {
-
-  //
-  private onDestroy$: Subject<void> = new Subject<void>();
-
-  //#region syncfusion uploader component
-  @ViewChild('diagramImporter') uploader: UploaderComponent;
-  uploaderAutoUpload = true;
-  uploaderAllowMultipleFileUpload = false;
-  uploaderEnablePersistence = false;
-  uploaderButtons: ButtonsPropsModel = {
-    // per syncfusion documentation
-    // https://ej2.syncfusion.com/angular/documentation/uploader/how-to/customize-button-with-html-element/
-    browse: createElement(
-      'span',
-      {
-        innerHTML: 'BROWSE',
-        className: 'btn btn-sm btn-outline-dark',
-      }),
-  };
-  uploaderAsyncSettings: AsyncSettingsModel = {
-    saveUrl: `${UrlConstants.webAPIPublicUrl}/users/${this.sessionService.user}/importedfile`,
-  };
-  uploaderAllowedExtensions = '.json';
-  uploaderMinFileSizeBytes = 1;
-  uploaderMaxFileSizeBytes = 2097152; // 2048 KB (i.e. 2 MB)
-  //#endregion syncfusion uploader component
-
+export class DiagramImportDialogComponent {
 
   constructor(
     private dialogRef: MatDialogRef<DiagramImportDialogComponent>,
-    private sessionService: SessionService,
+    private notificationService: NotificationService,
   ) { }
 
-  ngOnInit() {
-    this.dialogRef.afterOpened()
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe(() => {
-        if (this.uploader) {
-          this.uploader.clearAll();
-        }
-      });
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const selectedFile = input.files?.[0];
+    if (!selectedFile) {
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const fileContents = reader.result as string;
+      if (!this.isJson(fileContents)) {
+        this.notificationService.request({
+          kind: 'IDiagramNotificationRequestArgs',
+          type: 'error',
+          title: 'Error',
+          content: ErrorMessageConstants.invalidJsonFile,
+        });
+        input.value = '';
+        return;
+      }
+
+      this.dialogRef.close(new DiagramImportDTO(selectedFile.name, fileContents));
+    };
+    reader.readAsText(selectedFile);
   }
 
-  ngOnDestroy() {
-    this.onDestroy$.next();
-    this.onDestroy$.complete();
-  }
+  private isJson(value: string) {
+    try {
+      JSON.parse(value);
+    } catch {
+      return false;
+    }
 
-  onUploaderUploading(args: UploadingEventArgs) {
-    args.currentRequest.setRequestHeader(HeaderConstants.importedJsonFileName, args.fileData.name);
-  }
-
-  onUploaderSuccess(args: any) {
-    this.dialogRef.close(args);
+    return true;
   }
 }

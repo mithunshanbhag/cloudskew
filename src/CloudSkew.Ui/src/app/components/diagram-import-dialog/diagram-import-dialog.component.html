@@ -5,11 +5,6 @@
         <span>Please pick a JSON file.</span>
     </div>
     <div class="windowContent">
-        <ejs-uploader #diagramImporter [autoUpload]="this.uploaderAutoUpload" [buttons]="this.uploaderButtons"
-            [enablePersistence]="this.uploaderEnablePersistence" [multiple]="this.uploaderAllowMultipleFileUpload"
-            [allowedExtensions]="this.uploaderAllowedExtensions" [asyncSettings]="this.uploaderAsyncSettings"
-            [minFileSize]="this.uploaderMinFileSizeBytes" [maxFileSize]="this.uploaderMaxFileSizeBytes"
-            (success)="this.onUploaderSuccess($event)" (uploading)="this.onUploaderUploading($event)">
-        </ejs-uploader>
+        <input type="file" accept=".json,application/json" (change)="this.onFileSelected($event)">
     </div>
 </mat-dialog-content>

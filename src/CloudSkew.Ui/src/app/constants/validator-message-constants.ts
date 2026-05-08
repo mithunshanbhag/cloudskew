@@ -6,9 +6,4 @@ export class ValidatorMessageConstants {
     public static readonly diagramNameEditorPatternValidator = 'Please specify a valid name';
     public static readonly diagramNameEditorRequiredValidator = 'Please specify a name.';
     public static readonly diagramNameEditorUniqueNameValidator = 'A diagram with that name already exists.';
-    public static readonly templateNameEditorMaxLengthValidator = 'The name cannot exceed 100 characters.';
-    public static readonly templateNameEditorMinlengthValidator = 'The name must be at least 5 characters long.';
-    public static readonly templateNameEditorPatternValidator = 'Please specify a valid name';
-    public static readonly templateNameEditorRequiredValidator = 'Please specify a name.';
-    public static readonly templateNameEditorUniqueNameValidator = 'A diagram template with that name already exists.';
 }

@@ -8,9 +8,8 @@ import { UrlConstants } from '../constants/url-constants';
 import { APIResponse } from '../interfaces/api-response';
 import { DiagramCompactDTO } from '../models/dto/diagramCompactDTO';
 import { DiagramDTO } from '../models/dto/diagramDTO';
+import { DiagramImportDTO } from '../models/dto/diagramImportDTO';
 import { ImageGenerationRequestDTO } from '../models/dto/imageGenerationRequestDTO';
-import { TemplateCompactDTO } from '../models/dto/templateCompactDTO';
-import { TemplateDTO } from '../models/dto/templateDTO';
 import { UserProfileDTO } from '../models/dto/userProfileDTO';
 import { LocalApiStorageService } from './local-api-storage.service';
 import { NotificationService } from './notification.service';
@@ -126,19 +125,19 @@ export class APIService {
     );
   }
 
-  // create new diagram
-  diagramCreateAsync(user: string, templateId: string)
+  // create new blank diagram
+  diagramCreateBlankAsync(user: string)
     : Observable<APIResponse<DiagramDTO>> {
-    return from(this.localApiStorageService.diagramCreateAsync(user, templateId)).pipe(
+    return from(this.localApiStorageService.diagramCreateBlankAsync(user)).pipe(
       map(dto => this.handleSuccess<DiagramDTO>(dto)),
       catchError((err, source) => this.handleError<DiagramDTO>(err, ErrorMessageConstants.diagramCreateError))
     );
   }
 
   // create new diagram (from imported json)
-  diagramImportAsync(user: string, sourceTemplate: TemplateDTO)
+  diagramImportAsync(user: string, sourceDiagram: DiagramImportDTO)
     : Observable<APIResponse<DiagramDTO>> {
-    return from(this.localApiStorageService.diagramImportAsync(user, sourceTemplate)).pipe(
+    return from(this.localApiStorageService.diagramImportAsync(user, sourceDiagram)).pipe(
       map(dto => this.handleSuccess<DiagramDTO>(dto)),
       catchError((err, source) => this.handleError<DiagramDTO>(err, ErrorMessageConstants.diagramCreateError))
     );
@@ -163,64 +162,6 @@ export class APIService {
   }
 
   //#endregion diagrams
-
-  //#region diagram templates
-
-  // list all templates accessible to a user.
-  templatesListAsync(user: string)
-    : Observable<APIResponse<TemplateCompactDTO[]>> {
-    return from(this.localApiStorageService.templatesListAsync(user)).pipe(
-      map(dto => this.handleSuccess<TemplateCompactDTO[]>(dto)),
-      catchError((err, source) => this.handleError<TemplateCompactDTO[]>(err, ErrorMessageConstants.templatesListError))
-    );
-  }
-
-  // get specific template by id.
-  templateGetAsync(user: string, templateId: string)
-    : Observable<APIResponse<TemplateDTO>> {
-    return from(this.localApiStorageService.templateGetAsync(user, templateId)).pipe(
-      map(dto => dto ? this.handleSuccess<TemplateDTO>(dto) : this.handleNotFound<TemplateDTO>()),
-      catchError((err, source) => this.handleError<TemplateDTO>(err, ErrorMessageConstants.templateGetError))
-    );
-  }
-
-  // get specific template by name.
-  templateGetByNameAsync(user: string, templateName: string)
-    : Observable<APIResponse<TemplateCompactDTO>> {
-    return from(this.localApiStorageService.templateGetByNameAsync(user, templateName)).pipe(
-      map(dto => dto ? this.handleSuccess<TemplateCompactDTO>(dto) : this.handleNotFound<TemplateCompactDTO>()),
-      catchError((err, source) => this.handleError<TemplateCompactDTO>(err, ErrorMessageConstants.templateGetError))
-    );
-  }
-
-  // create new template
-  templateCreateAsync(user: string, sourceDiagram: DiagramDTO, newTemplateName: string)
-    : Observable<APIResponse<TemplateDTO>> {
-    return from(this.localApiStorageService.templateCreateAsync(user, sourceDiagram, newTemplateName)).pipe(
-      map(dto => this.handleSuccess<TemplateDTO>(dto)),
-      catchError((err, source) => this.handleError<TemplateDTO>(err, ErrorMessageConstants.templateCreateError))
-    );
-  }
-
-  // modify existing template
-  templateUpdateAsync(user: string, existingTemplateId: string, modifiedTemplate: TemplateCompactDTO)
-    : Observable<APIResponse<null>> {
-    return from(this.localApiStorageService.templateUpdateAsync(user, existingTemplateId, modifiedTemplate)).pipe(
-      map(() => this.handleSuccess<null>(null)),
-      catchError((err, source) => this.handleError<null>(err, ErrorMessageConstants.templateUpdateError))
-    );
-  }
-
-  // delete existing template
-  templateDeleteAsync(user: string, templateId: string)
-    : Observable<APIResponse<null>> {
-    return from(this.localApiStorageService.templateDeleteAsync(user, templateId)).pipe(
-      map(() => this.handleSuccess<null>(null)),
-      catchError((err, source) => this.handleError<null>(err, ErrorMessageConstants.templateDeleteError))
-    );
-  }
-
-  //#endregion diagram templates
 
   //#region images
 

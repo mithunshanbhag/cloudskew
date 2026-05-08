@@ -5,7 +5,6 @@ import { Subject } from 'rxjs';
 
 export type DiagramControlsRequestArgs = IDiagramControlsPrintArgs
   | IDiagramControlsExportArgs
-  | IDiagramControlsExportTemplateArgs
   | IDiagramControlsZoomArgs
   | IDiagramControlsUndoRedoArgs
   | IDiagramControlsLockArgs
@@ -20,11 +19,6 @@ export interface IDiagramControlsPrintArgs {
 export interface IDiagramControlsExportArgs {
   kind: 'IDiagramControlsExportArgs';
   exportInProgress: boolean;
-}
-
-export interface IDiagramControlsExportTemplateArgs {
-  kind: 'IDiagramControlsExportTemplateArgs';
-  exportTemplateInProgress: boolean;
 }
 
 export interface IDiagramControlsZoomArgs {

@@ -1,0 +1,17 @@
+.createDiagramPane {
+    justify-content: center;
+    min-height: 100%;
+}
+
+.createDiagramPaneActions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px 12px;
+}
+
+.createDiagramPaneActions button {
+    width: 100%;
+    font-family: "Roboto Mono",sans-serif;
+    font-size: 14px;
+}

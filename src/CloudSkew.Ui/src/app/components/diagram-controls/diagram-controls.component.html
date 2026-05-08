@@ -124,19 +124,4 @@
       </mat-icon>
     </button>
   }
-  @if (!this.exportTemplateInProgress) {
-    <button mat-icon-button matTooltip="save diagram as template"
-      [disableRipple]="true" (click)="this.saveTemplateButtonClick.emit()">
-      <mat-icon fontSet="material-icons-outlined">cloud_download</mat-icon>
-    </button>
-  }
-  @if (this.exportTemplateInProgress) {
-    <button mat-icon-button matTooltip="save diagram as template (in progress)"
-      [disableRipple]="true">
-      <mat-icon>
-        <mat-spinner [diameter]="this.spinnerDiameter" color="primary"></mat-spinner>
-      </mat-icon>
-    </button>
-  }
-
 </div>

@@ -26,7 +26,6 @@ export class DiagramControlsComponent implements OnInit, OnDestroy {
   //
   printInProgress = false;
   exportInProgress = false;
-  exportTemplateInProgress = false;
   deleteInProgress = false;
   isLocked = false;
   isUndoPossible = false;
@@ -40,7 +39,6 @@ export class DiagramControlsComponent implements OnInit, OnDestroy {
   //
   @Output() printButtonClick = new EventEmitter();
   @Output() exportButtonClick = new EventEmitter();
-  @Output() saveTemplateButtonClick = new EventEmitter();
   @Output() deleteButtonClick = new EventEmitter();
 
   constructor(
@@ -60,9 +58,6 @@ export class DiagramControlsComponent implements OnInit, OnDestroy {
             break;
           case 'IDiagramControlsExportArgs':
             this.exportInProgress = event.exportInProgress;
-            break;
-          case 'IDiagramControlsExportTemplateArgs':
-            this.exportTemplateInProgress = event.exportTemplateInProgress;
             break;
           case 'IDiagramControlsZoomArgs':
             this.isZoomInPossible = event.isZoomInPossible;

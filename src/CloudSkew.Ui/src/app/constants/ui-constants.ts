@@ -32,9 +32,6 @@ export class UIConstants {
     // diagram print options dialog
     public static readonly diagramPrintOptionsDialogWidth = '300px';
 
-    // diagram save template dialog
-    public static readonly diagramSaveTemplateDialogWidth = '400px';
-
     // diagram selector confirmation dialog
     public static readonly diagramSelectorConfirmationDialogWidth = '350px';
 
@@ -43,18 +40,6 @@ export class UIConstants {
 
     // resource documentation dialog
     public static readonly resourceDocumentationDialogWidth = '350px';
-
-    // template selector grid control
-    public static readonly templateSelectorGridButtonWidth = '30px';
-
-    // template selector confirmation dialog
-    public static readonly templateSelectorConfirmationDialogWidth = '400px';
-
-    // template selector edit dialog
-    public static readonly templateSelectorEditDialogWidth = '400px';
-
-    // template selector delete dialog
-    public static readonly templateSelectorDeleteDialogWidth = '350px';
 
     // thumbnail preview image
     // note: the width and height are actually in pixels, but the 'px' is not

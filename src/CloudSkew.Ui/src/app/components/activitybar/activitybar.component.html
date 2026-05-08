@@ -22,8 +22,8 @@
             (click)="this.sidebarService.request('diagram')" matTooltip="my diagrams" matTooltipPosition="right">
             <mat-icon fontSet="material-icons-outlined">folder</mat-icon>
         </button>
-        <button mat-mini-fab [class.btn-active]="this.activeSidebarType === 'template'" [disableRipple]="true"
-            (click)="this.sidebarService.request('template')" matTooltip="create new diagram"
+        <button mat-mini-fab [class.btn-active]="this.activeSidebarType === 'create'" [disableRipple]="true"
+            (click)="this.sidebarService.request('create')" matTooltip="create new diagram"
             matTooltipPosition="right">
             <mat-icon fontSet="material-icons-outlined">add_circle_outline</mat-icon>
         </button>
