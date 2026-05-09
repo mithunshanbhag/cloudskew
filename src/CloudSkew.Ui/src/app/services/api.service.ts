@@ -34,7 +34,7 @@ export class APIService {
   generateImageAsync(userId: string, imageGenerationRequest: ImageGenerationRequestDTO)
     : Observable<APIResponse<string>> {
     return this.httpClient.post<string>(
-      `${UrlConstants.diagramHelperWebAPIUrl}/users/${userId}/images/GenerateImageV1`,
+      `${UrlConstants.webAPIUrl}/api/images`,
       imageGenerationRequest, this.httpOptions
     ).pipe(
       map(dto => this.handleSuccess<string>(dto)),

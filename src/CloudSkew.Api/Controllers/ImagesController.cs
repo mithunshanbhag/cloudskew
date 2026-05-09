@@ -6,7 +6,7 @@ public class ImagesController(ISyncfusionImageService imageService, ILogger<Imag
 {
     [Function(nameof(GenerateImage))]
     public IActionResult GenerateImage(
-        [HttpTrigger(AuthorizationLevel.Anonymous, "post")]
+        [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "images")]
 #pragma warning disable IDE0060 // Remove unused parameter
         HttpRequest req,
 #pragma warning restore IDE0060 // Remove unused parameter

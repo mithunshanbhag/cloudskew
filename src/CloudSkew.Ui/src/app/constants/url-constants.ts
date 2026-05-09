@@ -4,7 +4,7 @@ export class UrlConstants {
     // Please keep this list alphabetically sorted.
     public static readonly cdnUrlPrefix = environment.cdnUrlPrefix;
     public static readonly cloudskewSupportEmail = 'mailto:support@cloudskew.com';
-    public static readonly diagramHelperWebAPIUrl = environment.diagramHelperWebAPIUrl;
+    public static readonly webAPIUrl = environment.webAPIUrl;
     public static readonly faqsUrl = `${environment.docsUrl}/docs/frequently-asked-questions.html`;
     public static readonly githubIssuesUrl = 'https://github.com/cloudskew/cloudskew/issues';
     public static readonly keyboardShortcutsUrl = `${environment.docsUrl}/docs/keyboard-shortcuts.html`;
