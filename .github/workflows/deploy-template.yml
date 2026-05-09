@@ -315,7 +315,7 @@ jobs:
         with:
           creds: ${{ secrets.SERVICEPRINCIPAL }}
       - name: deploy cloudskew api to function app
-        uses: Azure/functions-action@v1.0.0
+        uses: Azure/functions-action@v1.5.6
         with:
           app-name: ${{ env.APP_NAME_API }} # The function app has the same name as the swa for simplicity, but it can be different.
           package: ./src/CloudSkew.Api/publish
