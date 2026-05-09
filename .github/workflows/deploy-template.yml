@@ -293,7 +293,7 @@ jobs:
           output_location: "" # No build step, so output location is same as app location
 
   build-deploy-cloudskew-api:
-    runs-on: ubuntu-24.04
+    runs-on: windows-latest
     needs: provision
     environment: test
     timeout-minutes: 10
