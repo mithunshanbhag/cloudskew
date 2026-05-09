@@ -238,7 +238,7 @@ The next pass should keep the same palette scope, search behavior, group orderin
 
 | Area | Intended design change |
 | ---- | ---------------------- |
-| Surface | Evolve the left palette from a plain `240px` strip into a more deliberate browser rail. Target a `272px` desktop width with `12px` outer padding, a `#f8fafc` background, a `1px` right border `#dbe4ee`, and a subtle inset shadow so the rail feels part of the editor chrome without overpowering the canvas. |
+| Surface | Evolve the left palette from a plain `240px` strip into a more deliberate browser rail. Target a `272px` desktop width with `12px` outer padding, a shared rail background `#f1f5f9` (match the properties rail), a `1px` right border `#dbe4ee`, and a subtle inset shadow so the rail feels part of the editor chrome without overpowering the canvas. |
 | Layout | Treat the sidebar as three stacked zones: compact header/search, scrollable symbol browser, and a pinned footer action. Keep the rail full height, but use consistent `12px` rhythm between these zones so the palette feels composed instead of improvised. |
 | Palette header | Keep the header simple: `Symbol palette`, the Add/Remove Symbols filter icon immediately after the title, the existing symbol count bubble, and a clickable libraries summary line that opens the Add/Remove Symbols dialog. The `libraries enabled` summary remains left-aligned under the title row. Do not add an eyebrow label such as `Editor surface`, and do not introduce extra family chips below the title. |
 | Search shell | Restyle the palette search control as a clean `40px` rounded input with white background, `1px` neutral border, balanced horizontal padding, and a teal focus ring. Preserve the clear button behavior, but remove any extra leading icon treatment that competes with or overlaps the input text. |
@@ -263,7 +263,7 @@ The next pass should keep the same palette scope, search behavior, group orderin
 | Area | Intended design change |
 | ---- | ---------------------- |
 | Typography | Standardize visible palette labels, headers, chips, and buttons on `Inter`, `Open Sans`, or equivalent UI sans-serif. Use medium to semibold weights, and reserve `Roboto Mono` for technical microcopy only. |
-| Color | Keep the rail predominantly light with white surfaces, slate text (`#0f172a` / `#475569`), teal accents (`#14b8a6`) for focus and hover states, and restrained amber only for attention states if needed. Avoid legacy mixed grays and raw Bootstrap link blue in this surface. |
+| Color | Keep the rail predominantly light with a shared rail shade `#f1f5f9` (same as the properties rail), white inset surfaces, slate text (`#0f172a` / `#475569`), teal accents (`#14b8a6`) for focus and hover states, and restrained amber only for attention states if needed. Avoid legacy mixed grays and raw Bootstrap link blue in this surface. |
 | Iconography | Prefer Material Symbols Outlined for search, clear, add-image, and documentation-supporting chrome. Provider/resource artwork remains SVG-based, but it should sit inside the shared tile treatment so AWS, Azure, Kubernetes, and generic symbols feel like part of one palette system. |
 | Spacing rhythm | Use `12px` rail padding, `10px` row insets, `8px` to `12px` internal gaps, and modest `12px` to `14px` spacing between groups. The palette should read as dense and efficient, but not cramped. |
 | Accessibility | Maintain `44px` minimum row targets, keep all icon-only affordances keyboard focusable with visible rings, and ensure muted labels still meet contrast expectations against the light panel surfaces. |
@@ -351,7 +351,7 @@ The next pass should keep the same editor variants, data fields, and control beh
 
 | Area | Intended design change |
 | ---- | ---------------------- |
-| Surface | Evolve the property bar from a plain `220px` strip into a more intentional inspector rail: target `280px` desktop width, `16px` inner padding, `#f8fafc` background, `1px` left border `#dbe4ee`, and a subtle inset shadow so it reads as a separate editing surface without competing with the canvas. |
+| Surface | Evolve the property bar from a plain `220px` strip into a more intentional inspector rail: target `280px` desktop width, `16px` inner padding, a shared rail background `#f1f5f9` (match the symbol palette rail), `1px` left border `#dbe4ee`, and a subtle inset shadow so it reads as a separate editing surface without competing with the canvas. |
 | Scroll behavior | Keep the rail vertically scrollable, but make the editor header and tab strip feel pinned to the top of the selected editor card so the current editing context stays visible as the user moves through longer forms. |
 | Editor shell | Each active editor should sit inside a rounded `14px` card with a white background, `1px` border `#e2e8f0`, and restrained shadow. Avoid the current hard splitter box treatment around every block. |
 | Editor header | Replace the dense uppercase header row with a calmer inspector header: left-aligned type label plus optional secondary subtitle, right-aligned state/action affordance, `14px` to `15px` semibold title text, and `12px` muted metadata copy. The header should use `16px` top/bottom padding and establish the editor identity before the controls begin. |

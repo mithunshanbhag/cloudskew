@@ -40,3 +40,4 @@
 - `src\CloudSkew.Ui\` keeps the Add image footer above the status bar by containing palette overflow in `palette-grid.component.css` (`.sidebarWrapper` and `.paletteGridControlWrapper` use `overflow: hidden`).
 - `src\CloudSkew.Ui\` property-editor sliders should bind `matSliderThumb` via `(valueChange)` with numeric handlers instead of synthesizing `MatSliderChange` objects from `(input)` events; this keeps slider updates working after the Angular 21 Material upgrade.
 - `src\CloudSkew.Ui\` now applies the same `matSliderThumb (valueChange)` slider pattern across shape, connector, text, image, and symbol property editors to avoid regression after Angular Material upgrades.
+- `src\CloudSkew.Ui\` now uses a shared `--editor-rail-surface` token (`#f1f5f9`) for both `.sidebarControl` and `.propertiesbarControl` so the side rails keep consistent contrast against the canvas.
