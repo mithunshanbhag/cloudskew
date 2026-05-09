@@ -9,6 +9,7 @@ on:
         default: false
 
 env:
+  APP_NAME_API: cloudskew-api
   APP_NAME_LANDING_PAGE: cloudskew-landing
   APP_NAME_ASSETS: cloudskew-assets
   APP_NAME_DOCS: cloudskew-docs
@@ -285,3 +286,31 @@ jobs:
           skip_app_build: true
           api_location: "" # No API in this app
           output_location: "" # No build step, so output location is same as app location
+
+  build-deploy-cloudskew-api:
+    runs-on: ubuntu-24.04
+    needs: provision
+    environment: test
+    timeout-minutes: 10
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4.1.1
+      - name: setup dotnet
+        uses: actions/setup-dotnet@v4.0.0
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION_10 }}
+      - name: dotnet restore
+        run: dotnet restore
+        working-directory: ./src/CloudSkew.Api
+      - name: build cloudskew api
+        run: dotnet publish -c Release -o ./publish
+        working-directory: ./src/CloudSkew.Api
+      - name: azure login
+        uses: azure/login@v2.2.0
+        with:
+          creds: ${{ secrets.SERVICEPRINCIPAL }}
+      - name: deploy cloudskew api to function app
+        uses: Azure/functions-action@v1.0.0
+        with:
+          app-name: ${{ env.APP_NAME_API }} # The function app has the same name as the swa for simplicity, but it can be different.
+          package: ./src/CloudSkew.Api/publish
