@@ -45,7 +45,6 @@ import { PreferenceGridComponent } from './components/preference-grid/preference
 import { PropertiesbarComponent } from './components/propertiesbar/propertiesbar.component';
 import { ResourceDocumentationDialogComponent } from './components/resource-documentation-dialog/resource-documentation-dialog.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
-import { StatusbarComponent } from './components/statusbar/statusbar.component';
 import { SymbolPreferencesDialogComponent } from './components/symbol-preferences-dialog/symbol-preferences-dialog.component';
 import { TextPropertiesEditorComponent } from './components/text-properties-editor/text-properties-editor.component';
 import { PropertiesEditorComponent } from './components/visual-properties-editor/visual-properties-editor.component';
@@ -81,7 +80,6 @@ const appRoutes: Routes = [
         ImageUploadDialogComponent,
         ImagePropertiesEditorComponent,
         PreferenceGridComponent,
-        StatusbarComponent,
         DiagramPropertiesEditorComponent,
         GroupPropertiesEditorComponent,
         ResourceDocumentationDialogComponent,

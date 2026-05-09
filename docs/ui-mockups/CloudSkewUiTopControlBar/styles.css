@@ -165,6 +165,7 @@ body {
   gap: 12px;
 }
 
+.mode-state,
 .lock-state {
   display: flex;
   align-items: center;
@@ -181,10 +182,34 @@ body {
   height: 28px;
   padding: 0 12px;
   border-radius: 999px;
-  background: rgba(245, 158, 11, 0.16);
-  color: #fcd34d;
   font-size: 12px;
   font-weight: 600;
+}
+
+.status-pill--mode {
+  background: rgba(20, 184, 166, 0.2);
+  color: #99f6e4;
+  font-family: "Roboto Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+}
+
+.status-pill--locked {
+  background: rgba(34, 197, 94, 0.2);
+  color: #86efac;
+}
+
+.status-pill--zoom {
+  background: rgba(148, 163, 184, 0.2);
+  color: #e2e8f0;
+  font-family: "Roboto Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.02em;
+}
+
+.status-pill--unlocked {
+  background: rgba(245, 158, 11, 0.2);
+  color: #fcd34d;
 }
 
 .help-button {

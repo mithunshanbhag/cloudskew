@@ -41,11 +41,32 @@ export class DiagramControlsComponent implements OnInit, OnDestroy {
   isZoomInPossible = false;
   isZoomOutPossible = false;
   isZoomResetPossible = false;
+  zoomPercentage = 1;
   isSelectMode = false;
   isPanMode = false;
 
   get lockStatusLabel(): string {
     return this.isLocked ? 'Locked' : 'Unlocked';
+  }
+
+  get toolModeIndicatorLabel(): string {
+    return this.isPanMode ? 'MODE: Pan' : 'MODE: Edit';
+  }
+
+  get toolModeTooltipLabel(): string {
+    return this.isPanMode ? 'Switch to select and edit mode' : 'Switch to pan and swipe mode';
+  }
+
+  get toolModeAriaLabel(): string {
+    return this.toolModeTooltipLabel;
+  }
+
+  get toolModeIconName(): string {
+    return this.isPanMode ? 'swipe' : 'near_me';
+  }
+
+  get zoomIndicatorLabel(): string {
+    return `Zoom: ${Math.round(this.zoomPercentage * 100)}%`;
   }
 
   //
@@ -76,6 +97,7 @@ export class DiagramControlsComponent implements OnInit, OnDestroy {
             this.isZoomInPossible = event.isZoomInPossible;
             this.isZoomOutPossible = event.isZoomOutPossible;
             this.isZoomResetPossible = event.isZoomResetPossible;
+            this.zoomPercentage = event.zoomPercentage;
             break;
           case 'IDiagramControlsUndoRedoArgs':
             this.isUndoPossible = event.isUndoPossible;
@@ -182,6 +204,15 @@ export class DiagramControlsComponent implements OnInit, OnDestroy {
       kind: 'IDiagramToolRequestArgs',
       type: 'pan',
     } as IDiagramToolRequestArgs);
+  }
+
+  onToolModeButtonClick() {
+    if (this.isPanMode) {
+      this.onSelectModeButtonClick();
+      return;
+    }
+
+    this.onPanModeButtonClick();
   }
 
   onLineConnectorSelect() {

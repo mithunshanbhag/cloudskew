@@ -52,6 +52,27 @@ describe('DiagramControlsComponent', () => {
     expect(component.lockStatusLabel).toBe('Unlocked');
   });
 
+  it('should expose the correct tool mode status label', () => {
+    component.isPanMode = false;
+    expect(component.toolModeIndicatorLabel).toBe('MODE: Edit');
+
+    component.isPanMode = true;
+    expect(component.toolModeIndicatorLabel).toBe('MODE: Pan');
+  });
+
+  it('should expose the correct tool mode icon', () => {
+    component.isPanMode = false;
+    expect(component.toolModeIconName).toBe('near_me');
+
+    component.isPanMode = true;
+    expect(component.toolModeIconName).toBe('swipe');
+  });
+
+  it('should expose the zoom indicator label as a rounded percentage', () => {
+    component.zoomPercentage = 1.246;
+    expect(component.zoomIndicatorLabel).toBe('Zoom: 125%');
+  });
+
   // #endregion
 
   // #region Negative Cases
@@ -83,8 +104,34 @@ describe('DiagramControlsComponent', () => {
 
     component.onSelectModeButtonClick();
     component.onPanModeButtonClick();
+    component.onToolModeButtonClick();
 
     expect(diagramService.request).not.toHaveBeenCalled();
+  });
+
+  it('should request pan mode when toggle is clicked in edit mode', () => {
+    component.isLocked = false;
+    component.isPanMode = false;
+
+    component.onToolModeButtonClick();
+
+    expect(diagramService.request).toHaveBeenCalledOnceWith({
+      kind: 'IDiagramToolRequestArgs',
+      type: 'pan',
+    });
+  });
+
+  it('should request select mode when toggle is clicked in pan mode', () => {
+    component.isLocked = false;
+    component.isPanMode = true;
+    component.isSelectMode = false;
+
+    component.onToolModeButtonClick();
+
+    expect(diagramService.request).toHaveBeenCalledOnceWith({
+      kind: 'IDiagramToolRequestArgs',
+      type: 'select',
+    });
   });
 
   // #endregion
@@ -92,6 +139,7 @@ describe('DiagramControlsComponent', () => {
 
 describe('DiagramControlsComponent template', () => {
   let fixture: ComponentFixture<DiagramControlsComponent>;
+  let component: DiagramControlsComponent;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -105,6 +153,7 @@ describe('DiagramControlsComponent template', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(DiagramControlsComponent);
+    component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
@@ -120,6 +169,52 @@ describe('DiagramControlsComponent template', () => {
     expect(host.querySelector('.diagram-controls-group--destructive')).toBeNull();
     expect(insertGroup?.classList.contains('diagram-controls-group--offset-start')).toBeTrue();
     expect(dangerZoneGroup?.classList.contains('diagram-controls-group--offset-danger')).toBeTrue();
+  });
+
+  it('should render one tool mode toggle icon and the MODE: Edit chip', () => {
+    const host = fixture.nativeElement as HTMLElement;
+    const toolModesGroup = host.querySelector('[aria-label="Tool modes"]') as HTMLElement;
+
+    component.isSelectMode = true;
+    component.isPanMode = false;
+    fixture.detectChanges();
+
+    const modeButtons = toolModesGroup.querySelectorAll('button.diagram-control-button');
+    const modeIndicator = toolModesGroup.querySelector('.diagram-controls-indicator--mode') as HTMLElement;
+    const modeIcon = toolModesGroup.querySelector('mat-icon') as HTMLElement;
+
+    expect(modeButtons.length).toBe(1);
+    expect(modeIndicator).not.toBeNull();
+    expect(modeIndicator.textContent?.trim()).toBe('MODE: Edit');
+    expect(modeIcon.textContent?.trim()).toBe('near_me');
+  });
+
+  it('should render MODE: Pan chip text and swipe icon while pan mode is active', () => {
+    const host = fixture.nativeElement as HTMLElement;
+    const toolModesGroup = host.querySelector('[aria-label="Tool modes"]') as HTMLElement;
+
+    component.isSelectMode = false;
+    component.isPanMode = true;
+    fixture.detectChanges();
+
+    const modeIndicator = toolModesGroup.querySelector('.diagram-controls-indicator--mode') as HTMLElement;
+    const modeIcon = toolModesGroup.querySelector('mat-icon') as HTMLElement;
+
+    expect(modeIndicator).not.toBeNull();
+    expect(modeIndicator.textContent?.trim()).toBe('MODE: Pan');
+    expect(modeIcon.textContent?.trim()).toBe('swipe');
+  });
+
+  it('should render the zoom indicator chip inside the view commands group', () => {
+    const host = fixture.nativeElement as HTMLElement;
+    const viewGroup = host.querySelector('[aria-label="View commands"]') as HTMLElement;
+
+    component.zoomPercentage = 1.5;
+    fixture.detectChanges();
+
+    const zoomIndicator = viewGroup.querySelector('.diagram-controls-indicator--zoom') as HTMLElement;
+    expect(zoomIndicator).not.toBeNull();
+    expect(zoomIndicator.textContent?.trim()).toBe('Zoom: 150%');
   });
 
   // #endregion

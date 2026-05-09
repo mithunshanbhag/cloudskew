@@ -26,6 +26,7 @@ export interface IDiagramControlsZoomArgs {
   isZoomInPossible: boolean;
   isZoomOutPossible: boolean;
   isZoomResetPossible: boolean;
+  zoomPercentage: number;
 }
 
 export interface IDiagramControlsToolArgs {

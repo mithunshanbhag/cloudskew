@@ -41,3 +41,12 @@
 - `src\CloudSkew.Ui\` property-editor sliders should bind `matSliderThumb` via `(valueChange)` with numeric handlers instead of synthesizing `MatSliderChange` objects from `(input)` events; this keeps slider updates working after the Angular 21 Material upgrade.
 - `src\CloudSkew.Ui\` now applies the same `matSliderThumb (valueChange)` slider pattern across shape, connector, text, image, and symbol property editors to avoid regression after Angular Material upgrades.
 - `src\CloudSkew.Ui\` now uses a shared `--editor-rail-surface` token (`#f1f5f9`) for both `.sidebarControl` and `.propertiesbarControl` so the side rails keep consistent contrast against the canvas.
+- `src\CloudSkew.Ui\` top control bar now renders a tool-mode chip (`Select`/`Pan`) in the tool-mode group immediately beside the active mode icon, aligned with the lock-state chip pattern.
+- `docs\specs\ui.md` and `docs\ui-mockups\CloudSkewUiTopControlBar\` now define the tool-mode control as a single toggle icon that flips edit/pan state, with chip text constrained to `MODE: Edit` or `MODE: Pan`.
+- `src\CloudSkew.Ui\` top control bar tool mode now uses one toggle icon that switches between `near_me` and `swipe`; the adjacent chip text is `MODE: Edit` or `MODE: Pan`.
+- `src\CloudSkew.Ui\` bottom status bar now only shows zoom; mode text/chip rendering has been removed from `statusbar.component`.
+- `docs\specs\ui.md` and `docs\ui-mockups\CloudSkewUiTopControlBar\` now define a view-cluster zoom chip immediately right of zoom controls with text format `Zoom: xxx%`.
+- `src\CloudSkew.Ui\` top control bar view group now renders a zoom chip (`Zoom: xxx%`) after zoom out / center / zoom in, fed by `IDiagramControlsZoomArgs.zoomPercentage` from `diagram.component.ts`.
+- `src\CloudSkew.Ui\` bottom status bar is now intentionally visual-only chrome without mode/zoom readouts; `statusbar.component` no longer subscribes to status events.
+- `docs\specs\ui.md` and `docs\ui-mockups\CloudSkewUiBottomStatusBar\` now define full bottom status-bar removal, with mode/zoom readouts consolidated into top control-bar chips.
+- `src\CloudSkew.Ui\` now removes the bottom status bar entirely (`app-statusbar` and statusbar service/component files deleted); `diagram-editor` chrome height is `56px` and the main row fills the reclaimed footer space.

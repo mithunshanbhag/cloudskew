@@ -194,7 +194,7 @@ This file captures the checked-in UI details for the two CloudSkew web apps:
 | Left sidebar    | Fixed `240px` width, height `calc(100vh - 75px)`, contains the symbol palette.               |
 | Canvas region   | Width `calc(100vw - 460px)`, height `calc(100vh - 75px)`, scrollable.                        |
 | Properties bar  | Fixed `220px` width, height `calc(100vh - 75px)`, scrollable.                                |
-| Status bar      | Fixed `25px` height, width `100vw`.                                                          |
+| Status bar      | Removed from editor chrome; no bottom status surface is shown.                               |
 | Loading block   | Full viewport-height loading surface, centered content.                                      |
 
 ### Canvas And Diagram Defaults
@@ -285,11 +285,11 @@ The next pass should keep the same palette scope, search behavior, group orderin
 | Help menu         | Right-most toolbar `?` icon opens an Angular Material menu with keyboard shortcuts, FAQs, release notes, and GitHub issue link.      |
 | Quick insert menu | Angular Material menu for line/elbow/curved connectors, two-way variants, circle/ellipse, rectangle/square, text, and custom image. |
 | Progress state    | Delete/export/print buttons swap icon content for a `mat-spinner` while in progress.                                                |
-| Status bar        | Light gray, Roboto Mono `11px`; shows current mode and zoom percentage.                                                             |
+| Status bar        | Removed; mode and zoom readouts now live in top control-bar chips.                                                                   |
 
 #### Intended Design Refresh
 
-The next pass should keep the same functional controls and menu destinations, but restyle the top control bar and bottom status bar as a more cohesive command surface. The reference direction is a cleaner, MudBlazor-inspired command bar: grouped actions, calmer separators, stronger visual hierarchy, and consistent icon/menu treatment.
+The next pass should keep the same functional controls and menu destinations, while consolidating status readouts into the top control bar and removing the bottom status bar entirely. The reference direction is a cleaner, MudBlazor-inspired command bar: grouped actions, calmer separators, stronger visual hierarchy, and consistent icon/menu treatment.
 
 ##### Top Control Bar
 
@@ -299,6 +299,8 @@ The next pass should keep the same functional controls and menu destinations, bu
 | Layout | Replace the divider-after-every-button treatment with grouped action clusters separated by `12px` gaps. Within each group, keep `4px` gaps between controls so related actions read as a single command set. |
 | Branding | Keep the CloudSkew logo first, but place it in a `40px` rounded square tile with a matching wordmark label beside it. The branding block should anchor the bar visually without consuming excessive width. |
 | Action grouping | Present actions in this order: Branding, Insert, Tool Mode, History, View, Output, Danger Zone (delete/import), Diagram State (lock with state label), Help. The danger-zone pair must sit between the left command clusters and the lock/help endcap, isolated with an amber/yellow outline so delete/import read as cautionary controls without using destructive red on both buttons. Lock icon sits immediately left of "Locked"/"Unlocked" text label. |
+| Tool mode chip | In the Tool Mode cluster, use a single mode-toggle icon that flips between edit/select and pan states (matching the lock/unlock single-icon pattern), with a compact state chip immediately to its right. Keep the lock-state chip language (icon + pill pairing) so mode is explicit at a glance. The chip label must read `MODE: Edit` or `MODE: Pan` and update as mode changes. |
+| View zoom chip | In the View cluster, show a compact zoom-state chip immediately to the right of the zoom-out / center-view / zoom-in controls. The chip text must read `Zoom: xxx%` (for example `Zoom: 125%`) and update as zoom changes. |
 | Group separation accents | Add a clearly visible visual break before the Insert group (after branding) and before the Danger Zone group (after Output) so both clusters read as intentionally separated from neighboring controls. Target an extra `24px` left offset on desktop and reduce this to `12px` on narrower widths. |
 | Icon buttons | Standardize command buttons to `36px` square with `10px` radius and `20px` icons. Default state should be transparent with `#e5e7eb` icons, hover/focus should use `#1f2937`, and active mode buttons should use a teal fill (`#14b8a6`) with white icon contrast. |
 | State colors | Avoid using unrelated greens/oranges for most controls. Reserve teal for active or selected states, amber (`#f59e0b`) for cautionary unlocked attention states when needed, and red (`#ef4444`) only for destructive delete affordances. |
@@ -321,13 +323,9 @@ The next pass should keep the same functional controls and menu destinations, bu
 
 | Area | Intended design change |
 | ---- | ---------------------- |
-| Surface | Increase the status bar to `32px` height with `8px 16px` padding, a light neutral background (`#f8fafc`), and a thin top border (`#dbe4ee`) so it feels intentional rather than a leftover footer strip. |
-| Layout | Keep the content minimal and stable: left-aligned mode indicator, right-aligned zoom indicator, with a flexible center gap reserved for future editor feedback without forcing a redesign later. |
-| Readouts | Present mode and zoom as compact chips instead of plain text. Each chip should use a `24px` height, `999px` radius, `6px` horizontal gap between icon and text, and subtle neutral fill. |
-| Typography | Use `11px` uppercase/label text for chip captions and `12px` `Roboto Mono` for values such as `select`, `pan`, or `125%`. This keeps the bar readable while still feeling technical and tool-oriented. |
-| Color | Use cool neutral text (`#334155`) on light chips (`#e2e8f0`), with a teal accent dot or icon for the active mode chip. Avoid heavy borders or saturated backgrounds so the status bar remains secondary to the canvas. |
-| Spacing | Keep `12px` spacing between chips and ensure the zoom chip sits flush to the right edge rhythm rather than floating away from the bar edge. |
-| Responsiveness | Preserve the same visual structure when horizontal space tightens: chips may compress their interior gap, but the bar should not wrap or increase in height. |
+| Surface | Remove the bottom status bar entirely from the editor chrome so the canvas and side rails terminate directly at the window edge. |
+| Readouts | Keep mode and zoom readouts in the top control bar chips (`MODE: ...` in Tool Mode and `Zoom: xxx%` in View). |
+| Layout impact | Reclaim the former status-bar height for the editor body so there is no reserved footer strip or top-border divider at the bottom. |
 
 ### Properties Bar And Editing Controls
 

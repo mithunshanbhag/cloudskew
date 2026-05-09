@@ -24,7 +24,6 @@ import { SymbolFamilyConstants } from '../../constants/symbol-family-constants';
 import { ISymbolDefinition } from '../../interfaces/symbol-definition';
 import { DiagramControlsService, IDiagramControlsToolArgs } from '../diagram-controls/diagram-controls.service';
 import { ImageUploadDialogComponent, ImageUploadDialogResult } from '../image-upload-dialog/image-upload-dialog.component';
-import { IDiagramToolChangedEventArgs, StatusbarEventArgs, StatusbarService } from '../statusbar/statusbar.service';
 
 
 @Component({
@@ -127,7 +126,6 @@ export class DiagramComponent implements OnInit, OnDestroy, OnChanges {
     private diagramControlsService: DiagramControlsService,
     private diagramService: DiagramService,
     private dialog: MatDialog,
-    private statusbarService: StatusbarService,
     private localPersistenceService: LocalPersistenceService,
     private logger: LoggingService,
   ) { }
@@ -326,12 +324,8 @@ export class DiagramComponent implements OnInit, OnDestroy, OnChanges {
       isZoomInPossible: DiagramComponentHelper.isZoomInPossible(this.diagramControl),
       isZoomOutPossible: DiagramComponentHelper.isZoomOutPossible(this.diagramControl),
       isZoomResetPossible: DiagramComponentHelper.isZoomResetPossible(this.diagramControl),
+      zoomPercentage: args.newValue.CurrentZoom,
     });
-
-    this.statusbarService.request({
-      kind: 'IDiagramZoomChangedEventArgs',
-      value: args.newValue.CurrentZoom,
-    } as StatusbarEventArgs);
   }
 
   onDiagramControlClick(args: IClickEventArgs) {
@@ -429,15 +423,12 @@ export class DiagramComponent implements OnInit, OnDestroy, OnChanges {
           isZoomInPossible: DiagramComponentHelper.isZoomInPossible(this.diagramControl),
           isZoomOutPossible: DiagramComponentHelper.isZoomOutPossible(this.diagramControl),
           isZoomResetPossible: DiagramComponentHelper.isZoomResetPossible(this.diagramControl),
+          zoomPercentage: this.diagramControl.scrollSettings.currentZoom,
         });
 
         // properties bar should display diagram page properties when diagram is unlocked
         this.visualPropertiesEditorService.request(DiagramComponentHelper.isLocked(this.diagramControl) ? null : this.diagramControl);
 
-        this.statusbarService.request({
-          kind: 'IDiagramZoomChangedEventArgs',
-          value: this.diagramControl.scrollSettings.currentZoom,
-        } as StatusbarEventArgs);
       }
     } finally {
       this.isDiagramLoading = false;
@@ -941,11 +932,6 @@ export class DiagramComponent implements OnInit, OnDestroy, OnChanges {
       isPanMode: false,
       isSelectMode: true,
     } as IDiagramControlsToolArgs);
-
-    this.statusbarService.request({
-      kind: 'IDiagramToolChangedEventArgs',
-      value: 'select/edit',
-    } as IDiagramToolChangedEventArgs);
   }
 
   private setPanMode() {
@@ -956,11 +942,6 @@ export class DiagramComponent implements OnInit, OnDestroy, OnChanges {
       isPanMode: true,
       isSelectMode: false,
     } as IDiagramControlsToolArgs);
-
-    this.statusbarService.request({
-      kind: 'IDiagramToolChangedEventArgs',
-      value: 'pan/swipe',
-    } as IDiagramToolChangedEventArgs);
   }
 
   //#endregion private methods

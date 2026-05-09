@@ -1,7 +1,7 @@
 .diagram-editor {
     --diagram-editor-sidebar-width: 272px;
     --diagram-editor-propertiesbar-width: 280px;
-    --diagram-editor-chrome-height: 88px;
+    --diagram-editor-chrome-height: 56px;
 
     /* container for horizontal flexbox items */
     display: flex;
@@ -48,17 +48,6 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-}
-
-.diagram-editor-statusbar {
-    /* vertical flexbox item */
-    flex-basis: 32px;
-
-    /* dimensions */
-    width: 100vw;
-    height: 32px;
-    min-height: 32px;
-    max-height: 32px;
 }
 
 .diagram-editor-maincontent {

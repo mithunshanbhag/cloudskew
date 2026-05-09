@@ -81,26 +81,18 @@
     <div class="diagram-controls-group" role="group" aria-label="Tool modes">
       <button
         mat-icon-button
-        class="diagram-control-button"
-        [class.diagram-control-button--active]="this.isSelectMode"
-        matTooltip="Select and edit mode"
+        class="diagram-control-button diagram-control-button--active"
+        [matTooltip]="this.toolModeTooltipLabel"
         [disableRipple]="true"
         [disabled]="this.isLocked"
-        [attr.aria-pressed]="this.isSelectMode"
-        (click)="this.onSelectModeButtonClick()">
-        <mat-icon fontSet="material-icons-outlined">near_me</mat-icon>
-      </button>
-      <button
-        mat-icon-button
-        class="diagram-control-button"
-        [class.diagram-control-button--active]="this.isPanMode"
-        matTooltip="Pan and swipe mode"
-        [disableRipple]="true"
-        [disabled]="this.isLocked"
+        [attr.aria-label]="this.toolModeAriaLabel"
         [attr.aria-pressed]="this.isPanMode"
-        (click)="this.onPanModeButtonClick()">
-        <mat-icon fontSet="material-icons-outlined">swipe</mat-icon>
+        (click)="this.onToolModeButtonClick()">
+        <mat-icon fontSet="material-icons-outlined">{{ this.toolModeIconName }}</mat-icon>
       </button>
+      <span class="diagram-controls-indicator diagram-controls-indicator--mode">
+        {{ this.toolModeIndicatorLabel }}
+      </span>
     </div>
 
     <div class="diagram-controls-group" role="group" aria-label="History commands">
@@ -152,6 +144,9 @@
         (click)="this.onZoomInButtonClick()">
         <mat-icon fontSet="material-icons-outlined">zoom_in</mat-icon>
       </button>
+      <span class="diagram-controls-indicator diagram-controls-indicator--zoom">
+        {{ this.zoomIndicatorLabel }}
+      </span>
     </div>
 
     <div class="diagram-controls-group" role="group" aria-label="Output commands">
