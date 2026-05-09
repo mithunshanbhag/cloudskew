@@ -9,7 +9,7 @@ on:
         default: false
 
 env:
-  APP_NAME_API: cloudskew-ai
+  APP_NAME_API: cloudskew-api
   APP_NAME_LANDING_PAGE: cloudskew-landing
   APP_NAME_ASSETS: cloudskew-assets
   APP_NAME_DOCS: cloudskew-docs

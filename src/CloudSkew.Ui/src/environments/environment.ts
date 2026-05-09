@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   aiInstrumentationKey: 'db116377-6a23-4d6a-945b-38af84a8db0e',
   cdnUrlPrefix: 'http://localhost:7001',
-  webAPIUrl: 'https://localhost:6001',
+  webAPIUrl: 'http://localhost:7184',
   docsUrl: 'http://localhost:4203',
 };
 
