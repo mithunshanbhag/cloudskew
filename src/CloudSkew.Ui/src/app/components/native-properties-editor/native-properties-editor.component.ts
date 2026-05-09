@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { MatSliderChange } from '@angular/material/slider';
 import { faEllipsisH, faLock, faUnlock } from '@fortawesome/free-solid-svg-icons';
 import { TextAlign, TextDecoration, TextStyleModel } from '@syncfusion/ej2-angular-diagrams';
 import { NodeModel } from '@syncfusion/ej2-diagrams';
@@ -112,16 +111,16 @@ export class NativePropertiesEditorComponent {
     return SymbolHelper.isSymbolAspectRatioLocked(this.activeNativeSymbol);
   }
 
-  onAnnotationFontSizeChange(args: MatSliderChange) {
-    (this.activeNativeSymbol.annotations[0].style as TextStyleModel).fontSize = args.value;
+  onAnnotationFontSizeChange(value: number) {
+    (this.activeNativeSymbol.annotations[0].style as TextStyleModel).fontSize = value;
   }
 
   onAnnotationBoldButtonClick() {
     (this.activeNativeSymbol.annotations[0].style as TextStyleModel).bold = !(this.activeNativeSymbol.annotations[0].style as TextStyleModel).bold;
   }
 
-  onOpacityChange(args: MatSliderChange) {
-    this.activeNativeSymbol.style.opacity = args.value;
+  onOpacityChange(value: number) {
+    this.activeNativeSymbol.style.opacity = value;
   }
 
   onSymbolAspectRatioLockChange(args: MatCheckboxChange) {

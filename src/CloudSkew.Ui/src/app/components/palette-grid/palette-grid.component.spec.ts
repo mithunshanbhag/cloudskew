@@ -56,7 +56,7 @@ describe('PaletteGridComponent', () => {
 
     expect(host.querySelector('.palettePanelTitle')?.textContent?.trim()).toBe('Symbol palette');
     expect(host.querySelector('.palettePanelFilterButton .mat-icon')?.textContent?.trim()).toBe('filter_alt');
-    expect(host.querySelector('.palettePanelDescriptionButton')?.textContent?.trim()).toBe('3 libraries enabled');
+    expect(host.querySelector('.palettePanelDescriptionButton')?.textContent?.trim()).toBe('2 libraries enabled');
     expect(titleRowChildren[1]).toBe(host.querySelector('.palettePanelFilterButton'));
     expect(host.querySelector('.palettePanelEyebrow')).toBeNull();
     expect(host.querySelector('.palettePanelFamilyPills')).toBeNull();

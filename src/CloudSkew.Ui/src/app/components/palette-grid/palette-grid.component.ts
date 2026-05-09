@@ -233,9 +233,12 @@ export class PaletteGridComponent implements OnInit, OnDestroy {
   }
 
   private updateEnabledSymbolFamilySummary(enabledSymbolFamilies: ISymbolFamilyDefinition[]) {
-    this.enabledSymbolFamilySummaryText = enabledSymbolFamilies.length === 1
+    const visibleEnabledSymbolFamilies = enabledSymbolFamilies
+      .filter(symbolFamily => symbolFamily.id !== SymbolFamilyConstants.General);
+
+    this.enabledSymbolFamilySummaryText = visibleEnabledSymbolFamilies.length === 1
       ? '1 library enabled'
-      : `${enabledSymbolFamilies.length} libraries enabled`;
+      : `${visibleEnabledSymbolFamilies.length} libraries enabled`;
   }
 
   //#endregion private helper methods

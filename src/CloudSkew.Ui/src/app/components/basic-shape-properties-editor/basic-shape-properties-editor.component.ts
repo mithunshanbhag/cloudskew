@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
-import { MatSliderChange } from '@angular/material/slider';
 import { faLock, faUnlock } from '@fortawesome/free-solid-svg-icons';
 import { TextAlign, TextDecoration, TextStyleModel } from '@syncfusion/ej2-angular-diagrams';
 import { NodeModel } from '@syncfusion/ej2-diagrams';
@@ -141,20 +140,20 @@ export class BasicShapePropertiesEditorComponent {
     (this.activeBasicShape.annotations[0].style as TextStyleModel).bold = !(this.activeBasicShape.annotations[0].style as TextStyleModel).bold;
   }
 
-  onAnnotationFontSizeChange(args: MatSliderChange) {
-    (this.activeBasicShape.annotations[0].style as TextStyleModel).fontSize = args.value;
+  onAnnotationFontSizeChange(value: number) {
+    (this.activeBasicShape.annotations[0].style as TextStyleModel).fontSize = value;
   }
 
   onAnnotationItalicButtonClick() {
     (this.activeBasicShape.annotations[0].style as TextStyleModel).italic = !(this.activeBasicShape.annotations[0].style as TextStyleModel).italic;
   }
 
-  onOpacityChange(args: MatSliderChange) {
-    this.activeBasicShape.style.opacity = args.value;
+  onOpacityChange(value: number) {
+    this.activeBasicShape.style.opacity = value;
   }
 
-  onStrokeWidthChange(args: MatSliderChange) {
-    this.activeBasicShape.style.strokeWidth = args.value;
+  onStrokeWidthChange(value: number) {
+    this.activeBasicShape.style.strokeWidth = value;
   }
 
   onSymbolAspectRatioLockChange(args: MatCheckboxChange) {

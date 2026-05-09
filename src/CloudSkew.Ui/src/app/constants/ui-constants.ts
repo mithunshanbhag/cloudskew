@@ -1,7 +1,7 @@
 export class UIConstants {
 
     // palette grid control
-    public static readonly paletteGridControlSymbolImageWidth = '30px';
+    public static readonly paletteGridControlSymbolImageWidth = '54px';
     public static readonly paletteGridControlSymbolInfoGlyphWidth = '30px';
 
     // diagram control page settings

@@ -1,5 +1,4 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
-import { MatSliderChange } from '@angular/material/slider';
 import { faLock, faUnlock } from '@fortawesome/free-solid-svg-icons';
 import { TextAlign, TextDecoration, TextStyleModel } from '@syncfusion/ej2-angular-diagrams';
 import { ConnectorModel } from '@syncfusion/ej2-diagrams';
@@ -133,8 +132,8 @@ export class ConnectorPropertiesEditorComponent {
     (this.activeConnector.annotations[0].style as TextStyleModel).textAlign = val;
   }
 
-  onAnnotationFontSizeChange(args: MatSliderChange) {
-    (this.activeConnector.annotations[0].style as TextStyleModel).fontSize = args.value;
+  onAnnotationFontSizeChange(value: number) {
+    (this.activeConnector.annotations[0].style as TextStyleModel).fontSize = value;
   }
 
   onAnnotationBoldButtonClick() {
@@ -145,15 +144,14 @@ export class ConnectorPropertiesEditorComponent {
     (this.activeConnector.annotations[0].style as TextStyleModel).italic = !(this.activeConnector.annotations[0].style as TextStyleModel).italic;
   }
 
-  onOpacityChange(args: MatSliderChange) {
-    const newValue = args.value as number;
-    this.activeConnector.style.opacity = newValue;
-    this.activeConnector.sourceDecorator.style.opacity = newValue;
-    this.activeConnector.targetDecorator.style.opacity = newValue;
+  onOpacityChange(value: number) {
+    this.activeConnector.style.opacity = value;
+    this.activeConnector.sourceDecorator.style.opacity = value;
+    this.activeConnector.targetDecorator.style.opacity = value;
   }
 
-  onWidthChange(args: MatSliderChange) {
-    this.activeConnector.style.strokeWidth = args.value;
+  onWidthChange(value: number) {
+    this.activeConnector.style.strokeWidth = value;
   }
 
   isLocked() {

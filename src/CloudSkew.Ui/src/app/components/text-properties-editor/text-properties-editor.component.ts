@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
-import { MatSliderChange } from '@angular/material/slider';
 import { faLock, faUnlock } from '@fortawesome/free-solid-svg-icons';
 import { NodeModel, TextAlign, TextDecoration, TextStyleModel } from '@syncfusion/ej2-diagrams';
 import { SymbolHelper } from 'src/app/utilities/symbol-helper';
@@ -100,16 +99,16 @@ export class TextPropertiesEditorComponent {
     (this.activeTextShape.style as TextStyleModel).bold = !(this.activeTextShape.style as TextStyleModel).bold;
   }
 
-  onFontSizeChange(args: MatSliderChange) {
-    (this.activeTextShape.style as TextStyleModel).fontSize = args.value;
+  onFontSizeChange(value: number) {
+    (this.activeTextShape.style as TextStyleModel).fontSize = value;
   }
 
   onItalicButtonClick() {
     (this.activeTextShape.style as TextStyleModel).italic = !(this.activeTextShape.style as TextStyleModel).italic;
   }
 
-  onOpacityChange(args: MatSliderChange) {
-    this.activeTextShape.style.opacity = args.value;
+  onOpacityChange(value: number) {
+    this.activeTextShape.style.opacity = value;
   }
 
   onSymbolAspectRatioLockChange(args: MatCheckboxChange) {

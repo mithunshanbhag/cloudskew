@@ -35,9 +35,8 @@
             </div>
             <mat-slider color="primary" [min]="this.opacitySliderMin" [max]="this.opacitySliderMax"
               [step]="this.opacitySliderStep" #ngSlider>
-              <input matSliderThumb aria-label="Image opacity"
-                (input)="this.onOpacityChange({source: ngSliderThumb, parent: ngSlider, value: ngSliderThumb.value})"
-                #ngSliderThumb="matSliderThumb" [(value)]="this.activeImageShape.style.opacity" />
+              <input matSliderThumb aria-label="Image opacity" [value]="this.activeImageShape.style.opacity"
+                (valueChange)="this.onOpacityChange($event)" />
             </mat-slider>
           </div>
         </section>
@@ -166,8 +165,7 @@
             <mat-slider color="primary" [min]="this.annotationFontSizeSliderMin"
               [max]="this.annotationFontSizeSliderMax" [step]="this.annotationFontSizeSliderStep" #ngSlider>
               <input matSliderThumb aria-label="Image annotation font size" [value]="this.annotationFontSize"
-                (input)="this.onAnnotationFontSizeChange({source: ngSliderThumb, parent: ngSlider, value: ngSliderThumb.value})"
-                #ngSliderThumb="matSliderThumb" />
+                (valueChange)="this.onAnnotationFontSizeChange($event)" />
             </mat-slider>
           </div>
         </section>

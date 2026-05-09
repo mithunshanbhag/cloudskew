@@ -36,8 +36,7 @@
             <mat-slider color="primary" [min]="this.opacitySliderMin" [max]="this.opacitySliderMax"
               [step]="this.opacitySliderStep" #ngSlider>
               <input matSliderThumb aria-label="Text opacity" [value]="this.activeTextShape.style.opacity"
-                (input)="this.onOpacityChange({source: ngSliderThumb, parent: ngSlider, value: ngSliderThumb.value})"
-                #ngSliderThumb="matSliderThumb" />
+                (valueChange)="this.onOpacityChange($event)" />
             </mat-slider>
           </div>
         </section>
@@ -165,8 +164,7 @@
             <mat-slider color="primary" [min]="this.fontSizeSliderMin" [max]="this.fontSizeSliderMax"
               [step]="this.fontSizeSliderStep" #ngSlider>
               <input matSliderThumb aria-label="Text font size" [value]="this.fontSize"
-                (input)="this.onFontSizeChange({source: ngSliderThumb, parent: ngSlider, value: ngSliderThumb.value})"
-                #ngSliderThumb="matSliderThumb" />
+                (valueChange)="this.onFontSizeChange($event)" />
             </mat-slider>
           </div>
         </section>

@@ -93,8 +93,7 @@
             <mat-slider color="primary" [min]="this.widthSliderMin" [max]="this.widthSliderMax"
               [step]="this.widthSliderStep" #ngSlider>
               <input matSliderThumb aria-label="Connector line width" [value]="this.activeConnector.style.strokeWidth"
-                (input)="this.onWidthChange({source: ngSliderThumb, parent: ngSlider, value: ngSliderThumb.value})"
-                #ngSliderThumb="matSliderThumb" />
+                (valueChange)="this.onWidthChange($event)" />
             </mat-slider>
           </div>
           <div class="propertyWindowPaneItem propertyWindowPaneItemStack">
@@ -107,8 +106,7 @@
             <mat-slider color="primary" [min]="this.opacitySliderMin" [max]="this.opacitySliderMax"
               [step]="this.opacitySliderStep" #ngSlider>
               <input matSliderThumb aria-label="Connector opacity" [value]="this.activeConnector.style.opacity"
-                (input)="this.onOpacityChange({source: ngSliderThumb, parent: ngSlider, value: ngSliderThumb.value})"
-                #ngSliderThumb="matSliderThumb" />
+                (valueChange)="this.onOpacityChange($event)" />
             </mat-slider>
           </div>
         </section>
@@ -226,8 +224,7 @@
             <mat-slider color="primary" [min]="this.annotationFontSizeSliderMin"
               [max]="this.annotationFontSizeSliderMax" [step]="this.annotationFontSizeSliderStep" #ngSlider>
               <input matSliderThumb aria-label="Connector annotation font size" [value]="this.annotationFontSize"
-                (input)="this.onAnnotationFontSizeChange({source: ngSliderThumb, parent: ngSlider, value: ngSliderThumb.value})"
-                #ngSliderThumb="matSliderThumb" />
+                (valueChange)="this.onAnnotationFontSizeChange($event)" />
             </mat-slider>
           </div>
         </section>

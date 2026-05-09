@@ -45,8 +45,7 @@
             <mat-slider color="primary" [min]="this.opacitySliderMin" [max]="this.opacitySliderMax"
               [step]="this.opacitySliderStep" #ngSlider>
               <input matSliderThumb aria-label="Shape opacity" [value]="this.activeBasicShape.style.opacity"
-                (input)="this.onOpacityChange({source: ngSliderThumb, parent: ngSlider, value: ngSliderThumb.value})"
-                #ngSliderThumb="matSliderThumb" />
+                (valueChange)="this.onOpacityChange($event)" />
             </mat-slider>
           </div>
         </section>
@@ -90,8 +89,7 @@
             <mat-slider color="primary" [min]="this.borderWidthSliderMin" [max]="this.borderWidthSliderMax"
               [step]="this.borderWidthSliderStep" #ngSlider>
               <input matSliderThumb aria-label="Shape border width" [value]="this.activeBasicShape.style.strokeWidth"
-                (input)="this.onStrokeWidthChange({source: ngSliderThumb, parent: ngSlider, value: ngSliderThumb.value})"
-                #ngSliderThumb="matSliderThumb" />
+                (valueChange)="this.onStrokeWidthChange($event)" />
             </mat-slider>
           </div>
         </section>
@@ -220,8 +218,7 @@
             <mat-slider color="primary" [min]="this.annotationFontSizeSliderMin"
               [max]="this.annotationFontSizeSliderMax" [step]="this.annotationFontSizeSliderStep" #ngSlider>
               <input matSliderThumb aria-label="Shape annotation font size" [value]="this.annotationFontSize"
-                (input)="this.onAnnotationFontSizeChange({source: ngSliderThumb, parent: ngSlider, value: ngSliderThumb.value})"
-                #ngSliderThumb="matSliderThumb" />
+                (valueChange)="this.onAnnotationFontSizeChange($event)" />
             </mat-slider>
           </div>
         </section>
