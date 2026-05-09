@@ -160,6 +160,10 @@ jobs:
       - name: install npm packages
         run: npm install
         working-directory: ./src/CloudSkew.Ui
+      - name: activate Syncfusion License
+        run: npx syncfusion-license activate
+        env:
+          SYNCFUSION_LICENSE: ${{ secrets.SYNCFUSION_LICENSE_KEY }}
       - name: build cloudskew ui
         run: npm run build-testing
         working-directory: ./src/CloudSkew.Ui
