@@ -6,11 +6,8 @@ export const environment = {
   production: false,
   aiInstrumentationKey: 'db116377-6a23-4d6a-945b-38af84a8db0e',
   cdnUrlPrefix: 'http://localhost:7001',
-  customImagesUrlPrefix: 'https://cloudskewcustomimagestest.azureedge.net',
   diagramHelperWebAPIUrl: 'https://localhost:6001/api',
   docsUrl: 'http://localhost:4203',
-  webAPIPublicUrl: 'https://localhost:5001/api',
-  webAPIUrl: 'https://localhost:5001/api',
 };
 
 /*
