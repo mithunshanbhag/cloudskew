@@ -8,6 +8,10 @@ on:
         required: true
         default: false
 
+permissions:
+  contents: read
+  packages: write
+
 env:
   APP_NAME_API: cloudskew-api
   APP_NAME_LANDING_PAGE: cloudskew-landing
@@ -21,6 +25,10 @@ env:
   # metadata will be stored, and not where the resource groups will be deployed.
   # You can specify any location for `SUB_DEPLOYMENT_REGION`. It's the region where the deployment
   SUB_DEPLOYMENT_REGION: centralindia
+  # Change the package name if you want a different GHCR namespace.
+  GHCR_IMAGE_NAME: ghcr.io/${{ github.repository_owner }}/cloudskew-api
+  GHCR_IMAGE_TAG_UNIQUE: run-${{ github.run_number }}-attempt-${{ github.run_attempt }}
+  GHCR_IMAGE_TAG_STABLE: latest
 
 jobs:
   provision:
@@ -300,22 +308,21 @@ jobs:
     steps:
       - name: checkout code
         uses: actions/checkout@v4.1.1
-      - name: setup dotnet
-        uses: actions/setup-dotnet@v4.0.0
+      - name: set up docker buildx
+        uses: docker/setup-buildx-action@v3
+      - name: log in to ghcr
+        uses: docker/login-action@v3
         with:
-          dotnet-version: ${{ env.DOTNET_VERSION_10 }}
-      - name: dotnet restore
-        run: dotnet restore
-        working-directory: ./src/CloudSkew.Api
-      - name: build cloudskew api
-        run: dotnet publish -c Release -o ./publish
-        working-directory: ./src/CloudSkew.Api
-      - name: azure login
-        uses: azure/login@v2.2.0
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+      - name: build and push api image
+        uses: docker/build-push-action@v6
         with:
-          creds: ${{ secrets.SERVICEPRINCIPAL }}
-      - name: deploy cloudskew api to function app
-        uses: Azure/functions-action@v1.5.6
-        with:
-          app-name: ${{ env.APP_NAME_API }} # The function app has the same name as the swa for simplicity, but it can be different.
-          package: ./src/CloudSkew.Api/publish
+          context: ./src/CloudSkew.Api
+          file: ./src/CloudSkew.Api/Dockerfile
+          push: true
+          tags: |
+            ${{ env.GHCR_IMAGE_NAME }}:${{ env.GHCR_IMAGE_TAG_UNIQUE }}
+            ${{ env.GHCR_IMAGE_NAME }}:${{ env.GHCR_IMAGE_TAG_STABLE }}
+      # Add downstream deployment steps here if/when the API should be pulled from GHCR.

@@ -50,3 +50,4 @@
 - `src\CloudSkew.Ui\` bottom status bar is now intentionally visual-only chrome without mode/zoom readouts; `statusbar.component` no longer subscribes to status events.
 - `docs\specs\ui.md` and `docs\ui-mockups\CloudSkewUiBottomStatusBar\` now define full bottom status-bar removal, with mode/zoom readouts consolidated into top control-bar chips.
 - `src\CloudSkew.Ui\` now removes the bottom status bar entirely (`app-statusbar` and statusbar service/component files deleted); `diagram-editor` chrome height is `56px` and the main row fills the reclaimed footer space.
+- The API container workflow should build from `src\CloudSkew.Api\` and publish to GHCR with a run-unique tag plus `latest`; `GITHUB_TOKEN` with `packages: write` is enough for same-repo pushes unless org policy requires a PAT.
