@@ -325,6 +325,10 @@ jobs:
           tags: |
             ${{ env.GHCR_IMAGE_NAME }}:${{ env.GHCR_IMAGE_TAG_UNIQUE }}
             ${{ env.GHCR_IMAGE_NAME }}:${{ env.GHCR_IMAGE_TAG_STABLE }}
+      - name: azure login
+        uses: azure/login@v2.2.0
+        with:
+          creds: ${{ secrets.SERVICEPRINCIPAL }}
       - name: deploy to aca
         uses: azure/CLI@v1
         with:
