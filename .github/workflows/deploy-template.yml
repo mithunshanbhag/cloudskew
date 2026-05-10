@@ -13,7 +13,7 @@ permissions:
   packages: write
 
 env:
-  APP_NAME_API: cloudskew-api
+  APP_NAME_API: cloudskew-aca
   APP_NAME_LANDING_PAGE: cloudskew-landing
   APP_NAME_ASSETS: cloudskew-assets
   APP_NAME_DOCS: cloudskew-docs
@@ -325,4 +325,9 @@ jobs:
           tags: |
             ${{ env.GHCR_IMAGE_NAME }}:${{ env.GHCR_IMAGE_TAG_UNIQUE }}
             ${{ env.GHCR_IMAGE_NAME }}:${{ env.GHCR_IMAGE_TAG_STABLE }}
-      # Add downstream deployment steps here if/when the API should be pulled from GHCR.
+      - name: deploy to aca
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            az config set extension.use_dynamic_install=yes_without_prompt
+            az containerapp update -n ${{ env.APP_NAME_API }} -g ${{ env.RESOURCE_GROUP_NAME }} --image ${{ env.GHCR_IMAGE_NAME }}:${{ env.GHCR_IMAGE_TAG_UNIQUE }}
