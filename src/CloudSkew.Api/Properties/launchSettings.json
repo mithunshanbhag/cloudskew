@@ -2,8 +2,14 @@
   "profiles": {
     "CloudSkew.Api": {
       "commandName": "Project",
-      "commandLineArgs": "--port 7184",
-      "launchBrowser": false
+      "commandLineArgs": "--port 7184"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker",
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+      "containerRunArguments": "--init",
+      "httpPort": 33707,
+      "useSSL": false
     }
   }
 }
