@@ -36,11 +36,11 @@ var appInsightsName = '${prefix}-ai-${suffix}'
 var incidentManagementQueryPackName = '${prefix}-incident-management-${suffix}'
 
 // static web apps
-var swaLandingPageName = '${prefix}-swa-landing-${suffix}'
-var swaUiName = '${prefix}-swa-ui-${suffix}'
-var swaBlogName = '${prefix}-swa-blog-${suffix}'
-var swaDocsName = '${prefix}-swa-docs-${suffix}'
-var swaAssetsName = '${prefix}-swa-assets-${suffix}'
+var swaLandingPageName = '${prefix}-landing-${suffix}'
+var swaUiName = '${prefix}-ui-${suffix}'
+var swaBlogName = '${prefix}-blog-${suffix}'
+var swaDocsName = '${prefix}-docs-${suffix}'
+var swaAssetsName = '${prefix}-assets-${suffix}'
 
 // Note: Only the following are the available locations for SWAs: 'centralus,eastus2,westus2,westeurope,eastasia'.
 // Hence cannot use `resourceLocation`.
