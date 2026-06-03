@@ -35,6 +35,17 @@ var appInsightsName = '${prefix}-ai-${suffix}'
 // query packs
 var incidentManagementQueryPackName = '${prefix}-incident-management-${suffix}'
 
+// static web apps
+var swaLandingPageName = '${prefix}-swa-landing-${suffix}'
+var swaUiName = '${prefix}-swa-ui-${suffix}'
+var swaBlogName = '${prefix}-swa-blog-${suffix}'
+var swaDocsName = '${prefix}-swa-docs-${suffix}'
+var swaAssetsName = '${prefix}-swa-assets-${suffix}'
+
+// Note: Only the following are the available locations for SWAs: 'centralus,eastus2,westus2,westeurope,eastasia'.
+// Hence cannot use `resourceLocation`.
+var staticWebAppLocation = 'eastasia'
+
 // tags
 var resourceTags = {
   Product: prefix
@@ -271,4 +282,69 @@ resource resIncidentManagementQueryPack 'Microsoft.OperationalInsights/querypack
       }
     }
   }
+}
+
+//
+// Static web apps
+// 
+
+// landing page app
+resource resSwaLandingPage 'Microsoft.Web/staticSites@2025-03-01' = {
+  name: swaLandingPageName
+  location: staticWebAppLocation
+  tags: resourceTags
+  sku: {
+    name: 'Free'
+    tier: 'Free'
+  }
+  properties: {}
+}
+
+
+// ui app
+resource resSwaUi 'Microsoft.Web/staticSites@2025-03-01' = {
+  name: swaUiName
+  location: staticWebAppLocation
+  tags: resourceTags
+  sku: {
+    name: 'Free'
+    tier: 'Free'
+  }
+  properties: {}
+}
+
+// blog app
+resource resSwaBlog 'Microsoft.Web/staticSites@2025-03-01' = {
+  name: swaBlogName
+  location: staticWebAppLocation
+  tags: resourceTags
+  sku: {
+    name: 'Free'
+    tier: 'Free'
+  }
+  properties: {}
+}
+
+// docs app
+resource resSwaDocs 'Microsoft.Web/staticSites@2025-03-01' = {
+  name: swaDocsName
+  location: staticWebAppLocation
+  tags: resourceTags
+  sku: {
+    name: 'Free'
+    tier: 'Free'
+  }
+  properties: {}
+}
+
+// assets app
+resource resSwaAssets 'Microsoft.Web/staticSites@2025-03-01' = {
+  name: swaAssetsName
+  location: staticWebAppLocation
+  tags: resourceTags
+  sku: {
+    name: 'Free'
+    tier: 'Free'
+  }
+  properties: {}
 }
