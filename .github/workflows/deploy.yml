@@ -1,6 +1,11 @@
 name: cloudskew-deploy
 run-name: deploy cloudskew
 
+concurrency:
+  group: 'cloudskew-deploy'
+  cancel-in-progress: false
+  queue: max
+
 on:
   push:
     branches:
