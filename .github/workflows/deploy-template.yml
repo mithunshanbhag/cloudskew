@@ -3,10 +3,12 @@ name: cloudskew-deploy-template
 on:
   workflow_call:
     inputs:
-      runProvisioning:
-        type: boolean
+      environmentName:
         required: true
-        default: false
+        type: string
+      runProvisioning:
+        required: true
+        type: boolean
 
 permissions:
   contents: read
@@ -26,15 +28,16 @@ env:
   GHCR_IMAGE_TAG_STABLE: latest
   NODE_VERSION_24: "24.x"
   RESOURCE_GROUP_NAME: cloudskew-rg
+  RESOURCE_LOCK_NAME: cloudskew-rg-delete-lock
   # metadata will be stored, and not where the resource groups will be deployed.
   # You can specify any location for `SUB_DEPLOYMENT_REGION`. It's the region where the deployment
-  SUB_DEPLOYMENT_REGION: centralindia
+  SUB_DEPLOYMENT_REGION: westeurope
   SYNCFUSION_PACKAGE_VERSION: "33.x.x"
 
 jobs:
   provision:
-    runs-on: ubuntu-22.04
-    environment: test
+    runs-on: ubuntu-24.04
+    environment: ${{ inputs.environmentName }}
     timeout-minutes: 30
     steps:
       - name: checkout code
@@ -49,75 +52,29 @@ jobs:
         uses: azure/CLI@v2.2.0
         with:
           inlineScript: az bicep upgrade
-    #   #
-    #   # section #1: provisioning the resources on Azure using bicep templates
-    #   #
-    #   # The first step is to create the resource group: `carteplus-cloud-rg`.
-    #   # The below step can also be manually executed as follows:
-    #   # az deployment sub create --location {LOCATION} --template-file .\createResourceGroup.bicep
-    #   # Note: You can specify any location for `{LOCATION}`. It's the region where the deployment metadata will be stored, and not
-    #   # where the resource groups will be deployed.
-    #   # @TODO: The 'azure/arm-deploy' action will soon be deprecated. Move to the 'azure/bicep-deploy' github action.
-    #   - name: create resource group
-    #     uses: Azure/arm-deploy@v2
-    #     if: ${{ inputs.runProvisioning == true }}
-    #     with:
-    #       scope: subscription
-    #       region: ${{ env.SUB_DEPLOYMENT_REGION }}
-    #       template: ./IaC/createCartePlusResourceGroup.bicep
-    #       parameters: rgName=${{ env.RESOURCE_GROUP_NAME }} envName=${{ inputs.environmentName }} githubCommitSha=${{ github.sha }} githubWorkflowRunId=${{ github.run_id }} githubRef=${{ github.ref }}
-    #   # Delete resource lock if it exists on the resource group
-    #   - name: delete any existing resource lock
-    #     uses: azure/CLI@v2.2.0
-    #     if: ${{ inputs.runProvisioning == true }}
-    #     with:
-    #       inlineScript: |
-    #         az lock delete --name ${{ env.RESOURCE_LOCK_NAME }} --resource-group ${{ env.RESOURCE_GROUP_NAME }} || echo "No existing lock to delete"
-    #   # Next step is to deploy the Azure resources to the resource group `carteplus-cloud-rg` created above. The deployed resources
-    #   # include storage accounts, function apps, app services cosmos db, and service bus etc.
-    #   # The below step can also be manually executed as follows:
-    #   # az deployment group create -g carteplus-cloud-rg --template-file .\createResources.bicep --parameters .\createResources.parameters.json
-    #   # Note: The `createResources.parameters.json` file contains the parameters for the deployment; specifically the environment name.
-    #   # You can modify the parameters to customize the deployment.
-    #   # Note: The bicep template outputs are not shown in the logs. You can extract the outputs as shown here:
-    #   # https://github.com/Azure/arm-deploy#another-example-on-how-to-use-this-action-to-get-the-output-of-arm-template
-    #   # @TODO: The 'azure/arm-deploy' action will soon be deprecated. Move to the 'azure/bicep-deploy' github action.
-    #   - name: create resources
-    #     uses: Azure/arm-deploy@v2
-    #     if: ${{ inputs.runProvisioning == true }}
-    #     with:
-    #       scope: resourcegroup
-    #       region: ${{ env.SUB_DEPLOYMENT_REGION }}
-    #       resourceGroupName: ${{ env.RESOURCE_GROUP_NAME }}
-    #       deploymentMode: Complete
-    #       deploymentName: deployment-run${{ github.run_number }}-attempt${{ github.run_attempt }}
-    #       template: ./IaC/createCartePlusResources.bicep
-    #       parameters: envName=${{ inputs.environmentName }} githubCommitSha=${{ github.sha }} githubWorkflowRunId=${{ github.run_id }} githubRef=${{ github.ref }} ptlApiKey=${{ secrets.PTL_APIKEY }} supportEmail=${{ secrets.CARTEPLUS_SUPPORT_EMAIL }}
-    #   # Next step is to deploy the extension resources to the resource group `carteplus-cloud-rg` created above.
-    #   # Extension resources cannot be deployed in complete mode above, so we're deploying it separately from the resources.
-    #   - name: create extension resources
-    #     uses: Azure/arm-deploy@v2
-    #     if: ${{ inputs.runProvisioning == true }}
-    #     with:
-    #       scope: resourcegroup
-    #       region: ${{ env.SUB_DEPLOYMENT_REGION }}
-    #       resourceGroupName: ${{ env.RESOURCE_GROUP_NAME }}
-    #       deploymentMode: Incremental
-    #       deploymentName: deployment-run${{ github.run_number }}-attempt${{ github.run_attempt }}-extension
-    #       template: ./IaC/createCartePlusExtensionResources.bicep
-    #       parameters: envName=${{ inputs.environmentName }}
-    #   # Add resource lock
-    #   - name: add resource lock
-    #     uses: azure/CLI@v2.2.0
-    #     if: ${{ inputs.runProvisioning == true }}
-    #     with:
-    #       inlineScript: az lock create --name ${{ env.RESOURCE_LOCK_NAME }} --lock-type CanNotDelete --resource-group ${{ env.RESOURCE_GROUP_NAME }}
+      #
+      # section #1: provisioning the resources on Azure using bicep templates
+      #
+      # The first step is to create the resource group: `cloudskew-rg`.
+      # The below step can also be manually executed as follows:
+      # az deployment sub create --location {LOCATION} --template-file .\createResourceGroup.bicep
+      # Note: You can specify any location for `{LOCATION}`. It's the region where the deployment metadata will be stored, and not
+      # where the resource groups will be deployed.
+      # @TODO: The 'azure/arm-deploy' action will soon be deprecated. Move to the 'azure/bicep-deploy' github action.
+      - name: create resource group
+        uses: Azure/arm-deploy@v2
+        if: ${{ inputs.runProvisioning == true }}
+        with:
+          scope: subscription
+          region: ${{ env.SUB_DEPLOYMENT_REGION }}
+          template: ./infra/createResourceGroup.bicep
+          parameters: rgName=${{ env.RESOURCE_GROUP_NAME }} envName=${{ inputs.environmentName }} githubCommitSha=${{ github.sha }} githubWorkflowRunId=${{ github.run_id }} githubRef=${{ github.ref }}
 
   build-deploy-cloudskew-landing:
     runs-on: ubuntu-24.04
-    needs: provision
-    environment: test
+    environment: ${{ inputs.environmentName }}
     timeout-minutes: 10
+    needs: provision
     steps:
       - name: checkout code
         uses: actions/checkout@v4.1.1
@@ -154,9 +111,9 @@ jobs:
 
   build-deploy-cloudskew-ui:
     runs-on: ubuntu-24.04
-    needs: provision
-    environment: test
+    environment: ${{ inputs.environmentName }}
     timeout-minutes: 10
+    needs: provision
     steps:
       - name: checkout code
         uses: actions/checkout@v4.1.1
@@ -199,9 +156,9 @@ jobs:
 
   build-deploy-cloudskew-assets:
     runs-on: ubuntu-24.04
-    needs: provision
-    environment: test
+    environment: ${{ inputs.environmentName }}
     timeout-minutes: 10
+    needs: provision
     steps:
       - name: checkout code
         uses: actions/checkout@v4.1.1
@@ -227,9 +184,9 @@ jobs:
 
   build-deploy-cloudskew-docs:
     runs-on: ubuntu-24.04
-    needs: provision
-    environment: test
+    environment: ${{ inputs.environmentName }}
     timeout-minutes: 10
+    needs: provision
     steps:
       - name: checkout code
         uses: actions/checkout@v4.1.1
@@ -265,9 +222,9 @@ jobs:
 
   build-deploy-cloudskew-blog:
     runs-on: ubuntu-24.04
-    needs: provision
-    environment: test
+    environment: ${{ inputs.environmentName }}
     timeout-minutes: 10
+    needs: provision
     steps:
       - name: checkout code
         uses: actions/checkout@v4.1.1
@@ -303,9 +260,9 @@ jobs:
 
   build-deploy-cloudskew-api:
     runs-on: ubuntu-24.04
-    needs: provision
-    environment: test
+    environment: ${{ inputs.environmentName }}
     timeout-minutes: 10
+    needs: provision
     steps:
       - name: checkout code
         uses: actions/checkout@v4.1.1
