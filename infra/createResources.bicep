@@ -19,6 +19,9 @@ param githubWorkflowRunId string
 @description('Github ref (branch, tag) that triggered this deployment.')
 param githubRef string
 
+@description('Container image for Azure Container App deployment.')
+param containerImage string
+
 param resourceLocation string = resourceGroup().location
 
 param prefix string = 'cloudskew'
@@ -46,7 +49,7 @@ var swaAssetsName = '${prefix}-assets-${suffix}'
 
 // Note: Only the following are the available locations for SWAs: 'centralus,eastus2,westus2,westeurope,eastasia'.
 // Hence cannot use `resourceLocation`.
-var staticWebAppLocation = 'eastasia'
+var staticWebAppLocation = 'westeurope'
 
 // storage account for function app (required for Azure Container Apps logging to work properly)
 var functionAppStorageAccountName = '${prefix}${suffix}'
@@ -428,8 +431,8 @@ resource aca 'Microsoft.App/containerApps@2026-01-01' = {
     template: {
       containers: [
         {
-          // name: 'cloudskew-api'
-          // image: containerImage
+          name: 'cloudskew-api'
+          image: containerImage
 
           env: [
             {
