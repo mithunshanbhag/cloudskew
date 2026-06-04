@@ -46,6 +46,10 @@ var swaAssetsName = '${prefix}-assets-${suffix}'
 // Hence cannot use `resourceLocation`.
 var staticWebAppLocation = 'eastasia'
 
+// azure container app (ACA)
+var acaEnvironmentName = '${prefix}-aca-env-${suffix}'
+//var acaName = '${prefix}-aca-${suffix}'
+
 // tags
 var resourceTags = {
   Product: prefix
@@ -347,4 +351,24 @@ resource resSwaAssets 'Microsoft.Web/staticSites@2025-03-01' = {
     tier: 'Free'
   }
   properties: {}
+}
+
+//
+// Azure Container App (ACA)
+//
+
+// ACA environment
+resource resAcaEnvironment 'Microsoft.App/managedEnvironments@2026-01-01' = {
+  name: acaEnvironmentName
+  location: resourceLocation
+  tags: resourceTags
+  properties: {
+    appLogsConfiguration: {
+      destination: 'log-analytics'
+      logAnalyticsConfiguration: {
+        customerId: resLogAnalyticsWorkspace.properties.customerId
+        sharedKey: resLogAnalyticsWorkspace.listKeys().primarySharedKey
+      }
+    }
+  }
 }
