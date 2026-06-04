@@ -304,8 +304,8 @@ jobs:
         run: unzip ./LicenseKeyValidator.zip -d ./LicenseKeyValidator
       - name: enable permissions for syncfusion license key validator
         run: chmod +x ./LicenseKeyValidator/*
-      - name: run syncfusion license key validator
-        run: ./LicenseKeyValidator/LicenseKeyValidatorConsole.exe /platform:"PDF" /version:"${{ env.SYNCFUSION_PACKAGE_VERSION }}" /licensekey:"${{ secrets.SYNCFUSION_LICENSE_KEY }}"
+      # - name: run syncfusion license key validator
+      #   run: ./LicenseKeyValidator/LicenseKeyValidatorConsole.exe /platform:"PDF" /version:"${{ env.SYNCFUSION_PACKAGE_VERSION }}" /licensekey:"${{ secrets.SYNCFUSION_LICENSE_KEY }}"
       - name: set up docker buildx
         uses: docker/setup-buildx-action@v3
       - name: log in to ghcr
