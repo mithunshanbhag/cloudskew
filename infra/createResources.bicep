@@ -26,6 +26,8 @@ param prefix string = 'cloudskew'
 // variables
 ////////////////////////////////////////////////////////////////////////////////
 
+var minTlsVersionForStorage = 'TLS1_2'
+
 var suffix = toLower(envName)
 
 // log analytics & app insights
@@ -46,9 +48,12 @@ var swaAssetsName = '${prefix}-assets-${suffix}'
 // Hence cannot use `resourceLocation`.
 var staticWebAppLocation = 'eastasia'
 
+// storage account for function app (required for Azure Container Apps logging to work properly)
+var functionAppStorageAccountName = '${prefix}${suffix}'
+
 // azure container app (ACA)
 var acaEnvironmentName = '${prefix}-aca-env-${suffix}'
-//var acaName = '${prefix}-aca-${suffix}'
+var acaName = '${prefix}-aca-${suffix}'
 
 // tags
 var resourceTags = {
@@ -357,6 +362,22 @@ resource resSwaAssets 'Microsoft.Web/staticSites@2025-03-01' = {
 // Azure Container App (ACA)
 //
 
+// storage account for function app (required for Azure Container Apps logging to work properly)
+// storage account
+resource resFunctionAppStorageAccount 'Microsoft.Storage/storageAccounts@2024-01-01' = {
+  name: functionAppStorageAccountName
+  location: resourceLocation
+  tags: resourceTags
+  kind: 'StorageV2'
+  sku: {
+    name: 'Standard_LRS'
+  }
+  properties: {
+    allowBlobPublicAccess: false
+    minimumTlsVersion: minTlsVersionForStorage
+  }
+}
+
 // ACA environment
 resource resAcaEnvironment 'Microsoft.App/managedEnvironments@2026-01-01' = {
   name: acaEnvironmentName
@@ -368,6 +389,75 @@ resource resAcaEnvironment 'Microsoft.App/managedEnvironments@2026-01-01' = {
       logAnalyticsConfiguration: {
         customerId: resLogAnalyticsWorkspace.properties.customerId
         sharedKey: resLogAnalyticsWorkspace.listKeys().primarySharedKey
+      }
+    }
+  }
+}
+
+// ACA instance
+resource aca 'Microsoft.App/containerApps@2026-01-01' = {
+  name: acaName
+  location: resourceLocation
+
+  properties: {
+    managedEnvironmentId: resAcaEnvironment.id
+
+    configuration: {
+      activeRevisionsMode: 'Single'
+
+      registries: [
+        {
+          server: 'ghcr.io'
+        }
+      ]
+
+      ingress: {
+        external: true
+        targetPort: 80
+        transport: 'auto'
+        allowInsecure: false
+        traffic: [
+          {
+            latestRevision: true
+            weight: 100
+          }
+        ]
+      }
+    }
+
+    template: {
+      containers: [
+        {
+          // name: 'cloudskew-api'
+          // image: containerImage
+
+          env: [
+            {
+              name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
+              value: resAppInsights.properties.InstrumentationKey
+            }
+            {
+              name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
+              value: resAppInsights.properties.ConnectionString
+            }
+            {
+              name: 'AzureWebJobsStorage'
+              value: 'DefaultEndpointsProtocol=https;AccountName=${resFunctionAppStorageAccount.name};EndpointSuffix=${environment().suffixes.storage};AccountKey=${resFunctionAppStorageAccount.listKeys().keys[0].value}'
+            }
+          ]
+
+          resources: {
+            cpu: json('0.5')
+            memory: '1Gi'
+          }
+        }
+      ]
+
+      scale: {
+        minReplicas: 0
+        maxReplicas: 1
+        cooldownPeriod: 180
+        pollingInterval: 30
       }
     }
   }
