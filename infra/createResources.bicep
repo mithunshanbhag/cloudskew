@@ -413,6 +413,15 @@ resource aca 'Microsoft.App/containerApps@2026-01-01' = {
         targetPort: 80
         transport: 'auto'
         allowInsecure: false
+
+        corsPolicy: {
+            allowedOrigins: [
+              'http://localhost:4200'
+              'https://app.cloudskew.com'
+            ]
+            maxAge: 86400
+        }
+
         traffic: [
           {
             latestRevision: true

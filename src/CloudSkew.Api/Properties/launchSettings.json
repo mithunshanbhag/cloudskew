@@ -2,7 +2,7 @@
   "profiles": {
     "CloudSkew.Api": {
       "commandName": "Project",
-      "commandLineArgs": "--port 7184"
+      "commandLineArgs": "--port 7071"
     },
     "Container (Dockerfile)": {
       "commandName": "Docker",

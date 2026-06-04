@@ -6,8 +6,8 @@ export const environment = {
   production: false,
   appUrl: 'http://localhost:4200',
   blogUrl: 'http://localhost:4202',
-  cdnUrlPrefix: 'https://cloudskewtest.azureedge.net',
-  docsUrl: 'http://localhost:4203',
+  cdnUrlPrefix: 'http://localhost:7001',
+  docsUrl: 'http://localhost:4201',
   googleAnalyticsTrackingId: 'UA-96116826-3',
 };
 
