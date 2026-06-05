@@ -8,6 +8,11 @@ public static class FunctionApplicationBuilderExtensions
         {
             builder.ConfigureFunctionsWebApplication();
 
+            // Register and validate Syncfusion license key 
+            var licenseKey = Environment.GetEnvironmentVariable(ConfigKeys.SyncFusionLicenseKey);
+            SyncfusionLicenseProvider.RegisterLicense(licenseKey);
+            SyncfusionLicenseProvider.ValidateLicense(Platform.PDF);
+
             return builder;
         }
 
