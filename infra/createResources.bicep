@@ -22,6 +22,11 @@ param githubRef string
 @description('Container image for Azure Container App deployment.')
 param containerImage string
 
+@description('SyncFusion license key for Azure Container App.')
+@secure()
+@minLength(1)
+param SyncFusionLicenseKey string
+
 param resourceLocation string = resourceGroup().location
 
 param prefix string = 'cloudskew'
@@ -312,7 +317,6 @@ resource resSwaLandingPage 'Microsoft.Web/staticSites@2025-03-01' = {
   properties: {}
 }
 
-
 // ui app
 resource resSwaUi 'Microsoft.Web/staticSites@2025-03-01' = {
   name: swaUiName
@@ -415,11 +419,11 @@ resource aca 'Microsoft.App/containerApps@2026-01-01' = {
         allowInsecure: false
 
         corsPolicy: {
-            allowedOrigins: [
-              'http://localhost:4200'
-              'https://app.cloudskew.com'
-            ]
-            maxAge: 86400
+          allowedOrigins: [
+            'http://localhost:4200'
+            'https://app.cloudskew.com'
+          ]
+          maxAge: 86400
         }
 
         traffic: [
@@ -449,6 +453,10 @@ resource aca 'Microsoft.App/containerApps@2026-01-01' = {
             {
               name: 'AzureWebJobsStorage'
               value: 'DefaultEndpointsProtocol=https;AccountName=${resFunctionAppStorageAccount.name};EndpointSuffix=${environment().suffixes.storage};AccountKey=${resFunctionAppStorageAccount.listKeys().keys[0].value}'
+            }
+            {
+              name: 'SyncFusionLicenseKey'
+              value: SyncFusionLicenseKey
             }
           ]
 

@@ -96,7 +96,7 @@ jobs:
           deploymentMode: Incremental
           deploymentName: deployment-run${{ github.run_number }}-attempt${{ github.run_attempt }}
           template: ./infra/createResources.bicep
-          parameters: envName=${{ inputs.environmentName }} githubCommitSha=${{ github.sha }} githubWorkflowRunId=${{ github.run_id }} githubRef=${{ github.ref }} containerImage=${{ env.GHCR_IMAGE_NAME }}:${{ env.GHCR_IMAGE_TAG_STABLE }}
+          parameters: envName=${{ inputs.environmentName }} githubCommitSha=${{ github.sha }} githubWorkflowRunId=${{ github.run_id }} githubRef=${{ github.ref }} containerImage=${{ env.GHCR_IMAGE_NAME }}:${{ env.GHCR_IMAGE_TAG_STABLE }} SyncFusionLicenseKey=${{ secrets.SYNCFUSION_LICENSE_KEY }}
       # Add resource lock
       - name: add resource lock
         uses: azure/CLI@v2.2.0
